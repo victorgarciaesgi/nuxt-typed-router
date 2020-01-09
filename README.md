@@ -84,7 +84,7 @@ Given this structure
         │   └── login.vue
         └── ...
 
-[\$typedRouter]()
+![$typedRouter](https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/captures/$typedrouter.png?raw=true)
 
 _Caveats_
 
