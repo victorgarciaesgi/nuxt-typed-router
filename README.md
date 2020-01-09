@@ -86,7 +86,9 @@ Given this structure
 
 ![$typedRouter](https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/captures/$typedrouter.png?raw=true)
 
-_Caveats_
+**This module also provide `$typedRoute`, wich is an alias to Vue `$route`, but with typed name property**
+
+**_Caveats_**
 
 The generated enum is located in the `node_modules` folder.
 
@@ -96,7 +98,7 @@ Because of Intellisense limitations, the types from node_modules are not lived u
 
 The module will create a file with the global object of the route names inside.
 
-_Requirements_
+**_Requirements_**
 
 You have to specify the path of the generated file in your configuration
 
