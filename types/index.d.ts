@@ -1,4 +1,6 @@
-import { SafeVueRouter } from './vue';
+import Vue from 'vue';
+import { TypedVueRouter, TypedRoute } from './vue';
+import './vue';
 
 interface NuxtTypedRouterOptions {
   filePath?: string;
@@ -6,10 +8,10 @@ interface NuxtTypedRouterOptions {
 
 declare module '@nuxt/vue-app' {
   interface Context {
-    $safeRouter: SafeVueRouter;
+    $typedRouter: TypedVueRouter;
   }
   interface NuxtAppOptions {
-    $safeRouter: SafeVueRouter;
+    $typedRouter: TypedVueRouter;
   }
   interface Configuration {
     typedRouter?: NuxtTypedRouterOptions;
@@ -21,9 +23,22 @@ declare module '@nuxt/types' {
     typedRouter?: NuxtTypedRouterOptions;
   }
   interface Context {
-    $safeRouter: SafeVueRouter;
+    $typedRouter: TypedVueRouter;
   }
   interface NuxtAppOptions {
-    $safeRouter: SafeVueRouter;
+    $typedRouter: TypedVueRouter;
+  }
+}
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    $typedRouter: TypedVueRouter;
+    $typedRoute: TypedRoute;
+  }
+}
+
+declare module 'vuex/types/index' {
+  interface Store<S> {
+    $typedRouter: TypedVueRouter;
   }
 }
