@@ -5,7 +5,7 @@
 
 > Provide a safe typed router to nuxt with auto-generated typed definitions for route names
 
-## Motivation
+# Motivation
 
 Nuxt is great because it generate the router based on your pages directory. It generates all the pages name and it abstract a lot of boilerplate.
 
@@ -13,7 +13,7 @@ Problem: If you want a type-safe routing flow, the current model can be hard to 
 
 Solution: Thanks to Nuxt powerful hook system, this module reads all your routes and generate typings and enums accordingly
 
-## Installation
+# Installation
 
 ```bash
 yarn add nuxt-typed-router
@@ -22,7 +22,7 @@ yarn add nuxt-typed-router
 npm install nuxt-typed-router
 ```
 
-## Configuration
+# Configuration
 
 First, register the module in the `nuxt.config.[js|ts]`
 
@@ -48,15 +48,38 @@ const config = {
 }
 ```
 
-## Usage
+# Usage in Vue/Nuxt
 
 Nuxt-typed-router provides two ways to have name-based typed routing
 
-### - `$typedRouter` (Default)
+## - `$typedRouter` (Default)
 
 A global `$typedRouter` method is added to the Nuxt context and is accessible in your components and context. It's an alias of Vue `$router`, but the typings are modified so the `name` options is typed with the routes names generated from the pages directory
 
-_Requirements_
+### _Why not directly modifying the types of `$router` and `$route` ?_
+
+That was the idea when I builded this module initially, but I got confronted with Typescript limitations for modifying already defined third-party lib typings.
+
+If I wanted to modify vue-router types, i could have just written this:
+
+```typescript
+declare module 'vue-router/types' {
+  export interface Location {
+    name: 'login' | 'home';
+  }
+}
+```
+
+Unfortunately that's not possible, Typescript throws this errors:
+
+- `Subsequent property declarations must have the same type. Property 'name' must be of type 'string', but here has type '"login" | "home"`
+
+- `All declarations of 'name' must have identical modifiers`
+
+So the only way for now is to have an alternative `$typedRouter`, or a global enum-like object.
+
+
+### _Requirements_
 
 For your IDE to augment the Vue types, you need to explicitly import the module in your Nuxt config
 
@@ -65,7 +88,7 @@ For your IDE to augment the Vue types, you need to explicitly import the module 
 import 'nuxt-typed-router';
 ```
 
-_Usage_
+### _Usage_
 
 The usage is exactly the same as `$router`
 
@@ -88,17 +111,17 @@ Given this structure
 
 **This module also provide `$typedRoute`, wich is an alias to Vue `$route`, but with typed name property**
 
-**_Caveats_**
+### **_Caveats_**
 
 The generated enum is located in the `node_modules` folder.
 
 Because of Intellisense limitations, the types from node_modules are not lived updated, so you need to either reload the window or restart Intellisense when you add a Page/ modify the name of a Page for it to take into account the pages names freshly generated
 
-### - `routerPagesNames` global object
+## - `routerPagesNames` global object
 
 The module will create a file with the global object of the route names inside.
 
-**_Requirements_**
+### **_Requirements_**
 
 You have to specify the path of the generated file in your configuration
 
@@ -124,7 +147,7 @@ const config = {
 };
 ```
 
-_Usage_
+### _Usage_
 
 Given this structure
 
