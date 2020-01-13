@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import { TypedVueRouter, TypedRoute } from './vue';
-import './vue';
+import * as TypedRouter from './vue';
+export default TypedRouter;
 
 interface NuxtTypedRouterOptions {
   filePath?: string;
@@ -8,10 +8,10 @@ interface NuxtTypedRouterOptions {
 
 declare module '@nuxt/vue-app' {
   interface Context {
-    $typedRouter: TypedVueRouter;
+    $typedRouter: TypedRouter.TypedVueRouter;
   }
   interface NuxtAppOptions {
-    $typedRouter: TypedVueRouter;
+    $typedRouter: TypedRouter.TypedVueRouter;
   }
   interface Configuration {
     typedRouter?: NuxtTypedRouterOptions;
@@ -23,22 +23,22 @@ declare module '@nuxt/types' {
     typedRouter?: NuxtTypedRouterOptions;
   }
   interface Context {
-    $typedRouter: TypedVueRouter;
+    $typedRouter: TypedRouter.TypedVueRouter;
   }
   interface NuxtAppOptions {
-    $typedRouter: TypedVueRouter;
+    $typedRouter: TypedRouter.TypedVueRouter;
   }
 }
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $typedRouter: TypedVueRouter;
-    $typedRoute: TypedRoute;
+    $typedRouter: TypedRouter.TypedVueRouter;
+    $typedRoute: TypedRouter.TypedRoute;
   }
 }
 
 declare module 'vuex/types/index' {
   interface Store<S> {
-    $typedRouter: TypedVueRouter;
+    $typedRouter: TypedRouter.TypedVueRouter;
   }
 }

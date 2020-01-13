@@ -78,7 +78,6 @@ Unfortunately that's not possible, Typescript throws this errors:
 
 So the only way for now is to have an alternative `$typedRouter`, or a global enum-like object.
 
-
 ### _Requirements_
 
 For your IDE to augment the Vue types, you need to explicitly import the module in your Nuxt config
@@ -173,10 +172,10 @@ export const routerPagesNames = {
   resetPassword: 'reset-password',
   index: {
     index: 'index',
-    indexCommunication: 'index-communication',
-    indexContent: 'index-content',
-    indexStatistics: 'index-statistics',
-    indexUsers: 'index-users',
+    communication: 'index-communication',
+    content: 'index-content',
+    statistics: 'index-statistics',
+    users: 'index-users',
   },
 };
 ```

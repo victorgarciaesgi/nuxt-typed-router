@@ -2,7 +2,7 @@ import VueRouter, { Location, Route, RouteRecord } from 'vue-router';
 import { RouteNames } from './__generated';
 import { ErrorHandler } from 'vue-router/types/router';
 import Vue, { AsyncComponent, ComponentOptions } from 'vue';
-
+export { RouteNames };
 export interface NuxtTypedRouterOptions {
   filePath?: string;
 }
