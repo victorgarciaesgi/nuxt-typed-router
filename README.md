@@ -187,7 +187,7 @@ import { routerPagesNames } from '~/models/__routes.js';
 
 export default {
   mounted() {
-    this.$router.push({ name: routerPagesNames.index.indexContent });
+    this.$router.push({ name: routerPagesNames.index.content });
   },
 };
 ```
