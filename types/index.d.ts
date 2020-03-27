@@ -4,6 +4,7 @@ export default TypedRouter;
 
 interface NuxtTypedRouterOptions {
   filePath?: string;
+  routesObjectName?: string;
 }
 
 declare module '@nuxt/vue-app' {

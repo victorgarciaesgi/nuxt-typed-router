@@ -48,6 +48,18 @@ const config = {
 }
 ```
 
+Options:
+
+```ts
+type Options = {
+  // Path to where you cant the file to be saved (ex: "./src/models/__routes.ts")
+  filePath?: string;
+  // Name of the routesNames object (ex: "routesTree")
+  // Default: "routerPagesNames"
+  routesObjectName?: string;
+};
+```
+
 # Usage in Vue/Nuxt
 
 Nuxt-typed-router provides two ways to have name-based typed routing
