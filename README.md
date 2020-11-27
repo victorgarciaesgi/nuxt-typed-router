@@ -2,6 +2,14 @@
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![npm downloads][npm-total-downloads-src]][npm-downloads-href]
+<img src='https://img.shields.io/npm/l/simple-graphql-to-typescript.svg'>
+
+[npm-version-src]: https://img.shields.io/npm/v/nuxt-typed-router.svg
+[npm-version-href]: https://www.npmjs.com/package/nuxt-typed-router
+[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-typed-router.svg
+[npm-total-downloads-src]: https://img.shields.io/npm/dt/nuxt-typed-router.svg
+[npm-downloads-href]: https://www.npmjs.com/package/nuxt-typed-router
 
 > Provide a safe typed router to nuxt with auto-generated typed definitions for route names
 
@@ -54,15 +62,33 @@ Options:
 type Options = {
   // Path to where you cant the file to be saved (ex: "./src/models/__routes.ts")
   filePath?: string;
+
   // Name of the routesNames object (ex: "routesTree")
   // Default: "routerPagesNames"
   routesObjectName?: string;
+
+  // Strip `@` sign from declared routes (ex: `admin/@home.vue` will be accessed like this `routerPagesNames.admin.home`
+  // and the route name will be `admin-home` instead of `admin-@home`)
+  // Default: true
+  stripAtFromNames?: boolean;
 };
 ```
 
 # Usage in Vue/Nuxt
 
 Nuxt-typed-router provides two ways to have name-based typed routing
+
+# For Typescript users
+
+Add `nuxt-typed-router/types` to your `tsconfig.json` types
+
+```js
+{
+  "types": ["@nuxt/types", "nuxt-typed-router/types"],
+}
+```
+
+# Javascript Users
 
 ## - `routerPagesNames` global object
 
@@ -128,7 +154,17 @@ export const routerPagesNames = {
 };
 ```
 
-You can just import it now
+You can use it from the injected `$routeNames` option on your components
+
+```javascript
+export default {
+  mounted() {
+    this.$router.push({ name: this.$routeNames.index.content });
+  },
+};
+```
+
+Or you can just import it
 
 ```javascript
 import { routerPagesNames } from '~/models/__routes.js';
@@ -138,41 +174,6 @@ export default {
     this.$router.push({ name: routerPagesNames.index.content });
   },
 };
-```
-
-## - `$typedRouter`
-
-A global `$typedRouter` method is added to the Nuxt context and is accessible in your components and context. It's an alias of Vue `$router`, but the typings are modified so the `name` options is typed with the routes names generated from the pages directory
-
-### _Why not directly modifying the types of `$router` and `$route` ?_
-
-That was the idea when I builded this module initially, but I got confronted with Typescript limitations for modifying already defined third-party lib typings.
-
-If I wanted to modify vue-router types, i could have just written this:
-
-```typescript
-declare module 'vue-router/types' {
-  export interface Location {
-    name: 'login' | 'home';
-  }
-}
-```
-
-Unfortunately that's not possible, Typescript throws this errors:
-
-- `Subsequent property declarations must have the same type. Property 'name' must be of type 'string', but here has type '"login" | "home"`
-
-- `All declarations of 'name' must have identical modifiers`
-
-So the only way for now is to have an alternative `$typedRouter`, or a global enum-like object.
-
-### _Requirements_
-
-For your IDE to augment the Vue types, you need to explicitly import the module in your Nuxt config
-
-```javascript
-// nuxt.config.js
-import 'nuxt-typed-router';
 ```
 
 ### _Usage_

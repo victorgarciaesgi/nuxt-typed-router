@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2018",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": false,
+    "emitDecoratorMetadata": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "removeComments": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": false,
+    "pretty": true,
+    "strict": true,
+    "allowJs": true,
+    "sourceMap": false,
+    "downlevelIteration": true,
+    "declaration": true,
+    "declarationDir": "./types",
+    "declarationMap": true,
+    "skipLibCheck": true,
+    "baseUrl": "./src",
+    "outDir": "./lib",
+    "lib": [
+      "esnext",
+      "scripthost",
+      "es5",
+      "es2015",
+      "es2015.promise",
+      "es2017",
+      "es2017.object",
+      "es7"
+    ],
+    "types": ["node"]
+  },
+  "include": ["./src/**/*.ts"]
+}
