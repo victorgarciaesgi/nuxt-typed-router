@@ -23,7 +23,7 @@
   ],
   "typings": "types/index.d.ts",
   "devDependencies": {
-    "chalk": "^3.0.0",
+    "chalk": "^4.1.0",
     "lodash": "^4.17.15",
     "prettier": "^1.19.1",
     "vue-router": "^3.1.3"
