@@ -3,4 +3,3 @@ export interface NuxtTypedRouterOptions {
     routesObjectName?: string;
     stripAtFromName?: boolean;
 }
-//# sourceMappingURL=types.d.ts.map

@@ -1,7 +1,8 @@
-// @ts-nocheck
-import pagesNamesModel from './generated.ts';
-declare module 'vue/types/vue' {
-  interface Vue {
-    $routesNames: typeof pagesNamesModel;
+import { NuxtTypedRouterOptions } from 'types';
+
+// @ts-ignore
+declare module '@nuxt/vue-app' {
+  interface Configuration {
+    typedRouter?: NuxtTypedRouterOptions;
   }
 }

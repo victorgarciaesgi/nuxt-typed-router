@@ -76,20 +76,6 @@ type Options = {
 
 # Usage in Vue/Nuxt
 
-Nuxt-typed-router provides two ways to have name-based typed routing
-
-# For Typescript users
-
-Add `nuxt-typed-router/types` to your `tsconfig.json` types
-
-```js
-{
-  "types": ["@nuxt/types", "nuxt-typed-router/types"],
-}
-```
-
-# Javascript Users
-
 ## - `routerPagesNames` global object
 
 The module will create a file with the global object of the route names inside.
@@ -154,17 +140,7 @@ export const routerPagesNames = {
 };
 ```
 
-You can use it from the injected `$routeNames` option on your components
-
-```javascript
-export default {
-  mounted() {
-    this.$router.push({ name: this.$routeNames.index.content });
-  },
-};
-```
-
-Or you can just import it
+You can now just import it
 
 ```javascript
 import { routerPagesNames } from '~/models/__routes.js';
@@ -176,34 +152,31 @@ export default {
 };
 ```
 
-### _Usage_
+## Advanced usage
 
-The usage is exactly the same as `$router`
+Create a plugin `nuxt-typed-router.js|ts`, and register it in your nuxt.config.js
 
-Given this structure
+```js
+import { routerPagesNames } from '...your file path';
 
-        ├── pages
-            ├── index
-                ├── content.vue
-                ├── index.vue
-                ├── communication.vue
-                ├── statistics.vue
-                ├── users.vue
-            ├── index.vue
-            ├── forgotpassword.vue
-            ├── reset-password.vue
-        │   └── login.vue
-        └── ...
+export default (ctx, inject) => {
+  inject('routesNames', routerPagesNames);
+};
+```
 
-![$typedRouter](https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/captures/$typedrouter.png?raw=true)
+Then create shims a file in `~/shims/nuxt.d.ts`
 
-**This module also provide `$typedRoute`, wich is an alias to Vue `$route`, but with typed name property**
+```ts
+import { routerPagesNames } from '...your file path';
 
-### **_Caveats_**
+declare module 'vue/types/vue' {
+  interface Vue {
+    $routesNames: typeof routerPagesNames;
+  }
+}
+```
 
-The generated enum is located in the `node_modules` folder.
-
-Because of Intellisense limitations, the types from node_modules are not lived updated, so you need to either reload the window or restart Intellisense when you add a Page/ modify the name of a Page for it to take into account the pages names freshly generated
+You will now have `$routeNames` exposed in all your component without importing it and it will be typed automaticaly!
 
 ## Development
 
@@ -213,10 +186,3 @@ Because of Intellisense limitations, the types from node_modules are not lived u
 ## 📑 License
 
 [MIT License](./LICENSE)
-
-<!-- Badges -->
-
-[npm-version-src]: https://img.shields.io/npm/v/nuxt-typed-router
-[npm-version-href]: https://www.npmjs.com/package/nuxt-typed-router
-[npm-downloads-src]: https://img.shields.io/npm/dt/nuxt-typed-router
-[npm-downloads-href]: https://www.npmjs.com/package/nuxt-typed-router

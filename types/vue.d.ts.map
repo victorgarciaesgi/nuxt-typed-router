@@ -1,1 +1,0 @@
-{"version":3,"file":"vue.d.ts","sourceRoot":"","sources":["../src/vue.ts"],"names":[],"mappings":"AACA,OAAO,eAAe,MAAM,gBAAgB,CAAC;AAC7C,OAAO,QAAQ,eAAe,CAAC;IAC7B,UAAU,GAAG;QACX,YAAY,EAAE,OAAO,eAAe,CAAC;KACtC;CACF"}
