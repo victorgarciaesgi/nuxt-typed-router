@@ -3,8 +3,8 @@ import { NuxtRouteConfig } from '@nuxt/types/config/router';
 /** Mutate the list of routes */
 export function transformRouteNames(existingRoutes: NuxtRouteConfig[], stripAtFromName: boolean) {
   const recursiveMatch = (route: NuxtRouteConfig, parent?: NuxtRouteConfig) => {
-    if (route.path && route.path.startsWith('%40') && !!parent) {
-      route.path = route.path.split('%40')[1];
+    if (route.path && route.path.startsWith('@') && !!parent) {
+      route.path = route.path.split('@')[1];
       if (stripAtFromName && route.name) {
         const [left, right] = route.name?.split('@');
         route.name = `${left}${right}`;
