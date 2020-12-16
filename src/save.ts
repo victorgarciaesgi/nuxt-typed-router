@@ -4,12 +4,22 @@ import path from 'path';
 import logSymbols from 'log-symbols';
 import chalk from 'chalk';
 
+const defaultPrettierOptions = {
+  printWidth: 100,
+  tabWidth: 2,
+  trailingComma: 'es5',
+  singleQuote: true,
+  semi: true,
+  bracketSpacing: true,
+  htmlWhitespaceSensitivity: 'strict',
+} as const;
+
 export async function saveRoutesFiles(filePath: string, templateRoutes: string) {
   try {
     let prettierFoundOptions = await prettier.resolveConfig(process.cwd());
 
     if (!prettierFoundOptions) {
-      prettierFoundOptions = require('../.prettierrc');
+      prettierFoundOptions = defaultPrettierOptions;
     }
 
     const formatedModelsFile = prettier.format(templateRoutes, {
