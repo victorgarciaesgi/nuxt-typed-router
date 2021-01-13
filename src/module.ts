@@ -26,7 +26,8 @@ const typedRouterModule: Module<NuxtTypedRouterOptions> = function (moduleOption
         const recursiveTypedRoutes = (
           route: NuxtRouteConfig,
           level: number,
-          routeObject: Record<string, any>
+          routeObject: Record<string, any>,
+          parentName?: string
         ) => {
           const routeName = route.name;
           if (route.children) {
@@ -34,11 +35,16 @@ const typedRouterModule: Module<NuxtTypedRouterOptions> = function (moduleOption
             const nameKey = camelCase(parentName || parentName2 || 'index');
             routesObjectString += `${nameKey}:{`;
             routeObject[nameKey] = {};
-            route.children.map((r) => recursiveTypedRoutes(r, level + 1, routeObject[nameKey]));
+            route.children.map((r) =>
+              recursiveTypedRoutes(r, level + 1, routeObject[nameKey], nameKey)
+            );
             routesObjectString += '},';
           } else if (routeName) {
             let splitted = routeName.split('-');
             splitted = splitted.slice(level, splitted.length);
+            if (splitted[0] === parentName) {
+              splitted.splice(0, 1);
+            }
             const keyName = camelCase(splitted.join('-')) || 'index';
             routesObjectString += `'${keyName}': '${routeName}',`;
             routeObject[keyName] = routeName;
