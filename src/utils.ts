@@ -30,6 +30,7 @@ export function transformRouteNames(existingRoutes: NuxtRouteConfig[], stripAtFr
             ...(!defaultName && { path: route.path }),
           },
         });
+        delete parent.name;
       }
     }
     if (route.children) {
