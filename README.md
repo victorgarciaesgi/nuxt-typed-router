@@ -24,10 +24,10 @@ Solution: Thanks to Nuxt powerful hook system, this module reads all your routes
 # Installation
 
 ```bash
-yarn add nuxt-typed-router
+yarn add -D nuxt-typed-router
 
 #or
-npm install nuxt-typed-router
+npm install -D nuxt-typed-router
 ```
 
 # Configuration
