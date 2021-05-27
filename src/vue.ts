@@ -1,8 +1,6 @@
-import { NuxtTypedRouterOptions } from 'types';
-
-// @ts-ignore
-declare module '@nuxt/vue-app' {
-  interface Configuration {
+import { NuxtTypedRouterOptions } from './types';
+declare module '@nuxt/types' {
+  interface NuxtConfig {
     typedRouter?: NuxtTypedRouterOptions;
   }
 }
