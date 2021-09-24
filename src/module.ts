@@ -4,7 +4,13 @@ import { Module } from '@nuxt/types';
 import { NuxtTypedRouterOptions } from './types';
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import { saveRoutesFiles } from './save';
-import { transformRouteNames } from './utils';
+import {
+  extractChunkMain,
+  extractChunkRouteName,
+  extractMatchingSiblings,
+  extractUnMatchingSiblings,
+  transformRouteNames,
+} from './utils';
 
 const typedRouterModule: Module<NuxtTypedRouterOptions> = function (moduleOptions) {
   const {
@@ -27,16 +33,33 @@ const typedRouterModule: Module<NuxtTypedRouterOptions> = function (moduleOption
           route: NuxtRouteConfig,
           level: number,
           routeObject: Record<string, any>,
-          parentName?: string
+          siblings?: NuxtRouteConfig[],
+          parentName?: string,
+          hadMatching?: boolean
         ) => {
           const routeName = route.name;
-          if (route.children) {
-            const [parentName, parentName2] = route.path.split('/');
-            const nameKey = camelCase(parentName || parentName2 || 'index');
+          const matchingSiblings = extractMatchingSiblings(route, siblings);
+          const haveMatchingSiblings = !!matchingSiblings?.length;
+
+          if (
+            (route.children && !haveMatchingSiblings) ||
+            (!route.children && haveMatchingSiblings)
+          ) {
+            let childrenChunks = haveMatchingSiblings ? matchingSiblings : route.children;
+            const splittedPaths = route.path.split('/');
+            const parentPath = splittedPaths[splittedPaths.length - 1];
+            const nameKey = camelCase(parentPath || 'index');
             routesObjectString += `${nameKey}:{`;
             routeObject[nameKey] = {};
-            route.children.map((r) =>
-              recursiveTypedRoutes(r, level + 1, routeObject[nameKey], nameKey)
+            childrenChunks?.map((r) =>
+              recursiveTypedRoutes(
+                r,
+                level + 1,
+                routeObject[nameKey],
+                extractUnMatchingSiblings(route, siblings),
+                nameKey,
+                haveMatchingSiblings
+              )
             );
             routesObjectString += '},';
           } else if (routeName) {
@@ -45,12 +68,19 @@ const typedRouterModule: Module<NuxtTypedRouterOptions> = function (moduleOption
             if (splitted[0] === parentName) {
               splitted.splice(0, 1);
             }
-            const keyName = camelCase(splitted.join('-')) || 'index';
+            const keyName = route.path === '' ? 'index' : camelCase(splitted.join('-')) || 'index';
             routesObjectString += `'${keyName}': '${routeName}',`;
             routeObject[keyName] = routeName;
           }
         };
-        routes.map((r) => recursiveTypedRoutes(r, 0, routeObjectJs));
+        routes.map((r) =>
+          recursiveTypedRoutes(
+            r,
+            0,
+            routeObjectJs,
+            routes?.filter((f) => f.path !== r.path)
+          )
+        );
         routesObjectString += '}';
 
         const templateRoutes = `export const ${routesObjectName} = ${routesObjectString};`;

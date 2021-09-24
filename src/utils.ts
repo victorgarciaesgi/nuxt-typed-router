@@ -39,3 +39,43 @@ export function transformRouteNames(existingRoutes: NuxtRouteConfig[], stripAtFr
   };
   existingRoutes.map((route) => recursiveMatch(route));
 }
+
+export function extractChunkMain(chunkName?: string): string | undefined {
+  let chunkArray = chunkName?.split('/');
+  chunkArray?.pop();
+  return chunkArray?.join('/');
+}
+
+export function extractChunkRouteName(chunkName?: string): string | undefined {
+  return chunkName?.split('/')[chunkName.length - 1];
+}
+
+export function extractMatchingSiblings(
+  mainRoute: NuxtRouteConfig,
+  siblingRoutes?: NuxtRouteConfig[]
+) {
+  return siblingRoutes?.filter((s) => {
+    const chunkName = extractChunkMain(mainRoute.chunkName);
+    if (chunkName) {
+      const siblingChunkName = extractChunkMain(s.chunkName);
+      if (!siblingChunkName) return false;
+      return chunkName === siblingChunkName;
+    }
+    return false;
+  });
+}
+
+export function extractUnMatchingSiblings(
+  mainRoute: NuxtRouteConfig,
+  siblingRoutes?: NuxtRouteConfig[]
+) {
+  return siblingRoutes?.filter((s) => {
+    const chunkName = extractChunkMain(mainRoute.chunkName);
+    if (chunkName) {
+      const siblingChunkName = extractChunkMain(s.chunkName);
+      if (!siblingChunkName) return false;
+      return chunkName !== siblingChunkName;
+    }
+    return false;
+  });
+}
