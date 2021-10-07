@@ -56,7 +56,7 @@ export function extractMatchingSiblings(
 ) {
   return siblingRoutes?.filter((s) => {
     const chunkName = extractChunkMain(mainRoute.chunkName);
-    if (chunkName) {
+    if (chunkName && s.name) {
       const siblingChunkName = extractChunkMain(s.chunkName);
       if (!siblingChunkName) return false;
       return chunkName === siblingChunkName;

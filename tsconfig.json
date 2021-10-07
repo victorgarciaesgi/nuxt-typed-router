@@ -34,7 +34,7 @@
       "es2017.object",
       "es7"
     ],
-    "types": ["node"]
+    "types": ["node", "jest"]
   },
   "include": ["./src/**/*.ts"]
 }

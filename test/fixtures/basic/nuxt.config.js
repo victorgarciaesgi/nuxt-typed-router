@@ -1,4 +1,4 @@
-import moduleRouter from '../lib/module';
+import moduleRouter from '../../../lib/module';
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
