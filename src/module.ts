@@ -1,17 +1,37 @@
 import { camelCase } from 'lodash';
 import chalk from 'chalk';
 import { Module } from '@nuxt/types';
-import { NuxtTypedRouterOptions } from './types';
+import { NuxtTypedRouterOptions, RouteParamsDecl } from './types';
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import { saveRoutesFiles } from './save';
-import {
-  extractChunkMain,
-  extractChunkRouteName,
-  extractMatchingSiblings,
-  extractUnMatchingSiblings,
-  transformRouteNames,
-} from './utils';
+import { extractMatchingSiblings, extractUnMatchingSiblings, transformRouteNames } from './utils';
 import { ModuleThis } from '@nuxt/types/config/module';
+import { defineNuxtModule } from '@nuxt/kit';
+import { resolve } from 'path';
+
+declare module '@nuxt/types/config/router' {
+  interface NuxtRouteConfig {
+    file?: string;
+  }
+}
+
+const typedRouterModule: Module<NuxtTypedRouterOptions> = function (moduleOptions) {
+  const {
+    filePath = `${this.options.srcDir}/__routes.ts`,
+    routesObjectName = 'routerPagesNames',
+    stripAtFromName = false,
+  }: NuxtTypedRouterOptions = { ...this.options.typedRouter, ...moduleOptions };
+  this.addPlugin({
+    src: resolve(__dirname, './templates/typed-router.js'),
+    fileName: 'typed-router.js',
+  });
+  this.nuxt.hook('build:before', () =>
+    routeHook.call(this, filePath, routesObjectName, stripAtFromName)
+  );
+  this.nuxt.hook('build:extendRoutes', () =>
+    routeHook.call(this, filePath, routesObjectName, stripAtFromName)
+  );
+};
 
 function routeHook(
   this: ModuleThis,
@@ -21,11 +41,12 @@ function routeHook(
 ) {
   try {
     // Redirect with @
-
     this.extendRoutes(async (routes: NuxtRouteConfig[]) => {
       transformRouteNames(routes, stripAtFromName);
 
       let routesObjectString = '{';
+      let routesList: string[] = [];
+      let routesParams: RouteParamsDecl[] = [];
       let routeObjectJs: Record<string, any> = {};
 
       const recursiveTypedRoutes = (
@@ -33,21 +54,23 @@ function routeHook(
         level: number,
         routeObject: Record<string, any>,
         siblings?: NuxtRouteConfig[],
-        parentName?: string,
-        hadMatching?: boolean
+        parentName?: string
       ) => {
+        console.log(route);
         const matchingSiblings = extractMatchingSiblings(route, siblings);
         const haveMatchingSiblings = !!matchingSiblings?.length && route.path !== '/';
-        const chunkArray = route.chunkName?.split('/') ?? [];
-        const isRootSibling = chunkArray[chunkArray?.length - 1] === 'index';
+        const chunkArray = route.file?.split('/') ?? [];
+        const lastChunkArray = chunkArray[chunkArray?.length - 1].split('.vue')[0];
+        const isRootSibling = lastChunkArray === 'index';
         if (
-          (route.children && !haveMatchingSiblings) ||
-          (!route.children && haveMatchingSiblings && isRootSibling)
+          (route.children?.length && !haveMatchingSiblings) ||
+          (!route.children?.length && haveMatchingSiblings && isRootSibling)
         ) {
           let childrenChunks = haveMatchingSiblings ? matchingSiblings : route.children;
           const splittedPaths = route.path.split('/');
           const parentPath = splittedPaths[splittedPaths.length - 1];
           const nameKey = camelCase(parentPath || 'index');
+          console.log(nameKey);
           routesObjectString += `${nameKey}:{`;
           routeObject[nameKey] = {};
           childrenChunks?.map((r) =>
@@ -56,8 +79,7 @@ function routeHook(
               level + 1,
               routeObject[nameKey],
               extractUnMatchingSiblings(route, siblings),
-              nameKey,
-              haveMatchingSiblings
+              nameKey
             )
           );
           routesObjectString += '},';
@@ -69,10 +91,20 @@ function routeHook(
             if (splitted[0] === parentName) {
               splitted.splice(0, 1);
             }
+
+            const keyName = route.path === '' ? 'index' : camelCase(splitted.join('-')) || 'index';
+            routesObjectString += `'${keyName}': '${route.name}',`;
+            routesList.push(route.name);
+            const params = route.path.match(/:(\w+)/);
+            params?.shift();
+            if (params?.length) {
+              routesParams.push({
+                name: route.name,
+                params: params.map((m) => ({ key: m, type: 'string | number' })),
+              });
+            }
+            routeObject[keyName] = route.name;
           }
-          const keyName = route.path === '' ? 'index' : camelCase(splitted.join('-')) || 'index';
-          routesObjectString += `'${keyName}': '${route.name}',`;
-          routeObject[keyName] = route.name;
         }
       };
       routes.map((r) =>
@@ -85,7 +117,23 @@ function routeHook(
       );
       routesObjectString += '}';
 
-      const templateRoutes = `export const ${routesObjectName} = ${routesObjectString};`;
+      const templateRoutes = `
+      /** Generated by nuxt-typed-router. Do not modify */
+      export const ${routesObjectName} = ${routesObjectString};
+      
+      export type TypedRouteList = ${routesList.map((m) => `'${m}'`).join('|\n')}
+
+      export type TypedRouteParams = {
+        ${routesParams
+          .map(
+            ({ name, params }) => `"${name}": {
+          ${params.map((p) => `"${p.key}"?: ${p.type}`).join(',\n')}
+        }`
+          )
+          .join(',\n')}
+      }
+
+      `;
 
       await saveRoutesFiles(filePath, templateRoutes);
     });
@@ -95,21 +143,6 @@ function routeHook(
     console.error(chalk.red('Error while generating routes definitions model'), '\n' + e);
   }
 }
-
-const typedRouterModule: Module<NuxtTypedRouterOptions> = function (moduleOptions) {
-  const {
-    filePath = `${this.options.srcDir}/__routes.js`,
-    routesObjectName = 'routerPagesNames',
-    stripAtFromName = false,
-  }: NuxtTypedRouterOptions = { ...this.options.typedRouter, ...moduleOptions };
-
-  this.nuxt.hook('build:before', () =>
-    routeHook.call(this, filePath, routesObjectName, stripAtFromName)
-  );
-  this.nuxt.hook('build:extendRoutes', () =>
-    routeHook.call(this, filePath, routesObjectName, stripAtFromName)
-  );
-};
 
 module.exports = typedRouterModule;
 module.exports.meta = require('../package.json');

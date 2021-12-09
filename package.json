@@ -43,28 +43,29 @@
   "typings": "types/index.d.ts",
   "dependencies": {
     "chalk": "^4.1.2",
-    "jest": "^27.2.4",
+    "jest": "^27.4.3",
     "lodash": "^4.17.21",
-    "log-symbols": "^5.0.0",
-    "prettier": "^2.4.1"
+    "log-symbols": "^5.1.0",
+    "prettier": "^2.5.1"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.15.8",
-    "@babel/preset-env": "^7.15.8",
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "@nuxt/kit": "^0.8.1-edge",
     "@nuxt/test-utils": "^0.2.2",
     "@nuxt/types": "^2.15.8",
-    "@types/jest": "^27.0.2",
-    "@types/lodash": "^4.14.173",
-    "@types/node": "^15.12.4",
-    "@types/prettier": "^2.3.2",
-    "babel-jest": "^27.2.4",
+    "@types/jest": "^27.0.3",
+    "@types/lodash": "^4.14.178",
+    "@types/node": "^16.11.12",
+    "@types/prettier": "^2.4.2",
+    "babel-jest": "^27.4.2",
     "copyfiles": "^2.4.0",
-    "core-js": "^3.18.2",
+    "core-js": "^3.19.3",
     "nuxt": "^2.15.8",
-    "playwright": "^1.15.2",
+    "playwright": "^1.17.1",
     "rimraf": "^3.0.2",
-    "ts-jest": "^27.0.5",
-    "typescript": "^4.4.3",
-    "vue-router": "^3.5.2"
+    "ts-jest": "^27.1.1",
+    "typescript": "^4.5.2",
+    "vue-router": "^3.5.3"
   }
 }

@@ -42,12 +42,12 @@ export function transformRouteNames(existingRoutes: NuxtRouteConfig[], stripAtFr
 
 export function extractChunkMain(chunkName?: string): string | undefined {
   let chunkArray = chunkName?.split('/');
-  chunkArray?.pop();
+  chunkArray?.pop()?.split('.vue')[0];
   return chunkArray?.join('/');
 }
 
 export function extractChunkRouteName(chunkName?: string): string | undefined {
-  return chunkName?.split('/')[chunkName.length - 1];
+  return chunkName?.split('/')[chunkName.length - 1].split('.vue')[0];
 }
 
 export function extractMatchingSiblings(
@@ -55,9 +55,9 @@ export function extractMatchingSiblings(
   siblingRoutes?: NuxtRouteConfig[]
 ) {
   return siblingRoutes?.filter((s) => {
-    const chunkName = extractChunkMain(mainRoute.chunkName);
+    const chunkName = extractChunkMain(mainRoute.file);
     if (chunkName && s.name) {
-      const siblingChunkName = extractChunkMain(s.chunkName);
+      const siblingChunkName = extractChunkMain(s.file);
       if (!siblingChunkName) return false;
       return chunkName === siblingChunkName;
     }
@@ -70,9 +70,9 @@ export function extractUnMatchingSiblings(
   siblingRoutes?: NuxtRouteConfig[]
 ) {
   return siblingRoutes?.filter((s) => {
-    const chunkName = extractChunkMain(mainRoute.chunkName);
+    const chunkName = extractChunkMain(mainRoute.file);
     if (chunkName) {
-      const siblingChunkName = extractChunkMain(s.chunkName);
+      const siblingChunkName = extractChunkMain(s.file);
       if (!siblingChunkName) return false;
       return chunkName !== siblingChunkName;
     }

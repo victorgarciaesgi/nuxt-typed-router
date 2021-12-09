@@ -3,3 +3,10 @@ export interface NuxtTypedRouterOptions {
     routesObjectName?: string;
     stripAtFromName?: boolean;
 }
+export declare type RouteParamsDecl = {
+    name: string;
+    params: {
+        key: string;
+        type: string;
+    }[];
+};
