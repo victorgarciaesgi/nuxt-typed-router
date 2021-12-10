@@ -4,10 +4,12 @@ export interface NuxtTypedRouterOptions {
   stripAtFromName?: boolean;
 }
 
+export type ParamDecl = {
+  key: string;
+  type: string;
+};
+
 export type RouteParamsDecl = {
   name: string;
-  params: {
-    key: string;
-    type: string;
-  }[];
+  params: ParamDecl[];
 };

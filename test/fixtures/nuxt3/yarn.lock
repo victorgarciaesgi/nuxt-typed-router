@@ -3369,12 +3369,12 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.17.20:
+lodash@^4.17.20, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
-log-symbols@^5.0.0:
+log-symbols@^5.0.0, log-symbols@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-5.1.0.tgz#a20e3b9a5f53fac6aeb8e2bb22c07cf2c8f16d93"
   integrity sha512-l0x2DvrW294C9uDCoQe1VSU4gf529FkSZ6leBl4TiqZH/e+0R7hSfHQBNut2mNygDgHwvYHfFLn6Oxb3VWj2rA==
@@ -3746,6 +3746,15 @@ number-is-nan@^1.0.0:
   integrity sha512-OtGAt8HTXPpzbVNLJxZTPPPWm0lfd23zUsq3FymgHWWIOoQaNu0wryctbrwNwc85ELZttFOoR/ya/yqEuO48gQ==
   optionalDependencies:
     fsevents "~2.3.2"
+
+nuxt-typed-router@^1.0.0-alpha-1:
+  version "1.0.0-alpha-1"
+  resolved "https://registry.yarnpkg.com/nuxt-typed-router/-/nuxt-typed-router-1.0.0-alpha-1.tgz#d06e3eb5baebc7e350a36e631f180a7b42303dae"
+  integrity sha512-ZEr4MizxaZElqFjjOuZ5YZFhL9gdWz/mpS3pAIeePd6FFNQlmJI4cXQBxxnNPctmaNf4ENdsAT6dvksWdF09pA==
+  dependencies:
+    chalk "^4.1.2"
+    lodash "^4.17.21"
+    log-symbols "^5.1.0"
 
 nuxt3@latest:
   version "3.0.0-27313139.1c88580"

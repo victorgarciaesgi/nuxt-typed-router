@@ -14,7 +14,7 @@ const defaultPrettierOptions = {
   htmlWhitespaceSensitivity: 'strict',
 } as const;
 
-export async function saveRoutesFiles(filePath: string, templateRoutes: string) {
+export async function saveRoutesFiles(filePath: string, templateRoutes: string, title = 'object') {
   try {
     let prettierFoundOptions = await prettier.resolveConfig(process.cwd());
 
@@ -29,7 +29,7 @@ export async function saveRoutesFiles(filePath: string, templateRoutes: string) 
     const savePath = path.resolve(process.cwd(), filePath);
     fs.writeFileSync(savePath, formatedModelsFile);
 
-    console.log(logSymbols.success, `Route definition file generated at ${chalk.blue(savePath)}`);
+    console.log(logSymbols.success, `Route ${title} file generated at ${chalk.blue(savePath)}`);
   } catch (e) {
     console.error(chalk.red('Error while saving route definitions file'), '\n' + e);
     return Promise.reject(e);

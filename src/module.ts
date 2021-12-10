@@ -1,7 +1,7 @@
 import { camelCase } from 'lodash';
 import chalk from 'chalk';
 import { Module } from '@nuxt/types';
-import { NuxtTypedRouterOptions, RouteParamsDecl } from './types';
+import { NuxtTypedRouterOptions, ParamDecl, RouteParamsDecl } from './types';
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import { saveRoutesFiles } from './save';
 import { extractMatchingSiblings, extractUnMatchingSiblings, transformRouteNames } from './utils';
@@ -15,21 +15,26 @@ declare module '@nuxt/types/config/router' {
   }
 }
 
+const paramRegxp = /:(\w+)/;
+
 const typedRouterModule: Module<NuxtTypedRouterOptions> = function (moduleOptions) {
   const {
     filePath = `${this.options.srcDir}/__routes.ts`,
     routesObjectName = 'routerPagesNames',
     stripAtFromName = false,
   }: NuxtTypedRouterOptions = { ...this.options.typedRouter, ...moduleOptions };
+  const folderPathes = filePath.split('/');
+  folderPathes.splice(folderPathes.length - 1, 1);
+  const definitionFilePath = folderPathes.join('/') + `/typed-router.d.ts`;
   this.addPlugin({
     src: resolve(__dirname, './templates/typed-router.js'),
     fileName: 'typed-router.js',
   });
   this.nuxt.hook('build:before', () =>
-    routeHook.call(this, filePath, routesObjectName, stripAtFromName)
+    routeHook.call(this, filePath, routesObjectName, stripAtFromName, definitionFilePath)
   );
   this.nuxt.hook('build:extendRoutes', () =>
-    routeHook.call(this, filePath, routesObjectName, stripAtFromName)
+    routeHook.call(this, filePath, routesObjectName, stripAtFromName, definitionFilePath)
   );
 };
 
@@ -37,7 +42,8 @@ function routeHook(
   this: ModuleThis,
   filePath: string,
   routesObjectName: string,
-  stripAtFromName: boolean
+  stripAtFromName: boolean,
+  definitionFilePath: string
 ) {
   try {
     // Redirect with @
@@ -45,6 +51,7 @@ function routeHook(
       transformRouteNames(routes, stripAtFromName);
 
       let routesObjectString = '{';
+      let routesObjectDecl = '{';
       let routesList: string[] = [];
       let routesParams: RouteParamsDecl[] = [];
       let routeObjectJs: Record<string, any> = {};
@@ -54,9 +61,9 @@ function routeHook(
         level: number,
         routeObject: Record<string, any>,
         siblings?: NuxtRouteConfig[],
-        parentName?: string
+        parentName?: string,
+        previousParams?: ParamDecl[]
       ) => {
-        console.log(route);
         const matchingSiblings = extractMatchingSiblings(route, siblings);
         const haveMatchingSiblings = !!matchingSiblings?.length && route.path !== '/';
         const chunkArray = route.file?.split('/') ?? [];
@@ -70,22 +77,31 @@ function routeHook(
           const splittedPaths = route.path.split('/');
           const parentPath = splittedPaths[splittedPaths.length - 1];
           const nameKey = camelCase(parentPath || 'index');
-          console.log(nameKey);
           routesObjectString += `${nameKey}:{`;
+          routesObjectDecl += `${nameKey}:{`;
           routeObject[nameKey] = {};
+
+          const params: string[] = route.path.match(paramRegxp) ?? [];
+          params?.shift();
+          let allMergedParams = params.map((m) => ({ key: m, type: 'string | number' }));
+          if (previousParams?.length) {
+            allMergedParams = allMergedParams.concat(previousParams);
+          }
           childrenChunks?.map((r) =>
             recursiveTypedRoutes(
               r,
               level + 1,
               routeObject[nameKey],
               extractUnMatchingSiblings(route, siblings),
-              nameKey
+              nameKey,
+              allMergedParams
             )
           );
           routesObjectString += '},';
+          routesObjectDecl += '},';
         } else {
-          let splitted: string[] = [];
           if (route.name) {
+            let splitted: string[] = [];
             splitted = route.name.split('-');
             splitted = splitted.slice(level, splitted.length);
             if (splitted[0] === parentName) {
@@ -93,16 +109,20 @@ function routeHook(
             }
 
             const keyName = route.path === '' ? 'index' : camelCase(splitted.join('-')) || 'index';
-            routesObjectString += `'${keyName}': '${route.name}',`;
+            routesObjectString += `'${keyName}': '${route.name}' as const,`;
+            routesObjectDecl += `'${keyName}': '${route.name}',`;
             routesList.push(route.name);
-            const params = route.path.match(/:(\w+)/);
+            const params: string[] = route.path.match(paramRegxp) ?? [];
             params?.shift();
-            if (params?.length) {
-              routesParams.push({
-                name: route.name,
-                params: params.map((m) => ({ key: m, type: 'string | number' })),
-              });
+            let allMergedParams = params?.map((m) => ({ key: m, type: 'string | number' }));
+            if (previousParams?.length) {
+              allMergedParams = allMergedParams.concat(previousParams);
             }
+            routesParams.push({
+              name: route.name,
+              params: allMergedParams,
+            });
+
             routeObject[keyName] = route.name;
           }
         }
@@ -116,26 +136,137 @@ function routeHook(
         )
       );
       routesObjectString += '}';
+      routesObjectDecl += '}';
 
-      const templateRoutes = `
-      /** Generated by nuxt-typed-router. Do not modify */
-      export const ${routesObjectName} = ${routesObjectString};
-      
-      export type TypedRouteList = ${routesList.map((m) => `'${m}'`).join('|\n')}
+      const signature = `/** 
+      * Generated by nuxt-typed-router. Do not modify 
+      * */`;
 
-      export type TypedRouteParams = {
+      const typedRouteListExport = `export type TypedRouteList = ${routesList
+        .map((m) => `'${m}'`)
+        .join('|\n')}`;
+      const typedRouteParamsExport = `export type TypedRouteParams = {
         ${routesParams
           .map(
-            ({ name, params }) => `"${name}": {
-          ${params.map((p) => `"${p.key}"?: ${p.type}`).join(',\n')}
-        }`
+            ({ name, params }) =>
+              `"${name}": ${
+                params.length
+                  ? `{
+              ${params.map((p) => `"${p.key}"?: ${p.type}`).join(',\n')}
+            }`
+                  : 'never'
+              }`
           )
           .join(',\n')}
-      }
+      }`;
 
+      // Runtime file
+      const templateRoutesRuntime = `
+      ${signature}
+
+      export const ${routesObjectName} = ${routesObjectString};
+      
+      ${typedRouteListExport}
+
+      ${typedRouteParamsExport}
       `;
 
-      await saveRoutesFiles(filePath, templateRoutes);
+      // Definition file
+      const templateRoutesDeclaration = `
+      ${signature}
+      import type {
+        NavigationFailure,
+        RouteLocation,
+        RouteLocationNormalized,
+        RouteLocationNormalizedLoaded,
+        RouteLocationOptions,
+        RouteQueryAndHash,
+        Router,
+      } from 'vue-router';
+
+      ${typedRouteListExport}
+
+      ${typedRouteParamsExport}
+
+       type TypedRouteParamsStructure = {
+        [K in TypedRouteList]: Record<string, string | number> | never;
+      };
+      
+      type TypedLocationAsRelativeRaw<T extends TypedRouteList> = {
+        name?: T;
+        params?: TypedRouteParams[T];
+      };
+      
+      type TypedRouteLocationRaw<T extends TypedRouteList> = RouteQueryAndHash &
+        TypedLocationAsRelativeRaw<T> &
+        RouteLocationOptions;
+      
+      interface TypedRouter {
+        /**
+         * Remove an existing route by its name.
+         *
+         * @param name - Name of the route to remove
+         */
+        removeRoute(name: TypedRouteList): void;
+        /**
+         * Checks if a route with a given name exists
+         *
+         * @param name - Name of the route to check
+         */
+        hasRoute(name: TypedRouteList): boolean;
+        /**
+         * Returns the {@link RouteLocation | normalized version} of a
+         * {@link RouteLocationRaw | route location}. Also includes an \`href\` property
+         * that includes any existing \`base\`. By default the \`currentLocation\` used is
+         * \`route.currentRoute\` and should only be overriden in advanced use cases.
+         *
+         * @param to - Raw route location to resolve
+         * @param currentLocation - Optional current location to resolve against
+         */
+        resolve<T extends TypedRouteList>(
+          to: TypedRouteLocationRaw<T>,
+          currentLocation?: RouteLocationNormalizedLoaded
+        ): RouteLocation & {
+          href: string;
+        };
+        /**
+         * Programmatically navigate to a new URL by pushing an entry in the history
+         * stack.
+         *
+         * @param to - Route location to navigate to
+         */
+        push<T extends TypedRouteList>(
+          to: TypedRouteLocationRaw<T>
+        ): Promise<NavigationFailure | void | undefined>;
+        /**
+         * Programmatically navigate to a new URL by replacing the current entry in
+         * the history stack.
+         *
+         * @param to - Route location to navigate to
+         */
+        replace<T extends TypedRouteList>(
+          to: TypedRouteLocationRaw<T>
+        ): Promise<NavigationFailure | void | undefined>;
+      }
+      
+      declare module 'nuxt3/dist/app/nuxt' {
+        export interface NuxtApp {
+          $typedRouter: TypedRouter
+        }
+      }
+
+      declare module '@vue/runtime-core' {
+        interface ComponentCustomProperties {
+          $typedRouter: TypedRouter
+        }
+      }
+      declare module 'nuxt-typed-router' {
+        export declare const useTypedRouter: () => TypedRouter;
+      }
+      `;
+
+      await saveRoutesFiles(filePath, templateRoutesRuntime);
+      await saveRoutesFiles(definitionFilePath, templateRoutesDeclaration, 'declaration');
     });
 
     // Typed router

@@ -1,3 +1,9 @@
 export default ({ app }, inject) => {
-  inject('typedRouter', app.router);
+  // inject('typedRouter', app.router);
+
+  return {
+    provide: {
+      typedRouter: app.router,
+    },
+  };
 };
