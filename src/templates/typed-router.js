@@ -1,9 +1,10 @@
 export default ({ app }, inject) => {
-  // inject('typedRouter', app.router);
+  const routesList = <%= options.routesList %> ;
 
   return {
     provide: {
       typedRouter: app.router,
+      routesList
     },
   };
 };

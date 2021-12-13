@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
-    "target": "ES2018",
+    "module": "ESNext",
+    "target": "ESNext",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": false,
@@ -13,7 +13,7 @@
     "noUnusedLocals": false,
     "pretty": true,
     "strict": true,
-    "allowJs": true,
+    "allowJs": false,
     "checkJs": false,
     "sourceMap": false,
     "noEmitOnError": true,

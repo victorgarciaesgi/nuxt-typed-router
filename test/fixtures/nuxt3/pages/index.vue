@@ -1,15 +1,15 @@
 <template>
-  <div></div>
+  <div>
+    <button type="button" @click="navigate">Click me to navigate</button>
+  </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { useTypedRouter } from 'nuxt-typed-router';
 
-export default defineComponent({
-  setup() {
-    const {} = useNuxtApp();
+const { router, routes } = useTypedRouter();
 
-    router.push({ name: 'parent-child-one-child-one-sub-one', params: { id: '1' } });
-  },
-});
+function navigate() {
+  router.push({ name: routes.childTwo.profile.id.slug.index, params: { id: '1', slug: '2' } });
+}
 </script>

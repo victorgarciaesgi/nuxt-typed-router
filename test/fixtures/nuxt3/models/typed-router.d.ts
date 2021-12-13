@@ -11,6 +11,30 @@ import type {
   Router,
 } from 'vue-router';
 
+export type RouteListDecl = {
+  activate: 'activate';
+  index: 'index';
+  childOne: {
+    childOneChildOneSubOne: 'parent-child-one-child-one-sub-one';
+    user: { index: 'parent-child-one-child-one-sub-one-user' };
+    childOneChildOneSubTwo: 'parent-child-one-child-one-sub-two';
+    index: 'parent-child-one';
+  };
+  childTwo: {
+    childTwoId: 'parent-child-two-id';
+    childTwoChildOneSubOne: 'parent-child-two-child-one-sub-one';
+    index: 'parent-child-two';
+    profile: {
+      id: {
+        slug: { index: 'parent-child-two-profile-id-slug' };
+        index: 'parent-child-two-profile-id';
+      };
+      index: 'parent-child-two-profile';
+    };
+  };
+  rootPage: 'rootPage';
+};
+
 export type TypedRouteList =
   | 'activate'
   | 'index'
@@ -34,7 +58,7 @@ export type TypedRouteParams = {
   'parent-child-one-child-one-sub-two': never;
   'parent-child-one': never;
   'parent-child-two-id': {
-    id?: string | number;
+    id: string | number;
   };
   'parent-child-two-child-one-sub-one': never;
   'parent-child-two': never;
@@ -122,5 +146,8 @@ declare module '@vue/runtime-core' {
   }
 }
 declare module 'nuxt-typed-router' {
-  export declare const useTypedRouter: () => TypedRouter;
+  export declare const useTypedRouter: () => {
+    router: TypedRouter;
+    routes: RouteListDecl;
+  };
 }

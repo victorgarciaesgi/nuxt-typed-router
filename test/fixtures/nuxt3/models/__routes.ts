@@ -49,7 +49,7 @@ export type TypedRouteParams = {
   'parent-child-one-child-one-sub-two': never;
   'parent-child-one': never;
   'parent-child-two-id': {
-    id?: string | number;
+    id: string | number;
   };
   'parent-child-two-child-one-sub-one': never;
   'parent-child-two': never;
