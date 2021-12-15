@@ -3,7 +3,7 @@ import path from 'path';
 import logSymbols from 'log-symbols';
 import chalk from 'chalk';
 import mkdirp from 'mkdirp';
-import { formatOutputWithPrettier } from './prettier.util';
+import { formatOutputWithPrettier } from './prettier.utils';
 
 export async function saveRouteFiles(
   outDir: string,
@@ -22,6 +22,7 @@ export async function saveRouteFiles(
       await mkdirp(dirPath);
       await writeFile(outputFile, formatedContent);
     }
+    console.log(logSymbols.success, `[typed-router] Routes definitions generated`);
   } catch (e) {
     return Promise.reject(e);
   }

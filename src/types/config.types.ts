@@ -1,5 +1,5 @@
 export interface NuxtTypedRouterOptions {
-  filePath?: string;
+  outDir?: string;
   routesObjectName?: string;
   stripAtFromName?: boolean;
 }
