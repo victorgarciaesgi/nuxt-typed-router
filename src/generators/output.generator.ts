@@ -34,7 +34,6 @@ export function createDeclarationRoutesFile({
 
     export type RouteListDecl = ${routesDeclTemplate};
 
-    ${createTypedRouteListExport(routesList)}
     ${createTypedRouteParamsExport(routesParams)}
 
     ${staticDeclarations}

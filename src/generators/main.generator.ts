@@ -14,12 +14,14 @@ export async function constructRouteMap(routesConfig: NuxtRouteConfig[]): Promis
     let routesList: string[] = [];
     let routesParams: RouteParamsDecl[] = [];
 
+    const output = { routesObjectTemplate, routesDeclTemplate, routesList, routesParams };
+
     startGeneratorProcedure({
-      output: { routesObjectTemplate, routesDeclTemplate, routesList, routesParams },
+      output,
       routesConfig,
     });
 
-    return { routesObjectTemplate, routesDeclTemplate, routesList, routesParams };
+    return output;
   } catch (e) {
     return Promise.reject(e);
   }
@@ -38,6 +40,8 @@ export function startGeneratorProcedure({
   routesConfig.forEach((route) =>
     walkThoughRoutes({ route, level: 0, output, siblings: rootSiblingsRoutes })
   );
+  output.routesObjectTemplate += '}';
+  output.routesDeclTemplate += '}';
 }
 
 // -----

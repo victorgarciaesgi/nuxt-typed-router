@@ -40,26 +40,3 @@ export type TypedRouteList =
   | 'parent-child-two-profile-id'
   | 'parent-child-two-profile'
   | 'rootPage';
-
-export type TypedRouteParams = {
-  activate: never;
-  index: never;
-  'parent-child-one-child-one-sub-one': never;
-  'parent-child-one-child-one-sub-one-user': never;
-  'parent-child-one-child-one-sub-two': never;
-  'parent-child-one': never;
-  'parent-child-two-id': {
-    id: string | number;
-  };
-  'parent-child-two-child-one-sub-one': never;
-  'parent-child-two': never;
-  'parent-child-two-profile-id-slug': {
-    slug?: string | number;
-    id?: string | number;
-  };
-  'parent-child-two-profile-id': {
-    id?: string | number;
-  };
-  'parent-child-two-profile': never;
-  rootPage: never;
-};

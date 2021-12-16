@@ -6,12 +6,11 @@ export const staticDeclImports = `
 import type {
   NavigationFailure,
   RouteLocation,
-  RouteLocationNormalized,
   RouteLocationNormalizedLoaded,
   RouteLocationOptions,
   RouteQueryAndHash,
-  Router,
 } from 'vue-router';
+import type { TypedRouteList } from './__routes'
 `;
 
 export const staticDeclarations = `
@@ -88,7 +87,7 @@ export const staticDeclarations = `
     }
   }
   declare module 'nuxt-typed-router' {
-    export declare const useTypedRouter: () => {
+    export const useTypedRouter: () => {
       router: TypedRouter,
       routes: RouteListDecl
     };

@@ -1,5 +1,5 @@
 import fs from 'fs';
-import path from 'path';
+import { resolve } from 'pathe';
 import logSymbols from 'log-symbols';
 import chalk from 'chalk';
 import mkdirp from 'mkdirp';
@@ -11,7 +11,7 @@ export async function saveRouteFiles(
   content: string
 ): Promise<void> {
   try {
-    const outputFile = path.resolve(process.cwd(), `${outDir}/${fileName}`);
+    const outputFile = resolve(process.cwd(), `${outDir}/${fileName}`);
     const formatedContent = await formatOutputWithPrettier(content);
     if (fs.existsSync(outputFile)) {
       await writeFile(outputFile, formatedContent);
@@ -22,7 +22,6 @@ export async function saveRouteFiles(
       await mkdirp(dirPath);
       await writeFile(outputFile, formatedContent);
     }
-    console.log(logSymbols.success, `[typed-router] Routes definitions generated`);
   } catch (e) {
     return Promise.reject(e);
   }
