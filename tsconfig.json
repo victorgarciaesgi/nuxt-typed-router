@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "ES2015",
+    "module": "nodenext",
     "target": "ES2018",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
@@ -36,5 +36,5 @@
     ],
     "types": ["node", "jest"]
   },
-  "include": ["./src/**/*.ts", "./src/**/*.js"]
+  "include": ["./src/**/*.mts", "./src/**/*.js"]
 }

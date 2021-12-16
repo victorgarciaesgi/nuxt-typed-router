@@ -3,7 +3,7 @@ import { resolve } from 'pathe';
 import logSymbols from 'log-symbols';
 import chalk from 'chalk';
 import mkdirp from 'mkdirp';
-import { formatOutputWithPrettier } from './prettier.utils';
+import { formatOutputWithPrettier } from './prettier.utils.mjs';
 
 export async function saveRouteFiles(
   outDir: string,

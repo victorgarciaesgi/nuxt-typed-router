@@ -1,11 +1,11 @@
-import { addPluginTemplate, extendPages } from '@nuxt/kit';
+import { addPluginTemplate, extendPages } from '@nuxt/kit-edge';
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
 import { resolve } from 'pathe';
-import { saveRouteFiles } from '../utils';
-import { constructRouteMap } from './main.generator';
-import { createDeclarationRoutesFile, createRuntimeRoutesFile } from './output.generator';
+import { saveRouteFiles } from '../utils/index.mjs';
+import { constructRouteMap } from './main.generator.mjs';
+import { createDeclarationRoutesFile, createRuntimeRoutesFile } from './output.generator.mjs';
 
 export function routeHook(outDir: string, routesObjectName: string, stripAtFromName: boolean) {
   try {

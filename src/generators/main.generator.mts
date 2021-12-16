@@ -1,11 +1,11 @@
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import { camelCase } from 'lodash';
-import { GeneratorOutput, ParamDecl, RouteParamsDecl } from '../types';
+import { GeneratorOutput, ParamDecl, RouteParamsDecl } from '../types/index.mjs';
 import {
   extractRouteParamsFromPath,
   extractUnMatchingSiblings,
   extractMatchingSiblings,
-} from '../utils';
+} from '../utils/index.mjs';
 
 export async function constructRouteMap(routesConfig: NuxtRouteConfig[]): Promise<GeneratorOutput> {
   try {
@@ -15,6 +15,8 @@ export async function constructRouteMap(routesConfig: NuxtRouteConfig[]): Promis
     let routesParams: RouteParamsDecl[] = [];
 
     const output = { routesObjectTemplate, routesDeclTemplate, routesList, routesParams };
+
+    // console.log(JSON.stringify(routesConfig));
 
     startGeneratorProcedure({
       output,

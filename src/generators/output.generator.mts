@@ -1,5 +1,5 @@
-import { RouteParamsDecl } from 'types';
-import { signatureTemplate, staticDeclarations, staticDeclImports } from './output.templates';
+import { RouteParamsDecl } from '../types/index.mjs';
+import { signatureTemplate, staticDeclarations, staticDeclImports } from './output.templates.mjs';
 
 export function createRuntimeRoutesFile({
   routesList,

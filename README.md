@@ -13,21 +13,19 @@
 
 > Provide a safe typed router to nuxt with auto-generated typed definitions for route names
 
-# Motivation
+# Features
 
-Nuxt is great because it generate the router based on your pages directory. It generates all the pages name and it abstract a lot of boilerplate.
-
-Problem: If you want a type-safe routing flow, the current model can be hard to maintain if you modify the page file name and is error prone in big projects.
-
-Solution: Thanks to Nuxt powerful hook system, this module reads all your routes and generate typings and enums accordingly
+- Expose a global method `$typedRouter` (clone of vue-router), but typed with the routes defined in `pages` directory
+- Provides a hook `useTypedRouter` that returns an alias of `$typedRouter` and also a typed list of your routes
+- Provides auto-completion and errors for route params in `push` and `replace` methods
 
 # Installation
 
 ```bash
-yarn add -D nuxt-typed-router
+yarn add -D nuxt-typed-router@next
 
 #or
-npm install -D nuxt-typed-router
+npm install -D nuxt-typed-router@next
 ```
 
 # Configuration

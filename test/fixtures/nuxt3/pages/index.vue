@@ -10,6 +10,6 @@ import { useTypedRouter } from 'nuxt-typed-router';
 const { router, routes } = useTypedRouter();
 
 function navigate() {
-  router.push({ name: routes.childTwo.profile.id.slug.index, params: { id: '1', slug: '2' } });
+  router.push({ name: 'parent-child-two-profile-id-slug', params: {} });
 }
 </script>

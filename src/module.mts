@@ -1,9 +1,9 @@
-import { defineNuxtModule } from '@nuxt/kit';
-import { routeHook } from './generators/nuxtHook';
-import type { NuxtTypedRouterOptions } from './types';
+import { defineNuxtModule } from '@nuxt/kit-edge';
+import { routeHook } from './generators/nuxtHook.mjs';
+import type { NuxtTypedRouterOptions } from './types/index.mjs';
 
-export { NuxtTypedRouterOptions } from './types';
-export * from './exports';
+export type { NuxtTypedRouterOptions } from './types/index.mjs';
+export * from './exports/index.mjs';
 
 export default defineNuxtModule<NuxtTypedRouterOptions>({
   name: 'nuxt-typed-router',

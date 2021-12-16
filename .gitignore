@@ -19,6 +19,7 @@ pids
 lib-cov
 
 lib
+types
 
 # Coverage directory used by tools like istanbul
 coverage
