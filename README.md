@@ -32,43 +32,51 @@ npm install -D nuxt-typed-router@next
 
 First, register the module in the `nuxt.config.[js|ts]`
 
-```javascript
-const config = {
-  ...,
-  modules: [
-    'nuxt-typed-router',
-  ]
-}
-```
-
-Or
-
-```javascript
-const config = {
+```ts
+export default defineNuxtConfig({
   ...,
   modules: [
     ['nuxt-typed-router', {
       // options
     }],
   ]
+})
+ // or
+
+export default defineNuxtConfig({
+  ...,
+  modules: [
+    ['nuxt-typed-router'],
+  ],
+  typedRouter: {
+    // options
+  }
+})
+```
+
+## Note for Typescript users
+
+Don't forget to add `nuxt-typed-router` types to your `tsconfig.json`
+
+```json
+{
+  "compilerOptions": {
+    // ...
+    "types": ["nuxt-typed-router"]
+  }
 }
 ```
 
-Options:
+## Options:
 
 ```ts
 type Options = {
   // Path to where you cant the file to be saved (ex: "./src/models/__routes.ts")
-  filePath?: string;
+  outDir?: string;
 
   // Name of the routesNames object (ex: "routesTree")
   // Default: "routerPagesNames"
   routesObjectName?: string;
-
-  // Strip `@` sign from declared routes (ex: `admin/@home.vue` will be accessed like this `routerPagesNames.admin.home`
-  // and the route name will be `admin-home` instead of `admin-@home`)
-  // Default: true
-  stripAtFromNames?: boolean;
 };
 ```
 
@@ -82,26 +90,27 @@ The module will create a file with the global object of the route names inside.
 
 You have to specify the path of the generated file in your configuration
 
-```javascript
-// nuxt.config.js
-const config = {
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['nuxt-typed-router'],
   typedRouter: {
-    filePath: './models/__routes.js', // or .ts,
+    outDir: './models',
   },
-};
+});
 
 // Or
 
-const config = {
+export default defineNuxtConfig({
   modules: [
     [
       'nuxt-typed-router',
       {
-        filePath: './models/__routes.js', // or .ts,
+        outDir: './models',
       },
     ],
   ],
-};
+});
 ```
 
 ### _Usage_
@@ -114,7 +123,7 @@ Given this structure
                 ├── index.vue
                 ├── communication.vue
                 ├── statistics.vue
-                ├── users.vue
+                ├── [user].vue
             ├── index.vue
             ├── forgotpassword.vue
             ├── reset-password.vue
@@ -133,7 +142,7 @@ export const routerPagesNames = {
     communication: 'index-communication',
     content: 'index-content',
     statistics: 'index-statistics',
-    users: 'index-users',
+    user: 'index-user',
   },
 };
 ```
@@ -150,36 +159,10 @@ export default {
 };
 ```
 
-## Advanced usage
-
-Create a plugin `nuxt-typed-router.js|ts`, and register it in your nuxt.config.js
-
-```js
-import { routerPagesNames } from '...your file path';
-
-export default (ctx, inject) => {
-  inject('routesNames', routerPagesNames);
-};
-```
-
-Then create shims a file in `~/shims/nuxt.d.ts`
-
-```ts
-import { routerPagesNames } from '...your file path';
-
-declare module 'vue/types/vue' {
-  interface Vue {
-    $routesNames: typeof routerPagesNames;
-  }
-}
-```
-
-You will now have `$routeNames` exposed in all your component without importing it and it will be typed automaticaly!
-
 ## Development
 
 1. Clone this repository
-2. Install dependencies using `yarn` or `npm install`
+2. Install dependencies using `yarn`
 
 ## 📑 License
 

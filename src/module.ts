@@ -9,7 +9,7 @@ export default defineNuxtModule<NuxtTypedRouterOptions>({
   name: 'nuxt-typed-router',
   meta: {
     name: 'nuxt-typed-router',
-    version: '1.0.0-alpha-3',
+    version: '1.0.0-beta-12',
     configKey: 'typed-router',
     compatibility: { nuxt: '^3.0.0', bridge: false },
   },

@@ -1,8 +1,8 @@
 import { defineNuxtConfig } from 'nuxt3';
-import typedRouter from '../../../lib/module.mjs';
+import typedRouter from '../../../lib/module.js';
 
 export default defineNuxtConfig({
-  buildModules: ['nuxt-typed-router'],
+  buildModules: [typedRouter],
   typedRouter: {
     outDir: './models',
   },

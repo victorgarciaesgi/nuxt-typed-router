@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "tsc -p ./tsconfig.json --pretty --watch",
     "build": "rimraf dist && unbuild",
+    "buildts": "rimraf lib && rimraf types && tsc -p ./tsconfig.json --pretty && mkdir ./lib/templates && cp ./src/templates/typed-router.js ./lib/templates/typed-router.js",
     "prepublish": "yarn build",
     "test": "jest",
     "test:reset": "yarn test --updateSnapshot"

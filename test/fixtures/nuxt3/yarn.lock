@@ -3829,10 +3829,10 @@ number-is-nan@^1.0.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
-nuxt-typed-router@1.0.0-beta-12:
-  version "1.0.0-beta-12"
-  resolved "https://registry.yarnpkg.com/nuxt-typed-router/-/nuxt-typed-router-1.0.0-beta-12.tgz#3bbd65412fd888a95c85458e3a2db2083b2fafa8"
-  integrity sha512-3780mmGVdB+Poz3M7Lk6xj9ILwBBxH/2YgVg2r8dUhBRzD9jESqf1S0omcG+hZ+b4OtlxqN3/NQ5097XkPO6Hw==
+nuxt-typed-router@1.0.0-beta-10:
+  version "1.0.0-beta-10"
+  resolved "https://registry.yarnpkg.com/nuxt-typed-router/-/nuxt-typed-router-1.0.0-beta-10.tgz#b0ab0a4ca87590cf071cb93a32d97e48e0b717eb"
+  integrity sha512-/JvNVWPC/h+2QmpfCOXktA0eADc7VZMInicLlYj7pf3N/hj/bZFs4BzsMMadEbJVlPV/WkJbGN3tIWz5kWYSEg==
   dependencies:
     "@nuxt/kit" "^0.8.1-edge"
     chalk "^4.1.2"

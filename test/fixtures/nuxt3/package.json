@@ -6,7 +6,7 @@
     "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
-    "nuxt-typed-router": "1.0.0-beta-12",
+    "nuxt-typed-router": "1.0.0-beta-10",
     "nuxt3": "3.0.0-27338323.1e98259"
   }
 }
