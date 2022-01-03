@@ -1,4 +1,4 @@
-import { NuxtTypedRouterOptions } from '../types/index.mjs';
+import { NuxtTypedRouterOptions } from '../types';
 
 // @ts-ignore
 declare module '@nuxt/schema' {

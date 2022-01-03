@@ -3,18 +3,27 @@ import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
 import { resolve } from 'pathe';
-import { saveRouteFiles } from '../utils/index.mjs';
-import { constructRouteMap } from './main.generator.mjs';
-import { createDeclarationRoutesFile, createRuntimeRoutesFile } from './output.generator.mjs';
+import { saveRouteFiles } from '../utils';
+import { constructRouteMap } from './main.generator';
+import { createDeclarationRoutesFile, createRuntimeRoutesFile } from './output.generator';
+import { Nuxt } from '@nuxt/schema';
 
-export function routeHook(outDir: string, routesObjectName: string, stripAtFromName: boolean) {
+export function routeHook(
+  outDir: string,
+  routesObjectName: string,
+  stripAtFromName: boolean,
+  nuxt: Nuxt
+) {
   try {
     extendPages(async (routes: NuxtRouteConfig[]) => {
       const { routesDeclTemplate, routesList, routesObjectTemplate, routesParams } =
         await constructRouteMap(routes);
 
+      const templatesDir = resolve(__dirname, '../templates/typed-router.js');
+      nuxt.options.build.transpile.push(templatesDir);
+
       addPluginTemplate({
-        src: resolve(__dirname, '../templates/typed-router.js'),
+        src: templatesDir,
         fileName: 'typed-router.js',
         options: {
           routesList: routesDeclTemplate,

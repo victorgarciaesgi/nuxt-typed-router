@@ -36,5 +36,5 @@
     ],
     "types": ["node", "jest"]
   },
-  "include": ["./src/**/*.mts", "./src/**/*.js"]
+  "include": ["./src/**/*.ts", "./src/**/*.js"]
 }

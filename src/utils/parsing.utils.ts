@@ -1,4 +1,4 @@
-import { ParamDecl } from '../types/index.mjs';
+import { ParamDecl } from '../types';
 
 const routeParamExtractRegxp = /:(\w+)/;
 
