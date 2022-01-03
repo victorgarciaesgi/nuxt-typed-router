@@ -149,14 +149,17 @@ export const routerPagesNames = {
 
 You can now just import it
 
-```javascript
-import { routerPagesNames } from '~/models/__routes.js';
+```vue
+<script setup lang="ts">
+import { useTypedRouter } from 'nuxt-typed-router';
 
-export default {
-  mounted() {
-    this.$router.push({ name: routerPagesNames.index.content });
-  },
-};
+// Fully typed
+const { router, routes } = useTypedRouter();
+
+function navigate() {
+  router.push({ name: routes.index.user, params: { user: 1 } });
+}
+</script>
 ```
 
 ## Development

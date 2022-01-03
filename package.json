@@ -13,15 +13,12 @@
   "type": "module",
   "main": "./dist/module.mjs",
   "exports": {
-    ".": {
-      "import": "./dist/module.mjs",
-      "types": "./types/module.d.mts"
-    }
+    ".": "./dist/module.mjs"
   },
   "files": [
     "dist"
   ],
-  "typings": "./types/index.d.mts",
+  "types": "./dist/module.d.ts",
   "publishConfig": {
     "access": "public"
   },
