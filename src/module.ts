@@ -85,7 +85,7 @@ function routeHook(
       );
       routesObjectString += '}';
 
-      const templateRoutes = `export const ${routesObjectName} = ${routesObjectString};`;
+      const templateRoutes = `export const ${routesObjectName} = ${routesObjectString} as const;`;
 
       await saveRoutesFiles(filePath, templateRoutes);
     });
