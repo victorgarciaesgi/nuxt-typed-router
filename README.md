@@ -1,5 +1,7 @@
 # 🚦Typed Router Module
 
+## This is the docs for Nuxt 2 version
+
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![npm downloads][npm-total-downloads-src]][npm-downloads-href]
@@ -24,10 +26,10 @@ Solution: Thanks to Nuxt powerful hook system, this module reads all your routes
 # Installation
 
 ```bash
-yarn add -D nuxt-typed-router
+yarn add -D nuxt-typed-router@legacy
 
 #or
-npm install -D nuxt-typed-router
+npm install -D nuxt-typed-router@legacy
 ```
 
 # Configuration
