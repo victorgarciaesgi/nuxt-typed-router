@@ -1,5 +1,11 @@
 # 🚦Typed Router Module
 
+<img src='https://github.com/victorgarciaesgi/nuxt-typed-router/blob/next/medias/autocomplete_name.png?raw=true'/>
+
+# -------
+
+<img src='https://github.com/victorgarciaesgi/nuxt-typed-router/blob/next/medias/autocomplete_params.png?raw=true'/>
+
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![npm downloads][npm-total-downloads-src]][npm-downloads-href]
@@ -21,11 +27,22 @@
 
 # Installation
 
-```bash
-yarn add -D nuxt-typed-router@next
+### For Nuxt 3
 
-#or
-npm install -D nuxt-typed-router@next
+```bash
+yarn add -D nuxt-typed-router
+# or
+npm install -D nuxt-typed-router
+```
+
+### For Nuxt 2
+
+For Nuxt 2 usage, check out the docs at the [`nuxt2 branch`]()
+
+```bash
+yarn add -D nuxt-typed-router@legacy
+# or
+npm install -D nuxt-typed-router@legacy
 ```
 
 # Configuration
@@ -33,92 +50,64 @@ npm install -D nuxt-typed-router@next
 First, register the module in the `nuxt.config.[js|ts]`
 
 ```ts
-export default defineNuxtConfig({
-  ...,
-  modules: [
-    ['nuxt-typed-router', {
-      // options
-    }],
-  ]
-})
- // or
+import TypedRouter from 'nuxt-typed-router';
 
 export default defineNuxtConfig({
-  ...,
-  modules: [
-    ['nuxt-typed-router'],
-  ],
-  typedRouter: {
+  buildModules: [TypedRouter],
+  nuxtTypedRouter: {
     // options
-  }
-})
-```
-
-## Note for Typescript users
-
-Don't forget to add `nuxt-typed-router` types to your `tsconfig.json`
-
-```json
-{
-  "compilerOptions": {
-    // ...
-    "types": ["nuxt-typed-router"]
-  }
-}
+  },
+});
 ```
 
 ## Options:
 
 ```ts
-type Options = {
-  // Path to where you cant the file to be saved (ex: "./src/models/__routes.ts")
+interface ModuleOptions {
+  /** Output directory where you cant the files to be saved
+   * (ex: "./models")
+   * @default "<srcDir>/generated"
+   */
   outDir?: string;
-
-  // Name of the routesNames object (ex: "routesTree")
-  // Default: "routerPagesNames"
+  /** Name of the routesNames object (ex: "routesTree")
+   * @default "routerPagesNames"
+   * */
   routesObjectName?: string;
-};
+}
 ```
+
+# Generated files
+
+The module will create 2 files:
+
+- `__routes.ts` with the global object of the route names inside.
+- `typed-router.d.ts` containing the global typecript definitions and exports
 
 # Usage in Vue/Nuxt
 
-## - `routerPagesNames` global object
-
-The module will create a file with the global object of the route names inside.
-
 ### **_Requirements_**
 
-You have to specify the path of the generated file in your configuration
+You have to specify the output dir of the generated files in your configuration
 
 ```ts
-// nuxt.config.ts
+import TypedRouter from 'nuxt-typed-router';
+
 export default defineNuxtConfig({
-  modules: ['nuxt-typed-router'],
-  typedRouter: {
-    outDir: './models',
+  buildModules: [TypedRouter],
+  nuxtTypedRouter: {
+    outDir: './generated',
   },
-});
-
-// Or
-
-export default defineNuxtConfig({
-  modules: [
-    [
-      'nuxt-typed-router',
-      {
-        outDir: './models',
-      },
-    ],
-  ],
 });
 ```
 
-### _Usage_
+# How it works
 
 Given this structure
 
         ├── pages
             ├── index
+                ├── content
+                    ├── [id].vue
                 ├── content.vue
                 ├── index.vue
                 ├── communication.vue
@@ -132,33 +121,45 @@ Given this structure
 
 The generated file will look like this
 
-```javascript
+```ts
 export const routerPagesNames = {
-  forgotpassword: 'forgotpassword',
-  login: 'login',
-  resetPassword: 'reset-password',
+  forgotpassword: 'forgotpassword' as const,
+  login: 'login' as const,
+  resetPassword: 'reset-password' as const,
   index: {
-    index: 'index',
-    communication: 'index-communication',
-    content: 'index-content',
-    statistics: 'index-statistics',
-    user: 'index-user',
+    index: 'index' as const,
+    communication: 'index-communication' as const,
+    content: {
+      id: 'index-content-id' as const,
+    },
+    statistics: 'index-statistics' as const,
+    user: 'index-user' as const,
   },
 };
 ```
 
-You can now just import it
+# Usage with `useTypedRouter` hook
+
+`useTypedRouter` is an exported composable from nuxt-typed-router. It contains a clone of `vue-router` but with stritly typed route names and params type-check
 
 ```vue
-<script setup lang="ts">
+<script lang="ts">
 import { useTypedRouter } from 'nuxt-typed-router';
 
-// Fully typed
-const { router, routes } = useTypedRouter();
+export default defineComponent({
+  setup() {
+    // Fully typed
+    const { router, routes } = useTypedRouter();
 
-function navigate() {
-  router.push({ name: routes.index.user, params: { user: 1 } });
-}
+    function navigate() {
+      // Autocompletes the name and infer the params
+      router.push({ name: routes.index.user, params: { user: 1 } }); // ✅ valid
+      router.push({ name: routes.index.user, params: { foo: 1 } }); // ❌ invalid
+    }
+
+    return { navigate };
+  },
+});
 </script>
 ```
 

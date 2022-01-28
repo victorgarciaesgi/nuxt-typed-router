@@ -134,7 +134,9 @@ declare module '@vue/runtime-core' {
 }
 declare module 'nuxt-typed-router' {
   export const useTypedRouter: () => {
+    /** Export of $router with type check */
     router: TypedRouter;
+    /** Contains a typed dictionnary of all your route names (for syntax sugar) */
     routes: RouteListDecl;
   };
 }
