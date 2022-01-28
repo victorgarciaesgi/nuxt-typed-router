@@ -37,7 +37,7 @@ npm install -D nuxt-typed-router
 
 ### For Nuxt 2
 
-For Nuxt 2 usage, check out the docs at the [`nuxt2 branch`]()
+For Nuxt 2 usage, check out the docs at the [`nuxt2 branch`](https://github.com/victorgarciaesgi/nuxt-typed-router/tree/nuxt2)
 
 ```bash
 yarn add -D nuxt-typed-router@legacy
