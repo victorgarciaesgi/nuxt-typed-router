@@ -1,5 +1,4 @@
 const { compilerOptions } = require('./tsconfig');
-
 module.exports = {
   preset: '@nuxt/test-utils',
   moduleFileExtensions: ['js', 'ts', 'json'],

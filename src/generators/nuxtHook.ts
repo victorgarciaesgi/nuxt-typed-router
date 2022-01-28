@@ -1,4 +1,6 @@
-import { addPluginTemplate, extendPages } from '@nuxt/kit-edge';
+import { fileURLToPath } from 'url';
+import { addPluginTemplate, extendPages } from '@nuxt/kit';
+import { Nuxt } from '@nuxt/schema';
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
@@ -6,7 +8,6 @@ import { resolve } from 'pathe';
 import { saveRouteFiles } from '../utils';
 import { constructRouteMap } from './main.generator';
 import { createDeclarationRoutesFile, createRuntimeRoutesFile } from './output.generator';
-import { Nuxt } from '@nuxt/schema';
 
 export function routeHook(
   outDir: string,
@@ -17,13 +18,13 @@ export function routeHook(
   try {
     extendPages(async (routes: NuxtRouteConfig[]) => {
       const { routesDeclTemplate, routesList, routesObjectTemplate, routesParams } =
-        await constructRouteMap(routes);
+        constructRouteMap(routes);
 
-      const templatesDir = resolve(__dirname, '../templates/typed-router.js');
-      nuxt.options.build.transpile.push(templatesDir);
+      const runtimeDir = fileURLToPath(new URL('../runtime', import.meta.url));
+      nuxt.options.build.transpile.push(runtimeDir);
 
       addPluginTemplate({
-        src: templatesDir,
+        src: runtimeDir,
         fileName: 'typed-router.js',
         options: {
           routesList: routesDeclTemplate,

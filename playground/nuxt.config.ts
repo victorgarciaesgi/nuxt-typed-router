@@ -1,9 +1,9 @@
 import { defineNuxtConfig } from 'nuxt3';
-import typedRouter from '../../..';
+import MyModule from '..';
 
 export default defineNuxtConfig({
-  buildModules: [typedRouter],
+  buildModules: [MyModule],
   nuxtTypedRouter: {
-    outDir: './generated',
+    outDir: 'playground/generated',
   },
 });

@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
-import * as prettier from 'prettier';
+import prettier from 'prettier';
+const { resolveConfig, format } = prettier;
 
 const defaultPrettierOptions = {
   printWidth: 100,
@@ -14,13 +15,13 @@ const defaultPrettierOptions = {
 
 export async function formatOutputWithPrettier(template: string): Promise<string> {
   try {
-    let prettierFoundOptions = await prettier.resolveConfig(process.cwd());
+    let prettierFoundOptions = await resolveConfig(process.cwd());
 
     if (!prettierFoundOptions) {
       prettierFoundOptions = defaultPrettierOptions;
     }
 
-    const formatedTemplate = prettier.format(template, {
+    const formatedTemplate = format(template, {
       ...prettierFoundOptions,
       parser: 'typescript',
     });

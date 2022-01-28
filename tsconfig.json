@@ -1,40 +1,8 @@
 {
+  "extends": "./playground/.nuxt/tsconfig.json",
   "compilerOptions": {
-    "module": "nodenext",
-    "target": "ES2018",
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": false,
-    "emitDecoratorMetadata": false,
-    "resolveJsonModule": true,
     "esModuleInterop": true,
-    "removeComments": true,
-    "noImplicitAny": true,
-    "noUnusedLocals": false,
-    "pretty": true,
-    "strict": true,
-    "allowJs": false,
     "checkJs": false,
-    "sourceMap": false,
-    "noEmitOnError": true,
-    "downlevelIteration": true,
-    "declaration": true,
-    "declarationDir": "./types",
-    "declarationMap": false,
-    "skipLibCheck": true,
-    "baseUrl": "./src",
-    "outDir": "./lib",
-    "lib": [
-      "esnext",
-      "scripthost",
-      "es5",
-      "es2015",
-      "es2015.promise",
-      "es2017",
-      "es2017.object",
-      "es7"
-    ],
     "types": ["node", "jest"]
-  },
-  "include": ["./src/**/*.ts", "./src/**/*.js"]
+  }
 }

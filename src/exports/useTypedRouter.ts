@@ -3,9 +3,9 @@ import { useNuxtApp } from 'nuxt3';
 
 export const useTypedRouter = (): unknown => {
   const router = useRouter();
-  const { $routesList } = useNuxtApp();
+  // const { $routesList } = useNuxtApp();
   return {
     router,
-    routes: $routesList,
+    // routes: $routesList,
   };
 };

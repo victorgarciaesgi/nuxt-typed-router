@@ -1,6 +1,6 @@
+import { readFile } from 'fs/promises';
 import { createPage, setupTest } from '@nuxt/test-utils';
 import 'core-js';
-import { readFile } from 'fs/promises';
 
 describe('Init route file', () => {
   setupTest({

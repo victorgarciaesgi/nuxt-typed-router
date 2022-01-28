@@ -1,13 +1,13 @@
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
-import { camelCase } from 'lodash';
+import { camelCase } from 'lodash-es';
 import { GeneratorOutput, ParamDecl, RouteParamsDecl } from '../types';
 import {
+  extractMatchingSiblings,
   extractRouteParamsFromPath,
   extractUnMatchingSiblings,
-  extractMatchingSiblings,
 } from '../utils';
 
-export async function constructRouteMap(routesConfig: NuxtRouteConfig[]): Promise<GeneratorOutput> {
+export function constructRouteMap(routesConfig: NuxtRouteConfig[]): GeneratorOutput {
   try {
     let routesObjectTemplate = '{';
     let routesDeclTemplate = '{';
@@ -25,7 +25,7 @@ export async function constructRouteMap(routesConfig: NuxtRouteConfig[]): Promis
 
     return output;
   } catch (e) {
-    return Promise.reject(e);
+    throw new Error('Generation failed');
   }
 }
 
@@ -103,26 +103,24 @@ export function walkThoughRoutes({
     // Output
     output.routesObjectTemplate += '},';
     output.routesDeclTemplate += '},';
-  } else {
-    if (route.name) {
-      let splitted: string[] = [];
-      splitted = route.name.split('-');
-      splitted = splitted.slice(level, splitted.length);
-      if (splitted[0] === parentName) {
-        splitted.splice(0, 1);
-      }
-
-      const keyName = route.path === '' ? 'index' : camelCase(splitted.join('-')) || 'index';
-
-      // Output
-      output.routesObjectTemplate += `'${keyName}': '${route.name}' as const,`;
-      output.routesDeclTemplate += `'${keyName}': '${route.name}',`;
-      output.routesList.push(route.name);
-      const allRouteParams = extractRouteParamsFromPath(route.path, previousParams);
-      output.routesParams.push({
-        name: route.name,
-        params: allRouteParams,
-      });
+  } else if (route.name) {
+    let splitted: string[] = [];
+    splitted = route.name.split('-');
+    splitted = splitted.slice(level, splitted.length);
+    if (splitted[0] === parentName) {
+      splitted.splice(0, 1);
     }
+
+    const keyName = route.path === '' ? 'index' : camelCase(splitted.join('-')) || 'index';
+
+    // Output
+    output.routesObjectTemplate += `'${keyName}': '${route.name}' as const,`;
+    output.routesDeclTemplate += `'${keyName}': '${route.name}',`;
+    output.routesList.push(route.name);
+    const allRouteParams = extractRouteParamsFromPath(route.path, previousParams);
+    output.routesParams.push({
+      name: route.name,
+      params: allRouteParams,
+    });
   }
 }

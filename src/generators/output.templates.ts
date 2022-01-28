@@ -77,13 +77,15 @@ export const staticDeclarations = `
   
   declare module 'nuxt3/dist/app/nuxt' {
     export interface NuxtApp {
-      $typedRouter: TypedRouter
+      $typedRouter: TypedRouter;
+      $routesList: RouteListDecl;
     }
   }
 
   declare module '@vue/runtime-core' {
     interface ComponentCustomProperties {
-      $typedRouter: TypedRouter
+      $typedRouter: TypedRouter;
+      $routesList: RouteListDecl;
     }
   }
   declare module 'nuxt-typed-router' {
