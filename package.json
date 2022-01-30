@@ -8,7 +8,8 @@
     "play:build": "nuxi build playground",
     "prepack": "nuxt-module-build",
     "build:local": "nuxt-module-build --stub && cross-env NUXT_BUILD_TYPE=stub nuxi dev playground",
-    "test": "yarn play:build && jest",
+    "build:test": "yarn prepack && yarn play:build",
+    "test": "yarn build:test && jest",
     "test:reset": "yarn test --updateSnapshot"
   },
   "exports": {
