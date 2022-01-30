@@ -17,6 +17,8 @@
 - 🚚 Expose a global method `$typedRouter` (clone of vue-router), but typed with the routes defined in `pages` directory
 - 🚦 Provides auto-completion and errors for route params in `push` and `replace` methods
 
+<img src="https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/medias/in-action.gif?raw=true"/>
+
 # Installation
 
 ### For Nuxt 3
