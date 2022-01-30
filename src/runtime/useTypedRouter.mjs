@@ -1,12 +1,5 @@
 import { getCurrentInstance } from 'vue';
-
-function useNuxtApp() {
-  const vm = getCurrentInstance();
-  if (!vm) {
-    throw new Error('nuxt instance unavailable');
-  }
-  return vm.appContext.app.$nuxt;
-}
+import { useNuxtApp } from '#app';
 
 export const useTypedRouter = () => {
   const { $router } = useNuxtApp();
@@ -18,3 +11,5 @@ export const useTypedRouter = () => {
     routes: routesList,
   };
 };
+
+export default {};

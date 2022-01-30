@@ -6,11 +6,12 @@
 
 <script setup lang="ts">
 import { useTypedRouter } from '../../dist/runtime/useTypedRouter';
+import { callOutsideComponent } from '../store';
 
 const { router, routes } = useTypedRouter();
-console.log(routes);
-
 function navigate() {
-  router.push({ name: 'activate' });
+  // console.log($typedRouter, $routesList);
+  // router.push({ name: 'activate' });
+  callOutsideComponent();
 }
 </script>

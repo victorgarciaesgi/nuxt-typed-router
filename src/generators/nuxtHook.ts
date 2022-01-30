@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'url';
-import { addPluginTemplate, extendPages } from '@nuxt/kit';
+import { extendPages } from '@nuxt/kit';
+import { Nuxt } from '@nuxt/schema/dist/index';
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
@@ -15,43 +16,58 @@ import {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export function routeHook(outDir: string, routesObjectName: string) {
+export function routeHook(outDir: string, routesObjectName: string, srcDir: string, nuxt: Nuxt) {
   try {
     extendPages(async (routes: NuxtRouteConfig[]) => {
-      const { routesDeclTemplate, routesList, routesObjectTemplate, routesParams } =
-        constructRouteMap(routes);
+      if (routes.length) {
+        const { routesDeclTemplate, routesList, routesObjectTemplate, routesParams } =
+          constructRouteMap(routes);
 
-      const pluginName = 'typed-router.mjs';
-      const runtimeDir = resolve(
-        __dirname,
-        process.env.NUXT_BUILD_TYPE === 'stub' ? '../../dist/runtime' : './runtime'
-      );
-      const pluginPath = resolve(runtimeDir, pluginName);
+        const pluginName = '__typed-router.ts';
+        const runtimeDir = resolve(
+          __dirname,
+          process.env.NUXT_BUILD_TYPE === 'stub' ? '../../dist/runtime' : './runtime'
+        );
+        const pluginPath = resolve(runtimeDir, pluginName);
 
-      await Promise.all([
-        saveRouteFiles(runtimeDir, 'useTypedRouter.mjs', createRuntimeHookFile(routesDeclTemplate)),
-        saveRouteFiles(runtimeDir, pluginName, createRuntimePluginFile(routesDeclTemplate)),
-      ]);
+        // `addPlugin` not working, workaround with creating plugin in user srcDir `plugins` folder
 
-      addPluginTemplate({
-        src: pluginPath,
-        filename: pluginName,
-        options: {
-          routesList: 'test',
-        },
-      });
+        nuxt.hook('build:done', async () => {
+          const pluginFolder = `${srcDir}/plugins`;
+          await saveRouteFiles(
+            pluginFolder,
+            pluginName,
+            createRuntimePluginFile(routesDeclTemplate)
+          );
+        });
 
-      await saveRouteFiles(
-        outDir,
-        `__routes.ts`,
-        createRuntimeRoutesFile({ routesList, routesObjectTemplate, routesObjectName })
-      );
-      await saveRouteFiles(
-        outDir,
-        `typed-router.d.ts`,
-        createDeclarationRoutesFile({ routesDeclTemplate, routesList, routesParams })
-      );
-      console.log(logSymbols.success, `[typed-router] Routes definitions generated`);
+        await saveRouteFiles(
+          runtimeDir,
+          'useTypedRouter.mjs',
+          createRuntimeHookFile(routesDeclTemplate)
+        );
+
+        await saveRouteFiles(
+          outDir,
+          `__routes.ts`,
+          createRuntimeRoutesFile({ routesList, routesObjectTemplate, routesObjectName })
+        );
+        await saveRouteFiles(
+          outDir,
+          `typed-router.d.ts`,
+          createDeclarationRoutesFile({ routesDeclTemplate, routesList, routesParams })
+        );
+        console.log(logSymbols.success, `[typed-router] Routes definitions generated`);
+      } else {
+        console.log(
+          logSymbols.warning,
+          chalk.yellow(
+            `[typed-router] No routes defined. Check if your ${chalk.underline(
+              chalk.bold('pages')
+            )} folder exists and remove ${chalk.underline(chalk.bold('app.vue'))}`
+          )
+        );
+      }
     });
   } catch (e) {
     console.error(chalk.red('Error while generating routes definitions model'), '\n' + e);

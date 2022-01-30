@@ -5,7 +5,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   return {
     provide: {
-      typedRouter: nuxtApp.vueApp.$router,
+      typedRouter: nuxtApp.$router,
       routesList,
     },
   };

@@ -10,7 +10,7 @@ export function createRuntimePluginFile(routesDeclTemplate: string): string {
 
     return {
       provide: {
-        typedRouter: nuxtApp.vueApp.$router,
+        typedRouter: nuxtApp.$router,
         routesList,
       },
     };
@@ -21,14 +21,7 @@ export function createRuntimePluginFile(routesDeclTemplate: string): string {
 export function createRuntimeHookFile(routesDeclTemplate: string): string {
   return `
   import { getCurrentInstance } from 'vue';
-
-  function useNuxtApp() {
-    const vm = getCurrentInstance();
-    if (!vm) {
-      throw new Error('nuxt instance unavailable');
-    }
-    return vm.appContext.app.$nuxt;
-  }
+  import { useNuxtApp } from '#app';
 
   export const useTypedRouter = () => {
     const { $router } = useNuxtApp();
@@ -40,6 +33,8 @@ export function createRuntimeHookFile(routesDeclTemplate: string): string {
       routes: routesList,
     };
   };
+
+  export default {};
 
   `;
 }

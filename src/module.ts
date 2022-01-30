@@ -15,10 +15,10 @@ export default defineNuxtModule<ModuleOptions>({
     stripAtFromName: false,
   },
   setup(moduleOptions, nuxt) {
-    const { outDir = `${nuxt.options.srcDir}/generated`, routesObjectName } = moduleOptions;
+    const srcDir = nuxt.options.srcDir;
+    const { outDir = `${srcDir}/generated`, routesObjectName } = moduleOptions;
 
-    nuxt.hook('pages:extend', () => routeHook(outDir, routesObjectName));
-    nuxt.hook('build:extendRoutes', () => routeHook(outDir, routesObjectName));
-    routeHook(outDir, routesObjectName);
+    nuxt.hook('pages:extend', () => routeHook(outDir, routesObjectName, srcDir, nuxt));
+    routeHook(outDir, routesObjectName, srcDir, nuxt);
   },
 });

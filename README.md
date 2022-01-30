@@ -84,9 +84,13 @@ The module will create 2 files:
 
 # Usage in Vue/Nuxt
 
+## Check out this demo and clone it! [nuxt-typed-router-demo](https://github.com/victorgarciaesgi/nuxt-typed-router-demo)
+
+<br/>
+
 ### **_Requirements_**
 
-You have to specify the output dir of the generated files in your configuration
+You can specify the output dir of the generated files in your configuration. It defaults to `<srcDir>/generated`
 
 ```ts
 import TypedRouter from 'nuxt-typed-router';
@@ -146,6 +150,8 @@ export type TypedRouteList =
   | 'index-user';
 ```
 
+> nuxt-typed-router will also create a plugin in your `<srcDir>/plugins` folder with the injected `$typedRouter` and `$routesList` helpers
+
 # Usage with `useTypedRouter` hook
 
 `useTypedRouter` is an exported composable from nuxt-typed-router. It contains a clone of `vue-router` but with stritly typed route names and params type-check
@@ -171,7 +177,7 @@ export default defineComponent({
 </script>
 ```
 
-# Usage with `$typedRouter` injected method
+# Usage with `$typedRouter` and `$routesList` injected helpers
 
 `$typedRouter` is an injected clone of vue-router `$router`, but fully typed with all your routes.
 It's available anywhere you have access to Nuxt context
@@ -183,10 +189,10 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'Index',
   setup() {
-    const { $typedRouter } = useNuxtApp();
+    const { $typedRouter, $routesList } = useNuxtApp();
 
     function navigate() {
-      $typedRouter.push({ name: 'activate' });
+      $typedRouter.push({ name: $routesList.activate });
     }
 
     return {
@@ -195,6 +201,25 @@ export default defineComponent({
   },
 });
 </script>
+```
+
+# Usage outside Vue component
+
+You can import the `useTypedRouter` composable from where it's generated.
+Exemple with `pinia` store here
+
+```ts
+import pinia from 'pinia';
+import { useTypedRouter } from 'nuxt-typed-router/hook';
+
+export const useFooStore = defineStore('foo', {
+  actions: {
+    bar() {
+      const { router, routes } = useTypedRouter();
+      router.push({ name: routes.index.user, params: { user: 2 } });
+    },
+  },
+});
 ```
 
 ## Development
