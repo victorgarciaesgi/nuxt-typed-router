@@ -1,5 +1,4 @@
-import { useNuxtApp } from '#app';
-import { useTypedRouter } from '../../dist/runtime/useTypedRouter';
+import { useTypedRouter } from '~/generated';
 
 export function callOutsideComponent() {
   // const { $typedRouter, $routesList, $router } = useNuxtApp();

@@ -4,9 +4,25 @@
  * ---------------------
  * */
 
-import { defineNuxtPlugin } from '#app';
+import { useNuxtApp } from '#app';
+import { TypedRouter, RouteListDecl } from './typed-router';
 
-export default defineNuxtPlugin((nuxtApp) => {
+/** Returns instances of $typedRouter and $routesList fully typed to use in your components or your Vuex/Pinia store
+ *
+ * @exemple
+ *
+ * ```ts
+ * const { router, routes } = useTypedRouter();
+ * ```
+ */
+export const useTypedRouter = (): {
+  /** Export of $router with type check */
+  router: TypedRouter;
+  /** Contains a typed dictionnary of all your route names (for syntax sugar) */
+  routes: RouteListDecl;
+} => {
+  const { $router } = useNuxtApp();
+
   const routesList = {
     activate: 'activate',
     index: 'index',
@@ -32,9 +48,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   };
 
   return {
-    provide: {
-      typedRouter: nuxtApp.$router,
-      routesList,
-    },
-  };
-});
+    router: $router,
+    routes: routesList,
+  } as any;
+};

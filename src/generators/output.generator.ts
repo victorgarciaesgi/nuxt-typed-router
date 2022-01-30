@@ -3,6 +3,7 @@ import { signatureTemplate, staticDeclarations, staticDeclImports } from './outp
 
 export function createRuntimePluginFile(routesDeclTemplate: string): string {
   return `
+  ${signatureTemplate}
   import { defineNuxtPlugin } from '#app';
 
   export default defineNuxtPlugin((nuxtApp) => {
@@ -20,10 +21,24 @@ export function createRuntimePluginFile(routesDeclTemplate: string): string {
 
 export function createRuntimeHookFile(routesDeclTemplate: string): string {
   return `
-  import { getCurrentInstance } from 'vue';
+  ${signatureTemplate}
   import { useNuxtApp } from '#app';
+  import { TypedRouter, RouteListDecl } from './typed-router';
 
-  export const useTypedRouter = () => {
+  /** Returns instances of $typedRouter and $routesList fully typed to use in your components or your Vuex/Pinia store
+   * 
+   * @exemple
+   * 
+   * \`\`\`ts
+   * const { router, routes } = useTypedRouter();
+   * \`\`\`
+   */
+  export const useTypedRouter = (): {
+    /** Export of $router with type check */
+    router: TypedRouter,
+    /** Contains a typed dictionnary of all your route names (for syntax sugar) */
+    routes: RouteListDecl
+  } => {
     const { $router } = useNuxtApp();
 
     const routesList = ${routesDeclTemplate};
@@ -31,9 +46,17 @@ export function createRuntimeHookFile(routesDeclTemplate: string): string {
     return {
       router: $router,
       routes: routesList,
-    };
+    } as any;
   };
 
+  `;
+}
+
+export function createRuntimeIndexFile(): string {
+  return `
+  ${signatureTemplate}
+  export * from './__routes';
+  export * from './__useTypedRouter';
   `;
 }
 

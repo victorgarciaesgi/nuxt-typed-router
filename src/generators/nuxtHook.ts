@@ -10,10 +10,12 @@ import { constructRouteMap } from './main.generator';
 import {
   createDeclarationRoutesFile,
   createRuntimeHookFile,
+  createRuntimeIndexFile,
   createRuntimePluginFile,
   createRuntimeRoutesFile,
 } from './output.generator';
 
+// @ts-ignore
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export function routeHook(outDir: string, routesObjectName: string, srcDir: string, nuxt: Nuxt) {
@@ -41,22 +43,21 @@ export function routeHook(outDir: string, routesObjectName: string, srcDir: stri
           );
         });
 
-        await saveRouteFiles(
-          runtimeDir,
-          'useTypedRouter.mjs',
-          createRuntimeHookFile(routesDeclTemplate)
-        );
+        await Promise.all([
+          saveRouteFiles(outDir, '__useTypedRouter.ts', createRuntimeHookFile(routesDeclTemplate)),
+          saveRouteFiles(
+            outDir,
+            `__routes.ts`,
+            createRuntimeRoutesFile({ routesList, routesObjectTemplate, routesObjectName })
+          ),
+          saveRouteFiles(
+            outDir,
+            `typed-router.d.ts`,
+            createDeclarationRoutesFile({ routesDeclTemplate, routesList, routesParams })
+          ),
+          saveRouteFiles(outDir, 'index.ts', createRuntimeIndexFile()),
+        ]);
 
-        await saveRouteFiles(
-          outDir,
-          `__routes.ts`,
-          createRuntimeRoutesFile({ routesList, routesObjectTemplate, routesObjectName })
-        );
-        await saveRouteFiles(
-          outDir,
-          `typed-router.d.ts`,
-          createDeclarationRoutesFile({ routesDeclTemplate, routesList, routesParams })
-        );
         console.log(logSymbols.success, `[typed-router] Routes definitions generated`);
       } else {
         console.log(

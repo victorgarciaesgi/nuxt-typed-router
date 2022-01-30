@@ -46,7 +46,7 @@ npm install -D nuxt-typed-router@legacy
 
 # Configuration
 
-First, register the module in the `nuxt.config.[js|ts]`
+First, register the module in the `nuxt.config.ts`
 
 ```ts
 import TypedRouter from 'nuxt-typed-router';
@@ -77,10 +77,12 @@ interface ModuleOptions {
 
 # Generated files
 
-The module will create 2 files:
+The module will generate 4 files each time you modify the `pages` folder :
 
-- `__routes.ts` with the global object of the route names inside.
-- `typed-router.d.ts` containing the global typecript definitions and exports
+- `~/<outDir>/__routes.ts` with the global object of the route names inside.
+- `~/<outDir>/__useTypedRouter.ts` Composable tu simply access your typed routes
+- `~/<outDir>/typed-router.d.ts` containing the global typecript definitions and exports
+- `~/plugins/__typed_router.ts` Plugin that will inject `$typedRouter` and `$routesList` (`@nuxt/kit` has problems registering plugin templates so this is a workaround)
 
 # Usage in Vue/Nuxt
 
@@ -122,7 +124,7 @@ Given this structure
         │   └── login.vue
         └── ...
 
-The generated file will look like this
+The generated route list will look like this
 
 ```ts
 export const routerPagesNames = {
@@ -158,7 +160,8 @@ export type TypedRouteList =
 
 ```vue
 <script lang="ts">
-import { useTypedRouter } from 'nuxt-typed-router/hook';
+// The path here is `~/generated` because I set `outDir: './generated'` in my module options
+import { useTypedRouter } from '~/generated';
 
 export default defineComponent({
   setup() {
@@ -210,7 +213,7 @@ Exemple with `pinia` store here
 
 ```ts
 import pinia from 'pinia';
-import { useTypedRouter } from 'nuxt-typed-router/hook';
+import { useTypedRouter } from '~/generated';
 
 export const useFooStore = defineStore('foo', {
   actions: {
