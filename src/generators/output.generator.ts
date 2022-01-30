@@ -34,8 +34,6 @@ export function createRuntimeHookFile(routesDeclTemplate: string): string {
     };
   };
 
-  export default {};
-
   `;
 }
 
