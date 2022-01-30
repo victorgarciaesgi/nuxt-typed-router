@@ -7,6 +7,10 @@ import {
   extractUnMatchingSiblings,
 } from '../utils';
 
+function isItemLast(array: any[], index: number) {
+  return index === array.length - 1;
+}
+
 export function constructRouteMap(routesConfig: NuxtRouteConfig[]): GeneratorOutput {
   try {
     let routesObjectTemplate = '{';
@@ -15,8 +19,6 @@ export function constructRouteMap(routesConfig: NuxtRouteConfig[]): GeneratorOut
     let routesParams: RouteParamsDecl[] = [];
 
     const output = { routesObjectTemplate, routesDeclTemplate, routesList, routesParams };
-
-    // console.log(JSON.stringify(routesConfig));
 
     startGeneratorProcedure({
       output,
@@ -39,8 +41,14 @@ export function startGeneratorProcedure({
   routesConfig,
 }: StartGeneratorProcedureParams): void {
   const rootSiblingsRoutes = routesConfig.map((route) => route.path);
-  routesConfig.forEach((route) =>
-    walkThoughRoutes({ route, level: 0, output, siblings: rootSiblingsRoutes })
+  routesConfig.forEach((route, index) =>
+    walkThoughRoutes({
+      route,
+      level: 0,
+      output,
+      siblings: rootSiblingsRoutes,
+      isLast: isItemLast(routesConfig, index),
+    })
   );
   output.routesObjectTemplate += '}';
   output.routesDeclTemplate += '}';
@@ -53,12 +61,8 @@ type WalkThoughRoutesParams = {
   siblings?: NuxtRouteConfig[];
   parentName?: string;
   previousParams?: ParamDecl[];
-  output: {
-    routesObjectTemplate: string;
-    routesDeclTemplate: string;
-    routesList: string[];
-    routesParams: RouteParamsDecl[];
-  };
+  output: GeneratorOutput;
+  isLast: boolean;
 };
 /** Mutates the output object with generated routes */
 export function walkThoughRoutes({
@@ -68,6 +72,7 @@ export function walkThoughRoutes({
   parentName,
   previousParams,
   output,
+  isLast,
 }: WalkThoughRoutesParams) {
   //
   const matchingSiblings = extractMatchingSiblings(route, siblings);
@@ -86,11 +91,11 @@ export function walkThoughRoutes({
 
     // Output
     output.routesObjectTemplate += `${nameKey}:{`;
-    output.routesDeclTemplate += `${nameKey}:{`;
+    output.routesDeclTemplate += `"${nameKey}":{`;
 
     // Recursive walk though children
     const allRouteParams = extractRouteParamsFromPath(route.path, previousParams);
-    childrenChunks?.map((routeConfig) =>
+    childrenChunks?.map((routeConfig, index) =>
       walkThoughRoutes({
         route: routeConfig,
         level: level + 1,
@@ -98,11 +103,12 @@ export function walkThoughRoutes({
         parentName: nameKey,
         previousParams: allRouteParams,
         output,
+        isLast: isItemLast(childrenChunks, index),
       })
     );
     // Output
     output.routesObjectTemplate += '},';
-    output.routesDeclTemplate += '},';
+    output.routesDeclTemplate += `}${isLast ? '' : ','}`;
   } else if (route.name) {
     let splitted: string[] = [];
     splitted = route.name.split('-');
@@ -115,7 +121,7 @@ export function walkThoughRoutes({
 
     // Output
     output.routesObjectTemplate += `'${keyName}': '${route.name}' as const,`;
-    output.routesDeclTemplate += `'${keyName}': '${route.name}',`;
+    output.routesDeclTemplate += `"${keyName}": "${route.name}"${isLast ? '' : ','}`;
     output.routesList.push(route.name);
     const allRouteParams = extractRouteParamsFromPath(route.path, previousParams);
     output.routesParams.push({

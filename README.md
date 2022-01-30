@@ -1,15 +1,4 @@
-# 🚦Typed Router Module
-
-<img src='https://github.com/victorgarciaesgi/nuxt-typed-router/blob/next/medias/autocomplete_name.png?raw=true'/>
-
-# -------
-
-<img src='https://github.com/victorgarciaesgi/nuxt-typed-router/blob/next/medias/autocomplete_params.png?raw=true'/>
-
-[![npm version][npm-version-src]][npm-version-href]
-[![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![npm downloads][npm-total-downloads-src]][npm-downloads-href]
-<img src='https://img.shields.io/npm/l/simple-graphql-to-typescript.svg'>
+# 🚗🚦 Nuxt typed router
 
 [npm-version-src]: https://img.shields.io/npm/v/nuxt-typed-router.svg
 [npm-version-href]: https://www.npmjs.com/package/nuxt-typed-router
@@ -17,13 +6,16 @@
 [npm-total-downloads-src]: https://img.shields.io/npm/dt/nuxt-typed-router.svg
 [npm-downloads-href]: https://www.npmjs.com/package/nuxt-typed-router
 
-> Provide a safe typed router to nuxt with auto-generated typed definitions for route names
+[![npm version][npm-version-src]][npm-version-href]
+[![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![npm downloads][npm-total-downloads-src]][npm-downloads-href]
+<img src='https://img.shields.io/npm/l/simple-graphql-to-typescript.svg'>
 
-# Features
+> Provide a type safe router to Nuxt 3 with auto-generated typed definitions for route names and autocompletion for route params
 
-- Expose a global method `$typedRouter` (clone of vue-router), but typed with the routes defined in `pages` directory
-- Provides a hook `useTypedRouter` that returns an alias of `$typedRouter` and also a typed list of your routes
-- Provides auto-completion and errors for route params in `push` and `replace` methods
+- 🏎 Provides a hook `useTypedRouter` that returns an alias of `$typedRouter` and also a typed list of your routes
+- 🚚 Expose a global method `$typedRouter` (clone of vue-router), but typed with the routes defined in `pages` directory
+- 🚦 Provides auto-completion and errors for route params in `push` and `replace` methods
 
 # Installation
 
@@ -37,7 +29,7 @@ npm install -D nuxt-typed-router
 
 ### For Nuxt 2
 
-For Nuxt 2 usage, check out the docs at the [`nuxt2 branch`](https://github.com/victorgarciaesgi/nuxt-typed-router/tree/nuxt2)
+For Nuxt 2 usage, check out the docs at the [`nuxt2` branch](https://github.com/victorgarciaesgi/nuxt-typed-router/tree/nuxt2)
 
 ```bash
 yarn add -D nuxt-typed-router@legacy
@@ -136,6 +128,15 @@ export const routerPagesNames = {
     user: 'index-user' as const,
   },
 };
+export type TypedRouteList =
+  | 'forgotpassword'
+  | 'login'
+  | 'reset-password'
+  | 'index'
+  | 'index-communication'
+  | 'index-content-id'
+  | 'index-statistics'
+  | 'index-user';
 ```
 
 # Usage with `useTypedRouter` hook
@@ -144,7 +145,7 @@ export const routerPagesNames = {
 
 ```vue
 <script lang="ts">
-import { useTypedRouter } from 'nuxt-typed-router';
+import { useTypedRouter } from 'nuxt-typed-router/hook';
 
 export default defineComponent({
   setup() {
@@ -163,10 +164,39 @@ export default defineComponent({
 </script>
 ```
 
+# Usage with `$typedRouter` injected method
+
+`$typedRouter` is an injected clone of vue-router `$router`, but fully typed with all your routes.
+It's available anywhere you have access to Nuxt context
+
+```vue
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'Index',
+  setup() {
+    const { $typedRouter } = useNuxtApp();
+
+    function navigate() {
+      $typedRouter.push({ name: 'activate' });
+    }
+
+    return {
+      navigate,
+    };
+  },
+});
+</script>
+```
+
 ## Development
 
 1. Clone this repository
 2. Install dependencies using `yarn`
+3. Build project for local tests `yarn build:local`
+4. Start dev playground `yarn play`
+5. Build project for deploy `yarn prepack`
 
 ## 📑 License
 

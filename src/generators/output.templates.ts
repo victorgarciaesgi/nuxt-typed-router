@@ -88,8 +88,8 @@ export const staticDeclarations = `
       $routesList: RouteListDecl;
     }
   }
-  declare module 'nuxt-typed-router' {
-    export const useTypedRouter: () => {
+  declare module 'nuxt-typed-router/hook' {
+    declare const useTypedRouter: () => {
       /** Export of $router with type check */
       router: TypedRouter,
       /** Contains a typed dictionnary of all your route names (for syntax sugar) */

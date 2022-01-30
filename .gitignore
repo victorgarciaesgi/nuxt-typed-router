@@ -20,6 +20,8 @@ lib-cov
 
 lib
 types
+.nuxt
+.output
 
 # Coverage directory used by tools like istanbul
 coverage

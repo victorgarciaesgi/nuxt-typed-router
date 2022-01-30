@@ -11,6 +11,14 @@ import type {
 } from 'vue-router';
 import type { TypedRouteList } from './__routes';
 
+// -- Unbuild CommonJS Shims --
+import __cjs_url__ from 'url';
+import __cjs_path__ from 'path';
+import __cjs_mod__ from 'module';
+const __filename = __cjs_url__.fileURLToPath(import.meta.url);
+const __dirname = __cjs_path__.dirname(__filename);
+const require = __cjs_mod__.createRequire(import.meta.url);
+
 export type RouteListDecl = {
   activate: 'activate';
   index: 'index';
@@ -132,8 +140,8 @@ declare module '@vue/runtime-core' {
     $routesList: RouteListDecl;
   }
 }
-declare module 'nuxt-typed-router' {
-  export const useTypedRouter: () => {
+declare module 'nuxt-typed-router/hook' {
+  declare const useTypedRouter: () => {
     /** Export of $router with type check */
     router: TypedRouter;
     /** Contains a typed dictionnary of all your route names (for syntax sugar) */

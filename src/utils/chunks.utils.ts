@@ -36,7 +36,7 @@ export function extractUnMatchingSiblings(
 
 function extractChunkMain(chunkName?: string): string | undefined {
   let chunkArray = chunkName?.split('/');
-  chunkArray?.pop()?.split('.vue')[0];
+  // chunkArray?.pop()?.split('.vue')[0];
   return chunkArray?.join('/');
 }
 

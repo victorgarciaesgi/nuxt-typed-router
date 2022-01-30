@@ -1,6 +1,49 @@
 import { RouteParamsDecl } from '../types';
 import { signatureTemplate, staticDeclarations, staticDeclImports } from './output.templates';
 
+export function createRuntimePluginFile(routesDeclTemplate: string): string {
+  return `
+  import { defineNuxtPlugin } from '#app';
+
+  export default defineNuxtPlugin((nuxtApp) => {
+    const routesList = ${routesDeclTemplate};
+
+    return {
+      provide: {
+        typedRouter: nuxtApp.vueApp.$router,
+        routesList,
+      },
+    };
+  });
+  `;
+}
+
+export function createRuntimeHookFile(routesDeclTemplate: string): string {
+  return `
+  import { getCurrentInstance } from 'vue';
+
+  function useNuxtApp() {
+    const vm = getCurrentInstance();
+    if (!vm) {
+      throw new Error('nuxt instance unavailable');
+    }
+    return vm.appContext.app.$nuxt;
+  }
+
+  export const useTypedRouter = () => {
+    const { $router } = useNuxtApp();
+
+    const routesList = ${routesDeclTemplate};
+
+    return {
+      router: $router,
+      routes: routesList,
+    };
+  };
+
+  `;
+}
+
 export function createRuntimeRoutesFile({
   routesList,
   routesObjectTemplate,

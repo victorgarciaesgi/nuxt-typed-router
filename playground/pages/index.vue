@@ -5,11 +5,12 @@
 </template>
 
 <script setup lang="ts">
-// import { useTypedRouter } from '../../';
+import { useTypedRouter } from '../../dist/runtime/useTypedRouter';
 
-// const { router, routes } = useTypedRouter();
+const { router, routes } = useTypedRouter();
+console.log(routes);
 
-// function navigate() {
-//   router.push({ name: 'parent-child-two-profile-id-slug', params: {} });
-// }
+function navigate() {
+  router.push({ name: 'activate' });
+}
 </script>
