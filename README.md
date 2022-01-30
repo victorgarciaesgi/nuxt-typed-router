@@ -1,4 +1,4 @@
-# 🚗🚦 Nuxt typed router
+# 🚗🚦 Typed Router for Nuxt 3
 
 [npm-version-src]: https://img.shields.io/npm/v/nuxt-typed-router.svg
 [npm-version-href]: https://www.npmjs.com/package/nuxt-typed-router
