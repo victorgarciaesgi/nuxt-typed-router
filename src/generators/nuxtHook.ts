@@ -1,10 +1,9 @@
 import { fileURLToPath } from 'url';
-import { addTemplate, addPlugin, addPluginTemplate, extendPages } from '@nuxt/kit';
-import { Nuxt } from '@nuxt/schema';
+import { addPluginTemplate, extendPages } from '@nuxt/kit';
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
-import { resolve, dirname } from 'pathe';
+import { dirname, resolve } from 'pathe';
 import { saveRouteFiles } from '../utils';
 import { constructRouteMap } from './main.generator';
 import {
@@ -31,7 +30,7 @@ export function routeHook(outDir: string, routesObjectName: string) {
 
       await Promise.all([
         saveRouteFiles(runtimeDir, 'useTypedRouter.mjs', createRuntimeHookFile(routesDeclTemplate)),
-        saveRouteFiles(runtimeDir, pluginName, createRuntimeHookFile(routesDeclTemplate)),
+        saveRouteFiles(runtimeDir, pluginName, createRuntimePluginFile(routesDeclTemplate)),
       ]);
 
       addPluginTemplate({
