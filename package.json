@@ -9,7 +9,7 @@
     "prepack": "nuxt-module-build",
     "build:local": "nuxt-module-build --stub && cross-env NUXT_BUILD_TYPE=stub nuxi dev playground",
     "init:build": "nuxt-module-build --stub && nuxi prepare playground",
-    "build:test": "cross-env NUXT_BUILD_TYPE=stub yarn init:build && yarn prepack && yarn play:build",
+    "build:test": "cross-env NUXT_BUILD_TYPE=stub yarn prepack && yarn play:build",
     "test": "yarn build:test && jest",
     "test:reset": "yarn test --updateSnapshot"
   },
