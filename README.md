@@ -18,6 +18,9 @@
 - 🚦 Provides auto-completion and errors for route params in `push` and `replace` methods
 
 <br/>
+
+Demo 🧪 : [nuxt-typed-router-demo](https://github.com/victorgarciaesgi/nuxt-typed-router-demo)
+
 <br/>
 <p align="center">
   <img src="https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/medias/in-action.gif?raw=true"/>
@@ -85,8 +88,6 @@ The module will generate 4 files each time you modify the `pages` folder :
 - `~/plugins/__typed_router.ts` Plugin that will inject `$typedRouter` and `$routesList` (`@nuxt/kit` has problems registering plugin templates so this is a workaround)
 
 # Usage in Vue/Nuxt
-
-## Check out this demo and clone it! [nuxt-typed-router-demo](https://github.com/victorgarciaesgi/nuxt-typed-router-demo)
 
 <br/>
 
