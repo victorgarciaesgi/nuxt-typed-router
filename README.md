@@ -157,7 +157,7 @@ export type TypedRouteList =
 
 # Usage with `useTypedRouter` hook
 
-`useTypedRouter` is an exported composable from nuxt-typed-router. It contains a clone of `vue-router` but with stritly typed route names and params type-check
+`useTypedRouter` is an exported composable from nuxt-typed-router. It contains a clone of `vue-router` but with strictly typed route names and params type-check
 
 ```vue
 <script lang="ts">

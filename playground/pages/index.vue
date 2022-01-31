@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { useTypedRouter } from '~/generated';
-import { callOutsideComponent } from '~~/store';
+import { useTypedRouter } from '../generated';
+import { callOutsideComponent } from '../store';
 
 const { router, routes } = useTypedRouter();
 function navigate() {

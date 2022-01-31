@@ -1,4 +1,4 @@
-import { useTypedRouter } from '~/generated';
+import { useTypedRouter } from '../generated';
 
 export function callOutsideComponent() {
   // const { $typedRouter, $routesList, $router } = useNuxtApp();
