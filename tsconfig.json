@@ -11,8 +11,8 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "checkJs": false,
-    "types": ["node", "jest"],
-    "baseUrl": "..",
+    "types": ["node", "vitest/globals"],
+    "baseUrl": ".",
     "paths": {
       "~~": ["."],
       "~~/*": ["./*"],
