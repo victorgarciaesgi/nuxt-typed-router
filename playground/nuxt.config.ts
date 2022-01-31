@@ -4,6 +4,6 @@ import MyModule from '..';
 export default defineNuxtConfig({
   buildModules: [MyModule],
   nuxtTypedRouter: {
-    outDir: 'playground/generated',
+    outDir: 'generated',
   },
 });

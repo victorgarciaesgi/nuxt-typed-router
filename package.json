@@ -11,7 +11,7 @@
     "init:build": "nuxt-module-build --stub && nuxi prepare playground",
     "build:test": "cross-env NUXT_BUILD_TYPE=stub yarn prepack && yarn play:build",
     "test": "yarn build:test && vitest run",
-    "test:reset": "yarn test --updateSnapshot"
+    "test:watch": "yarn build:test && vitest"
   },
   "exports": {
     ".": {

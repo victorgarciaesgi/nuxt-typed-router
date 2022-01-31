@@ -40,16 +40,16 @@ export function startGeneratorProcedure({
   output,
   routesConfig,
 }: StartGeneratorProcedureParams): void {
-  const rootSiblingsRoutes = routesConfig.map((route) => route.path);
-  routesConfig.forEach((route, index) =>
+  routesConfig.forEach((route, index) => {
+    const rootSiblingsRoutes = routesConfig.filter((rt) => rt.chunkName !== route.chunkName);
     walkThoughRoutes({
       route,
       level: 0,
       output,
       siblings: rootSiblingsRoutes,
       isLast: isItemLast(routesConfig, index),
-    })
-  );
+    });
+  });
   output.routesObjectTemplate += '}';
   output.routesDeclTemplate += '}';
 }

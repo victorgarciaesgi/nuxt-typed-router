@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'url';
 import { extendPages } from '@nuxt/kit';
 import { Nuxt } from '@nuxt/schema/dist/index';
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
@@ -15,9 +14,6 @@ import {
   createRuntimeRoutesFile,
 } from './output.generator';
 
-// @ts-ignore
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
 export function routeHook(outDir: string, routesObjectName: string, srcDir: string, nuxt: Nuxt) {
   try {
     extendPages(async (routes: NuxtRouteConfig[]) => {
@@ -26,11 +22,11 @@ export function routeHook(outDir: string, routesObjectName: string, srcDir: stri
           constructRouteMap(routes);
 
         const pluginName = '__typed-router.ts';
-        const runtimeDir = resolve(
-          __dirname,
-          process.env.NUXT_BUILD_TYPE === 'stub' ? '../../dist/runtime' : './runtime'
-        );
-        const pluginPath = resolve(runtimeDir, pluginName);
+        // const runtimeDir = resolve(
+        //   __dirname,
+        //   process.env.NUXT_BUILD_TYPE === 'stub' ? '../../dist/runtime' : './runtime'
+        // );
+        // const pluginPath = resolve(runtimeDir, pluginName);
 
         // `addPlugin` not working, workaround with creating plugin in user srcDir `plugins` folder
 
@@ -38,24 +34,32 @@ export function routeHook(outDir: string, routesObjectName: string, srcDir: stri
           const pluginFolder = `${srcDir}/plugins`;
           await saveRouteFiles(
             pluginFolder,
+            srcDir,
             pluginName,
             createRuntimePluginFile(routesDeclTemplate)
           );
         });
 
         await Promise.all([
-          saveRouteFiles(outDir, '__useTypedRouter.ts', createRuntimeHookFile(routesDeclTemplate)),
           saveRouteFiles(
             outDir,
+            srcDir,
+            '__useTypedRouter.ts',
+            createRuntimeHookFile(routesDeclTemplate)
+          ),
+          saveRouteFiles(
+            outDir,
+            srcDir,
             `__routes.ts`,
             createRuntimeRoutesFile({ routesList, routesObjectTemplate, routesObjectName })
           ),
           saveRouteFiles(
             outDir,
+            srcDir,
             `typed-router.d.ts`,
             createDeclarationRoutesFile({ routesDeclTemplate, routesList, routesParams })
           ),
-          saveRouteFiles(outDir, 'index.ts', createRuntimeIndexFile()),
+          saveRouteFiles(outDir, srcDir, 'index.ts', createRuntimeIndexFile()),
         ]);
 
         console.log(logSymbols.success, `[typed-router] Routes definitions generated`);

@@ -1,17 +1,23 @@
 import fs from 'fs';
-import { resolve } from 'pathe';
+import { fileURLToPath } from 'url';
+import { resolve, dirname } from 'pathe';
 import logSymbols from 'log-symbols';
 import chalk from 'chalk';
 import mkdirp from 'mkdirp';
 import { formatOutputWithPrettier } from './prettier.utils';
 
+// @ts-ignore
+export const __dirname = dirname(fileURLToPath(import.meta.url));
+
 export async function saveRouteFiles(
   outDir: string,
+  srcDir: string,
   fileName: string,
   content: string
 ): Promise<void> {
   try {
-    const outputFile = resolve(process.cwd(), `${outDir}/${fileName}`);
+    const processedOutDir = resolve(srcDir, outDir);
+    const outputFile = resolve(process.cwd(), `${processedOutDir}/${fileName}`);
     const formatedContent = await formatOutputWithPrettier(content);
     if (fs.existsSync(outputFile)) {
       await writeFile(outputFile, formatedContent);
