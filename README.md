@@ -83,7 +83,7 @@ interface ModuleOptions {
 The module will generate 4 files each time you modify the `pages` folder :
 
 - `~/<outDir>/__routes.ts` with the global object of the route names inside.
-- `~/<outDir>/__useTypedRouter.ts` Composable tu simply access your typed routes
+- `~/<outDir>/__useTypedRouter.ts` Composable to simply access your typed routes
 - `~/<outDir>/typed-router.d.ts` containing the global typecript definitions and exports
 - `~/plugins/__typed_router.ts` Plugin that will inject `$typedRouter` and `$routesList` (`@nuxt/kit` has problems registering plugin templates so this is a workaround)
 
