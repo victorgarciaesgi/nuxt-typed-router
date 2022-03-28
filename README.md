@@ -1,4 +1,4 @@
-# 🚗🚦 Typed Router for Nuxt 3
+# 🚗🚦 Typed Router for Nuxt
 
 [npm-version-src]: https://img.shields.io/npm/v/nuxt-typed-router.svg
 [npm-version-href]: https://www.npmjs.com/package/nuxt-typed-router
@@ -11,7 +11,7 @@
 [![npm downloads][npm-total-downloads-src]][npm-downloads-href]
 <img src='https://img.shields.io/npm/l/simple-graphql-to-typescript.svg'>
 
-> Provide a type safe router to Nuxt 3 with auto-generated typed definitions for route names and autocompletion for route params
+> Provide a type safe router to Nuxt with auto-generated typed definitions for route names and autocompletion for route params
 
 - 🏎 Provides a hook `useTypedRouter` that returns an alias of `$typedRouter` and also a typed list of your routes
 - 🚚 Expose a global method `$typedRouter` (clone of vue-router), but typed with the routes defined in `pages` directory
@@ -20,6 +20,11 @@
 <br/>
 
 Demo 🧪 : [nuxt-typed-router-demo](https://github.com/victorgarciaesgi/nuxt-typed-router-demo)
+
+## Compatibility:
+
+- Nuxt 3
+- Nuxt 2 (via [`nuxt2` branch](https://github.com/victorgarciaesgi/nuxt-typed-router/tree/nuxt2))
 
 <br/>
 <p align="center">

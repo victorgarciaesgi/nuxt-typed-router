@@ -3,7 +3,6 @@ import { Nuxt } from '@nuxt/schema/dist/index';
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
-import { dirname, resolve } from 'pathe';
 import { saveRouteFiles } from '../utils';
 import { constructRouteMap } from './main.generator';
 import {
