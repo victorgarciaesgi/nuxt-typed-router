@@ -10,7 +10,7 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'nuxtTypedRouter',
     compatibility: { nuxt: '^3.0.0-rc.1', bridge: false },
   },
-  setup(moduleOptions, nuxt) {
+  setup(moduleOptions, nuxt: any) {
     const srcDir = nuxt.options.srcDir;
     const { outDir = `./generated`, routesObjectName = 'routerPagesNames' } = moduleOptions;
 

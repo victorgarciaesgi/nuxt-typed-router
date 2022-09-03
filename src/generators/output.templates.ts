@@ -79,7 +79,7 @@ export const staticDeclarations = `
     ): Promise<NavigationFailure | void | undefined>;
   }
   
-  declare module 'nuxt3/dist/app/nuxt' {
+  declare module 'nuxt/dist/app/nuxt' {
     export interface NuxtApp {
       $typedRouter: TypedRouter;
       $routesList: RouteListDecl;
