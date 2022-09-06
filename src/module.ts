@@ -8,13 +8,16 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-typed-router',
     configKey: 'nuxtTypedRouter',
-    compatibility: { nuxt: '^3.0.0-rc.1', bridge: false },
+  },
+  defaults: {
+    outDir: `./generated`,
+    routesObjectName: 'routerPagesNames',
   },
   setup(moduleOptions, nuxt: any) {
     const srcDir = nuxt.options.srcDir;
-    const { outDir = `./generated`, routesObjectName = 'routerPagesNames' } = moduleOptions;
+    const { outDir, routesObjectName } = moduleOptions;
 
-    nuxt.hook('pages:extend', () => routeHook(outDir, routesObjectName, srcDir, nuxt));
-    routeHook(outDir, routesObjectName, srcDir, nuxt);
+    nuxt.hook('pages:extend', () => routeHook(outDir!, routesObjectName!, srcDir, nuxt));
+    routeHook(outDir!, routesObjectName!, srcDir, nuxt);
   },
 });

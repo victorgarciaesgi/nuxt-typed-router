@@ -57,10 +57,8 @@ npm install -D nuxt-typed-router@legacy
 First, register the module in the `nuxt.config.ts`
 
 ```ts
-import TypedRouter from 'nuxt-typed-router';
-
 export default defineNuxtConfig({
-  buildModules: [TypedRouter],
+  buildModules: ['nuxt-typed-router'],
   nuxtTypedRouter: {
     // options
   },
@@ -101,10 +99,8 @@ The module will generate 4 files each time you modify the `pages` folder :
 You can specify the output dir of the generated files in your configuration. It defaults to `<srcDir>/generated`
 
 ```ts
-import TypedRouter from 'nuxt-typed-router';
-
 export default defineNuxtConfig({
-  buildModules: [TypedRouter],
+  buildModules: ['nuxt-typed-router'],
   nuxtTypedRouter: {
     outDir: './generated',
   },
