@@ -78,6 +78,11 @@ interface ModuleOptions {
    * @default "routerPagesNames"
    * */
   routesObjectName?: string;
+  /**
+   * Set to false if you don't want a plugin generated
+   * @default true
+   */
+  plugin?: boolean;
 }
 ```
 
