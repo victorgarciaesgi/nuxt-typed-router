@@ -3,6 +3,7 @@ import { Nuxt } from '@nuxt/schema/dist/index';
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
+import { ModuleOptions } from '../types';
 import { saveRouteFiles } from '../utils';
 import { constructRouteMap } from './main.generator';
 import {
@@ -13,31 +14,37 @@ import {
   createRuntimeRoutesFile,
 } from './output.generator';
 
-export function routeHook(outDir: string, routesObjectName: string, srcDir: string, nuxt: Nuxt) {
+export function routeHook(
+  { outDir, plugin, routesObjectName }: ModuleOptions,
+  srcDir: string,
+  nuxt: Nuxt
+) {
   try {
     extendPages(async (routes: NuxtRouteConfig[]) => {
       if (routes.length) {
         const { routesDeclTemplate, routesList, routesObjectTemplate, routesParams } =
           constructRouteMap(routes);
 
-        const pluginName = '__typed-router.ts';
-        // const runtimeDir = resolve(
-        //   __dirname,
-        //   process.env.NUXT_BUILD_TYPE === 'stub' ? '../../dist/runtime' : './runtime'
-        // );
-        // const pluginPath = resolve(runtimeDir, pluginName);
+        if (plugin) {
+          const pluginName = '__typed-router.ts';
+          // const runtimeDir = resolve(
+          //   __dirname,
+          //   process.env.NUXT_BUILD_TYPE === 'stub' ? '../../dist/runtime' : './runtime'
+          // );
+          // const pluginPath = resolve(runtimeDir, pluginName);
 
-        // `addPlugin` not working, workaround with creating plugin in user srcDir `plugins` folder
+          // `addPlugin` not working, workaround with creating plugin in user srcDir `plugins` folder
 
-        nuxt.hook('build:done', async () => {
-          const pluginFolder = `${srcDir}/plugins`;
-          await saveRouteFiles(
-            pluginFolder,
-            srcDir,
-            pluginName,
-            createRuntimePluginFile(routesDeclTemplate)
-          );
-        });
+          nuxt.hook('build:done', async () => {
+            const pluginFolder = `${srcDir}/plugins`;
+            await saveRouteFiles(
+              pluginFolder,
+              srcDir,
+              pluginName,
+              createRuntimePluginFile(routesDeclTemplate)
+            );
+          });
+        }
 
         await Promise.all([
           saveRouteFiles(

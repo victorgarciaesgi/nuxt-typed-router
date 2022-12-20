@@ -1,4 +1,5 @@
 import { defineNuxtModule } from '@nuxt/kit';
+import { Nuxt } from '@nuxt/schema';
 import { routeHook } from './generators/nuxtHook';
 import type { ModuleOptions } from './types';
 
@@ -14,11 +15,10 @@ export default defineNuxtModule<ModuleOptions>({
     outDir: `./generated`,
     routesObjectName: 'routerPagesNames',
   },
-  setup(moduleOptions, nuxt: any) {
+  setup(moduleOptions, nuxt: Nuxt) {
     const srcDir = nuxt.options.srcDir;
-    const { outDir, routesObjectName } = moduleOptions;
+    const { plugin = true, ...otherOptions } = moduleOptions;
 
-    nuxt.hook('pages:extend', () => routeHook(outDir!, routesObjectName!, srcDir, nuxt));
-    routeHook(outDir!, routesObjectName!, srcDir, nuxt);
+    nuxt.hook('pages:extend', () => routeHook({ ...otherOptions, plugin }, srcDir, nuxt));
   },
 });

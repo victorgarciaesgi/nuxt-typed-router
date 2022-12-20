@@ -7,6 +7,9 @@ export interface ModuleOptions {
    * @default "routerPagesNames"
    * */
   routesObjectName?: string;
-  /** @deprecated */
-  stripAtFromName?: boolean;
+  /**
+   * Set to false if you don't want a plugin generated
+   * @default true
+   */
+  plugin?: boolean;
 }
