@@ -31,7 +31,7 @@ export const staticDeclarations = `
     TypedLocationAsRelativeRaw<T> &
     RouteLocationOptions;
   
-  export interface TypedRouter {
+  interface _TypedRouter {
     /**
      * Remove an existing route by its name.
      *
@@ -78,18 +78,9 @@ export const staticDeclarations = `
       to: TypedRouteLocationRaw<T>
     ): Promise<NavigationFailure | void | undefined>;
   }
-  
-  declare module 'nuxt/dist/app/nuxt' {
-    export interface NuxtApp {
-      $typedRouter: TypedRouter;
-      $routesList: RouteListDecl;
-    }
-  }
 
-  declare module '@vue/runtime-core' {
-    interface ComponentCustomProperties {
-      $typedRouter: TypedRouter;
-      $routesList: RouteListDecl;
-    }
+  export interface TypedRouter extends _TypedRouter {}
+  declare global {
+    export interface TypedRouter extends _TypedRouter {}
   }
   `;

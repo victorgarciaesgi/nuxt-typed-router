@@ -6,7 +6,8 @@
 
 import { defineNuxtPlugin } from '#app';
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin(() => {
+  const router = useRouter();
   const routesList = {
     activate: 'activate',
     index: 'index',
@@ -33,7 +34,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   return {
     provide: {
-      typedRouter: nuxtApp.$router,
+      typedRouter: router as TypedRouter,
       routesList,
     },
   };

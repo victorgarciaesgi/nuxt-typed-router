@@ -9,6 +9,7 @@ import { useTypedRouter } from '../generated';
 import { callOutsideComponent } from '../store';
 
 const { router, routes } = useTypedRouter();
+const { $routesList, $typedRouter } = useNuxtApp();
 function navigate() {
   // console.log($typedRouter, $routesList);
   // router.push({ name: 'activate' });
