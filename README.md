@@ -58,7 +58,7 @@ First, register the module in the `nuxt.config.ts`
 
 ```ts
 export default defineNuxtConfig({
-  buildModules: ['nuxt-typed-router'],
+  modules: ['nuxt-typed-router'],
   nuxtTypedRouter: {
     // options
   },
