@@ -1,5 +1,10 @@
 # 🚗🚦 Typed Router for Nuxt
 
+<p align="center">
+  <img width='100' src="https://raw.githubusercontent.com/victorgarciaesgi/nuxt-typed-router/master/.github/images/logo.png" alt="nuxt-typed-router logo">
+</p>
+
+
 [npm-version-src]: https://img.shields.io/npm/v/nuxt-typed-router.svg
 [npm-version-href]: https://www.npmjs.com/package/nuxt-typed-router
 [npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-typed-router.svg
@@ -28,7 +33,7 @@ Demo 🧪 : [nuxt-typed-router-demo](https://github.com/victorgarciaesgi/nuxt-ty
 
 <br/>
 <p align="center">
-  <img src="https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/medias/in-action.gif?raw=true"/>
+  <img src="https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/.github/images/in-action.gif?raw=true"/>
 </p>
 <br/>
 
