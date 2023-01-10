@@ -20,7 +20,7 @@ export function createRuntimePluginFile(routesDeclTemplate: string): string {
   `;
 }
 
-export function createRuntimeHookFile(routesDeclTemplate: string): string {
+export function createRuntimeTypeRouterFile(routesDeclTemplate: string): string {
   return `
   ${signatureTemplate}
   import { useNuxtApp } from '#app';
@@ -95,6 +95,7 @@ export function createDeclarationRoutesFile({
     export type RouteListDecl = ${routesDeclTemplate};
 
     ${createTypedRouteParamsExport(routesParams)}
+    ${createTypedRouteNamedMapperExport(routesParams)}
 
     ${staticDeclarations}
   `;
@@ -121,4 +122,23 @@ export function createTypedRouteParamsExport(routesParams: RouteParamsDecl[]): s
       )
       .join(',\n')}
   }`;
+}
+
+export function createTypedRouteNamedMapperExport(routesParams: RouteParamsDecl[]): string {
+  return `export type TypedRouteNamedMapper = 
+    ${routesParams
+      .map(
+        ({ name, params }) =>
+          `{name: "${name}" ${
+            params.length
+              ? `, params${params.some((s) => s.required) ? '' : '?'}: {
+          ${params
+            .map(({ key, required, type }) => `"${key}"${required ? '' : '?'}: ${type}`)
+            .join(',\n')}
+        }`
+              : ''
+          }}`
+      )
+      .join('|\n')}
+  `;
 }

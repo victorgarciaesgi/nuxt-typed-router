@@ -13,74 +13,131 @@ import type {
   RouteLocationNormalizedLoaded,
   RouteLocationOptions,
   RouteQueryAndHash,
+  RouteLocationRaw,
+  Router,
 } from 'vue-router';
-import type { TypedRouteList } from './__routes'
+import type { TypedRouteList } from './__routes';
+import type { DefineComponent } from 'vue';
+import type { NuxtLinkProps } from '#app';
 `;
 
 export const staticDeclarations = `
-  type TypedRouteParamsStructure = {
-    [K in TypedRouteList]: Record<string, string | number> | never;
-  };
-  
-  type TypedLocationAsRelativeRaw<T extends TypedRouteList> = {
-    name?: T;
-    params?: TypedRouteParams[T];
-  };
-  
-  type TypedRouteLocationRaw<T extends TypedRouteList> = RouteQueryAndHash &
-    TypedLocationAsRelativeRaw<T> &
-    RouteLocationOptions;
-  
-  interface _TypedRouter {
-    /**
-     * Remove an existing route by its name.
-     *
-     * @param name - Name of the route to remove
-     */
-    removeRoute(name: TypedRouteList): void;
-    /**
-     * Checks if a route with a given name exists
-     *
-     * @param name - Name of the route to check
-     */
-    hasRoute(name: TypedRouteList): boolean;
-    /**
-     * Returns the {@link RouteLocation | normalized version} of a
-     * {@link RouteLocationRaw | route location}. Also includes an \`href\` property
-     * that includes any existing \`base\`. By default the \`currentLocation\` used is
-     * \`route.currentRoute\` and should only be overriden in advanced use cases.
-     *
-     * @param to - Raw route location to resolve
-     * @param currentLocation - Optional current location to resolve against
-     */
-    resolve<T extends TypedRouteList>(
-      to: TypedRouteLocationRaw<T>,
-      currentLocation?: RouteLocationNormalizedLoaded
-    ): RouteLocation & {
-      href: string;
-    };
-    /**
-     * Programmatically navigate to a new URL by pushing an entry in the history
-     * stack.
-     *
-     * @param to - Route location to navigate to
-     */
-    push<T extends TypedRouteList>(
-      to: TypedRouteLocationRaw<T>
-    ): Promise<NavigationFailure | void | undefined>;
-    /**
-     * Programmatically navigate to a new URL by replacing the current entry in
-     * the history stack.
-     *
-     * @param to - Route location to navigate to
-     */
-    replace<T extends TypedRouteList>(
-      to: TypedRouteLocationRaw<T>
-    ): Promise<NavigationFailure | void | undefined>;
-  }
+// Type utils
+type ExtractRequiredParameters<T extends Record<string, any>> = Pick<
+  T,
+  { [K in keyof T]: undefined extends T[K] ? never : K }[keyof T]
+>;
 
+type HasOneRequiredParameter<T extends TypedRouteList> = [TypedRouteParams[T]] extends [never]
+  ? false
+  : [keyof ExtractRequiredParameters<TypedRouteParams[T]>] extends [undefined]
+  ? false
+  : true;
+
+type TypedRouteParamsStructure = {
+  [K in TypedRouteList]: Record<string, string | number> | never;
+};
+
+type TypedLocationAsRelativeRaw<T extends TypedRouteList> = {
+  name?: T;
+} & ([TypedRouteParams[T]] extends [never]
+  ? {}
+  : HasOneRequiredParameter<T> extends false
+  ? { params?: TypedRouteParams[T] }
+  : { params: TypedRouteParams[T] });
+
+type TypedRouteLocationRaw<T extends TypedRouteList> = RouteQueryAndHash &
+  TypedLocationAsRelativeRaw<T> &
+  RouteLocationOptions;
+
+/** Augmented Router interface */
+interface _TypedRouter
+  extends Omit<Router, 'removeRoute' | 'hasRoute' | 'resolve' | 'push' | 'replace'> {
+  /**
+   * Remove an existing route by its name.
+   *
+   * @param name - Name of the route to remove
+   */
+  removeRoute(name: TypedRouteList): void;
+  /**
+   * Checks if a route with a given name exists
+   *
+   * @param name - Name of the route to check
+   */
+  hasRoute(name: TypedRouteList): boolean;
+  /**
+   * Returns the {@link RouteLocation | normalized version} of a
+   * {@link RouteLocationRaw | route location}. Also includes an \`href\` property
+   * that includes any existing \`base\`. By default the \`currentLocation\` used is
+   * \`route.currentRoute\` and should only be overriden in advanced use cases.
+   *
+   * @param to - Raw route location to resolve
+   * @param currentLocation - Optional current location to resolve against
+   */
+  resolve<T extends TypedRouteList>(
+    to: TypedRouteLocationRaw<T>,
+    currentLocation?: RouteLocationNormalizedLoaded
+  ): RouteLocation & {
+    href: string;
+  };
+  /**
+   * Programmatically navigate to a new URL by pushing an entry in the history
+   * stack.
+   *
+   * @param to - Route location to navigate to
+   */
+  push<T extends TypedRouteList>(
+    to: TypedRouteLocationRaw<T>
+  ): Promise<NavigationFailure | void | undefined>;
+  /**
+   * Programmatically navigate to a new URL by replacing the current entry in
+   * the history stack.
+   *
+   * @param to - Route location to navigate to
+   */
+  replace<T extends TypedRouteList>(
+    to: TypedRouteLocationRaw<T>
+  ): Promise<NavigationFailure | void | undefined>;
+}
+
+interface _TypedRoute<T extends TypedRouteList> extends RouteLocationNormalizedLoaded {
+  name: T;
+  params: [T] extends [never] ? any : TypedRouteParams[T];
+}
+
+export interface TypedRouter extends _TypedRouter {}
+export interface TypedRoute extends _TypedRoute {}
+declare global {
   export interface TypedRouter extends _TypedRouter {}
-  declare global {
-    export interface TypedRouter extends _TypedRouter {}
+  export interface TypedRoute extends _TypedRoute {}
+}
+
+type TypedNuxtLinkProps = Omit<NuxtLinkProps, 'to'> & {
+  to: Omit<Exclude<RouteLocationRaw, string>, 'name'> & {
+    name: TypedRouteList;
+  };
+};
+
+type _NuxtLink = DefineComponent<
+  TypedNuxtLinkProps,
+  {},
+  {},
+  import('vue').ComputedOptions,
+  import('vue').MethodOptions,
+  import('vue').ComponentOptionsMixin,
+  import('vue').ComponentOptionsMixin,
+  {},
+  string,
+  import('vue').VNodeProps &
+    import('vue').AllowedComponentProps &
+    import('vue').ComponentCustomProps,
+  Readonly<TypedNuxtLinkProps>,
+  {}
+>;
+
+declare module '@vue/runtime-core' {
+  export interface GlobalComponents {
+    NuxtLink: _NuxtLink;
   }
+}
   `;

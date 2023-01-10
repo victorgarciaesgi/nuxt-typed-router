@@ -10,8 +10,12 @@ import type {
   RouteLocationNormalizedLoaded,
   RouteLocationOptions,
   RouteQueryAndHash,
+  RouteLocationRaw,
+  Router,
 } from 'vue-router';
 import type { TypedRouteList } from './__routes';
+import type { DefineComponent } from 'vue';
+import type { NuxtLinkProps } from '#app';
 
 export type RouteListDecl = {
   activate: 'activate';
@@ -59,6 +63,48 @@ export type TypedRouteParams = {
   'parent-child-two-profile': never;
   rootPage: never;
 };
+export type TypedRouteNamedMapper =
+  | { name: 'activate' }
+  | { name: 'index' }
+  | { name: 'parent-child-one-child-one-sub-one' }
+  | { name: 'parent-child-one-child-one-sub-one-user' }
+  | { name: 'parent-child-one-child-one-sub-two' }
+  | { name: 'parent-child-one' }
+  | {
+      name: 'parent-child-two-id';
+      params: {
+        id: string | number;
+      };
+    }
+  | { name: 'parent-child-two-child-one-sub-one' }
+  | { name: 'parent-child-two' }
+  | {
+      name: 'parent-child-two-profile-id-slug';
+      params?: {
+        slug?: string | number;
+        id?: string | number;
+      };
+    }
+  | {
+      name: 'parent-child-two-profile-id';
+      params?: {
+        id?: string | number;
+      };
+    }
+  | { name: 'parent-child-two-profile' }
+  | { name: 'rootPage' };
+
+// Type utils
+type ExtractRequiredParameters<T extends Record<string, any>> = Pick<
+  T,
+  { [K in keyof T]: undefined extends T[K] ? never : K }[keyof T]
+>;
+
+type HasOneRequiredParameter<T extends TypedRouteList> = [TypedRouteParams[T]] extends [never]
+  ? false
+  : [keyof ExtractRequiredParameters<TypedRouteParams[T]>] extends [undefined]
+  ? false
+  : true;
 
 type TypedRouteParamsStructure = {
   [K in TypedRouteList]: Record<string, string | number> | never;
@@ -66,14 +112,19 @@ type TypedRouteParamsStructure = {
 
 type TypedLocationAsRelativeRaw<T extends TypedRouteList> = {
   name?: T;
-  params?: TypedRouteParams[T];
-};
+} & ([TypedRouteParams[T]] extends [never]
+  ? {}
+  : HasOneRequiredParameter<T> extends false
+  ? { params?: TypedRouteParams[T] }
+  : { params: TypedRouteParams[T] });
 
 type TypedRouteLocationRaw<T extends TypedRouteList> = RouteQueryAndHash &
-  TypedLocationAsRelativeRaw<T> &
+  TypedRouteNamedMapper &
   RouteLocationOptions;
 
-interface _TypedRouter {
+/** Augmented Router interface */
+interface _TypedRouter
+  extends Omit<Router, 'removeRoute' | 'hasRoute' | 'resolve' | 'push' | 'replace'> {
   /**
    * Remove an existing route by its name.
    *
@@ -121,7 +172,41 @@ interface _TypedRouter {
   ): Promise<NavigationFailure | void | undefined>;
 }
 
+interface _TypedRoute<T extends TypedRouteList> extends RouteLocationNormalizedLoaded {
+  name: T;
+  params: [T] extends [never] ? any : TypedRouteParams[T];
+}
+
 export interface TypedRouter extends _TypedRouter {}
+export interface TypedRoute extends _TypedRoute {}
 declare global {
   export interface TypedRouter extends _TypedRouter {}
+  export interface TypedRoute extends _TypedRoute {}
+}
+
+type TypedNuxtLinkProps = Omit<NuxtLinkProps, 'to'> & {
+  to: Omit<Exclude<RouteLocationRaw, string>, 'name'> & TypedRouteNamedMapper;
+};
+
+type _NuxtLink = DefineComponent<
+  TypedNuxtLinkProps,
+  {},
+  {},
+  import('vue').ComputedOptions,
+  import('vue').MethodOptions,
+  import('vue').ComponentOptionsMixin,
+  import('vue').ComponentOptionsMixin,
+  {},
+  string,
+  import('vue').VNodeProps &
+    import('vue').AllowedComponentProps &
+    import('vue').ComponentCustomProps,
+  Readonly<TypedNuxtLinkProps>,
+  {}
+>;
+
+declare module '@vue/runtime-core' {
+  export interface GlobalComponents {
+    NuxtLink: _NuxtLink;
+  }
 }

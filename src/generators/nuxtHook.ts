@@ -8,7 +8,7 @@ import { saveRouteFiles } from '../utils';
 import { constructRouteMap } from './main.generator';
 import {
   createDeclarationRoutesFile,
-  createRuntimeHookFile,
+  createRuntimeTypeRouterFile,
   createRuntimeIndexFile,
   createRuntimePluginFile,
   createRuntimeRoutesFile,
@@ -51,7 +51,7 @@ export function routeHook(
             outDir,
             srcDir,
             '__useTypedRouter.ts',
-            createRuntimeHookFile(routesDeclTemplate)
+            createRuntimeTypeRouterFile(routesDeclTemplate)
           ),
           saveRouteFiles(
             outDir,
