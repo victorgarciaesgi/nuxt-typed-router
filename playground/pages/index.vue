@@ -1,20 +1,22 @@
 <template>
   <div>
     <button type="button" @click="navigate">Click me to navigate</button>
-    <nuxt-link :to="{ name: 'parent-child-two-id' }"></nuxt-link>
+    <nuxt-link :to="{ name: 'parent-child-two-id', params: { id: 1 } }"></nuxt-link>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useTypedRouter } from '../generated';
+import { useTypedRoute, useTypedRouter } from '../generated';
 import { callOutsideComponent } from '../store';
 
-const { router, routes } = useTypedRouter();
-const { $routesList, $typedRouter } = useNuxtApp();
+const { router } = useTypedRouter();
+
+const route = useTypedRoute();
+if (route.name === 'parent-child-two-id') {
+  console.log(route.params);
+}
 function navigate() {
-  // console.log($typedRouter, $routesList);
-  // router.push({ name: 'activate' });
-  router.push({ name: 'parent-child-two-id' });
+  router.push({ name: 'parent-child-two-profile-id-slug-articles' });
   callOutsideComponent();
 }
 </script>

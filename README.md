@@ -110,7 +110,7 @@ You can specify the output dir of the generated files in your configuration. It 
 
 ```ts
 export default defineNuxtConfig({
-  buildModules: ['nuxt-typed-router'],
+  modules: ['nuxt-typed-router'],
   nuxtTypedRouter: {
     outDir: './generated',
   },

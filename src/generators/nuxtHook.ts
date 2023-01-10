@@ -12,6 +12,7 @@ import {
   createRuntimeIndexFile,
   createRuntimePluginFile,
   createRuntimeRoutesFile,
+  createRuntimeUseTypeRouteFile,
 } from './output.generator';
 
 export function routeHook(
@@ -56,15 +57,22 @@ export function routeHook(
           saveRouteFiles(
             outDir,
             srcDir,
-            `__routes.ts`,
-            createRuntimeRoutesFile({ routesList, routesObjectTemplate, routesObjectName })
+            '__useTypedRoute.ts',
+            createRuntimeUseTypeRouteFile(routesDeclTemplate)
           ),
           saveRouteFiles(
             outDir,
             srcDir,
-            `typed-router.d.ts`,
-            createDeclarationRoutesFile({ routesDeclTemplate, routesList, routesParams })
+            `__routes.ts`,
+            createRuntimeRoutesFile({
+              routesList,
+              routesObjectTemplate,
+              routesObjectName,
+              routesDeclTemplate,
+              routesParams,
+            })
           ),
+          saveRouteFiles(outDir, srcDir, `typed-router.d.ts`, createDeclarationRoutesFile()),
           saveRouteFiles(outDir, srcDir, 'index.ts', createRuntimeIndexFile()),
         ]);
 

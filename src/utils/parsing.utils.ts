@@ -4,6 +4,7 @@ const routeParamExtractRegxp = /:(\w+)/;
 
 export function extractRouteParamsFromPath(
   path: string,
+  isIndexFileForRouting: boolean,
   previousParams?: ParamDecl[]
 ): ParamDecl[] {
   const params: string[] = path.match(routeParamExtractRegxp) ?? [];
@@ -16,9 +17,15 @@ export function extractRouteParamsFromPath(
     })
   );
   if (previousParams?.length) {
-    allMergedParams = allMergedParams.concat(
-      previousParams.map((m) => ({ ...m, required: false }))
-    );
+    allMergedParams = previousParams
+      .map((m) => ({ ...m, required: false }))
+      .concat(allMergedParams);
+  }
+  if (!params.length && isIndexFileForRouting) {
+    const lastItem = allMergedParams[allMergedParams.length - 1];
+    if (lastItem) {
+      lastItem.required = true;
+    }
   }
   return allMergedParams;
 }

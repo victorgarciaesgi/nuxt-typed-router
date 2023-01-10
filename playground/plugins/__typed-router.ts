@@ -23,7 +23,10 @@ export default defineNuxtPlugin(() => {
       index: 'parent-child-two',
       profile: {
         id: {
-          slug: { index: 'parent-child-two-profile-id-slug' },
+          slug: {
+            idSlugArticles: 'parent-child-two-profile-id-slug-articles',
+            index: 'parent-child-two-profile-id-slug',
+          },
           index: 'parent-child-two-profile-id',
         },
         index: 'parent-child-two-profile',

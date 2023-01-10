@@ -17,7 +17,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   setup(moduleOptions, nuxt: Nuxt) {
     const srcDir = nuxt.options.srcDir;
-    const { plugin = true, ...otherOptions } = moduleOptions;
+    const { plugin = false, ...otherOptions } = moduleOptions;
 
     nuxt.hook('pages:extend', () => routeHook({ ...otherOptions, plugin }, srcDir, nuxt));
   },

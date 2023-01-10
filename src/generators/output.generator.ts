@@ -24,7 +24,8 @@ export function createRuntimeTypeRouterFile(routesDeclTemplate: string): string 
   return `
   ${signatureTemplate}
   import { useNuxtApp } from '#app';
-  import { TypedRouter, RouteListDecl } from './typed-router';
+  import { TypedRouter } from './typed-router';
+  import { RouteListDecl } from './__routes';
 
   /** Returns instances of $typedRouter and $routesList fully typed to use in your components or your Vuex/Pinia store
    * 
@@ -53,11 +54,49 @@ export function createRuntimeTypeRouterFile(routesDeclTemplate: string): string 
   `;
 }
 
+export function createRuntimeUseTypeRouteFile(routesDeclTemplate: string): string {
+  return `
+  ${signatureTemplate}
+  import { useNuxtApp } from '#app';
+  import { TypedRouteList } from './__routes';
+
+  /** Acts the same as \`useRoute\`, but typed.
+ *
+ * @exemple
+ *
+ * \`\`\`ts
+ * const route = useTypedRoute();
+ * \`\`\`
+ *
+ * \`\`\`ts
+ * const route = useTypedRoute('my-route-with-param-id');
+ * route.params.id // autocompletes!
+ * \`\`\`
+ *
+ * \`\`\`ts
+ * const route = useTypedRoute();
+ * if (route.name === 'my-route-with-param-id') {
+ *    route.params.id // autocompletes!
+ * }
+ * \`\`\`
+ */
+export function useTypedRoute<T extends TypedRouteList = never>(
+  name?: T
+): [T] extends [never] ? TypedRoute : TypedNamedRoute<T> {
+  const { $route } = useNuxtApp();
+
+  return $route as any;
+}
+
+  `;
+}
+
 export function createRuntimeIndexFile(): string {
   return `
   ${signatureTemplate}
   export * from './__routes';
   export * from './__useTypedRouter';
+  export * from './__useTypedRoute';
   `;
 }
 
@@ -65,10 +104,14 @@ export function createRuntimeRoutesFile({
   routesList,
   routesObjectTemplate,
   routesObjectName,
+  routesDeclTemplate,
+  routesParams,
 }: {
   routesList: string[];
   routesObjectName: string;
   routesObjectTemplate: string;
+  routesDeclTemplate: string;
+  routesParams: RouteParamsDecl[];
 }): string {
   return `
     ${signatureTemplate}
@@ -76,26 +119,21 @@ export function createRuntimeRoutesFile({
     export const ${routesObjectName} = ${routesObjectTemplate};
 
     ${createTypedRouteListExport(routesList)}
-  `;
-}
-
-export function createDeclarationRoutesFile({
-  routesDeclTemplate,
-  routesList,
-  routesParams,
-}: {
-  routesDeclTemplate: string;
-  routesList: string[];
-  routesParams: RouteParamsDecl[];
-}): string {
-  return `
-    ${signatureTemplate}
-    ${staticDeclImports}
 
     export type RouteListDecl = ${routesDeclTemplate};
 
     ${createTypedRouteParamsExport(routesParams)}
+
     ${createTypedRouteNamedMapperExport(routesParams)}
+
+    ${createResolvedTypedRouteNamedMapperExport(routesParams)}
+  `;
+}
+
+export function createDeclarationRoutesFile(): string {
+  return `
+    ${signatureTemplate}
+    ${staticDeclImports}
 
     ${staticDeclarations}
   `;
@@ -140,5 +178,27 @@ export function createTypedRouteNamedMapperExport(routesParams: RouteParamsDecl[
           }}`
       )
       .join('|\n')}
+  `;
+}
+
+export function createResolvedTypedRouteNamedMapperExport(routesParams: RouteParamsDecl[]): string {
+  return `export type ResolvedTypedRouteNamedMapper = 
+  {
+    name: TypedRouteList;
+    params: unknown;
+  } & (
+    ${routesParams
+      .map(
+        ({ name, params }) =>
+          `{name: "${name}" ${
+            params.length
+              ? `, params: {
+          ${params.map(({ key, type }) => `"${key}": ${type}`).join(',\n')}
+        }`
+              : ''
+          }}`
+      )
+      .join('|\n')}
+      )
   `;
 }

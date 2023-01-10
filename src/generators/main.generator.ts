@@ -94,7 +94,8 @@ export function walkThoughRoutes({
     output.routesDeclTemplate += `"${nameKey}":{`;
 
     // Recursive walk though children
-    const allRouteParams = extractRouteParamsFromPath(route.path, previousParams);
+
+    const allRouteParams = extractRouteParamsFromPath(route.path, false, previousParams);
     childrenChunks?.map((routeConfig, index) =>
       walkThoughRoutes({
         route: routeConfig,
@@ -123,7 +124,12 @@ export function walkThoughRoutes({
     output.routesObjectTemplate += `'${keyName}': '${route.name}' as const,`;
     output.routesDeclTemplate += `"${keyName}": "${route.name}"${isLast ? '' : ','}`;
     output.routesList.push(route.name);
-    const allRouteParams = extractRouteParamsFromPath(route.path, previousParams);
+    const isIndexFileForRouting = route.path === '';
+    const allRouteParams = extractRouteParamsFromPath(
+      route.path,
+      isIndexFileForRouting,
+      previousParams
+    );
     output.routesParams.push({
       name: route.name,
       params: allRouteParams,
