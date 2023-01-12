@@ -7,12 +7,14 @@ export function createRuntimePluginFile(routesDeclTemplate: string): string {
 
   export default defineNuxtPlugin(() => {
     const router = useRouter();
-    const routesList = ${routesDeclTemplate};
+    const route = useRoute();
+    const routesNames = ${routesDeclTemplate};
 
     return {
       provide: {
         typedRouter: router as TypedRouter,
-        routesList,
+        typedRoute: route as TypedRoute,
+        routesNames,
       },
     };
   });
