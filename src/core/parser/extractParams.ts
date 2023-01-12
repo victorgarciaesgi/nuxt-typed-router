@@ -1,4 +1,4 @@
-import { ParamDecl } from '../types';
+import { ParamDecl } from '../../types';
 
 const routeParamExtractRegxp = /:(\w+)/;
 

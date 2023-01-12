@@ -1,60 +1,10 @@
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import { camelCase } from 'lodash-es';
-import { GeneratorOutput, ParamDecl, RouteParamsDecl } from '../types';
-import {
-  extractMatchingSiblings,
-  extractRouteParamsFromPath,
-  extractUnMatchingSiblings,
-} from '../utils';
+import { GeneratorOutput, ParamDecl } from '../../types';
+import { isItemLast } from '../../utils';
+import { extractRouteParamsFromPath } from './extractParams';
+import { extractMatchingSiblings, extractUnMatchingSiblings } from './extractChunks';
 
-function isItemLast(array: any[], index: number) {
-  return index === array.length - 1;
-}
-
-export function constructRouteMap(routesConfig: NuxtRouteConfig[]): GeneratorOutput {
-  try {
-    let routesObjectTemplate = '{';
-    let routesDeclTemplate = '{';
-    let routesList: string[] = [];
-    let routesParams: RouteParamsDecl[] = [];
-
-    const output = { routesObjectTemplate, routesDeclTemplate, routesList, routesParams };
-
-    startGeneratorProcedure({
-      output,
-      routesConfig,
-    });
-
-    return output;
-  } catch (e) {
-    throw new Error('Generation failed');
-  }
-}
-
-// -----
-type StartGeneratorProcedureParams = {
-  output: GeneratorOutput;
-  routesConfig: NuxtRouteConfig[];
-};
-export function startGeneratorProcedure({
-  output,
-  routesConfig,
-}: StartGeneratorProcedureParams): void {
-  routesConfig.forEach((route, index) => {
-    const rootSiblingsRoutes = routesConfig.filter((rt) => rt.chunkName !== route.chunkName);
-    walkThoughRoutes({
-      route,
-      level: 0,
-      output,
-      siblings: rootSiblingsRoutes,
-      isLast: isItemLast(routesConfig, index),
-    });
-  });
-  output.routesObjectTemplate += '}';
-  output.routesDeclTemplate += '}';
-}
-
-// -----
 type WalkThoughRoutesParams = {
   route: NuxtRouteConfig;
   level: number;
@@ -64,6 +14,7 @@ type WalkThoughRoutesParams = {
   output: GeneratorOutput;
   isLast: boolean;
 };
+
 /** Mutates the output object with generated routes */
 export function walkThoughRoutes({
   route,

@@ -4,17 +4,24 @@ import { resolve, dirname } from 'pathe';
 import logSymbols from 'log-symbols';
 import chalk from 'chalk';
 import mkdirp from 'mkdirp';
-import { formatOutputWithPrettier } from './prettier.utils';
+import { formatOutputWithPrettier } from './prettierFormat';
 
 // @ts-ignore
 export const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export async function saveRouteFiles(
-  outDir: string,
-  srcDir: string,
-  fileName: string,
-  content: string
-): Promise<void> {
+type ProcessPathAndWriteFileArgs = {
+  outDir: string;
+  srcDir: string;
+  fileName: string;
+  content: string;
+};
+
+export async function processPathAndWriteFile({
+  content,
+  fileName,
+  outDir,
+  srcDir,
+}: ProcessPathAndWriteFileArgs): Promise<void> {
   try {
     const processedOutDir = resolve(srcDir, outDir);
     const outputFile = resolve(process.cwd(), `${processedOutDir}/${fileName}`);

@@ -5,5 +5,6 @@ export default defineNuxtConfig({
   modules: [MyModule],
   nuxtTypedRouter: {
     outDir: 'generated',
+    plugin: true,
   },
 });

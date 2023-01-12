@@ -76,6 +76,14 @@ export type RouteListDecl = {
   rootPage: 'rootPage';
 };
 
+/**
+ * Routes params are only required for the exact targeted route name,
+ * vue-router behaviour allow to navigate between children routes without the need to provide all the params every time.
+ * So we can't enforce params when navigating between routes, only a `[xxx].vue` page will have required params in the type definition
+ *
+ *
+ * */
+
 export type TypedRouteParams = {
   activate: never;
   index: never;

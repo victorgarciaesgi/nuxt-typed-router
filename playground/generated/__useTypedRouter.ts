@@ -6,7 +6,7 @@
  * ---------------------------------------------------
  * */
 
-import { useNuxtApp } from '#app';
+import { useRouter } from '#app';
 import { TypedRouter } from './typed-router';
 import { RouteListDecl } from './__routes';
 
@@ -24,7 +24,7 @@ export const useTypedRouter = (): {
   /** Contains a typed dictionnary of all your route names (for syntax sugar) */
   routes: RouteListDecl;
 } => {
-  const { $router } = useNuxtApp();
+  const router = useRouter();
 
   const routesList = {
     activate: 'activate',
@@ -54,7 +54,7 @@ export const useTypedRouter = (): {
   };
 
   return {
-    router: $router,
+    router,
     routes: routesList,
   } as any;
 };

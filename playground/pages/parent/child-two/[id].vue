@@ -1,1 +1,3 @@
-<template><span>H1</span></template>
+<template
+  ><span>{{ $route.params.id }}</span>
+</template>

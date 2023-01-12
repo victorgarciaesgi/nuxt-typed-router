@@ -1,7 +1,9 @@
 <template>
   <div>
     <button type="button" @click="navigate">Click me to navigate</button>
-    <nuxt-link :to="{ name: 'parent-child-two-id', params: { id: 1 } }"></nuxt-link>
+    <nuxt-link :to="{ name: 'parent-child-two-profile-id-slug', params: { id: 1, slug: 'foo' } }">
+      Navigate too
+    </nuxt-link>
   </div>
 </template>
 
