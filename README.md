@@ -14,9 +14,9 @@
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![npm downloads][npm-total-downloads-src]][npm-downloads-href]
-<img src='https://img.shields.io/npm/l/simple-graphql-to-typescript.svg'>
+<img src='https://img.shields.io/npm/l/nuxt-typed-router.svg'>
 
-> Provide a type safe router to Nuxt with auto-generated typed definitions for route names and autocompletion for route params
+## Provide a type safe router to Nuxt with auto-generated typed definitions for route names and autocompletion for route params
 
 - 🏎 Provides a hook `useTypedRouter` that returns an alias of `$typedRouter` and also a typed list of your routes
 - 🚚 Expose a global method `$typedRouter` (clone of vue-router), but typed with the routes defined in `pages` directory
@@ -85,7 +85,7 @@ interface ModuleOptions {
   routesObjectName?: string;
   /**
    * Set to false if you don't want a plugin generated
-   * @default true
+   * @default false
    */
   plugin?: boolean;
 }

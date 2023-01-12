@@ -9,7 +9,7 @@ export interface ModuleOptions {
   routesObjectName?: string;
   /**
    * Set to false if you don't want a plugin generated
-   * @default true
+   * @default false
    */
   plugin?: boolean;
 }

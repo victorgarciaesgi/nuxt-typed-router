@@ -19,10 +19,10 @@ type ProcessPathAndWriteFileArgs = {
 export async function processPathAndWriteFile({
   content,
   fileName,
-  outDir,
   srcDir,
 }: ProcessPathAndWriteFileArgs): Promise<void> {
   try {
+    const outDir = `.nuxt/typed-router`;
     const processedOutDir = resolve(srcDir, outDir);
     const outputFile = resolve(process.cwd(), `${processedOutDir}/${fileName}`);
     const formatedContent = await formatOutputWithPrettier(content);

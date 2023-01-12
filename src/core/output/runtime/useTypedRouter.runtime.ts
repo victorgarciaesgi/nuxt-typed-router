@@ -15,20 +15,10 @@ export function createRuntimeUseTypedRouterFile(routesDeclTemplate: string): str
    * const { router, routes } = useTypedRouter();
    * \`\`\`
    */
-  export const useTypedRouter = (): {
-    /** Export of $router with type check */
-    router: TypedRouter,
-    /** Contains a typed dictionnary of all your route names (for syntax sugar) */
-    routes: RouteListDecl
-  } => {
+  export function useTypedRouter(): TypedRouter {
     const router = useRouter();
 
-    const routesList = ${routesDeclTemplate};
-
-    return {
-      router,
-      routes: routesList,
-    } as any;
+    return router;
   };
 
   `;

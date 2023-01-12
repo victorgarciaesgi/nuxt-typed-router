@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url';
 import { defineNuxtModule } from '@nuxt/kit';
 import { Nuxt } from '@nuxt/schema';
 import { createTypedRouter } from './core';
@@ -14,11 +15,18 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     outDir: `./generated`,
     routesObjectName: 'routerPagesNames',
-    plugin: true,
+    plugin: false,
   },
   setup(moduleOptions, nuxt: Nuxt) {
     const srcDir = nuxt.options.srcDir;
     const _options = moduleOptions as Required<ModuleOptions>;
+    nuxt.options.alias = {
+      ...nuxt.options.alias,
+      '@typed-router': fileURLToPath(
+        // @ts-ignore
+        new URL(`${nuxt.options.rootDir}/.nuxt/typed-router`, import.meta.url)
+      ),
+    };
 
     nuxt.hook('pages:extend', () => createTypedRouter({ srcDir, nuxt, ..._options }));
   },
