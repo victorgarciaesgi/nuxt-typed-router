@@ -4,31 +4,15 @@ import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
 import { ModuleOptions } from '../types';
-import { processPathAndWriteFile } from './fs';
+import { handlePluginFileSave, saveGeneratedFiles } from './output';
 import { constructRouteMap } from './parser';
-import {
-  createDeclarationRoutesFile,
-  createRuntimeUseTypedRouterFile,
-  createRuntimeIndexFile,
-  createRuntimePluginFile,
-  createRuntimeRoutesFile,
-  createUseTypedRouteFile,
-  handlePluginFileSave,
-  saveGeneratedFiles,
-} from './output';
 
 type CreateTypedRouterArgs = Required<ModuleOptions> & {
   srcDir: string;
   nuxt: Nuxt;
 };
 
-export function createTypedRouter({
-  srcDir,
-  outDir,
-  plugin,
-  nuxt,
-  routesObjectName,
-}: CreateTypedRouterArgs): void {
+export function createTypedRouter({ srcDir, plugin, nuxt }: CreateTypedRouterArgs): void {
   try {
     // We use extendPages here to access the NuxtRouteConfig, not accessible in the `pages:extend` hook
     extendPages(async (routes: NuxtRouteConfig[]) => {
@@ -40,10 +24,8 @@ export function createTypedRouter({
         }
 
         await saveGeneratedFiles({
-          outDir,
           srcDir,
           outputData,
-          routesObjectName,
         });
       } else {
         console.log(

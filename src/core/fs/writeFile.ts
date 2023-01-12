@@ -10,7 +10,6 @@ import { formatOutputWithPrettier } from './prettierFormat';
 export const __dirname = dirname(fileURLToPath(import.meta.url));
 
 type ProcessPathAndWriteFileArgs = {
-  outDir: string;
   srcDir: string;
   fileName: string;
   content: string;

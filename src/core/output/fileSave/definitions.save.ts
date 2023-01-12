@@ -11,15 +11,11 @@ import {
 
 type SaveGeneratedFiles = {
   srcDir: string;
-  outDir: string;
-  routesObjectName: string;
   outputData: GeneratorOutput;
 };
 
 export async function saveGeneratedFiles({
   srcDir,
-  outDir,
-  routesObjectName,
   outputData: { routesDeclTemplate, routesList, routesObjectTemplate, routesParams },
 }: SaveGeneratedFiles): Promise<void> {
   const filesMap: Array<{ fileName: string; content: string }> = [
@@ -36,7 +32,6 @@ export async function saveGeneratedFiles({
       content: createRuntimeRoutesFile({
         routesList,
         routesObjectTemplate,
-        routesObjectName,
         routesDeclTemplate,
         routesParams,
       }),
@@ -52,9 +47,7 @@ export async function saveGeneratedFiles({
   ];
 
   await Promise.all(
-    filesMap.map(({ content, fileName }) =>
-      processPathAndWriteFile({ srcDir, outDir, content, fileName })
-    )
+    filesMap.map(({ content, fileName }) => processPathAndWriteFile({ srcDir, content, fileName }))
   );
 
   console.log(logSymbols.success, `[typed-router] Routes definitions generated`);

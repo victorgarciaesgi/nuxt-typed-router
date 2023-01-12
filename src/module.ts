@@ -13,13 +13,11 @@ export default defineNuxtModule<ModuleOptions>({
     compatibility: { nuxt: '^3.0.0-rc.1', bridge: false },
   },
   defaults: {
-    outDir: `./generated`,
-    routesObjectName: 'routerPagesNames',
     plugin: false,
   },
   setup(moduleOptions, nuxt: Nuxt) {
     const srcDir = nuxt.options.srcDir;
-    const _options = moduleOptions as Required<ModuleOptions>;
+    const { plugin } = moduleOptions as Required<ModuleOptions>;
     nuxt.options.alias = {
       ...nuxt.options.alias,
       '@typed-router': fileURLToPath(
@@ -28,6 +26,6 @@ export default defineNuxtModule<ModuleOptions>({
       ),
     };
 
-    nuxt.hook('pages:extend', () => createTypedRouter({ srcDir, nuxt, ..._options }));
+    nuxt.hook('pages:extend', () => createTypedRouter({ srcDir, nuxt, plugin }));
   },
 });

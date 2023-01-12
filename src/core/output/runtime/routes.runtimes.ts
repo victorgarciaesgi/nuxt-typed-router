@@ -10,12 +10,10 @@ import { watermarkTemplate } from '../templates';
 export function createRuntimeRoutesFile({
   routesList,
   routesObjectTemplate,
-  routesObjectName,
   routesDeclTemplate,
   routesParams,
 }: {
   routesList: string[];
-  routesObjectName: string;
   routesObjectTemplate: string;
   routesDeclTemplate: string;
   routesParams: RouteParamsDecl[];
@@ -23,7 +21,7 @@ export function createRuntimeRoutesFile({
   return `
     ${watermarkTemplate}
 
-    export const ${routesObjectName} = ${routesObjectTemplate};
+    export const routesNames = ${routesObjectTemplate};
 
     ${createTypedRouteListExport(routesList)}
 
