@@ -24,7 +24,7 @@
     "test": "pnpm run dev:prepare && pnpm run build:test && vitest run",
     "test:watch": "pnpm run build:test && vitest",
     "docs:dev": "cd docs && pnpm run dev",
-    "docs:build": "pnpm run dev:prepare && cd docs && nuxi generate"
+    "docs:build": "npm run dev:prepare && cd docs && nuxi generate"
   },
   "publishConfig": {
     "access": "public"
