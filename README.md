@@ -35,7 +35,7 @@
 
 # Documentation
 
-[![Open in StackBlitz](https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/.github/images/redirectDoc.svg?raw=true)](TODO---------)
+[![Open in StackBlitz](https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/.github/images/redirectDoc.svg?raw=true)](https://nuxt-typed-router.vercel.app/)
 
 # Play with it
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/github-7e4xvw?file=store/testRouter.ts)

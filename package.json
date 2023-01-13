@@ -39,6 +39,7 @@
     "nuxt 3",
     "nuxt 3 router"
   ],
+  "homepage": "https://nuxt-typed-router.vercel.app/",
   "repository": {
     "type": "git",
     "url": "git+https://victorgarciaesgi@github.com/victorgarciaesgi/nuxt-typed-router.git"
