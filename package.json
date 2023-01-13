@@ -20,10 +20,10 @@
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "build:test": "cross-env NUXT_BUILD_TYPE=stub pnpm run prepack && pnpm run dev:build",
-    "test": "pnpm run dev:prepare && pnpm run build:test && vitest run",
-    "test:watch": "pnpm run build:test && vitest",
-    "docs:dev": "cd docs && pnpm run dev",
+    "build:test": "cross-env NUXT_BUILD_TYPE=stub yarn prepack && yarn dev:build",
+    "test": "yarn dev:prepare && yarn build:test && vitest run",
+    "test:watch": "yarn build:test && vitest",
+    "docs:dev": "cd docs && yarn dev",
     "docs:build": "npm run dev:prepare && cd docs && nuxi generate"
   },
   "publishConfig": {
