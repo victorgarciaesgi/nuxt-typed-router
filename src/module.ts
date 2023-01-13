@@ -27,5 +27,7 @@ export default defineNuxtModule<ModuleOptions>({
     };
 
     nuxt.hook('pages:extend', () => createTypedRouter({ srcDir, nuxt, plugin }));
+    // Allow generating files on load
+    createTypedRouter({ srcDir, nuxt, plugin });
   },
 });

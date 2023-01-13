@@ -1,19 +1,29 @@
 import { ParamDecl } from '../../types';
 
-const routeParamExtractRegxp = /:(\w+)/;
+const routeParamExtractRegxp = /(:(\w+)(\?)?)+/g;
 
 export function extractRouteParamsFromPath(
   path: string,
   isIndexFileForRouting: boolean,
   previousParams?: ParamDecl[]
 ): ParamDecl[] {
-  const params: string[] = path.match(routeParamExtractRegxp) ?? [];
-  params?.shift();
+  let params: Array<{ name: string; required: boolean }> = [];
+  let matches: RegExpExecArray | null;
+  do {
+    matches = routeParamExtractRegxp.exec(path);
+    if (matches) {
+      const [_, mtch, key, optional] = matches;
+      if (mtch) {
+        params.push({ name: key, required: !optional });
+      }
+    }
+  } while (matches);
+
   let allMergedParams = params.map(
-    (m): ParamDecl => ({
-      key: m,
+    ({ name, required }): ParamDecl => ({
+      key: name,
       type: 'string | number',
-      required: true,
+      required,
     })
   );
   if (previousParams?.length) {

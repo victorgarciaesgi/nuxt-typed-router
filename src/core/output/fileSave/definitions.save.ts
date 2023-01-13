@@ -9,6 +9,8 @@ import {
   createUseTypedRouteFile,
 } from '../runtime';
 
+let previousGeneratedRoutes = '';
+
 type SaveGeneratedFiles = {
   srcDir: string;
   outputData: GeneratorOutput;
@@ -49,6 +51,8 @@ export async function saveGeneratedFiles({
   await Promise.all(
     filesMap.map(({ content, fileName }) => processPathAndWriteFile({ srcDir, content, fileName }))
   );
-
-  console.log(logSymbols.success, `[typed-router] Routes definitions generated`);
+  if (previousGeneratedRoutes !== routesList.join(',')) {
+    previousGeneratedRoutes = routesList.join(',');
+    console.log(logSymbols.success, `[typed-router] Routes definitions generated`);
+  }
 }

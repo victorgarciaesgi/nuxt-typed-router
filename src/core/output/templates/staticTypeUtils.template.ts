@@ -90,7 +90,7 @@ declare global {
 }
 
 type TypedNuxtLinkProps = Omit<NuxtLinkProps, 'to'> & {
-  to: Omit<Exclude<RouteLocationRaw, string>, 'name'> & TypedRouteNamedMapper;
+  to: string | Omit<Exclude<RouteLocationRaw, string>, 'name'> & TypedRouteNamedMapper;
 };
 
 type _NuxtLink = DefineComponent<
