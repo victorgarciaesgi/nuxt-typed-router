@@ -54,7 +54,12 @@ export function createResolvedTypedRouteNamedMapperExport(routesParams: RoutePar
           `{name: "${name}" ${
             params.length
               ? `, params: {
-          ${params.map(({ key, type }) => `"${key}": ${type}`).join(',\n')}
+                ${params
+                  .map(
+                    ({ key, notRequiredOnPage, type }) =>
+                      `"${key}"${notRequiredOnPage ? '?' : ''}: ${type}`
+                  )
+                  .join(',\n')}
         }`
               : ''
           }}`

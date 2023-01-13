@@ -7,23 +7,24 @@ export function extractRouteParamsFromPath(
   isIndexFileForRouting: boolean,
   previousParams?: ParamDecl[]
 ): ParamDecl[] {
-  let params: Array<{ name: string; required: boolean }> = [];
+  let params: Array<{ name: string; optional: boolean }> = [];
   let matches: RegExpExecArray | null;
   do {
     matches = routeParamExtractRegxp.exec(path);
     if (matches) {
       const [_, mtch, key, optional] = matches;
       if (mtch) {
-        params.push({ name: key, required: !optional });
+        params.push({ name: key, optional: !!optional });
       }
     }
   } while (matches);
 
   let allMergedParams = params.map(
-    ({ name, required }): ParamDecl => ({
+    ({ name, optional }): ParamDecl => ({
       key: name,
       type: 'string | number',
-      required,
+      required: !optional,
+      notRequiredOnPage: optional,
     })
   );
   if (previousParams?.length) {

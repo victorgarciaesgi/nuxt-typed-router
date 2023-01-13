@@ -12,6 +12,7 @@ exports[`Init route file > should generate to correct tree for the pages folder 
 export const routesNames = {
   activate: 'activate' as const,
   index: 'index' as const,
+  parentFooBar: 'parent-foo-bar' as const,
   childOne: {
     childOneChildOneSubOne: 'parent-child-one-child-one-sub-one' as const,
     user: { index: 'parent-child-one-child-one-sub-one-user' as const },
@@ -33,12 +34,14 @@ export const routesNames = {
       index: 'parent-child-two-profile' as const,
     },
   },
+  parentTestOptional: 'parent-test-optional' as const,
   rootPage: 'rootPage' as const,
 };
 
 export type TypedRouteList =
   | 'activate'
   | 'index'
+  | 'parent-foo-bar'
   | 'parent-child-one-child-one-sub-one'
   | 'parent-child-one-child-one-sub-one-user'
   | 'parent-child-one-child-one-sub-two'
@@ -50,11 +53,13 @@ export type TypedRouteList =
   | 'parent-child-two-profile-id-slug'
   | 'parent-child-two-profile-id'
   | 'parent-child-two-profile'
+  | 'parent-test-optional'
   | 'rootPage';
 
 export type RouteListDecl = {
   activate: 'activate';
   index: 'index';
+  parentFooBar: 'parent-foo-bar';
   childOne: {
     childOneChildOneSubOne: 'parent-child-one-child-one-sub-one';
     user: { index: 'parent-child-one-child-one-sub-one-user' };
@@ -76,6 +81,7 @@ export type RouteListDecl = {
       index: 'parent-child-two-profile';
     };
   };
+  parentTestOptional: 'parent-test-optional';
   rootPage: 'rootPage';
 };
 
@@ -90,6 +96,10 @@ export type RouteListDecl = {
 export type TypedRouteParams = {
   activate: never;
   index: never;
+  'parent-foo-bar': {
+    foo: string | number;
+    bar?: string | number;
+  };
   'parent-child-one-child-one-sub-one': never;
   'parent-child-one-child-one-sub-one-user': never;
   'parent-child-one-child-one-sub-two': never;
@@ -111,12 +121,22 @@ export type TypedRouteParams = {
     id: string | number;
   };
   'parent-child-two-profile': never;
+  'parent-test-optional': {
+    optional?: string | number;
+  };
   rootPage: never;
 };
 
 export type TypedRouteNamedMapper =
   | { name: 'activate' }
   | { name: 'index' }
+  | {
+      name: 'parent-foo-bar';
+      params: {
+        foo: string | number;
+        bar?: string | number;
+      };
+    }
   | { name: 'parent-child-one-child-one-sub-one' }
   | { name: 'parent-child-one-child-one-sub-one-user' }
   | { name: 'parent-child-one-child-one-sub-two' }
@@ -150,6 +170,12 @@ export type TypedRouteNamedMapper =
       };
     }
   | { name: 'parent-child-two-profile' }
+  | {
+      name: 'parent-test-optional';
+      params?: {
+        optional?: string | number;
+      };
+    }
   | { name: 'rootPage' };
 
 export type ResolvedTypedRouteNamedMapper = {
@@ -158,6 +184,13 @@ export type ResolvedTypedRouteNamedMapper = {
 } & (
   | { name: 'activate' }
   | { name: 'index' }
+  | {
+      name: 'parent-foo-bar';
+      params: {
+        foo: string | number;
+        bar?: string | number;
+      };
+    }
   | { name: 'parent-child-one-child-one-sub-one' }
   | { name: 'parent-child-one-child-one-sub-one-user' }
   | { name: 'parent-child-one-child-one-sub-two' }
@@ -191,6 +224,12 @@ export type ResolvedTypedRouteNamedMapper = {
       };
     }
   | { name: 'parent-child-two-profile' }
+  | {
+      name: 'parent-test-optional';
+      params: {
+        optional?: string | number;
+      };
+    }
   | { name: 'rootPage' }
 );
 "
@@ -353,7 +392,6 @@ exports[`Init route file > should generate to correct tree for the pages folder 
 
 import { useRouter } from '#app';
 import { TypedRouter } from './typed-router';
-import { RouteListDecl } from './__routes';
 
 /** Returns instances of $typedRouter and $routesList fully typed to use in your components or your Vuex/Pinia store
  *
@@ -388,6 +426,7 @@ export default defineNuxtPlugin(() => {
   const routesNames = {
     activate: 'activate',
     index: 'index',
+    parentFooBar: 'parent-foo-bar',
     childOne: {
       childOneChildOneSubOne: 'parent-child-one-child-one-sub-one',
       user: { index: 'parent-child-one-child-one-sub-one-user' },
@@ -409,6 +448,7 @@ export default defineNuxtPlugin(() => {
         index: 'parent-child-two-profile',
       },
     },
+    parentTestOptional: 'parent-test-optional',
     rootPage: 'rootPage',
   };
 
