@@ -1,9 +1,9 @@
-import { useTypedRouter } from '../generated';
+import { useTypedRouter } from '@typed-router';
 
 export function callOutsideComponent() {
   // const { $typedRouter, $routesList, $router } = useNuxtApp();
   // console.log($typedRouter, $routesList, $router);
-  const { router, routes } = useTypedRouter();
-  console.log({ router, routes });
+  const router = useTypedRouter();
+  console.log({ router });
   router.push({ name: 'activate' });
 }

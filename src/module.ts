@@ -1,6 +1,7 @@
+import { fileURLToPath } from 'url';
 import { defineNuxtModule } from '@nuxt/kit';
 import { Nuxt } from '@nuxt/schema';
-import { routeHook } from './generators/nuxtHook';
+import { createTypedRouter } from './core';
 import type { ModuleOptions } from './types';
 
 export type { ModuleOptions } from './types';
@@ -12,13 +13,21 @@ export default defineNuxtModule<ModuleOptions>({
     compatibility: { nuxt: '^3.0.0-rc.1', bridge: false },
   },
   defaults: {
-    outDir: `./generated`,
-    routesObjectName: 'routerPagesNames',
+    plugin: false,
   },
   setup(moduleOptions, nuxt: Nuxt) {
     const srcDir = nuxt.options.srcDir;
-    const { plugin = true, ...otherOptions } = moduleOptions;
+    const { plugin } = moduleOptions as Required<ModuleOptions>;
+    nuxt.options.alias = {
+      ...nuxt.options.alias,
+      '@typed-router': fileURLToPath(
+        // @ts-ignore
+        new URL(`${nuxt.options.rootDir}/.nuxt/typed-router`, import.meta.url)
+      ),
+    };
 
-    nuxt.hook('pages:extend', () => routeHook({ ...otherOptions, plugin }, srcDir, nuxt));
+    nuxt.hook('pages:extend', () => createTypedRouter({ srcDir, nuxt, plugin }));
+    // Allow generating files on load
+    createTypedRouter({ srcDir, nuxt, plugin });
   },
 });
