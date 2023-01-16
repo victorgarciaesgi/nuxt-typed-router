@@ -14,6 +14,7 @@ export default defineNuxtPlugin(() => {
   const routesNames = {
     activate: 'activate',
     index: 'index',
+    parentSlug: 'parent-slug',
     parentFooBar: 'parent-foo-bar',
     childOne: {
       childOneChildOneSubOne: 'parent-child-one-child-one-sub-one',

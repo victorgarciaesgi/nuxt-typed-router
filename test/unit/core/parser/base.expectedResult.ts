@@ -18,27 +18,27 @@ export const baseOutputExpectedResult = {
     { name: 'index', params: [] },
     {
       name: 'parent-child-two-id',
-      params: [{ key: 'id', type: 'string | number', required: true }],
+      params: [{ key: 'id', notRequiredOnPage: false, required: true }],
     },
     { name: 'parent-child-two-child-one-sub-one', params: [] },
     { name: 'parent-child-two', params: [] },
     {
       name: 'parent-child-two-profile-id-slug-articles',
       params: [
-        { key: 'id', type: 'string | number', required: false },
-        { key: 'slug', type: 'string | number', required: false },
+        { key: 'id', notRequiredOnPage: false, required: false },
+        { key: 'slug', notRequiredOnPage: false, required: false },
       ],
     },
     {
       name: 'parent-child-two-profile-id-slug',
       params: [
-        { key: 'id', type: 'string | number', required: false },
-        { key: 'slug', type: 'string | number', required: true },
+        { key: 'id', notRequiredOnPage: false, required: false },
+        { key: 'slug', notRequiredOnPage: false, required: true },
       ],
     },
     {
       name: 'parent-child-two-profile-id',
-      params: [{ key: 'id', type: 'string | number', required: true }],
+      params: [{ key: 'id', notRequiredOnPage: false, required: true }],
     },
     { name: 'parent-child-two-profile', params: [] },
     { name: 'rootPage', params: [] },

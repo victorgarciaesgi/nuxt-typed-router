@@ -22,7 +22,6 @@ export function extractRouteParamsFromPath(
   let allMergedParams = params.map(
     ({ name, optional }): ParamDecl => ({
       key: name,
-      type: 'string | number',
       required: !optional,
       notRequiredOnPage: optional,
     })

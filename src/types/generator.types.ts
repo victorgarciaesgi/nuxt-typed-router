@@ -1,6 +1,5 @@
 export interface ParamDecl {
   key: string;
-  type: string;
   required: boolean;
   notRequiredOnPage: boolean;
 }

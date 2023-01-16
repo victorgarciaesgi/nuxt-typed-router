@@ -13,7 +13,7 @@ export function createTypedRouteParamsExport(routesParams: RouteParamsDecl[]): s
             params.length
               ? `{
           ${params
-            .map(({ key, required, type }) => `"${key}"${required ? '' : '?'}: ${type}`)
+            .map(({ key, required }) => `"${key}"${required ? '' : '?'}: string | number`)
             .join(',\n')}
         }`
               : 'never'
@@ -32,7 +32,7 @@ export function createTypedRouteNamedMapperExport(routesParams: RouteParamsDecl[
             params.length
               ? `, params${params.some((s) => s.required) ? '' : '?'}: {
           ${params
-            .map(({ key, required, type }) => `"${key}"${required ? '' : '?'}: ${type}`)
+            .map(({ key, required }) => `"${key}"${required ? '' : '?'}: string | number`)
             .join(',\n')}
         }`
               : ''
@@ -56,8 +56,8 @@ export function createResolvedTypedRouteNamedMapperExport(routesParams: RoutePar
               ? `, params: {
                 ${params
                   .map(
-                    ({ key, notRequiredOnPage, type }) =>
-                      `"${key}"${notRequiredOnPage ? '?' : ''}: ${type}`
+                    ({ key, notRequiredOnPage }) =>
+                      `"${key}"${notRequiredOnPage ? '?' : ''}: string`
                   )
                   .join(',\n')}
         }`

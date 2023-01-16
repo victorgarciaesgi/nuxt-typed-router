@@ -12,6 +12,7 @@ exports[`Init route file > should generate to correct tree for the pages folder 
 export const routesNames = {
   activate: 'activate' as const,
   index: 'index' as const,
+  parentSlug: 'parent-slug' as const,
   parentFooBar: 'parent-foo-bar' as const,
   childOne: {
     childOneChildOneSubOne: 'parent-child-one-child-one-sub-one' as const,
@@ -41,6 +42,7 @@ export const routesNames = {
 export type TypedRouteList =
   | 'activate'
   | 'index'
+  | 'parent-slug'
   | 'parent-foo-bar'
   | 'parent-child-one-child-one-sub-one'
   | 'parent-child-one-child-one-sub-one-user'
@@ -59,6 +61,7 @@ export type TypedRouteList =
 export type RouteListDecl = {
   activate: 'activate';
   index: 'index';
+  parentSlug: 'parent-slug';
   parentFooBar: 'parent-foo-bar';
   childOne: {
     childOneChildOneSubOne: 'parent-child-one-child-one-sub-one';
@@ -96,6 +99,9 @@ export type RouteListDecl = {
 export type TypedRouteParams = {
   activate: never;
   index: never;
+  'parent-slug': {
+    slug: string | number;
+  };
   'parent-foo-bar': {
     foo: string | number;
     bar?: string | number;
@@ -130,6 +136,12 @@ export type TypedRouteParams = {
 export type TypedRouteNamedMapper =
   | { name: 'activate' }
   | { name: 'index' }
+  | {
+      name: 'parent-slug';
+      params: {
+        slug: string | number;
+      };
+    }
   | {
       name: 'parent-foo-bar';
       params: {
@@ -185,10 +197,16 @@ export type ResolvedTypedRouteNamedMapper = {
   | { name: 'activate' }
   | { name: 'index' }
   | {
+      name: 'parent-slug';
+      params: {
+        slug: string;
+      };
+    }
+  | {
       name: 'parent-foo-bar';
       params: {
-        foo: string | number;
-        bar?: string | number;
+        foo: string;
+        bar?: string;
       };
     }
   | { name: 'parent-child-one-child-one-sub-one' }
@@ -198,7 +216,7 @@ export type ResolvedTypedRouteNamedMapper = {
   | {
       name: 'parent-child-two-id';
       params: {
-        id: string | number;
+        id: string;
       };
     }
   | { name: 'parent-child-two-child-one-sub-one' }
@@ -206,28 +224,28 @@ export type ResolvedTypedRouteNamedMapper = {
   | {
       name: 'parent-child-two-profile-id-slug-articles';
       params: {
-        id: string | number;
-        slug: string | number;
+        id: string;
+        slug: string;
       };
     }
   | {
       name: 'parent-child-two-profile-id-slug';
       params: {
-        id: string | number;
-        slug: string | number;
+        id: string;
+        slug: string;
       };
     }
   | {
       name: 'parent-child-two-profile-id';
       params: {
-        id: string | number;
+        id: string;
       };
     }
   | { name: 'parent-child-two-profile' }
   | {
       name: 'parent-test-optional';
       params: {
-        optional?: string | number;
+        optional?: string;
       };
     }
   | { name: 'rootPage' }
@@ -426,6 +444,7 @@ export default defineNuxtPlugin(() => {
   const routesNames = {
     activate: 'activate',
     index: 'index',
+    parentSlug: 'parent-slug',
     parentFooBar: 'parent-foo-bar',
     childOne: {
       childOneChildOneSubOne: 'parent-child-one-child-one-sub-one',
