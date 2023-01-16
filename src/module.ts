@@ -17,6 +17,7 @@ export default defineNuxtModule<ModuleOptions>({
   setup(moduleOptions, nuxt: Nuxt) {
     const srcDir = nuxt.options.srcDir;
     const { plugin } = moduleOptions as Required<ModuleOptions>;
+    // @ts-ignore
     const { resolve } = createResolver(import.meta.url);
     nuxt.options.alias = {
       ...nuxt.options.alias,
