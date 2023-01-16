@@ -21,7 +21,7 @@ type TypedLocationAsRelativeRaw<T extends TypedRouteList> = {
 
 type ResolvedTypedLocationAsRelativeRaw<T extends TypedRouteList> = {
   name?: T;
-} & ([TypedRouteParams[T]] extends [never] ? {} : { params: Required<TypedRouteParams[T]> });
+} & ([TypedRouteParams[T]] extends [never] ? {} : { params: TypedRouteParams[T] });
 
 type TypedRouteLocationRaw = RouteQueryAndHash & TypedRouteNamedMapper & RouteLocationOptions;
 

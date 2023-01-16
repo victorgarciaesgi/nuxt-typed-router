@@ -32,7 +32,10 @@ export function createTypedRouteNamedMapperExport(routesParams: RouteParamsDecl[
             params.length
               ? `, params${params.some((s) => s.required) ? '' : '?'}: {
           ${params
-            .map(({ key, required }) => `"${key}"${required ? '' : '?'}: string | number`)
+            .map(
+              ({ key, required, catchAll }) =>
+                `"${key}"${required ? '' : '?'}: (string | number)${catchAll ? '[]' : ''}`
+            )
             .join(',\n')}
         }`
               : ''
@@ -56,8 +59,8 @@ export function createResolvedTypedRouteNamedMapperExport(routesParams: RoutePar
               ? `, params: {
                 ${params
                   .map(
-                    ({ key, notRequiredOnPage }) =>
-                      `"${key}"${notRequiredOnPage ? '?' : ''}: string`
+                    ({ key, notRequiredOnPage, catchAll }) =>
+                      `"${key}"${notRequiredOnPage ? '?' : ''}: string${catchAll ? '[]' : ''}`
                   )
                   .join(',\n')}
         }`

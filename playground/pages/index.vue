@@ -1,9 +1,7 @@
 <template>
-  <nuxt-link :to="{ name: 'activate' }"> Navigate </nuxt-link>
+  <nuxt-link :to="{ name: 'parent-foo-bar', params: { foo: 1 } }"> Navigate </nuxt-link>
 </template>
 
 <script setup lang="ts">
-import { useTypedRouter } from '@typed-router';
-
-const router = useTypedRouter();
+import { useTypedRoute, useTypedRouter } from '@typed-router';
 </script>
