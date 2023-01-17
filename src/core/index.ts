@@ -8,11 +8,11 @@ import { handlePluginFileSave, saveGeneratedFiles } from './output';
 import { constructRouteMap } from './parser';
 
 type CreateTypedRouterArgs = Required<ModuleOptions> & {
-  srcDir: string;
+  rootDir: string;
   nuxt: Nuxt;
 };
 
-export function createTypedRouter({ srcDir, plugin, nuxt }: CreateTypedRouterArgs): void {
+export function createTypedRouter({ rootDir, plugin, nuxt }: CreateTypedRouterArgs): void {
   try {
     // We use extendPages here to access the NuxtRouteConfig, not accessible in the `pages:extend` hook
     extendPages(async (routes: NuxtRouteConfig[]) => {
@@ -20,11 +20,15 @@ export function createTypedRouter({ srcDir, plugin, nuxt }: CreateTypedRouterArg
         const outputData = constructRouteMap(routes);
 
         if (plugin) {
-          handlePluginFileSave({ nuxt, routesDeclTemplate: outputData.routesDeclTemplate, srcDir });
+          handlePluginFileSave({
+            nuxt,
+            routesDeclTemplate: outputData.routesDeclTemplate,
+            rootDir,
+          });
         }
 
         await saveGeneratedFiles({
-          srcDir,
+          rootDir,
           outputData,
         });
       } else {

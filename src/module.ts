@@ -15,17 +15,17 @@ export default defineNuxtModule<ModuleOptions>({
     plugin: false,
   },
   setup(moduleOptions, nuxt: Nuxt) {
-    const srcDir = nuxt.options.srcDir;
+    const rootDir = nuxt.options.rootDir;
     const { plugin } = moduleOptions as Required<ModuleOptions>;
     // @ts-ignore
     const { resolve } = createResolver(import.meta.url);
     nuxt.options.alias = {
       ...nuxt.options.alias,
-      '@typed-router': resolve(`${nuxt.options.rootDir}/.nuxt/typed-router`),
+      '@typed-router': resolve(`${rootDir}/.nuxt/typed-router`),
     };
 
-    nuxt.hook('pages:extend', () => createTypedRouter({ srcDir, nuxt, plugin }));
+    nuxt.hook('pages:extend', () => createTypedRouter({ rootDir, nuxt, plugin }));
     // Allow generating files on load
-    createTypedRouter({ srcDir, nuxt, plugin });
+    createTypedRouter({ rootDir, nuxt, plugin });
   },
 });

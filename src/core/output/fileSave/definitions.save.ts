@@ -12,12 +12,12 @@ import {
 let previousGeneratedRoutes = '';
 
 type SaveGeneratedFiles = {
-  srcDir: string;
+  rootDir: string;
   outputData: GeneratorOutput;
 };
 
 export async function saveGeneratedFiles({
-  srcDir,
+  rootDir,
   outputData: { routesDeclTemplate, routesList, routesObjectTemplate, routesParams },
 }: SaveGeneratedFiles): Promise<void> {
   const filesMap: Array<{ fileName: string; content: string }> = [
@@ -49,7 +49,7 @@ export async function saveGeneratedFiles({
   ];
 
   await Promise.all(
-    filesMap.map(({ content, fileName }) => processPathAndWriteFile({ srcDir, content, fileName }))
+    filesMap.map(({ content, fileName }) => processPathAndWriteFile({ rootDir, content, fileName }))
   );
   if (previousGeneratedRoutes !== routesList.join(',')) {
     previousGeneratedRoutes = routesList.join(',');

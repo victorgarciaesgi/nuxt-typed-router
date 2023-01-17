@@ -10,7 +10,7 @@ import { formatOutputWithPrettier } from './prettierFormat';
 export const __dirname = dirname(fileURLToPath(import.meta.url));
 
 type ProcessPathAndWriteFileArgs = {
-  srcDir: string;
+  rootDir: string;
   fileName: string;
   content: string;
   outDir?: string;
@@ -19,12 +19,12 @@ type ProcessPathAndWriteFileArgs = {
 export async function processPathAndWriteFile({
   content,
   fileName,
-  srcDir,
+  rootDir,
   outDir,
 }: ProcessPathAndWriteFileArgs): Promise<void> {
   try {
     const finalOutDir = outDir ?? `.nuxt/typed-router`;
-    const processedOutDir = resolve(srcDir, finalOutDir);
+    const processedOutDir = resolve(rootDir, finalOutDir);
     const outputFile = resolve(process.cwd(), `${processedOutDir}/${fileName}`);
     const formatedContent = await formatOutputWithPrettier(content);
     if (fs.existsSync(outputFile)) {
