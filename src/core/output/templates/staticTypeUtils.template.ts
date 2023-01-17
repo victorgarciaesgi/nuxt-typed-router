@@ -35,7 +35,8 @@ type _TypedNamedRoute<T extends TypedRouteList> = Omit<
 
 /** Augmented Router interface */
 interface _TypedRouter
-  extends Omit<Router, 'removeRoute' | 'hasRoute' | 'resolve' | 'push' | 'replace'> {
+  extends Omit<Router, 'removeRoute' | 'hasRoute' | 'resolve' | 'push' | 'replace', 'currentRoute'> {
+  readonly currentRoute: _TypedRoute;
   /**
    * Remove an existing route by its name.
    *
@@ -87,6 +88,9 @@ declare global {
   export interface TypedRouter extends _TypedRouter {}
   export type TypedRoute = _TypedRoute;
   export type TypedNamedRoute<T extends TypedRouteList> = _TypedNamedRoute<T>;
+
+  const useRoute: typeof useTypedRoute;
+  const useRouter: typeof useTypedRouter;
 }
 
 type TypedNuxtLinkProps = Omit<NuxtLinkProps, 'to'> & {

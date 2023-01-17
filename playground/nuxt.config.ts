@@ -6,4 +6,5 @@ export default defineNuxtConfig({
   nuxtTypedRouter: {
     plugin: true,
   },
+  srcDir: './src',
 });

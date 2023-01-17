@@ -16,12 +16,18 @@ export default defineNuxtModule<ModuleOptions>({
   },
   setup(moduleOptions, nuxt: Nuxt) {
     const rootDir = nuxt.options.rootDir;
+    const rootDir = nuxt.options.rootDir;
     const { plugin } = moduleOptions as Required<ModuleOptions>;
     // @ts-ignore
     const { resolve } = createResolver(import.meta.url);
     nuxt.options.alias = {
       ...nuxt.options.alias,
       '@typed-router': resolve(`${rootDir}/.nuxt/typed-router`),
+    };
+
+    // Force register of type declaration
+    nuxt.options.typescript.tsConfig = {
+      include: ['./typed-router/typed-router.d.ts'],
     };
 
     nuxt.hook('pages:extend', () => createTypedRouter({ rootDir, nuxt, plugin }));

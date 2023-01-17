@@ -16,4 +16,6 @@ import type {
   TypedRouteParams,
   ResolvedTypedRouteNamedMapper,
 } from './__routes';
+import {useTypedRoute} from './__useTypedRoute';
+import {useTypedRouter} from './__useTypedRouter';
 `;
