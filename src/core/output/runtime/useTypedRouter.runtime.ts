@@ -20,5 +20,6 @@ export function createRuntimeUseTypedRouterFile(routesDeclTemplate: string): str
     return router;
   };
 
+  export const useRouter = useTypedRouter;
   `;
 }

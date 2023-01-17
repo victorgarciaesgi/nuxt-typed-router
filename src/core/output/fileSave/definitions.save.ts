@@ -14,10 +14,12 @@ let previousGeneratedRoutes = '';
 type SaveGeneratedFiles = {
   rootDir: string;
   outputData: GeneratorOutput;
+  autoImport: boolean;
 };
 
 export async function saveGeneratedFiles({
   rootDir,
+  autoImport,
   outputData: { routesDeclTemplate, routesList, routesObjectTemplate, routesParams },
 }: SaveGeneratedFiles): Promise<void> {
   const filesMap: Array<{ fileName: string; content: string }> = [
@@ -40,7 +42,7 @@ export async function saveGeneratedFiles({
     },
     {
       fileName: `typed-router.d.ts`,
-      content: createDeclarationRoutesFile(),
+      content: createDeclarationRoutesFile(autoImport),
     },
     {
       fileName: 'index.ts',
@@ -53,6 +55,6 @@ export async function saveGeneratedFiles({
   );
   if (previousGeneratedRoutes !== routesList.join(',')) {
     previousGeneratedRoutes = routesList.join(',');
-    console.log(logSymbols.success, `[typed-router] Routes definitions generated`);
+    console.log(logSymbols.success, `Router autocompletions generated 🚦`);
   }
 }

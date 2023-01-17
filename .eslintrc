@@ -1,5 +1,5 @@
 {
-  "extends": ["@nuxtjs/eslint-config-typescript", "prettier"],
+  "extends": ["@nuxtjs/eslint-config-typescript", "plugin:vue/vue3-recommended", "prettier"],
   "rules": {
     "semi": "off",
     "prefer-const": "off",

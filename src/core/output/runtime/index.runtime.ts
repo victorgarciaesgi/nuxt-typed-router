@@ -5,7 +5,7 @@ export function createRuntimeIndexFile(): string {
   ${watermarkTemplate}
   export { routesNames } from './__routes';
   export type { TypedRouteList } from './__routes';
-  export * from './__useTypedRouter';
-  export * from './__useTypedRoute';
+  export {useRouter} from './__useTypedRouter';
+  export {useRoute} from './__useTypedRoute';
   `;
 }

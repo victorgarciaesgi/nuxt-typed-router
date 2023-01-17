@@ -16,7 +16,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   setup(moduleOptions, nuxt: Nuxt) {
     const rootDir = nuxt.options.rootDir;
-    const rootDir = nuxt.options.rootDir;
+
     const { plugin } = moduleOptions as Required<ModuleOptions>;
     // @ts-ignore
     const { resolve } = createResolver(import.meta.url);
@@ -30,8 +30,10 @@ export default defineNuxtModule<ModuleOptions>({
       include: ['./typed-router/typed-router.d.ts'],
     };
 
-    nuxt.hook('pages:extend', () => createTypedRouter({ rootDir, nuxt, plugin }));
+    const typedRouterOptions = { nuxt, plugin };
+
+    nuxt.hook('pages:extend', () => createTypedRouter(typedRouterOptions));
     // Allow generating files on load
-    createTypedRouter({ rootDir, nuxt, plugin });
+    createTypedRouter(typedRouterOptions);
   },
 });

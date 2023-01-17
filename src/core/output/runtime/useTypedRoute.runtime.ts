@@ -34,5 +34,7 @@ export function useTypedRoute<T extends TypedRouteList = never>(
   return route as any;
 }
 
-  `;
+export const useRoute = useTypedRoute;
+
+`;
 }
