@@ -92,8 +92,8 @@ export function createRuntimeTypeUtils(autoImport: boolean) {
  
    ${
      autoImport
-       ? `const useRoute: typeof useTypedRoute;
-      const useRouter: typeof useTypedRouter;`
+       ? `const useRoute: typeof _useRoute;
+      const useRouter: typeof _useRouter;`
        : ''
    }
  }

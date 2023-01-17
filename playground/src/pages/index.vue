@@ -10,6 +10,7 @@ const route = useRoute('parent-foo-bar');
 const router = useRouter();
 
 function navigate() {
+  console.log(route.params.foo);
   router.push({ name: 'parent-id-slug', params: { slug: 'bar', id: 1 } });
 }
 </script>
