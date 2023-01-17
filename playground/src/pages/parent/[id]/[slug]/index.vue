@@ -1,3 +1,3 @@
 <template>
-  <nuxt-link :to="{ name: 'parent-child-two-profile-id-slug-articles' }"> Navigate too </nuxt-link>
+  <nuxt-link :to="{ name: 'index' }"> Navigate back </nuxt-link>
 </template>

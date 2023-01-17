@@ -4,7 +4,7 @@ export function createUseTypedRouteFile(routesDeclTemplate: string): string {
   return `
   ${watermarkTemplate}
   import { useRoute } from '#app';
-  import { TypedRouteList } from './__routes';
+  import type { TypedRouteList } from './__routes';
 
   /** Acts the same as \`useRoute\`, but typed.
  *
