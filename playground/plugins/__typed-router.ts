@@ -13,6 +13,7 @@ export default defineNuxtPlugin(() => {
   const route = useRoute();
   const routesNames = {
     index: 'index',
+    userPathes: 'user-pathes]',
     userFooBar: 'user-foo-bar',
     id: {
       slug: { articles: 'user-id-slug-articles', index: 'user-id-slug' },
