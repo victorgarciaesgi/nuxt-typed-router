@@ -59,6 +59,8 @@ Demo repo 🧪 : [nuxt-typed-router-demo](https://github.com/victorgarciaesgi/nu
 yarn add -D nuxt-typed-router
 # or
 npm install -D nuxt-typed-router
+# or
+pnpm install -D nuxt-typed-router
 ```
 
 ### Nuxt 2 legacy
