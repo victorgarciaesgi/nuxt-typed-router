@@ -2,7 +2,7 @@
   <div>
     <button @click="navigate"> Navigate button </button>
     <nuxt-link :to="{ name: 'user-id-slug', params: { id: 'foo', slug: 'bar' } }"
-      >Navigate Link</nuxt-link
+      >Navigate link</nuxt-link
     >
   </div>
 </template>

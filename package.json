@@ -21,8 +21,9 @@
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "build:test": "cross-env NUXT_BUILD_TYPE=stub yarn prepack && yarn dev:build",
-    "test": "yarn dev:prepare && yarn build:test && vitest run",
-    "test:watch": "yarn build:test && vitest",
+    "test:fixtures": "nuxt-module-build --stub && nuxi prepare test/fixtures/simple && vitest run --dir test",
+    "test:types": "pnpm nuxi prepare test/fixtures/simple && cd test/fixtures/basic && npx vue-tsc --noEmit",
+    "test": "pnpm run test:fixtures && pnpm run test:types",
     "docs:dev": "cd docs && yarn dev",
     "docs:build": "npm run dev:prepare && cd docs && nuxi generate"
   },
@@ -52,6 +53,10 @@
   "bugs": {
     "url": "https://github.com/victorgarciaesgi/nuxt-typed-router/issues"
   },
+  "workspaces": [
+    "docs",
+    "test/fixtures/*"
+  ],
   "dependencies": {
     "@nuxt/kit": "3.0.0",
     "chalk": "^5.2.0",

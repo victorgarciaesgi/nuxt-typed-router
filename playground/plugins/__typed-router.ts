@@ -13,15 +13,15 @@ export default defineNuxtPlugin(() => {
   const route = useRoute();
   const routesNames = {
     index: 'index',
-    parentSlug: 'parent-slug',
-    parentFooBar: 'parent-foo-bar',
+    userFooBar: 'user-foo-bar',
     id: {
-      slug: { articles: 'parent-id-slug-articles', index: 'parent-id-slug' },
-      index: 'parent-id',
-      posts: 'parent-id-posts',
+      slug: { articles: 'user-id-slug-articles', index: 'user-id-slug' },
+      index: 'user-id',
+      posts: 'user-id-posts',
     },
-    parent: 'parent',
-    parentTestOptional: 'parent-test-optional',
+    user: 'user',
+    userPostsSlug: 'user-posts-slug',
+    userTestOptional: 'user-test-optional',
   };
 
   return {

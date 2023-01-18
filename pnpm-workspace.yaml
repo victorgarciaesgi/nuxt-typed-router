@@ -1,0 +1,3 @@
+workspaces: 
+  - docs
+  - test/fixtures/* 

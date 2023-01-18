@@ -12,9 +12,12 @@ export function createTypedRouteParamsExport(routesParams: RouteParamsDecl[]): s
           `"${name}": ${
             params.length
               ? `{
-          ${params
-            .map(({ key, required }) => `"${key}"${required ? '' : '?'}: string | number`)
-            .join(',\n')}
+                ${params
+                  .map(
+                    ({ key, required, catchAll }) =>
+                      `"${key}"${required ? '' : '?'}: (string | number)${catchAll ? '[]' : ''}`
+                  )
+                  .join(',\n')}
         }`
               : 'never'
           }`
