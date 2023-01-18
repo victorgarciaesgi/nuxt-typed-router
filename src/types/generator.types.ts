@@ -2,6 +2,7 @@ export interface ParamDecl {
   key: string;
   required: boolean;
   notRequiredOnPage: boolean;
+  catchAll: boolean;
 }
 
 export interface RouteParamsDecl {

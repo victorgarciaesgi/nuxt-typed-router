@@ -18,11 +18,11 @@
 
 ## Provide a type safe router to Nuxt with auto-generated typed definitions for route names and autocompletion for route params
 
-- Automaticaly provides types check and autocomplete to `NuxtLink`
-- Exports a `useTypedRouter` and `useTypedRoute` composable
-- Supports routes defined in `config.extendRoutes`
-- Infer route params based on route name
-- Provide global `$typedRouter` util
+- Provides types check and autocomplete to `NuxtLink`
+  - Provides types check for `useRouter` and `useRoute` 
+  - Supports routes defined in `config.extendRoutes`
+  - Supports optional params and catchAll routes
+  - Infer route params based on route name
 
 <br/>
 
@@ -35,7 +35,7 @@
 
 # Documentation
 
-[![Open in StackBlitz](https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/.github/images/redirectDoc.svg?raw=true)](https://nuxt-typed-router.vercel.app/)
+[![Documentation](https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/.github/images/redirectDoc.svg?raw=true)](https://nuxt-typed-router.vercel.app/)
 
 # Play with it
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/github-7e4xvw?file=store/testRouter.ts)

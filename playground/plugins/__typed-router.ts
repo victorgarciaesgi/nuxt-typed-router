@@ -12,33 +12,17 @@ export default defineNuxtPlugin(() => {
   const router = useRouter();
   const route = useRoute();
   const routesNames = {
-    activate: 'activate',
     index: 'index',
-    parentSlug: 'parent-slug',
-    parentFooBar: 'parent-foo-bar',
-    childOne: {
-      childOneChildOneSubOne: 'parent-child-one-child-one-sub-one',
-      user: { index: 'parent-child-one-child-one-sub-one-user' },
-      childOneChildOneSubTwo: 'parent-child-one-child-one-sub-two',
-      index: 'parent-child-one',
+    userPathes: 'user-pathes]',
+    userFooBar: 'user-foo-bar',
+    id: {
+      slug: { articles: 'user-id-slug-articles', index: 'user-id-slug' },
+      index: 'user-id',
+      posts: 'user-id-posts',
     },
-    childTwo: {
-      childTwoId: 'parent-child-two-id',
-      childTwoChildOneSubOne: 'parent-child-two-child-one-sub-one',
-      index: 'parent-child-two',
-      profile: {
-        id: {
-          slug: {
-            idSlugArticles: 'parent-child-two-profile-id-slug-articles',
-            index: 'parent-child-two-profile-id-slug',
-          },
-          index: 'parent-child-two-profile-id',
-        },
-        index: 'parent-child-two-profile',
-      },
-    },
-    parentTestOptional: 'parent-test-optional',
-    rootPage: 'rootPage',
+    user: 'user',
+    userPostsSlug: 'user-posts-slug',
+    userTestOptional: 'user-test-optional',
   };
 
   return {

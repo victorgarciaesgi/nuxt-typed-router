@@ -17,7 +17,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: yarn test
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 6.0.2
+    - run: pnpm i
+    - run: pnpm run test
       env:
         CI: true

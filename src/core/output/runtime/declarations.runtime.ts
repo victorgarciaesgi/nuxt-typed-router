@@ -1,11 +1,12 @@
-import { staticTypesImports, staticTypeUtils, watermarkTemplate } from '../templates';
+import { staticTypesImports, watermarkTemplate } from '../templates';
+import { createRuntimeTypeUtils } from './typeUtils.runtime';
 
-export function createDeclarationRoutesFile(): string {
+export function createDeclarationRoutesFile(autoImport: boolean): string {
   return `
     ${watermarkTemplate}
     
     ${staticTypesImports}
 
-    ${staticTypeUtils}
+    ${createRuntimeTypeUtils(autoImport)}
   `;
 }
