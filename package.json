@@ -25,7 +25,8 @@
     "test:types": "pnpm nuxi prepare test/fixtures/simple && cd test/fixtures/simple && vue-tsc --noEmit",
     "test": "pnpm run test:fixtures && pnpm run test:types",
     "docs:dev": "cd docs && pnpm run dev",
-    "docs:build": "npm run dev:prepare && cd docs && nuxi generate"
+    "docs:build": "npm run dev:prepare && cd docs && nuxi generate",
+    "prepare": "pnpm run dev:prepare"
   },
   "publishConfig": {
     "access": "public"
