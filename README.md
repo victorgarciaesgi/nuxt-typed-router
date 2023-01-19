@@ -88,8 +88,8 @@ export default defineNuxtConfig({
 
 1. Clone this repository
 2. Install dependencies using `pnpm`
-3. Build project for local tests `pnpm build:local`
-4. Start dev playground `pnpm play`
+3. Build project for local tests `pnpm run test`
+4. Start dev playground `pnpm run prepack && pnpm run dev`
 5. Build project for deploy `pnpm prepack`
 
 ## 📑 License

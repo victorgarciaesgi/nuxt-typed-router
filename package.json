@@ -23,10 +23,9 @@
     "build:test": "cross-env NUXT_BUILD_TYPE=stub pnpm run prepack && pnpm run dev:build",
     "test:fixtures": "nuxt-module-build --stub && nuxi prepare test/fixtures/simple && vitest run --dir test",
     "test:types": "nuxi prepare test/fixtures/simple && cd test/fixtures/simple && vue-tsc --noEmit",
-    "test": "pnpm run test:fixtures && pnpm run test:types",
+    "test": "pnpm run dev:prepare && pnpm run test:fixtures && pnpm run test:types",
     "docs:dev": "cd docs && pnpm run dev",
-    "docs:build": "npm run dev:prepare && cd docs && nuxi generate",
-    "prepare": "pnpm run dev:prepare"
+    "docs:build": "npm run dev:prepare && cd docs && nuxi generate"
   },
   "publishConfig": {
     "access": "public"

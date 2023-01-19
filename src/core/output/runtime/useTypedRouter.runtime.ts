@@ -11,7 +11,7 @@ export function createRuntimeUseTypedRouterFile(routesDeclTemplate: string): str
    * @exemple
    * 
    * \`\`\`ts
-   * const { router, routes } = useRouter();
+   * const router = useRouter();
    * \`\`\`
    */
   export function useRouter(): TypedRouter {
