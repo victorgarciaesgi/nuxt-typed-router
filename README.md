@@ -18,11 +18,11 @@
 
 ## Provide a type safe router to Nuxt with auto-generated typed definitions for route names and autocompletion for route params
 
-- Provides types check and autocomplete to `NuxtLink`
-  - Provides types check for `useRouter` and `useRoute` 
-  - Supports routes defined in `config.extendRoutes`
-  - Supports optional params and catchAll routes
-  - Infer route params based on route name
+- `NuxtLink` route autocomplete and params type-check 
+- `useRouter` and `useRoute`  route autocomplete and params type-check
+- Supports optional params and catchAll routes
+- Infer route params based on route name
+- Supports routes defined in `config.extendRoutes`
 
 <br/>
 
