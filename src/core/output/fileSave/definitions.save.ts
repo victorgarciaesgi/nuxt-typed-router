@@ -4,6 +4,7 @@ import { processPathAndWriteFile } from '../../fs';
 import {
   createDeclarationRoutesFile,
   createRuntimeIndexFile,
+  createRuntimeRouterTypes,
   createRuntimeRoutesFile,
   createRuntimeUseTypedRouterFile,
   createUseTypedRouteFile,
@@ -39,6 +40,10 @@ export async function saveGeneratedFiles({
         routesDeclTemplate,
         routesParams,
       }),
+    },
+    {
+      fileName: `__router.d.ts`,
+      content: createRuntimeRouterTypes(),
     },
     {
       fileName: `typed-router.d.ts`,

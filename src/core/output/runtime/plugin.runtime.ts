@@ -4,6 +4,7 @@ export function createRuntimePluginFile(routesDeclTemplate: string): string {
   return `
   ${watermarkTemplate}
   import { defineNuxtPlugin } from '#app';
+  import {TypedRouter, TypedRoute} from '@typed-router';
 
   export default defineNuxtPlugin(() => {
     const router = useRouter();

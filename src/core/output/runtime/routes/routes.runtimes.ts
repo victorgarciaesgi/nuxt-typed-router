@@ -1,11 +1,11 @@
-import { RouteParamsDecl } from '../../../types';
+import { RouteParamsDecl } from '../../../../types';
 import {
   createTypedRouteListExport,
   createResolvedTypedRouteNamedMapperExport,
   createTypedRouteNamedMapperExport,
   createTypedRouteParamsExport,
 } from './routesTypes.runtime';
-import { watermarkTemplate } from '../templates';
+import { watermarkTemplate } from '../../templates';
 
 export function createRuntimeRoutesFile({
   routesList,
@@ -34,7 +34,6 @@ export function createRuntimeRoutesFile({
      * 
      * 
      * */
-
     ${createTypedRouteParamsExport(routesParams)}
 
     ${createTypedRouteNamedMapperExport(routesParams)}

@@ -4,7 +4,7 @@ export function createRuntimeUseTypedRouterFile(routesDeclTemplate: string): str
   return `
   ${watermarkTemplate}
   import { useRouter as defaultRouter } from '#app';
-  import type { TypedRouter } from './typed-router';
+  import type { TypedRouter } from './__router';
 
   /** Returns instances of $typedRouter and $routesList fully typed to use in your components or your Vuex/Pinia store
    * 

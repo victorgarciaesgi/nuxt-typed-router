@@ -1,7 +1,16 @@
-import { array, optional, required } from '../../../utils/typecheck';
-import { useRoute } from '@typed-router';
+<template>Routes</template>
 
-export const route = useRoute();
+<script setup lang="ts">
+const route = useRoute();
+
+// Check param
+function required(arg: string) {}
+
+// Check optional param
+function optional<T>(arg: undefined extends T ? T : never) {}
+
+// Check array params
+function array(arg: string[]) {}
 
 // @ts-expect-error
 const params: Record<string, any> = route.params; // Params are unknown
@@ -63,3 +72,4 @@ if (route.name === 'user-id-slug') {
 
   required(route.params.slug);
 }
+</script>

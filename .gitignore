@@ -19,7 +19,7 @@ pids
 lib-cov
 
 lib
-types
+./types
 .nuxt
 .output
 .DS_Store

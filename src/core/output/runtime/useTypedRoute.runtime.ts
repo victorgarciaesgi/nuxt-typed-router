@@ -5,6 +5,7 @@ export function createUseTypedRouteFile(routesDeclTemplate: string): string {
   ${watermarkTemplate}
   import { useRoute as defaultRoute } from '#app';
   import type { TypedRouteList } from './__routes';
+  import type {TypedRoute, TypedNamedRoute} from './__router'
 
   /** Acts the same as \`useRoute\`, but typed.
  *

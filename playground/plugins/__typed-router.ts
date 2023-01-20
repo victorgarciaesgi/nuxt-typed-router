@@ -7,13 +7,13 @@
  * */
 
 import { defineNuxtPlugin } from '#app';
+import { TypedRouter, TypedRoute } from '@typed-router';
 
 export default defineNuxtPlugin(() => {
   const router = useRouter();
   const route = useRoute();
   const routesNames = {
     index: 'index',
-    userPathes: 'user-pathes]',
     userFooBar: 'user-foo-bar',
     id: {
       slug: { articles: 'user-id-slug-articles', index: 'user-id-slug' },

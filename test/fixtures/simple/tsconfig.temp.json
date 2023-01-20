@@ -1,0 +1,94 @@
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "skipLibCheck": true,
+    "strict": true,
+    "allowJs": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "types": [
+      "node"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "~~": [
+        "."
+      ],
+      "~~/*": [
+        "./*"
+      ],
+      "@@": [
+        "."
+      ],
+      "@@/*": [
+        "./*"
+      ],
+      "~": [
+        "."
+      ],
+      "~/*": [
+        "./*"
+      ],
+      "@": [
+        "."
+      ],
+      "@/*": [
+        "./*"
+      ],
+      "assets": [
+        "assets"
+      ],
+      "public": [
+        "public"
+      ],
+      "#app": [
+        "../../../node_modules/.pnpm/nuxt@3.0.0_25m5kgy3jkv5dosol3zpo5umqm/node_modules/nuxt/dist/app"
+      ],
+      "#app/*": [
+        "../../../node_modules/.pnpm/nuxt@3.0.0_25m5kgy3jkv5dosol3zpo5umqm/node_modules/nuxt/dist/app/*"
+      ],
+      "vue-demi": [
+        "../../../node_modules/.pnpm/nuxt@3.0.0_25m5kgy3jkv5dosol3zpo5umqm/node_modules/nuxt/dist/app/compat/vue-demi"
+      ],
+      "@typed-router": [
+        ".nuxt/typed-router"
+      ],
+      "@typed-router/*": [
+        ".nuxt/typed-router/*"
+      ],
+      "#head": [
+        "../../../node_modules/.pnpm/nuxt@3.0.0_25m5kgy3jkv5dosol3zpo5umqm/node_modules/nuxt/dist/head/runtime"
+      ],
+      "#head/*": [
+        "../../../node_modules/.pnpm/nuxt@3.0.0_25m5kgy3jkv5dosol3zpo5umqm/node_modules/nuxt/dist/head/runtime/*"
+      ],
+      "#imports": [
+        ".nuxt/imports"
+      ],
+      "#build": [
+        ".nuxt"
+      ],
+      "#build/*": [
+        ".nuxt/*"
+      ],
+      "#components": [
+        ".nuxt/components"
+      ]
+    },
+    "emitDeclarationOnly": false,
+    "incremental": true,
+    "tsBuildInfoFile": "/Users/victorgarcia/Desktop/projects/nuxt-typed-router/node_modules/.pnpm/vitest@0.27.2/node_modules/vitest/dist/tsconfig.tmp.tsbuildinfo"
+  },
+  "include": [
+    ".nuxt/typed-router/typed-router.d.ts",
+    ".nuxt/nuxt.d.ts",
+    "**/*"
+  ],
+  "exclude": [
+    "../dist"
+  ]
+}

@@ -1,4 +1,4 @@
-import { RouteParamsDecl } from '../../../types';
+import { RouteParamsDecl } from '../../../../types';
 
 export function createTypedRouteListExport(routesList: string[]): string {
   return `export type TypedRouteList = ${routesList.map((m) => `'${m}'`).join('|\n')}`;
