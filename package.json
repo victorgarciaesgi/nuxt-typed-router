@@ -24,7 +24,7 @@
     "test:prepare-fixtures": "nuxi prepare test/fixtures/simple",
     "test:fixtures": " vitest run --dir test",
     "test:types": "pnpm run test:vue && vitest typecheck --run --dir test",
-    "test:vue": "vue-tsc -p test/fixtures/simple/tsconfig.json && vue-tsc -p test/fixtures/complex/tsconfig.json",
+    "test:vue": "vue-tsc -p test/fixtures/simple/tsconfig.json --noEmit && vue-tsc -p test/fixtures/complex/tsconfig.json --noEmit",
     "test": "pnpm run dev:prepare && pnpm run test:fixtures && pnpm run test:types",
     "docs:dev": "cd docs && pnpm run dev",
     "docs:build": "npm run dev:prepare && cd docs && nuxi generate"
