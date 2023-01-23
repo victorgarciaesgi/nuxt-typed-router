@@ -21,13 +21,14 @@ describe('Complex config behaviour', async () => {
     expect(html).toContain('Navigate button');
     expect(html).toContain('Navigate link');
     expect(html).toContain('NavigateTo button');
+    expect(html).toContain('Navigate plugin');
 
     await expectNoClientErrors('/');
   });
 
   // Commented for now because of a Nuxt bug still happening to me
 
-  it('should navigate correclty with useRouter', async () => {
+  it('should navigate correctly with useRouter', async () => {
     const page = await createPage('/');
     await page.click('#useRouter');
     const html = await page.innerHTML('body');
@@ -37,7 +38,7 @@ describe('Complex config behaviour', async () => {
     await expectNoClientErrors('/');
   });
 
-  it('should navigate correclty with nuxtLink', async () => {
+  it('should navigate correctly with nuxtLink', async () => {
     const page = await createPage('/');
     await page.click('#nuxtLink');
     const html = await page.innerHTML('body');
@@ -47,7 +48,7 @@ describe('Complex config behaviour', async () => {
     await expectNoClientErrors('/');
   });
 
-  it('should navigate correclty with navigateTo', async () => {
+  it('should navigate correctly with navigateTo', async () => {
     const page = await createPage('/');
     await page.click('#navigateTo');
     const html = await page.innerHTML('body');
