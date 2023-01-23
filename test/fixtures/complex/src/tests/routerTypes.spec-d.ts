@@ -1,6 +1,10 @@
+import { useNuxtApp } from '#app';
 import { useRouter } from '@typed-router';
 
 export const router = useRouter();
+const { $typedRouter } = useNuxtApp();
+// @ts-expect-error
+$typedRouter.resolve({ name: 'index', params: { id: 1 } });
 
 // @ts-expect-error
 router.resolve({ name: 'index', params: { id: '1' } }); // Error
