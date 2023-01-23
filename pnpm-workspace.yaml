@@ -1,2 +1,3 @@
-workspaces:
- - test/fixtures/*
+packages:
+  - test/fixtures/simple
+  - test/fixtures/complex

@@ -27,37 +27,33 @@ describe('Complex config behaviour', async () => {
 
   // Commented for now because of a Nuxt bug still happening to me
 
-  // it(
-  //   'should navigate correclty with useRouter',
-  //   async () => {
-  //     const page = await createPage('/');
-  //     await page.click('#useRouter');
-  //     const html = await page.innerHTML('body');
+  it('should navigate correclty with useRouter', async () => {
+    const page = await createPage('/');
+    await page.click('#useRouter');
+    const html = await page.innerHTML('body');
 
-  //     expect(html).toContain('Navigate back');
+    expect(html).toContain('Navigate back');
 
-  //     await expectNoClientErrors('/');
-  //   },
-  //   { timeout: 120000 }
-  // );
+    await expectNoClientErrors('/');
+  });
 
-  // it('should navigate correclty with nuxtLink', async () => {
-  //   const page = await createPage('/');
-  //   await page.click('#nuxtLink');
-  //   const html = await page.innerHTML('body');
+  it('should navigate correclty with nuxtLink', async () => {
+    const page = await createPage('/');
+    await page.click('#nuxtLink');
+    const html = await page.innerHTML('body');
 
-  //   expect(html).toContain('Navigate back');
+    expect(html).toContain('Navigate back');
 
-  //   await expectNoClientErrors('/');
-  // });
+    await expectNoClientErrors('/');
+  });
 
-  // it('should navigate correclty with navigateTo', async () => {
-  //   const page = await createPage('/');
-  //   await page.click('#navigateTo');
-  //   const html = await page.innerHTML('body');
+  it('should navigate correclty with navigateTo', async () => {
+    const page = await createPage('/');
+    await page.click('#navigateTo');
+    const html = await page.innerHTML('body');
 
-  //   expect(html).toContain('Navigate back');
+    expect(html).toContain('Navigate back');
 
-  //   await expectNoClientErrors('/');
-  // });
+    await expectNoClientErrors('/');
+  });
 });
