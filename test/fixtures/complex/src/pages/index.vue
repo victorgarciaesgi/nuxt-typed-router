@@ -29,7 +29,6 @@ function testNavigateTo() {
 
 function testNavigatePlugin() {
   $typedRouter.push({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } });
-
   // @ts-expect-error
   $typedRouter.resolve({ name: 'index', params: { id: 1 } });
 }

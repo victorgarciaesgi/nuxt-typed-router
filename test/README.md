@@ -17,6 +17,8 @@ Files to update for testing:
 - unit/types/*.ts
 
 
+Cannot use pnpm workspaces because of a Nuxt bug with workspaces
+
 `simple` fixture repo is for a vanilla config project.
 
 `complex` fixture is for a heavily modified config project (like plugin, srcDir modified etc..)
