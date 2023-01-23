@@ -5,13 +5,13 @@
       >Navigate link</nuxt-link
     >
     <button id="navigateTo" @click="testNavigateTo"> NavigateTo button </button>
-    <button id="plugin" @click="testNavigatePlugin"> NavigateTo plugin </button>
+    <button id="plugin" @click="testNavigatePlugin"> Navigate plugin </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRoute, useRouter, navigateTo } from '@typed-router';
 import { useNuxtApp } from '#app';
+import { useRoute, useRouter, navigateTo } from '@typed-router';
 
 const route = useRoute('user-foo-bar');
 const router = useRouter();

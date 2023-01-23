@@ -21,13 +21,14 @@
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground && pnpm run test:prepare-fixtures",
     "build:test": "cross-env NUXT_BUILD_TYPE=stub pnpm run prepack && pnpm run dev:build",
-    "test:prepare-fixtures": "nuxi prepare test/fixtures/simple && nuxi prepare test/fixtures/complex",
+    "test:prepare-fixtures": "nuxi prepare test/fixtures/simple && nuxi generate test/fixtures/complex",
     "test:fixtures": " vitest run --dir test",
     "test:types": "pnpm run test:vue && vitest typecheck --run --dir test",
     "test:vue": "vue-tsc -p test/fixtures/simple/tsconfig.json --noEmit && vue-tsc -p test/fixtures/complex/tsconfig.json --noEmit",
-    "test": "pnpm run dev:prepare && pnpm run test:fixtures && pnpm run test:types",
+    "test": "pnpm run typecheck && pnpm run dev:prepare && pnpm run test:fixtures && pnpm run test:types",
     "docs:dev": "cd docs && pnpm run dev",
-    "docs:build": "npm run dev:prepare && cd docs && nuxi generate"
+    "docs:build": "npm run dev:prepare && cd docs && nuxi generate",
+    "typecheck": "tsc --noEmit"
   },
   "publishConfig": {
     "access": "public"
