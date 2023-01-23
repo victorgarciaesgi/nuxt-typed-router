@@ -10,13 +10,15 @@ export function createDeclarationRoutesFile(autoImport: boolean): string {
     import type { TypedRouteNamedMapper } from './__routes';
     import { useRoute as _useRoute } from './__useTypedRoute';
     import { useRouter as _useRouter } from './__useTypedRouter';
+    import { navigateTo as _navigateTo } from './__utils';
 
     declare global {
  
       ${
         autoImport
           ? `const useRoute: typeof _useRoute;
-         const useRouter: typeof _useRouter;`
+            const useRouter: typeof _useRouter;
+            const navigateTo: typeof _navigateTo;`
           : ''
       }
     }

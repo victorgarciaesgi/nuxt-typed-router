@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url';
 import { describe, it, expect } from 'vitest';
-import { setup, $fetch } from '@nuxt/test-utils';
+import { setup, $fetch, createPage } from '@nuxt/test-utils';
 import { expectNoClientErrors } from './utils';
 
 describe('Root page', async () => {
@@ -13,6 +13,17 @@ describe('Root page', async () => {
 
     expect(html).toContain('Navigate button');
     expect(html).toContain('Navigate link');
+    expect(html).toContain('NavigateTo button');
+
+    await expectNoClientErrors('/');
+  });
+
+  it('should navigate correclty with useRouter', async () => {
+    const page = await createPage('/');
+    await page.click('#useRouter');
+    const html = await page.innerHTML('body');
+
+    expect(html).toContain('Navigate back');
 
     await expectNoClientErrors('/');
   });

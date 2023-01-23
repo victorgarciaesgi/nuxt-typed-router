@@ -23,6 +23,7 @@ importers:
       mkdirp: ^1.0.4
       nuxt: 3.0.0
       pathe: 1.0.0
+      playwright: ^1.29.2
       prettier: 2.8.3
       typescript: ^4.9.4
       vitest: ^0.27.2
@@ -50,6 +51,7 @@ importers:
       eslint-config-prettier: 8.6.0_eslint@8.32.0
       eslint-plugin-vue: 9.9.0_eslint@8.32.0
       nuxt: 3.0.0_25m5kgy3jkv5dosol3zpo5umqm
+      playwright: 1.29.2
       typescript: 4.9.4
       vitest: 0.27.2
       vue-router: 4.1.6
@@ -6663,6 +6665,21 @@ packages:
       jsonc-parser: 3.2.0
       mlly: 1.1.0
       pathe: 1.0.0
+
+  /playwright-core/1.29.2:
+    resolution: {integrity: sha512-94QXm4PMgFoHAhlCuoWyaBYKb92yOcGVHdQLoxQ7Wjlc7Flg4aC/jbFW7xMR52OfXMVkWicue4WXE7QEegbIRA==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: true
+
+  /playwright/1.29.2:
+    resolution: {integrity: sha512-hKBYJUtdmYzcjdhYDkP9WGtORwwZBBKAW8+Lz7sr0ZMxtJr04ASXVzH5eBWtDkdb0c3LLFsehfPBTRfvlfKJOA==}
+    engines: {node: '>=14'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      playwright-core: 1.29.2
+    dev: true
 
   /pluralize/8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
