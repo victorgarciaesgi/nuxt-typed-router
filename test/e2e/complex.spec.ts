@@ -7,12 +7,12 @@ describe('Complex config behaviour', async () => {
   await setup({
     rootDir: fileURLToPath(new URL('../fixtures/complex', import.meta.url)),
     setupTimeout: 120000,
-    // browserOptions: {
-    //   type: 'chromium',
-    //   launch: {
-    //     devtools: true,
-    //   },
-    // },
+    browserOptions: {
+      type: 'chromium',
+      launch: {
+        devtools: true,
+      },
+    },
   });
 
   it('should display the root page without error', async () => {
@@ -27,19 +27,19 @@ describe('Complex config behaviour', async () => {
 
   // Commented for now because of a Nuxt bug still happening to me
 
-  // it(
-  //   'should navigate correclty with useRouter',
-  //   async () => {
-  //     const page = await createPage('/');
-  //     await page.click('#useRouter');
-  //     const html = await page.innerHTML('body');
+  it(
+    'should navigate correclty with useRouter',
+    async () => {
+      const page = await createPage('/');
+      await page.click('#useRouter');
+      const html = await page.innerHTML('body');
 
-  //     expect(html).toContain('Navigate back');
+      expect(html).toContain('Navigate back');
 
-  //     await expectNoClientErrors('/');
-  //   },
-  //   { timeout: 120000 }
-  // );
+      await expectNoClientErrors('/');
+    },
+    { timeout: 120000 }
+  );
 
   // it('should navigate correclty with nuxtLink', async () => {
   //   const page = await createPage('/');
