@@ -1,7 +1,7 @@
-/// <reference path='../../fixtures/simple/tests/routerTypes.spec-d.ts'/>
+/// <reference path='../../../fixtures/simple/tests/routerTypes.spec-d.ts'/>
 
 import { assertType, expectTypeOf } from 'vitest';
-import type { TypedRouter } from '../../fixtures/simple/.nuxt/typed-router';
+import type { TypedRouter } from '../../../fixtures/simple/.nuxt/typed-router';
 
 declare const router: TypedRouter;
 

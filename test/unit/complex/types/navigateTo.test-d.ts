@@ -1,7 +1,7 @@
-/// <reference path='../../fixtures/simple/tests/routerTypes.spec-d.ts'/>
+/// <reference path='../../../fixtures/complex/src/tests/routerTypes.spec-d.ts'/>
 
 import { assertType } from 'vitest';
-import { navigateTo } from '../../fixtures/simple/.nuxt/typed-router';
+import { navigateTo } from '../../../fixtures/complex/.nuxt/typed-router';
 
 test('router types should be correct', () => {
   // @ts-expect-error
@@ -59,4 +59,14 @@ test('router types should be correct', () => {
   assertType(navigateTo({ name: 'user-id-slug', params: { id: 1 } })); // Error
 
   assertType(navigateTo({ name: 'user-id-slug', params: { slug: '2' } })); // Good
+
+  // ---- Routes added by config extend
+
+  // @ts-expect-error
+  assertType(navigateTo({ name: 'test-extend' })); // Error
+
+  // ---- Routes added by modules
+
+  // @ts-expect-error
+  assertType(navigateTo({ name: 'test-module' })); // Error
 });

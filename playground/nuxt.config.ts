@@ -1,8 +1,7 @@
-import { defineNuxtConfig } from 'nuxt/config';
-import MyModule from '..';
+import NuxtTypedRouter from '..';
 
 export default defineNuxtConfig({
-  modules: [MyModule],
+  modules: [NuxtTypedRouter],
   nuxtTypedRouter: {
     plugin: true,
   },

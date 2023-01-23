@@ -1,5 +1,5 @@
 import { extendPages } from '@nuxt/kit';
-import { Nuxt } from '@nuxt/schema/dist/index';
+import { Nuxt, NuxtPage } from '@nuxt/schema/dist/index';
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
@@ -9,42 +9,69 @@ import { constructRouteMap } from './parser';
 
 type CreateTypedRouterArgs = Required<ModuleOptions> & {
   nuxt: Nuxt;
+  routesConfig?: NuxtPage[];
+  isHookCall?: boolean;
 };
 
-export function createTypedRouter({ plugin, nuxt }: CreateTypedRouterArgs): void {
+let hasLoggedNoPages = false;
+let hasRoutesDefined = false;
+
+export async function createTypedRouter({
+  plugin,
+  nuxt,
+  routesConfig,
+  isHookCall = false,
+}: CreateTypedRouterArgs): Promise<void> {
   try {
     const rootDir = nuxt.options.rootDir;
     const autoImport = nuxt.options.imports.autoImport ?? true;
 
+    if (!isHookCall) {
+      // Allow to collect custom routes added by config or module before generating it
+      if (routesConfig) {
+        await nuxt.callHook('pages:extend', routesConfig);
+        return;
+      }
+      nuxt.hook('pages:extend', (routesConfig) => {
+        createTypedRouter({ nuxt, plugin, routesConfig, isHookCall: true });
+      });
+      nuxt.hook('modules:done', () => {
+        createTypedRouter({ nuxt, plugin, isHookCall: true });
+      });
+      return;
+    }
+
     // We use extendPages here to access the NuxtRouteConfig, not accessible in the `pages:extend` hook
     extendPages(async (routes: NuxtRouteConfig[]) => {
-      if (routes.length) {
-        const outputData = constructRouteMap(routes);
+      hasRoutesDefined = true;
+      const outputData = constructRouteMap(routes);
 
-        if (plugin) {
-          handlePluginFileSave({
-            nuxt,
-            routesDeclTemplate: outputData.routesDeclTemplate,
-            rootDir,
-          });
-        }
-
-        await saveGeneratedFiles({
-          autoImport,
-          rootDir,
-          outputData,
+      if (plugin) {
+        handlePluginFileSave({
+          nuxt,
+          routesDeclTemplate: outputData.routesDeclTemplate,
         });
-      } else {
+      }
+
+      await saveGeneratedFiles({
+        autoImport,
+        rootDir,
+        outputData,
+      });
+    });
+    setTimeout(() => {
+      if (!hasRoutesDefined && !hasLoggedNoPages) {
+        hasLoggedNoPages = true;
         console.log(
           logSymbols.warning,
           chalk.yellow(
-            `[typed-router] No routes defined. Check if your ${chalk.underline(
+            `🚦 No routes defined. Check if your ${chalk.underline(
               chalk.bold('pages')
-            )} folder exists and remove ${chalk.underline(chalk.bold('app.vue'))}`
+            )} folder exists`
           )
         );
       }
-    });
+    }, 3000);
   } catch (e) {
     console.error(chalk.red('Error while generating routes definitions model'), '\n' + e);
   }
