@@ -3,7 +3,9 @@ import { watermarkTemplate } from '../templates';
 export function createRuntimeNavigateToFunction() {
   return `
     ${watermarkTemplate}
-    import { navigateTo as defaultNavigateTo, NavigateToOptions, NavigationFailure } from '#app';
+    import { navigateTo as defaultNavigateTo } from '#app';
+    import { NavigateToOptions } from 'nuxt/dist/app/composables/router';
+    import { NavigationFailure } from 'vue-router';
     import type { ResolvedTypedLocationAsRelativeRaw, TypedNamedRoute } from './__router';
     import { TypedRouteList } from './__routes';
 

@@ -11,7 +11,7 @@
 const route = useRoute('user-foo-bar');
 const router = useRouter();
 
-const route2 = await navigateTo({ name: 'user-id-posts', params: { id: 1 } });
+await navigateTo({ name: 'user-id-posts', params: { id: 1 } });
 
 function navigate() {
   console.log(route.params.foo);
