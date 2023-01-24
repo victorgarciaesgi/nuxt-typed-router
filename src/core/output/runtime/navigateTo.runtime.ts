@@ -6,7 +6,7 @@ export function createRuntimeNavigateToFunction() {
     import { navigateTo as defaultNavigateTo } from '#app';
     import { NavigateToOptions } from 'nuxt/dist/app/composables/router';
     import { NavigationFailure } from 'vue-router';
-    import type { TypedNamedRouteLocation } from './__router';
+    import type { TypedNamedRouteLocation, TypedNamedRoute } from './__router';
     import { TypedRouteList } from './__routes';
 
     export const navigateTo: <T extends TypedRouteList>(

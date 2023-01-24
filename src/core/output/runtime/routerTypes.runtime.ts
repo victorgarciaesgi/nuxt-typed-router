@@ -37,7 +37,7 @@ export function createRuntimeRouterTypes() {
     : { params: TypedRouteParams[T] });
   
   type ResolvedTypedLocationAsRelativeRaw<T extends TypedRouteList> = {
-    name?: T;
+    name: T;
   } & ([TypedRouteParams[T]] extends [never] ? {} : { params: TypedRouteParams[T] });
   
   export type TypedNamedRouteLocation<T extends TypedRouteList> =

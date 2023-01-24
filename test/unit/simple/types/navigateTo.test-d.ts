@@ -1,9 +1,21 @@
 /// <reference path='../../../fixtures/simple/tests/routerTypes.spec-d.ts'/>
 
 import { assertType } from 'vitest';
+import { LocationQuery } from 'vue-router';
 import { navigateTo } from '../../../fixtures/simple/.nuxt/typed-router';
 
-test('router types should be correct', () => {
+test('router types should be correct', async () => {
+  const route = await navigateTo({ name: 'user-one-foo-two', params: { one: 1, two: 2 } });
+  if (route instanceof Error) {
+    //
+  } else if (route) {
+    expectTypeOf(route.name).toMatchTypeOf<'user-one-foo-two'>();
+    expectTypeOf(route.params).toMatchTypeOf<{
+      one: string | number;
+      two: string | number;
+    }>();
+    expectTypeOf(route.query).toMatchTypeOf<LocationQuery>();
+  }
   assertType(navigateTo({ name: 'index', query: { id: 1 } }));
   // @ts-expect-error
   assertType(navigateTo({ name: 'index', params: { id: 1 } })); // Error
