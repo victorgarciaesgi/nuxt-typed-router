@@ -4,6 +4,7 @@ import { assertType } from 'vitest';
 import { navigateTo } from '../../../fixtures/complex/.nuxt/typed-router';
 
 test('router types should be correct', () => {
+  assertType(navigateTo({ name: 'index', query: { id: 1 } }));
   // @ts-expect-error
   assertType(navigateTo({ name: 'index', params: { id: 1 } })); // Error
 

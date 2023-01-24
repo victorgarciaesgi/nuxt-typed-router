@@ -8,6 +8,8 @@ declare const router: TypedRouter;
 test('router types should be correct', () => {
   expectTypeOf(router).toMatchTypeOf<TypedRouter>();
 
+  assertType(router.resolve({ name: 'index', query: { foo: 'bar' } }));
+
   // @ts-expect-error
   assertType(router.resolve({ name: 'index', params: { id: '1' } })); // Error
 
