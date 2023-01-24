@@ -1,7 +1,7 @@
 import { defineTheme, palette } from 'pinceau';
 
 export default defineTheme({
-  colors: {
-    primary: palette('orange'),
+  color: {
+    primary: palette('#0a87db'),
   },
 });

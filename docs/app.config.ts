@@ -12,6 +12,10 @@ export default defineAppConfig({
     aside: {
       level: 0,
     },
+    cover: {
+      src: '/cover.jpg',
+      alt: 'Type safe router for Nuxt',
+    },
     header: {
       logo: true,
     },
@@ -28,5 +32,15 @@ export default defineAppConfig({
         href: 'https://docus.dev',
       },
     },
+    github: {
+      root: 'docs/content',
+      edit: true,
+      contributors: true,
+    },
+  },
+  github: {
+    ownner: 'victorgarciaesgi',
+    repo: 'nuxt-typed-router',
+    branch: 'master',
   },
 });
