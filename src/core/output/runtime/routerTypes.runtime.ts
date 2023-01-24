@@ -1,5 +1,5 @@
 export function createRuntimeRouterTypes() {
-  return `
+  return /* typescript */ `
   import type {
     NavigationFailure,
     RouteLocation,

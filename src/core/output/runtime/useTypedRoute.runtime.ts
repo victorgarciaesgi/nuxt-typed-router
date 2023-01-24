@@ -1,7 +1,7 @@
 import { watermarkTemplate } from '../templates';
 
 export function createUseTypedRouteFile(routesDeclTemplate: string): string {
-  return `
+  return /* typescript */ `
   ${watermarkTemplate}
   import { useRoute as defaultRoute } from '#app';
   import type { TypedRouteList } from './__routes';

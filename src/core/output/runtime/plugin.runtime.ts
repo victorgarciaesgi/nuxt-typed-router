@@ -1,7 +1,7 @@
 import { watermarkTemplate } from '../templates';
 
 export function createRuntimePluginFile(routesDeclTemplate: string): string {
-  return `
+  return /* typescript */ `
   ${watermarkTemplate}
   import { defineNuxtPlugin, useRouter, useRoute } from '#app';
   import {TypedRouter, TypedRoute} from '@typed-router';

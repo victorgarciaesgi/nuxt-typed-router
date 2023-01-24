@@ -1,7 +1,7 @@
 import { watermarkTemplate } from '../templates';
 
 export function createDeclarationRoutesFile(autoImport: boolean): string {
-  return `
+  return /* typescript */ `
     ${watermarkTemplate}
     
     import type { NuxtLinkProps } from '#app';

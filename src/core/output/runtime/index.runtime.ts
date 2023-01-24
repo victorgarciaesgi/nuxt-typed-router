@@ -1,7 +1,7 @@
 import { watermarkTemplate } from '../templates';
 
 export function createRuntimeIndexFile(): string {
-  return `
+  return /* typescript */ `
   ${watermarkTemplate}
   export { routesNames } from './__routes';
   export type { TypedRouteList, TypedRouteNamedMapper, TypedRouteParams } from './__routes';

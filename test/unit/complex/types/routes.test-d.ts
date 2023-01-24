@@ -6,7 +6,7 @@ import { array, optional, required } from '../../../utils/typecheck';
 
 declare const route: TypedRoute;
 
-test('router types should be correct', () => {
+test('route types should be correct', () => {
   expectTypeOf(route).toMatchTypeOf<TypedRoute>();
 
   assertType(route.query.foo);

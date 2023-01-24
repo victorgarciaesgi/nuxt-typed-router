@@ -1,7 +1,7 @@
 import { watermarkTemplate } from '../templates';
 
 export function createRuntimeNavigateToFunction() {
-  return `
+  return /* typescript */ `
     ${watermarkTemplate}
     import { navigateTo as defaultNavigateTo } from '#app';
     import { NavigateToOptions } from 'nuxt/dist/app/composables/router';

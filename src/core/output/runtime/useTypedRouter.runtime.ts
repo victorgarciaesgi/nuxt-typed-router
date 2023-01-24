@@ -1,7 +1,7 @@
 import { watermarkTemplate } from '../templates';
 
 export function createRuntimeUseTypedRouterFile(routesDeclTemplate: string): string {
-  return `
+  return /* typescript */ `
   ${watermarkTemplate}
   import { useRouter as defaultRouter } from '#app';
   import type { TypedRouter } from './__router';
