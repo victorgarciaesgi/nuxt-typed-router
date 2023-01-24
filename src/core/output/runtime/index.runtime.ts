@@ -7,6 +7,7 @@ export function createRuntimeIndexFile(): string {
   export type { TypedRouteList, TypedRouteNamedMapper, TypedRouteParams } from './__routes';
   export {useRouter} from './__useTypedRouter';
   export {useRoute} from './__useTypedRoute';
-  export type {TypedRoute, TypedRouter, TypedNamedRoute } from './__router'
+  export type {TypedRoute, TypedRouter, TypedNamedRoute } from './__router';
+  export * from './__utils';
   `;
 }

@@ -19,10 +19,13 @@
 ## Provide a type safe router to Nuxt with auto-generated typed definitions for route names and autocompletion for route params
 
 - `NuxtLink` route autocomplete and params type-check 
-- `useRouter` and `useRoute`  route autocomplete and params type-check
+- `useRouter`, `useRoute` and `navigateTo` route autocomplete and params type-check
 - Supports optional params and catchAll routes
 - Infer route params based on route name
 - Supports routes defined in `config.extendRoutes`
+
+> ⚠️ Since `v2.1.x`, `useTypedRouter` and `useTypedRoute` are no longer exported.   
+The package can now override types from `useRouter`, `useRoute` and `navigateTo`
 
 <br/>
 
@@ -31,6 +34,8 @@
   <img src="https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/.github/images/nuxt-router.gif?raw=true"/>
 </p>
 <br/>
+
+
 
 
 # Documentation

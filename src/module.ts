@@ -18,7 +18,6 @@ export default defineNuxtModule<ModuleOptions>({
     const rootDir = nuxt.options.rootDir;
 
     const { plugin } = moduleOptions as Required<ModuleOptions>;
-    // @ts-ignore
     const { resolve } = createResolver(import.meta.url);
     nuxt.options.alias = {
       ...nuxt.options.alias,
@@ -32,8 +31,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     const typedRouterOptions = { nuxt, plugin };
 
-    nuxt.hook('pages:extend', () => createTypedRouter(typedRouterOptions));
     // Allow generating files on load
-    createTypedRouter(typedRouterOptions);
+    createTypedRouter({ ...typedRouterOptions });
   },
 });

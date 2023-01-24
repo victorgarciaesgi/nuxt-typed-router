@@ -5,3 +5,4 @@ export * from './routes';
 export * from './useTypedRoute.runtime';
 export * from './useTypedRouter.runtime';
 export * from './routerTypes.runtime';
+export * from './navigateTo.runtime';

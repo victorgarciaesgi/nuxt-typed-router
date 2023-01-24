@@ -9,8 +9,10 @@ export default defineComponent({
       <>
         <NuxtLink to={{ name: 'index' }}></NuxtLink>
         {/* @ts-expect-error */}
-        <NuxtLink to={{ name: 'blablabla' }}></NuxtLink>;{/* @ts-expect-error */}
-        <NuxtLink to={{ name: 'blablabla' }}></NuxtLink>;{/* @ts-expect-error */}
+        <NuxtLink to={{ name: 'blablabla' }}></NuxtLink>
+        {/* @ts-expect-error */}
+        <NuxtLink to={{ name: 'blablabla' }}></NuxtLink>
+        {/* @ts-expect-error */}
         <NuxtLink to={{ name: 'user-id', params: { foo: 'bar' } }}></NuxtLink>;
         {/* @ts-expect-error */}
         <NuxtLink to={{ name: 'user-foo-bar', params: { bar: 1 } }}></NuxtLink>;

@@ -4,24 +4,23 @@ import { createRuntimePluginFile } from '../runtime';
 
 type HandlePluginFileSaveArgs = {
   nuxt: Nuxt;
-  rootDir: string;
   routesDeclTemplate: string;
 };
 
-export function handlePluginFileSave({
-  nuxt,
-  rootDir,
-  routesDeclTemplate,
-}: HandlePluginFileSaveArgs) {
+export function handlePluginFileSave({ nuxt, routesDeclTemplate }: HandlePluginFileSaveArgs) {
   const pluginName = '__typed-router.ts';
+  const srcDir = nuxt.options.srcDir;
 
-  nuxt.hook('build:done', async () => {
-    const pluginFolder = `${rootDir}/plugins`;
+  async function savePlugin() {
+    const pluginFolder = `${srcDir}/plugins`;
     await processPathAndWriteFile({
       outDir: pluginFolder,
-      rootDir,
+      rootDir: srcDir,
       fileName: pluginName,
       content: createRuntimePluginFile(routesDeclTemplate),
     });
-  });
+  }
+
+  nuxt.hook('build:done', savePlugin);
+  nuxt.hook('prepare:types', savePlugin);
 }
