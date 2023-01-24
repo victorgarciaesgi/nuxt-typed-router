@@ -40,7 +40,13 @@ export function createRuntimeRouterTypes() {
     name?: T;
   } & ([TypedRouteParams[T]] extends [never] ? {} : { params: TypedRouteParams[T] });
   
-  type TypedRouteLocationRaw = RouteQueryAndHash & TypedRouteNamedMapper & RouteLocationOptions;
+  export type TypedNamedRouteLocation<T extends TypedRouteList> =
+  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
+  | string;
+  
+  type TypedRouteLocationRaw =
+    | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedRouteNamedMapper)
+    | string;
   
   type _TypedRoute = Omit<RouteLocationNormalizedLoaded, 'name' | 'params'> &
     ResolvedTypedRouteNamedMapper;

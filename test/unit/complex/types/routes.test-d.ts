@@ -9,6 +9,8 @@ declare const route: TypedRoute;
 test('router types should be correct', () => {
   expectTypeOf(route).toMatchTypeOf<TypedRoute>();
 
+  assertType(route.query.foo);
+
   // @ts-expect-error
   const check = route.name === 'baguette';
 
