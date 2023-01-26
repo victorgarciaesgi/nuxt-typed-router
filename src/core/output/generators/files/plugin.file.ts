@@ -1,13 +1,12 @@
-export function createPluginFile(routesDeclTemplate: string): string {
+export function createPluginFile(): string {
   return /* typescript */ `
   
   import { defineNuxtPlugin, useRouter, useRoute } from '#app';
-  import {TypedRouter, TypedRoute} from '@typed-router';
+  import {TypedRouter, TypedRoute, routesNames} from '@typed-router';
 
   export default defineNuxtPlugin(() => {
     const router = useRouter();
     const route = useRoute();
-    const routesNames = ${routesDeclTemplate};
 
     return {
       provide: {

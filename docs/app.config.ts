@@ -33,14 +33,12 @@ export default defineAppConfig({
       },
     },
     github: {
-      root: 'docs/content',
+      dir: 'docs/content',
       edit: true,
       contributors: true,
+      owner: 'victorgarciaesgi',
+      repo: 'nuxt-typed-router',
+      branch: 'master',
     },
-  },
-  github: {
-    ownner: 'victorgarciaesgi',
-    repo: 'nuxt-typed-router',
-    branch: 'master',
   },
 });

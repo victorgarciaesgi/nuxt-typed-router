@@ -4,7 +4,7 @@ import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
 import { ModuleOptions } from '../types';
-import { handlePluginFileSave, saveGeneratedFiles } from './output';
+import { handleAddPlugin, saveGeneratedFiles } from './output';
 import { constructRouteMap } from './parser';
 
 type CreateTypedRouterArgs = Required<ModuleOptions> & {
@@ -38,6 +38,9 @@ export async function createTypedRouter({
       nuxt.hook('modules:done', () => {
         createTypedRouter({ nuxt, plugin, isHookCall: true });
       });
+      if (plugin) {
+        await handleAddPlugin();
+      }
       return;
     }
 
@@ -46,17 +49,11 @@ export async function createTypedRouter({
       hasRoutesDefined = true;
       const outputData = constructRouteMap(routes);
 
-      if (plugin) {
-        handlePluginFileSave({
-          nuxt,
-          routesDeclTemplate: outputData.routesDeclTemplate,
-        });
-      }
-
       await saveGeneratedFiles({
         autoImport,
         rootDir,
         outputData,
+        plugin,
       });
     });
     setTimeout(() => {

@@ -20,11 +20,13 @@ type SaveGeneratedFiles = {
   rootDir: string;
   outputData: GeneratorOutput;
   autoImport: boolean;
+  plugin: boolean;
 };
 
 export async function saveGeneratedFiles({
   rootDir,
   autoImport,
+  plugin,
   outputData: { routesDeclTemplate, routesList, routesObjectTemplate, routesParams },
 }: SaveGeneratedFiles): Promise<void> {
   const filesMap: Array<{ fileName: string; content: string }> = [
@@ -59,7 +61,7 @@ export async function saveGeneratedFiles({
     },
     {
       fileName: `typed-router.d.ts`,
-      content: createTypedRouterDefinitionFile(autoImport),
+      content: createTypedRouterDefinitionFile({ autoImport, plugin }),
     },
     {
       fileName: 'index.ts',
