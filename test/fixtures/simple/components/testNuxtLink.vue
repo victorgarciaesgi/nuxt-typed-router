@@ -1,7 +1,7 @@
 <script lang="tsx">
-import { _NuxtLink } from '~~/.nuxt/typed-router/typed-router';
+import { TypedNuxtLink } from '~~/.nuxt/typed-router/typed-router';
 
-declare const NuxtLink: _NuxtLink;
+declare const NuxtLink: TypedNuxtLink;
 
 export default defineComponent({
   render() {

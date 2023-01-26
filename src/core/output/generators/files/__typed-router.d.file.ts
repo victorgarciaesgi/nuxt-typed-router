@@ -1,22 +1,20 @@
-import { watermarkTemplate } from '../templates';
-
-export function createDeclarationRoutesFile(autoImport: boolean): string {
+export function createTypedRouterDefinitionFile(autoImport: boolean): string {
   return /* typescript */ `
-    ${watermarkTemplate}
     
     import type { NuxtLinkProps } from '#app';
     import type { DefineComponent } from 'vue';
     import type { RouteLocationRaw } from 'vue-router';
-    import type { TypedRouteNamedMapper } from './__routes';
+    import type { RoutesNamedLocations } from './__routes';
     import { useRoute as _useRoute } from './__useTypedRoute';
     import { useRouter as _useRouter } from './__useTypedRouter';
-    import { navigateTo as _navigateTo } from './__utils';
+    import { navigateTo as _navigateTo } from './__navigateTo';
 
     declare global {
  
       ${
         autoImport
-          ? `const useRoute: typeof _useRoute;
+          ? /* typescript */ `
+            const useRoute: typeof _useRoute;
             const useRouter: typeof _useRouter;
             const navigateTo: typeof _navigateTo;`
           : ''
@@ -24,10 +22,10 @@ export function createDeclarationRoutesFile(autoImport: boolean): string {
     }
     
     type TypedNuxtLinkProps = Omit<NuxtLinkProps, 'to'> & {
-      to: string | Omit<Exclude<RouteLocationRaw, string>, 'name'> & TypedRouteNamedMapper;
+      to: string | Omit<Exclude<RouteLocationRaw, string>, 'name'> & RoutesNamedLocations;
     };
     
-    export type _NuxtLink = DefineComponent<
+    export type TypedNuxtLink = DefineComponent<
       TypedNuxtLinkProps,
       {},
       {},
@@ -46,7 +44,7 @@ export function createDeclarationRoutesFile(autoImport: boolean): string {
     
     declare module '@vue/runtime-core' {
       export interface GlobalComponents {
-        NuxtLink: _NuxtLink;
+        NuxtLink: TypedNuxtLink;
       }
     }
   `;

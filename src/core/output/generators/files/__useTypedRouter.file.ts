@@ -1,12 +1,11 @@
-import { watermarkTemplate } from '../templates';
-
-export function createRuntimeUseTypedRouterFile(routesDeclTemplate: string): string {
+export function createUseTypedRouterFile(routesDeclTemplate: string): string {
   return /* typescript */ `
-  ${watermarkTemplate}
+  
   import { useRouter as defaultRouter } from '#app';
   import type { TypedRouter } from './__router';
 
-  /** Returns instances of $typedRouter and $routesList fully typed to use in your components or your Vuex/Pinia store
+  /** 
+   * Typed clone of \`useRouter\`
    * 
    * @exemple
    * 

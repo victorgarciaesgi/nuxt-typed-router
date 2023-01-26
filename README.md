@@ -89,6 +89,12 @@ export default defineNuxtConfig({
 ```
 
 
+# Roadmap
+
+- [ ] Add `path` autocomplete with TS string templates
+- [ ] Enforce strong params typing depending of origin route
+
+
 ## Development
 
 1. Clone this repository

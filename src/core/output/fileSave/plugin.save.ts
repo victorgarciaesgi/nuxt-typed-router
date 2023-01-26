@@ -1,6 +1,6 @@
 import { Nuxt } from '@nuxt/schema';
 import { processPathAndWriteFile } from '../../fs';
-import { createRuntimePluginFile } from '../runtime';
+import { createPluginFile } from '../generators';
 
 type HandlePluginFileSaveArgs = {
   nuxt: Nuxt;
@@ -17,7 +17,7 @@ export function handlePluginFileSave({ nuxt, routesDeclTemplate }: HandlePluginF
       outDir: pluginFolder,
       rootDir: srcDir,
       fileName: pluginName,
-      content: createRuntimePluginFile(routesDeclTemplate),
+      content: createPluginFile(routesDeclTemplate),
     });
   }
 
