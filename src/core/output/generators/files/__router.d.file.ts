@@ -14,6 +14,7 @@ export function createTypedRouterFile() {
     RoutesNamedLocationsResolved,
     RoutesNamesList,
     RoutesParamsRecord,
+    RoutesParamsRecordResolved
   } from './__routes';
   import type { HasOneRequiredParameter } from './__types_utils';
 
@@ -122,7 +123,7 @@ export function createTypedRouterFile() {
    * */
   export type TypedResolvedMatcherLocation<T extends RoutesNamesList> = {
     name: T;
-  } & ([RoutesParamsRecord[T]] extends [never] ? {} : { params: RoutesParamsRecord[T] });
+  } & ([RoutesParamsRecordResolved[T]] extends [never] ? {} : { params: RoutesParamsRecordResolved[T] });
   
 
   /** 

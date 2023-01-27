@@ -4,6 +4,7 @@ import {
   createRoutesNamedLocationsResolvedExport,
   createRoutesNamesListExport,
   createRoutesParamsRecordExport,
+  createRoutesParamsRecordResolvedExport,
 } from '../blocks';
 export function createRoutesTypesFile({
   routesList,
@@ -20,6 +21,8 @@ export function createRoutesTypesFile({
     ${createRoutesNamesListExport(routesList)}
 
     ${createRoutesParamsRecordExport(routesParams)}
+    
+    ${createRoutesParamsRecordResolvedExport(routesParams)}
 
     ${createRoutesNamedLocationsExport(routesParams)}
 
