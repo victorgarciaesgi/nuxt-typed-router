@@ -2,14 +2,17 @@ import logSymbols from 'log-symbols';
 import { GeneratorOutput } from '../../../types';
 import { processPathAndWriteFile } from '../../fs';
 import {
-  createDeclarationRoutesFile,
-  createRuntimeIndexFile,
-  createRuntimeNavigateToFunction,
-  createRuntimeRouterTypes,
-  createRuntimeRoutesFile,
-  createRuntimeUseTypedRouterFile,
+  createIndexFile,
+  createNavigateToFile,
+  createTypedRouterFile,
+  createRoutesTypesFile,
+  createUseTypedRouterFile,
+  createTypeUtilsRuntimeFile,
   createUseTypedRouteFile,
-} from '../runtime';
+  createTypedRouterDefinitionFile,
+} from '../generators/files';
+
+import { watermarkTemplate } from '../static';
 
 let previousGeneratedRoutes = '';
 
@@ -17,17 +20,19 @@ type SaveGeneratedFiles = {
   rootDir: string;
   outputData: GeneratorOutput;
   autoImport: boolean;
+  plugin: boolean;
 };
 
 export async function saveGeneratedFiles({
   rootDir,
   autoImport,
+  plugin,
   outputData: { routesDeclTemplate, routesList, routesObjectTemplate, routesParams },
 }: SaveGeneratedFiles): Promise<void> {
   const filesMap: Array<{ fileName: string; content: string }> = [
     {
       fileName: '__useTypedRouter.ts',
-      content: createRuntimeUseTypedRouterFile(routesDeclTemplate),
+      content: createUseTypedRouterFile(routesDeclTemplate),
     },
     {
       fileName: '__useTypedRoute.ts',
@@ -35,7 +40,7 @@ export async function saveGeneratedFiles({
     },
     {
       fileName: `__routes.ts`,
-      content: createRuntimeRoutesFile({
+      content: createRoutesTypesFile({
         routesList,
         routesObjectTemplate,
         routesDeclTemplate,
@@ -43,25 +48,36 @@ export async function saveGeneratedFiles({
       }),
     },
     {
-      fileName: '__utils.ts',
-      content: createRuntimeNavigateToFunction(),
+      fileName: '__navigateTo.ts',
+      content: createNavigateToFile(),
     },
     {
       fileName: `__router.d.ts`,
-      content: createRuntimeRouterTypes(),
+      content: createTypedRouterFile(),
+    },
+    {
+      fileName: `__types_utils.d.ts`,
+      content: createTypeUtilsRuntimeFile(),
     },
     {
       fileName: `typed-router.d.ts`,
-      content: createDeclarationRoutesFile(autoImport),
+      content: createTypedRouterDefinitionFile({ autoImport, plugin }),
     },
     {
       fileName: 'index.ts',
-      content: createRuntimeIndexFile(),
+      content: createIndexFile(),
     },
   ];
 
   await Promise.all(
-    filesMap.map(({ content, fileName }) => processPathAndWriteFile({ rootDir, content, fileName }))
+    filesMap.map(({ content, fileName }) => {
+      const waterMakeredContent = `
+        ${watermarkTemplate}
+
+        ${content}
+      `;
+      return processPathAndWriteFile({ rootDir, content: waterMakeredContent, fileName });
+    })
   );
   if (previousGeneratedRoutes !== routesList.join(',')) {
     previousGeneratedRoutes = routesList.join(',');

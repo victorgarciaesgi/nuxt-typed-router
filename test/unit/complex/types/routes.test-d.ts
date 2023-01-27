@@ -1,15 +1,22 @@
 /// <reference path='../../../fixtures/complex/src/tests/routerTypes.spec-d.ts'/>
 
 import { assertType, expectTypeOf } from 'vitest';
+import type { RouteLocationMatched } from 'vue-router';
 import type { TypedRoute } from '../../../fixtures/complex/.nuxt/typed-router';
 import { array, optional, required } from '../../../utils/typecheck';
 
 declare const route: TypedRoute;
 
-test('router types should be correct', () => {
+test('route types should be correct', () => {
   expectTypeOf(route).toMatchTypeOf<TypedRoute>();
 
   assertType(route.query.foo);
+
+  expectTypeOf(route.fullPath).toMatchTypeOf<string>();
+  expectTypeOf(route.hash).toMatchTypeOf<string>();
+  expectTypeOf(route.params).toMatchTypeOf<unknown>();
+  expectTypeOf(route.path).toMatchTypeOf<string>();
+  expectTypeOf(route.matched).toMatchTypeOf<RouteLocationMatched[]>();
 
   // @ts-expect-error
   const check = route.name === 'baguette';

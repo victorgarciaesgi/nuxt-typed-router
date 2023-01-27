@@ -22,7 +22,7 @@
 - `useRouter`, `useRoute` and `navigateTo` route autocomplete and params type-check
 - Supports optional params and catchAll routes
 - Infer route params based on route name
-- Supports routes defined in `config.extendRoutes`
+- Supports routes extended by config and modules
 
 > ⚠️ Since `v2.1.x`, `useTypedRouter` and `useTypedRoute` are no longer exported.   
 The package can now override types from `useRouter`, `useRoute` and `navigateTo`
@@ -87,6 +87,12 @@ export default defineNuxtConfig({
   modules: ['nuxt-typed-router'],
 });
 ```
+
+
+# Roadmap
+
+- [ ] Add `path` autocomplete with TS string templates
+- [ ] Enforce strong params typing depending of origin route
 
 
 ## Development

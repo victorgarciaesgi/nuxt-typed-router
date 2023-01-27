@@ -1,7 +1,7 @@
-import { array, optional, required } from '../../../utils/typecheck';
 import { useRoute } from '@typed-router';
+import { array, optional, required } from '../../../utils/typecheck';
 
-export const route = useRoute();
+const route = useRoute();
 
 // @ts-expect-error
 const params: Record<string, any> = route.params; // Params are unknown
