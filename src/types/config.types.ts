@@ -4,4 +4,14 @@ export interface ModuleOptions {
    * @default false
    */
   plugin?: boolean;
+  /**
+   * Prevent passing a string path to router or `<NuxtLink/>`
+   * Ex:
+   *
+   * ```ts
+   * router.push('/login'); // Error ❌
+   * ```
+   * @default false
+   */
+  strict?: boolean;
 }
