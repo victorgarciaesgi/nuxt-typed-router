@@ -1,4 +1,9 @@
+import { returnIfFalse, returnIfTrue } from '../../../../utils';
+import { moduleOptionStore } from '../../../config';
+
 export function createTypedRouterFile() {
+  const strictOptions = moduleOptionStore.getResolvedStrictOptions();
+
   return /* typescript */ `
   
   import type { Ref } from 'vue';
@@ -26,15 +31,22 @@ export function createTypedRouterFile() {
    * {@link RouteLocationRaw}
    * */
   export type TypedRouteLocationRaw =
-  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations)
-  | string;
+  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params' ${returnIfTrue(
+    strictOptions.NuxtLink.strictRouteLocation,
+    `| 'path'`
+  )}> & RoutesNamedLocations)
+  ${returnIfFalse(strictOptions.NuxtLink.strictToArgument, '| string')};
+  
 
   /**
    * Alternative version of {@link TypedRouteLocationRaw} but with a name generic
    */
   export type TypedRouteLocationRawFromName<T extends RoutesNamesList> =
-  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
-  | string;
+  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params' ${returnIfTrue(
+    strictOptions.NuxtLink.strictRouteLocation,
+    `| 'path'`
+  )}> & TypedLocationAsRelativeRaw<T>)
+  ${returnIfFalse(strictOptions.NuxtLink.strictToArgument, '| string')};
 
   /** 
    * Generic providing inference and dynamic inclusion of \`params\` property

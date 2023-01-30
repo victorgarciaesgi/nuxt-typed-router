@@ -63,7 +63,8 @@
     "log-symbols": "^5.1.0",
     "mkdirp": "^1.0.4",
     "pathe": "1.1.0",
-    "prettier": "2.8.3"
+    "prettier": "2.8.3",
+    "defu": "^6.1.2"
   },
   "devDependencies": {
     "@nuxt/module-builder": "^0.2.1",
@@ -75,14 +76,17 @@
     "@types/mkdirp": "^1.0.2",
     "@types/node": "^17.0.23",
     "@types/prettier": "^2.7.2",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
     "cross-env": "^7.0.3",
-    "eslint": "8.32.0",
+    "eslint": "8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-vue": "^9.9.0",
     "nuxt": "3.1.1",
     "playwright": "1.30.0",
     "typescript": "^4.9.4",
-    "vitest": "^0.28.2",
+    "vitest": "^0.28.3",
+    "vue-eslint-parser": "^9.1.0",
     "vue-router": "^4.1.6",
     "vue-tsc": "^1.0.24"
   }

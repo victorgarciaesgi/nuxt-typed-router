@@ -1,6 +1,7 @@
 import { defineNuxtModule, createResolver } from '@nuxt/kit';
 import { Nuxt } from '@nuxt/schema';
 import { createTypedRouter } from './core';
+import { moduleOptionStore } from './core/config';
 import type { ModuleOptions } from './types';
 
 export type { ModuleOptions } from './types';
@@ -18,7 +19,8 @@ export default defineNuxtModule<ModuleOptions>({
   setup(moduleOptions, nuxt: Nuxt) {
     const rootDir = nuxt.options.rootDir;
 
-    const { plugin, strict } = moduleOptions as Required<ModuleOptions>;
+    moduleOptionStore.updateOptions(moduleOptions);
+
     const { resolve } = createResolver(import.meta.url);
     nuxt.options.alias = {
       ...nuxt.options.alias,
@@ -30,9 +32,7 @@ export default defineNuxtModule<ModuleOptions>({
       include: ['./typed-router/typed-router.d.ts'],
     };
 
-    const typedRouterOptions = { nuxt, plugin, strict };
-
     // Allow generating files on load
-    createTypedRouter({ ...typedRouterOptions });
+    createTypedRouter({ nuxt });
   },
 });

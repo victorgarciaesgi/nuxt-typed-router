@@ -1,9 +1,10 @@
-type Options = {
-  plugin: boolean;
-  autoImport: boolean;
-};
+import { returnIfTrue, returnIfFalse } from '../../../../utils';
+import { moduleOptionStore } from '../../../config';
 
-export function createTypedRouterDefinitionFile({ autoImport, plugin }: Options): string {
+export function createTypedRouterDefinitionFile(): string {
+  const { plugin, autoImport } = moduleOptionStore;
+  const strictOptions = moduleOptionStore.getResolvedStrictOptions();
+
   return /* typescript */ `
     
     import type { NuxtLinkProps } from '#app';
@@ -17,18 +18,23 @@ export function createTypedRouterDefinitionFile({ autoImport, plugin }: Options)
 
     declare global {
  
-      ${
-        autoImport
-          ? /* typescript */ `
+      ${returnIfTrue(
+        autoImport,
+        /* typescript */ `
             const useRoute: typeof _useRoute;
             const useRouter: typeof _useRouter;
             const navigateTo: typeof _navigateTo;`
-          : ''
-      }
+      )}
     }
     
     type TypedNuxtLinkProps = Omit<NuxtLinkProps, 'to'> & {
-      to: string | Omit<Exclude<RouteLocationRaw, string>, 'name'> & RoutesNamedLocations;
+      to: ${returnIfFalse(
+        strictOptions.NuxtLink.strictToArgument,
+        'string |'
+      )} Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params' ${returnIfTrue(
+    strictOptions.NuxtLink.strictRouteLocation,
+    `| 'path'`
+  )}> & RoutesNamedLocations;
     };
     
     export type TypedNuxtLink = DefineComponent<
@@ -54,9 +60,9 @@ export function createTypedRouterDefinitionFile({ autoImport, plugin }: Options)
       }
     }
 
-    ${
-      plugin
-        ? /* typescript */ `
+    ${returnIfTrue(
+      plugin,
+      /* typescript */ `
           interface CustomPluginProperties {
             $typedRouter: TypedRouter,
             $typedRoute: TypedRoute,
@@ -69,7 +75,6 @@ export function createTypedRouterDefinitionFile({ autoImport, plugin }: Options)
             interface ComponentCustomProperties extends CustomPluginProperties {}
           }
         `
-        : ''
-    }
+    )}
   `;
 }

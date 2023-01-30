@@ -5,7 +5,7 @@ export interface ModuleOptions {
    */
   plugin?: boolean;
   /**
-   * Prevent passing a string path to router or `<NuxtLink/>`
+   * Prevent passing a string path to `router` or `<NuxtLink/>`
    * Ex:
    *
    * ```ts
@@ -13,5 +13,21 @@ export interface ModuleOptions {
    * ```
    * @default false
    */
-  strict?: boolean;
+  strict?: boolean | StrictOptions;
+}
+
+export interface StrictOptions {
+  NuxtLink: StrictParamsOptions;
+  router: StrictParamsOptions;
+}
+
+export interface StrictParamsOptions {
+  /**
+   * @default false
+   */
+  strictToArgument?: boolean;
+  /**
+   * @default false
+   */
+  strictRouteLocation?: boolean;
 }

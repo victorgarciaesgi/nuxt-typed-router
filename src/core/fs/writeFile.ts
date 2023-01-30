@@ -4,13 +4,13 @@ import { resolve, dirname } from 'pathe';
 import logSymbols from 'log-symbols';
 import chalk from 'chalk';
 import mkdirp from 'mkdirp';
+import { moduleOptionStore } from '../config';
 import { formatOutputWithPrettier } from './prettierFormat';
 
 // @ts-ignore
 export const __dirname = dirname(fileURLToPath(import.meta.url));
 
 type ProcessPathAndWriteFileArgs = {
-  rootDir: string;
   fileName: string;
   content: string;
   outDir?: string;
@@ -19,14 +19,16 @@ type ProcessPathAndWriteFileArgs = {
 export async function processPathAndWriteFile({
   content,
   fileName,
-  rootDir,
   outDir,
 }: ProcessPathAndWriteFileArgs): Promise<void> {
   try {
+    const { rootDir } = moduleOptionStore;
+
     const finalOutDir = outDir ?? `.nuxt/typed-router`;
     const processedOutDir = resolve(rootDir, finalOutDir);
     const outputFile = resolve(process.cwd(), `${processedOutDir}/${fileName}`);
     const formatedContent = await formatOutputWithPrettier(content);
+
     if (fs.existsSync(outputFile)) {
       await writeFile(outputFile, formatedContent);
     } else {
