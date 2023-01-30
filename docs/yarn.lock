@@ -896,6 +896,17 @@
     lodash.template "^4.5.0"
     pathe "^1.0.0"
 
+"@nuxtjs/web-vitals@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/web-vitals/-/web-vitals-0.2.2.tgz#748e9ddc7f3971a4ed5a133e806657f808feb79d"
+  integrity sha512-UfIxBJGDXYnCgchPKt3rN1Tf66gUpRtOyo8gk9V9S2VWp8Q9ylHrwTB+y6ZPW+HRIC4B+KRh+LBIHv9ELycAJQ==
+  dependencies:
+    "@nuxt/kit" "^3.0.0"
+    defu "^6.1.1"
+    pathe "^1.0.0"
+    ufo "^1.0.0"
+    web-vitals "^3.1.0"
+
 "@rollup/plugin-alias@^4.0.2":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-alias/-/plugin-alias-4.0.2.tgz#fec6c6aff8dd6fce580ae6bc5345084cd702bb62"
@@ -6340,6 +6351,11 @@ web-streams-polyfill@^3.0.3:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/web-streams-polyfill/-/web-streams-polyfill-3.2.1.tgz#71c2718c52b45fd49dbeee88634b3a60ceab42a6"
   integrity sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==
+
+web-vitals@^3.1.0:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-3.1.1.tgz#bb124a03df7a135617f495c5bb7dbc30ecf2cce3"
+  integrity sha512-qvllU+ZeQChqzBhZ1oyXmWsjJ8a2jHYpH8AMaVuf29yscOPZfTQTjQFRX6+eADTdsDE8IanOZ0cetweHMs8/2A==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
