@@ -19,7 +19,7 @@ class ModuleOptionsStore {
     if (options.rootDir != null) this.rootDir = options.rootDir;
   }
 
-  getResolvedStrictOptions(): StrictOptions {
+  getResolvedStrictOptions(): Required<StrictOptions> {
     let resolved: Required<StrictOptions>;
     if (typeof this.strict === 'boolean') {
       if (this.strict) {

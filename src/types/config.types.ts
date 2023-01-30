@@ -17,8 +17,8 @@ export interface ModuleOptions {
 }
 
 export interface StrictOptions {
-  NuxtLink: StrictParamsOptions;
-  router: StrictParamsOptions;
+  NuxtLink?: StrictParamsOptions;
+  router?: StrictParamsOptions;
 }
 
 export interface StrictParamsOptions {
@@ -34,6 +34,7 @@ export interface StrictParamsOptions {
    * Or
    * ```ts
    * router.push('/login'); // Error ❌
+   * navigateTo('/login'); // Error ❌
    * ```
    *
    * @default false
@@ -51,6 +52,7 @@ export interface StrictParamsOptions {
    * Or
    * ```ts
    * router.push({path: "/login"}); // Error ❌
+   * navigateTo({path: "/login"}); // Error ❌
    * ```
    *
    * @default false

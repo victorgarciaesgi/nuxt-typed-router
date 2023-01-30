@@ -4,7 +4,11 @@ export default defineNuxtConfig({
   modules: [NuxtTypedRouter],
   nuxtTypedRouter: {
     plugin: true,
-    stict: false,
+    strict: {
+      router: {
+        strictToArgument: true,
+      },
+    },
   },
   srcDir: './src',
 });

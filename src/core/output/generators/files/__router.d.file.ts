@@ -32,10 +32,10 @@ export function createTypedRouterFile() {
    * */
   export type TypedRouteLocationRaw =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params' ${returnIfTrue(
-    strictOptions.NuxtLink.strictRouteLocation,
+    strictOptions.router.strictRouteLocation,
     `| 'path'`
   )}> & RoutesNamedLocations)
-  ${returnIfFalse(strictOptions.NuxtLink.strictToArgument, '| string')};
+  ${returnIfFalse(strictOptions.router.strictToArgument, '| string')};
   
 
   /**
@@ -43,10 +43,10 @@ export function createTypedRouterFile() {
    */
   export type TypedRouteLocationRawFromName<T extends RoutesNamesList> =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params' ${returnIfTrue(
-    strictOptions.NuxtLink.strictRouteLocation,
+    strictOptions.router.strictRouteLocation,
     `| 'path'`
   )}> & TypedLocationAsRelativeRaw<T>)
-  ${returnIfFalse(strictOptions.NuxtLink.strictToArgument, '| string')};
+  ${returnIfFalse(strictOptions.router.strictToArgument, '| string')};
 
   /** 
    * Generic providing inference and dynamic inclusion of \`params\` property
