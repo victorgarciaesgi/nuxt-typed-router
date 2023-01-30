@@ -94,6 +94,7 @@ export default defineNuxtConfig({
 - [ ] Add `path` autocomplete with TS string templates
 - [ ] Enforce strong params typing depending of origin route
 - [ ] Add support for `validate` in `definePageMeta`
+- [ ] Add `strict` option to prevent path navigation
 
 
 ## Development
