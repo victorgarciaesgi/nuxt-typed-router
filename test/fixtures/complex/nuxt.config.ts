@@ -22,4 +22,9 @@ export default defineNuxtConfig({
     },
   },
   srcDir: './src',
+  vite: {
+    resolve: {
+      dedupe: ['vue-router'],
+    },
+  },
 });
