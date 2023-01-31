@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "with-options",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "devDependencies": {
+    "nuxt": "^3.1.1"
+  }
+}

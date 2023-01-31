@@ -79,6 +79,12 @@ importers:
     devDependencies:
       nuxt: 3.1.1
 
+  test/fixtures/withOptions:
+    specifiers:
+      nuxt: ^3.1.1
+    devDependencies:
+      nuxt: 3.1.1
+
 packages:
 
   /@ampproject/remapping/2.2.0:

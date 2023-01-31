@@ -9,8 +9,11 @@
 </template>
 
 <script setup lang="ts">
-const route = useRoute('user-foo-bar');
+import { useRouter } from '#app';
+// const route = useRoute('user-foo-bar');
 const router = useRouter();
+
+router.push({ path: '/' });
 
 function navigate() {
   router.push({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } });

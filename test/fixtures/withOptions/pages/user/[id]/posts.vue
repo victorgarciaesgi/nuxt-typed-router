@@ -1,0 +1,1 @@
+<template><nuxt-page /></template>

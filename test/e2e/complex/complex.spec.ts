@@ -1,11 +1,11 @@
 import { fileURLToPath } from 'node:url';
 import { describe, it, expect } from 'vitest';
 import { setup, $fetch, createPage } from '@nuxt/test-utils';
-import { expectNoClientErrors } from './utils';
+import { expectNoClientErrors } from '../utils';
 
-describe('Simple config behaviour', async () => {
+describe('Complex config behaviour', async () => {
   await setup({
-    rootDir: fileURLToPath(new URL('../fixtures/simple', import.meta.url)),
+    rootDir: fileURLToPath(new URL('../../fixtures/complex', import.meta.url)),
     setupTimeout: 120000,
   });
 
@@ -15,9 +15,12 @@ describe('Simple config behaviour', async () => {
     expect(html).toContain('Navigate button');
     expect(html).toContain('Navigate link');
     expect(html).toContain('NavigateTo button');
+    expect(html).toContain('Navigate plugin');
 
     await expectNoClientErrors('/');
   });
+
+  // Commented for now because of a Nuxt bug still happening to me
 
   it('should navigate correctly with useRouter', async () => {
     const page = await createPage('/');

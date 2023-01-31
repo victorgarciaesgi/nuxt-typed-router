@@ -13,6 +13,7 @@ export function createTypedRouterFile() {
     RouteLocationNormalizedLoaded,
     RouteLocationRaw,
     Router,
+    RouteLocationPathRaw
   } from 'vue-router';
   import type {
     RoutesNamedLocations,
@@ -31,22 +32,26 @@ export function createTypedRouterFile() {
    * {@link RouteLocationRaw}
    * */
   export type TypedRouteLocationRaw =
-  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params' ${returnIfTrue(
+  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations)
+  ${returnIfFalse(strictOptions.router.strictToArgument, '| string')}
+  ${returnIfTrue(
     strictOptions.router.strictRouteLocation,
-    `| 'path'`
-  )}> & RoutesNamedLocations)
-  ${returnIfFalse(strictOptions.router.strictToArgument, '| string')};
+    `| Omit<RouteLocationPathRaw, 'path'>`,
+    '| RouteLocationPathRaw'
+  )};
   
 
   /**
    * Alternative version of {@link TypedRouteLocationRaw} but with a name generic
    */
   export type TypedRouteLocationRawFromName<T extends RoutesNamesList> =
-  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params' ${returnIfTrue(
+  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
+  ${returnIfFalse(strictOptions.router.strictToArgument, '| string')}
+  ${returnIfTrue(
     strictOptions.router.strictRouteLocation,
-    `| 'path'`
-  )}> & TypedLocationAsRelativeRaw<T>)
-  ${returnIfFalse(strictOptions.router.strictToArgument, '| string')};
+    `| Omit<RouteLocationPathRaw, 'path'>`,
+    '| RouteLocationPathRaw'
+  )}
 
   /** 
    * Generic providing inference and dynamic inclusion of \`params\` property
