@@ -13,12 +13,12 @@ describe.only('The strict option should behave correctly', async () => {
     },
   });
 
-  it('should throw error with strict enabled', async () => {
+  it('should throw error with strict enabled', () => {
     type TypedRouter = import('../../fixtures/withOptions/.nuxt/typed-router').TypedRouter;
 
     const router = {
       push: vi.fn(),
-    };
+    } as unknown as TypedRouter;
 
     // @ts-expect-error
     assertType(router.push('/foo'));
