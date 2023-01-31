@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url';
 import { setup } from '@nuxt/test-utils';
 import { assertType, describe, it } from 'vitest';
 
-describe.only('The strict option should behave correctly', async () => {
+describe('The strict option should behave correctly', async () => {
   await setup({
     rootDir: fileURLToPath(new URL('../../fixtures/withOptions', import.meta.url)),
     setupTimeout: 120000,
