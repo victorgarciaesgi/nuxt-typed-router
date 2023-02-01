@@ -9,7 +9,7 @@
 const route = useRoute('user-foo-bar');
 const router = useRouter();
 
-router.push({ path: '/login' });
+// router.push({ path: '/login' });
 
 // await navigateTo({ name: 'user-id-posts', params: { id: 1 } });
 
