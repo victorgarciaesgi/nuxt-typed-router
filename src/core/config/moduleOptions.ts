@@ -5,7 +5,7 @@ interface CustomNuxtConfigOptions {
   autoImport?: boolean;
   rootDir?: string;
   i18n?: boolean;
-  i18nLocales: string[];
+  i18nLocales?: string[];
 }
 
 class ModuleOptionsStore {
