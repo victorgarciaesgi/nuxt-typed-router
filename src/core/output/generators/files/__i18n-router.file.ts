@@ -8,7 +8,9 @@ export function createi18nRouterFile() {
   import type {TypedRouteLocationRawFromName, TypedRouteFromName} from './__router';
   import type {RoutesNamesList} from './__routes';
 
-  export type I18nLocales = ${i18nLocales.map((loc) => `"${loc}"`).join('|')};
+  export type I18nLocales = ${
+    i18nLocales.length ? i18nLocales.map((loc) => `"${loc}"`).join('|') : 'string'
+  };
 
   export type TypedToLocalePath = <T extends RoutesNamesList>(to: TypedRouteLocationRawFromName<T>, locale?: I18nLocales | undefined) => TypedRouteLocationRawFromName<T>;
 

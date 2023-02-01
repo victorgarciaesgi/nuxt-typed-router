@@ -21,7 +21,7 @@
 - `NuxtLink` route autocomplete and params type-check 
 - `useRouter`, `useRoute` and `navigateTo` route autocomplete and params type-check
 - Supports optional params and catchAll routes
-- Infer route params based on route name
+- Out of the box `i18n` support
 - Supports routes extended by config and modules
 
 > ⚠️ Since `v2.1.x`, `useTypedRouter` and `useTypedRoute` are no longer exported.   
