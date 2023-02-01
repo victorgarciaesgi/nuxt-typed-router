@@ -1,4 +1,4 @@
-import { NuxtRouteConfig } from '@nuxt/types/config/router';
+import { NuxtPage } from '@nuxt/schema';
 import { camelCase } from 'lodash-es';
 import { GeneratorOutput, ParamDecl } from '../../types';
 import { isItemLast } from '../../utils';
@@ -6,14 +6,35 @@ import { extractRouteParamsFromPath } from './extractParams';
 import { extractMatchingSiblings, extractUnMatchingSiblings } from './extractChunks';
 
 type WalkThoughRoutesParams = {
-  route: NuxtRouteConfig;
+  route: NuxtPage;
   level: number;
-  siblings?: NuxtRouteConfig[];
+  siblings?: NuxtPage[];
   parentName?: string;
   previousParams?: ParamDecl[];
   output: GeneratorOutput;
   isLast: boolean;
 };
+
+function createKeyedName(route: NuxtPage): string {
+  const splittedPaths = route.path.split('/');
+  const parentPath = splittedPaths[splittedPaths.length - 1];
+  const nameKey = camelCase(parentPath || 'index');
+
+  return nameKey;
+}
+
+function createNameKeyFromFullName(route: NuxtPage, level: number, parentName?: string): string {
+  let splitted: string[] = [];
+  splitted = route.name?.split('-') ?? [];
+  splitted = splitted.slice(level, splitted.length);
+  if (splitted[0] === parentName) {
+    splitted.splice(0, 1);
+  }
+
+  const keyName = route.path === '' ? 'index' : camelCase(splitted.join('-')) || 'index';
+
+  return keyName;
+}
 
 /** Mutates the output object with generated routes */
 export function walkThoughRoutes({
@@ -36,9 +57,17 @@ export function walkThoughRoutes({
     (!route.children?.length && haveMatchingSiblings && isRootSibling)
   ) {
     let childrenChunks = haveMatchingSiblings ? matchingSiblings : route.children;
-    const splittedPaths = route.path.split('/');
-    const parentPath = splittedPaths[splittedPaths.length - 1];
-    const nameKey = camelCase(parentPath || 'index');
+
+    let nameKey = createKeyedName(route);
+
+    const hasSamePathI18nSibling = siblings?.some((sibling) => {
+      const _name = createKeyedName(sibling);
+      return _name === nameKey;
+    });
+
+    if (hasSamePathI18nSibling) {
+      nameKey = camelCase(route.path.split('/').join('-'));
+    }
 
     // Output
     output.routesObjectTemplate += `${nameKey}:{`;
@@ -62,14 +91,16 @@ export function walkThoughRoutes({
     output.routesObjectTemplate += '},';
     output.routesDeclTemplate += `}${isLast ? '' : ','}`;
   } else if (route.name) {
-    let splitted: string[] = [];
-    splitted = route.name.split('-');
-    splitted = splitted.slice(level, splitted.length);
-    if (splitted[0] === parentName) {
-      splitted.splice(0, 1);
-    }
+    let keyName = createNameKeyFromFullName(route, level, parentName);
 
-    const keyName = route.path === '' ? 'index' : camelCase(splitted.join('-')) || 'index';
+    const hasSameNameI18nSibling = siblings?.some((sibling) => {
+      const _name = createNameKeyFromFullName(sibling, level, parentName);
+      return _name === keyName;
+    });
+
+    if (hasSameNameI18nSibling) {
+      keyName = camelCase(route.name);
+    }
 
     // Output
     output.routesObjectTemplate += `'${keyName}': '${route.name}' as const,`;

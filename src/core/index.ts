@@ -1,9 +1,7 @@
 import { extendPages } from '@nuxt/kit';
 import { Nuxt, NuxtPage } from '@nuxt/schema/dist/index';
-import { NuxtRouteConfig } from '@nuxt/types/config/router';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
-import { ModuleOptions } from '../types';
 import { moduleOptionStore } from './config';
 import { handleAddPlugin, saveGeneratedFiles } from './output';
 import { constructRouteMap } from './parser';
@@ -45,8 +43,8 @@ export async function createTypedRouter({
       return;
     }
 
-    // We use extendPages here to access the NuxtRouteConfig, not accessible in the `pages:extend` hook
-    extendPages(async (routes: NuxtRouteConfig[]) => {
+    // We use extendPages here to access the NuxtPage, not accessible in the `pages:extend` hook
+    extendPages(async (routes: NuxtPage[]) => {
       hasRoutesDefined = true;
       const outputData = constructRouteMap(routes);
 

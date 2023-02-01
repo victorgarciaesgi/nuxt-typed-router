@@ -1,5 +1,6 @@
 import logSymbols from 'log-symbols';
 import { GeneratorOutput } from '../../../types';
+import { moduleOptionStore } from '../../config';
 import { processPathAndWriteFile } from '../../fs';
 import {
   createIndexFile,
@@ -10,6 +11,7 @@ import {
   createTypeUtilsRuntimeFile,
   createUseTypedRouteFile,
   createTypedRouterDefinitionFile,
+  createi18nRouterFile,
 } from '../generators/files';
 
 import { watermarkTemplate } from '../static';
@@ -23,6 +25,7 @@ type SaveGeneratedFiles = {
 export async function saveGeneratedFiles({
   outputData: { routesDeclTemplate, routesList, routesObjectTemplate, routesParams },
 }: SaveGeneratedFiles): Promise<void> {
+  const { i18n } = moduleOptionStore;
   const filesMap: Array<{ fileName: string; content: string }> = [
     {
       fileName: '__useTypedRouter.ts',
@@ -62,6 +65,13 @@ export async function saveGeneratedFiles({
       content: createIndexFile(),
     },
   ];
+
+  if (i18n) {
+    filesMap.push({
+      fileName: '__i18n-router.ts',
+      content: createi18nRouterFile(),
+    });
+  }
 
   await Promise.all(
     filesMap.map(({ content, fileName }) => {

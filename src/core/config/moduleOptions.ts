@@ -4,6 +4,8 @@ import { ModuleOptions, StrictOptions } from '../../types';
 interface CustomNuxtConfigOptions {
   autoImport?: boolean;
   rootDir?: string;
+  i18n?: boolean;
+  i18nLocales: string[];
 }
 
 class ModuleOptionsStore {
@@ -11,12 +13,16 @@ class ModuleOptionsStore {
   strict: boolean | StrictOptions = false;
   autoImport: boolean = false;
   rootDir: string = '';
+  i18n: boolean = false;
+  i18nLocales: string[] = [];
 
   updateOptions(options: ModuleOptions & CustomNuxtConfigOptions) {
     if (options.plugin != null) this.plugin = options.plugin;
     if (options.strict != null) this.strict = options.strict;
     if (options.autoImport != null) this.autoImport = options.autoImport;
     if (options.rootDir != null) this.rootDir = options.rootDir;
+    if (options.i18n != null) this.i18n = options.i18n;
+    if (options.i18nLocales != null) this.i18nLocales = options.i18nLocales;
   }
 
   getResolvedStrictOptions(): Required<StrictOptions> {

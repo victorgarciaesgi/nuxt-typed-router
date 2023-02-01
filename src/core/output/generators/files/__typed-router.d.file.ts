@@ -2,7 +2,7 @@ import { returnIfTrue, returnIfFalse } from '../../../../utils';
 import { moduleOptionStore } from '../../../config';
 
 export function createTypedRouterDefinitionFile(): string {
-  const { plugin, autoImport } = moduleOptionStore;
+  const { plugin, autoImport, i18n } = moduleOptionStore;
   const strictOptions = moduleOptionStore.getResolvedStrictOptions();
 
   return /* typescript */ `
@@ -15,6 +15,7 @@ export function createTypedRouterDefinitionFile(): string {
     import { useRoute as _useRoute } from './__useTypedRoute';
     import { useRouter as _useRouter } from './__useTypedRouter';
     import { navigateTo as _navigateTo } from './__navigateTo';
+    import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from './__i18n-router';
 
     declare global {
  
@@ -23,7 +24,15 @@ export function createTypedRouterDefinitionFile(): string {
         /* typescript */ `
             const useRoute: typeof _useRoute;
             const useRouter: typeof _useRouter;
-            const navigateTo: typeof _navigateTo;`
+            const navigateTo: typeof _navigateTo;
+            ${returnIfTrue(
+              i18n,
+              /* typescript */ `
+              const useLocalePath: typeof _useLocalePath;
+              const useLocaleRoute: typeof _useLocaleRoute;
+            `
+            )}
+          `
       )}
     }
     

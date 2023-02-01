@@ -17,11 +17,17 @@ export default defineNuxtModule<ModuleOptions>({
     strict: false,
   } satisfies ModuleOptions,
   setup(moduleOptions, nuxt: Nuxt) {
-    const rootDir = nuxt.options.rootDir;
-
-    moduleOptionStore.updateOptions(moduleOptions);
-
     const { resolve } = createResolver(import.meta.url);
+
+    const rootDir = nuxt.options.rootDir;
+    const hasi18nModuleRegistered = !!nuxt.options.modules.find((mod) => mod === '@nuxtjs/i18n');
+
+    moduleOptionStore.updateOptions({
+      ...moduleOptions,
+      i18n: hasi18nModuleRegistered,
+      i18nLocales: (nuxt.options as any)?.i18n?.locales ?? [],
+    });
+
     nuxt.options.alias = {
       ...nuxt.options.alias,
       '@typed-router': resolve(`${rootDir}/.nuxt/typed-router`),
