@@ -59,12 +59,12 @@
   "dependencies": {
     "@nuxt/kit": "3.1.1",
     "chalk": "^5.2.0",
+    "defu": "^6.1.2",
     "lodash-es": "^4.17.21",
     "log-symbols": "^5.1.0",
     "mkdirp": "^1.0.4",
     "pathe": "1.1.0",
-    "prettier": "2.8.3",
-    "defu": "^6.1.2"
+    "prettier": "2.8.3"
   },
   "devDependencies": {
     "@nuxt/module-builder": "^0.2.1",
@@ -78,6 +78,7 @@
     "@types/prettier": "^2.7.2",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
+    "@vue/test-utils": "^2.2.8",
     "cross-env": "^7.0.3",
     "eslint": "8.33.0",
     "eslint-config-prettier": "^8.6.0",

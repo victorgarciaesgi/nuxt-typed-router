@@ -12,5 +12,5 @@
     "allowSyntheticDefaultImports": true,
     "types": ["node", "vitest/globals"]
   },
-  "include": ["./**/*.ts", "./fixtures/**/.nuxt/**/*.ts"]
+  "include": ["./**/*.ts", "./fixtures/**/.nuxt/**/*.ts", "./**/*.tsx"]
 }

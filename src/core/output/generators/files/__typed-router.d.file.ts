@@ -32,7 +32,7 @@ export function createTypedRouterDefinitionFile(): string {
       Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations
       ${returnIfFalse(strictOptions.NuxtLink.strictToArgument, '| string')}
       ${returnIfTrue(
-        strictOptions.router.strictRouteLocation,
+        strictOptions.NuxtLink.strictRouteLocation,
         `| Omit<RouteLocationPathRaw, 'path'>`,
         '| RouteLocationPathRaw'
       )}
