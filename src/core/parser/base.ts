@@ -1,9 +1,9 @@
-import { NuxtRouteConfig } from '@nuxt/types/config/router';
+import { NuxtPage } from '@nuxt/schema';
 import { GeneratorOutput, RouteParamsDecl } from '../../types';
 import { isItemLast } from '../../utils';
 import { walkThoughRoutes } from './walkRoutes';
 
-export function constructRouteMap(routesConfig: NuxtRouteConfig[]): GeneratorOutput {
+export function constructRouteMap(routesConfig: NuxtPage[]): GeneratorOutput {
   try {
     let routesObjectTemplate = '{';
     let routesDeclTemplate = '{';
@@ -24,12 +24,12 @@ export function constructRouteMap(routesConfig: NuxtRouteConfig[]): GeneratorOut
 
 type StartGeneratorParams = {
   output: GeneratorOutput;
-  routesConfig: NuxtRouteConfig[];
+  routesConfig: NuxtPage[];
 };
 
 export function startGenerator({ output, routesConfig }: StartGeneratorParams): void {
   routesConfig.forEach((route, index) => {
-    const rootSiblingsRoutes = routesConfig.filter((rt) => rt.chunkName !== route.chunkName);
+    const rootSiblingsRoutes = routesConfig.filter((rt) => rt.path !== route.path);
     walkThoughRoutes({
       route,
       level: 0,

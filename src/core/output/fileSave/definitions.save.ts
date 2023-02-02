@@ -1,5 +1,6 @@
 import logSymbols from 'log-symbols';
 import { GeneratorOutput } from '../../../types';
+import { moduleOptionStore } from '../../config';
 import { processPathAndWriteFile } from '../../fs';
 import {
   createIndexFile,
@@ -10,6 +11,7 @@ import {
   createTypeUtilsRuntimeFile,
   createUseTypedRouteFile,
   createTypedRouterDefinitionFile,
+  createi18nRouterFile,
 } from '../generators/files';
 
 import { watermarkTemplate } from '../static';
@@ -17,18 +19,13 @@ import { watermarkTemplate } from '../static';
 let previousGeneratedRoutes = '';
 
 type SaveGeneratedFiles = {
-  rootDir: string;
   outputData: GeneratorOutput;
-  autoImport: boolean;
-  plugin: boolean;
 };
 
 export async function saveGeneratedFiles({
-  rootDir,
-  autoImport,
-  plugin,
   outputData: { routesDeclTemplate, routesList, routesObjectTemplate, routesParams },
 }: SaveGeneratedFiles): Promise<void> {
+  const { i18n } = moduleOptionStore;
   const filesMap: Array<{ fileName: string; content: string }> = [
     {
       fileName: '__useTypedRouter.ts',
@@ -61,13 +58,20 @@ export async function saveGeneratedFiles({
     },
     {
       fileName: `typed-router.d.ts`,
-      content: createTypedRouterDefinitionFile({ autoImport, plugin }),
+      content: createTypedRouterDefinitionFile(),
     },
     {
       fileName: 'index.ts',
       content: createIndexFile(),
     },
   ];
+
+  if (i18n) {
+    filesMap.push({
+      fileName: '__i18n-router.ts',
+      content: createi18nRouterFile(),
+    });
+  }
 
   await Promise.all(
     filesMap.map(({ content, fileName }) => {
@@ -76,7 +80,7 @@ export async function saveGeneratedFiles({
 
         ${content}
       `;
-      return processPathAndWriteFile({ rootDir, content: waterMakeredContent, fileName });
+      return processPathAndWriteFile({ content: waterMakeredContent, fileName });
     })
   );
   if (previousGeneratedRoutes !== routesList.join(',')) {

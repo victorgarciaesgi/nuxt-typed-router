@@ -1,13 +1,13 @@
-import { NuxtRouteConfig } from '@nuxt/types/config/router';
+import { NuxtPage } from '@nuxt/schema';
 
 /**
  * @see https://github.com/victorgarciaesgi/nuxt-typed-router/issues/28
  * for edge cases with matching siblings with same parent not in children
  * */
 export function extractMatchingSiblings(
-  mainRoute: NuxtRouteConfig,
-  siblingRoutes?: NuxtRouteConfig[]
-): NuxtRouteConfig[] | undefined {
+  mainRoute: NuxtPage,
+  siblingRoutes?: NuxtPage[]
+): NuxtPage[] | undefined {
   return siblingRoutes?.filter((s) => {
     const chunkName = extractChunkMain(mainRoute.file);
     if (chunkName && s.name) {
@@ -20,9 +20,9 @@ export function extractMatchingSiblings(
 }
 
 export function extractUnMatchingSiblings(
-  mainRoute: NuxtRouteConfig,
-  siblingRoutes?: NuxtRouteConfig[]
-): NuxtRouteConfig[] | undefined {
+  mainRoute: NuxtPage,
+  siblingRoutes?: NuxtPage[]
+): NuxtPage[] | undefined {
   return siblingRoutes?.filter((s) => {
     const chunkName = extractChunkMain(mainRoute.file);
     if (chunkName) {

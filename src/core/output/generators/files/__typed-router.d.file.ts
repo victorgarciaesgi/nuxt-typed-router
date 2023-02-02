@@ -1,34 +1,50 @@
-type Options = {
-  plugin: boolean;
-  autoImport: boolean;
-};
+import { returnIfTrue, returnIfFalse } from '../../../../utils';
+import { moduleOptionStore } from '../../../config';
 
-export function createTypedRouterDefinitionFile({ autoImport, plugin }: Options): string {
+export function createTypedRouterDefinitionFile(): string {
+  const { plugin, autoImport, i18n } = moduleOptionStore;
+  const strictOptions = moduleOptionStore.getResolvedStrictOptions();
+
   return /* typescript */ `
     
     import type { NuxtLinkProps } from '#app';
     import type { DefineComponent } from 'vue';
-    import type { RouteLocationRaw } from 'vue-router';
+    import type { RouteLocationRaw, RouteLocationPathRaw } from 'vue-router';
     import type { RoutesNamedLocations, RoutesNamesListRecord } from './__routes';
     import type {TypedRouter, TypedRoute} from './__router';
     import { useRoute as _useRoute } from './__useTypedRoute';
     import { useRouter as _useRouter } from './__useTypedRouter';
     import { navigateTo as _navigateTo } from './__navigateTo';
+    import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from './__i18n-router';
 
     declare global {
  
-      ${
-        autoImport
-          ? /* typescript */ `
+      ${returnIfTrue(
+        autoImport,
+        /* typescript */ `
             const useRoute: typeof _useRoute;
             const useRouter: typeof _useRouter;
-            const navigateTo: typeof _navigateTo;`
-          : ''
-      }
+            const navigateTo: typeof _navigateTo;
+            ${returnIfTrue(
+              i18n,
+              /* typescript */ `
+              const useLocalePath: typeof _useLocalePath;
+              const useLocaleRoute: typeof _useLocaleRoute;
+            `
+            )}
+          `
+      )}
     }
     
     type TypedNuxtLinkProps = Omit<NuxtLinkProps, 'to'> & {
-      to: string | Omit<Exclude<RouteLocationRaw, string>, 'name'> & RoutesNamedLocations;
+      to: 
+      Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations
+      ${returnIfFalse(strictOptions.NuxtLink.strictToArgument, '| string')}
+      ${returnIfTrue(
+        strictOptions.NuxtLink.strictRouteLocation,
+        `| Omit<RouteLocationPathRaw, 'path'>`,
+        '| RouteLocationPathRaw'
+      )}
     };
     
     export type TypedNuxtLink = DefineComponent<
@@ -54,9 +70,9 @@ export function createTypedRouterDefinitionFile({ autoImport, plugin }: Options)
       }
     }
 
-    ${
-      plugin
-        ? /* typescript */ `
+    ${returnIfTrue(
+      plugin,
+      /* typescript */ `
           interface CustomPluginProperties {
             $typedRouter: TypedRouter,
             $typedRoute: TypedRoute,
@@ -69,7 +85,6 @@ export function createTypedRouterDefinitionFile({ autoImport, plugin }: Options)
             interface ComponentCustomProperties extends CustomPluginProperties {}
           }
         `
-        : ''
-    }
+    )}
   `;
 }

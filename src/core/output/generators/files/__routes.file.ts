@@ -28,8 +28,6 @@ export function createRoutesTypesFile({
 
     ${createRoutesNamedLocationsResolvedExport(routesParams)}
 
-   
-
     export type RoutesNamesListRecord = ${routesDeclTemplate};
 
     export const routesNames = ${routesObjectTemplate};
