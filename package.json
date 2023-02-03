@@ -18,7 +18,6 @@
   "scripts": {
     "prepack": "nuxt-module-build",
     "dev": "nuxi dev playground",
-    "prepare": "nuxi prepare playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground && pnpm run test:prepare-fixtures",
     "build:test": "cross-env NUXT_BUILD_TYPE=stub pnpm run prepack && pnpm run dev:build",
