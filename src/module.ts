@@ -20,12 +20,29 @@ export default defineNuxtModule<ModuleOptions>({
     const { resolve } = createResolver(import.meta.url);
 
     const rootDir = nuxt.options.rootDir;
-    const hasi18nModuleRegistered = !!nuxt.options.modules.find((mod) => mod === '@nuxtjs/i18n');
+    let i18nLocales: string[] = [];
+
+    const hasi18nModuleRegistered = nuxt.options.modules.some((mod) => {
+      if (Array.isArray(mod)) {
+        const [moduleName, options] = mod;
+        const isRegistered = moduleName === '@nuxtjs/i18n';
+        if (isRegistered) {
+          i18nLocales = options?.locales ?? [];
+        }
+        return isRegistered;
+      } else {
+        const isRegistered = mod === '@nuxtjs/i18n';
+        if (isRegistered) {
+          i18nLocales = (nuxt.options as any).i18n?.locales ?? [];
+        }
+        return isRegistered;
+      }
+    });
 
     moduleOptionStore.updateOptions({
       ...moduleOptions,
       i18n: hasi18nModuleRegistered,
-      i18nLocales: (nuxt.options as any)?.i18n?.locales ?? [],
+      i18nLocales,
     });
 
     nuxt.options.alias = {
