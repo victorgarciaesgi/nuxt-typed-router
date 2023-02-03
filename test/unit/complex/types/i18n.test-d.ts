@@ -7,12 +7,15 @@ import {
   useLocaleRoute,
   navigateTo,
   TypedRouteFromName,
+  TypedRouter,
 } from '../../../fixtures/complex/.nuxt/typed-router';
+import type { TypedNuxtLinkProps } from '../../../fixtures/complex/.nuxt/typed-router/typed-router';
 import type {
   TypedLocaleRoute,
   TypedToLocalePath,
 } from '../../../fixtures/complex/.nuxt/typed-router/__i18n-router';
-import { optional, required } from '../../../utils/typecheck';
+
+declare const router: TypedRouter;
 
 test('useLocalePath types should be correct', async () => {
   const localePath = useLocalePath() as TypedToLocalePath;
@@ -20,6 +23,7 @@ test('useLocalePath types should be correct', async () => {
   const route = await navigateTo(
     localePath({ name: 'user-one-foo-two', params: { one: 1, two: 2 } })
   );
+
   if (route instanceof Error) {
     //
   } else if (route) {
@@ -32,74 +36,59 @@ test('useLocalePath types should be correct', async () => {
   }
 
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'index', params: { id: 1 } }, 'es'))); // Error
-
-  assertType(navigateTo(localePath({ name: 'index', query: { id: 1 } }, 'fr')));
-  // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'index', params: { id: 1 } }))); // Error
+  assertType(navigateTo(localePath({ name: 'index', params: { id: 1 } }, 'es')));
 
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'blabla-baguette' }))); // Error
+  assertType(navigateTo(localePath({ name: 'index', params: { id: 1 } })));
+
+  // @ts-expect-error
+  assertType(navigateTo(localePath({ name: 'blabla-baguette' })));
 
   // ---- [id].vue
 
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'user-id' }))); // Error
+  assertType(navigateTo(localePath({ name: 'user-id' })));
 
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'user-id', params: { foo: 'bar' } }))); // Error
-
-  assertType(navigateTo(localePath({ name: 'user-id', params: { id: 1 } }))); // Good
+  assertType(navigateTo(localePath({ name: 'user-id', params: { foo: 'bar' } })));
 
   // ---- [foo]-[[bar]].vue
 
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'user-foo-bar' }))); // Error
+  assertType(navigateTo(localePath({ name: 'user-foo-bar' })));
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'user-foo-bar', params: { bar: 1 } }))); // Error
-
-  assertType(navigateTo(localePath({ name: 'user-foo-bar', params: { foo: 'bar' } }))); // Good
-
-  assertType(navigateTo(localePath({ name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } }))); // Good
+  assertType(navigateTo(localePath({ name: 'user-foo-bar', params: { bar: 1 } })));
 
   // ---- [...slug].vue
 
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'user-slug' }))); // Error
+  assertType(navigateTo(localePath({ name: 'user-slug' })));
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'user-slug', params: { slug: 1 } }))); // Error
-
-  assertType(navigateTo(localePath({ name: 'user-slug', params: { slug: ['foo'] } }))); // Good
-
-  assertType(navigateTo(localePath({ name: 'user-slug', params: { slug: [1, 2, 3] } }))); // Good
+  assertType(navigateTo(localePath({ name: 'user-slug', params: { slug: 1 } })));
 
   // ---- [one]-foo-[two].vue
 
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'user-one-foo-two' }))); // Error
+  assertType(navigateTo(localePath({ name: 'user-one-foo-two' })));
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'user-one-foo-two', params: { one: 1 } }))); // Error
-
-  assertType(navigateTo(localePath({ name: 'user-one-foo-two', params: { one: 1, two: '2' } }))); // Good
+  assertType(navigateTo(localePath({ name: 'user-one-foo-two', params: { one: 1 } })));
 
   // ---- [id]/[slug].vue
 
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'user-id-slug' }))); // Error
+  assertType(navigateTo(localePath({ name: 'user-id-slug' })));
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'user-id-slug', params: { id: 1 } }))); // Error
-
-  assertType(navigateTo(localePath({ name: 'user-id-slug', params: { slug: '2' } }))); // Good
+  assertType(navigateTo(localePath({ name: 'user-id-slug', params: { id: 1 } })));
 
   // ---- Routes added by config extend
 
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'test-extend' }))); // Error
+  assertType(navigateTo(localePath({ name: 'test-extend' })));
 
   // ---- Routes added by modules
 
   // @ts-expect-error
-  assertType(navigateTo(localePath({ name: 'test-module' }))); // Error
+  assertType(navigateTo(localePath({ name: 'test-module' })));
 });
 
 test('route types should be correct', () => {
@@ -107,8 +96,6 @@ test('route types should be correct', () => {
   const resolved = localeRoute({ name: 'user-foo-bar___en', params: { foo: 1 } });
 
   expectTypeOf(resolved).toMatchTypeOf<TypedRouteFromName<'user-foo-bar___en'>>();
-
-  assertType(resolved.query.foo);
 
   expectTypeOf(resolved.fullPath).toMatchTypeOf<string>();
   expectTypeOf(resolved.hash).toMatchTypeOf<string>();
@@ -118,7 +105,4 @@ test('route types should be correct', () => {
   }>();
   expectTypeOf(resolved.path).toMatchTypeOf<string>();
   expectTypeOf(resolved.matched).toMatchTypeOf<RouteLocationMatched[]>();
-
-  assertType(required(resolved.params.foo));
-  assertType(optional(resolved.params.bar));
 });

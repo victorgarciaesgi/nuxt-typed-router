@@ -1,7 +1,9 @@
 <template>
   <div>
     <button @click="navigate"> Navigate button </button>
-    <nuxt-link :to="{ name: 'user' }">Navigate Link</nuxt-link>
+    <nuxt-link :to="localePath({ name: 'user-foo-bar', params: { foo: 'bar' } })"
+      >Navigate Link</nuxt-link
+    >
   </div>
 </template>
 
@@ -13,6 +15,8 @@ const localePath = useLocalePath();
 const localeRoute = useLocaleRoute();
 
 navigateTo(localePath({ name: 'user' }));
+
+router.push(localePath({ name: 'user', params: { id: 1 } }));
 
 // const route = localeRoute({ name: 'index___en', query: { foo: '1' } });
 // if (route) {

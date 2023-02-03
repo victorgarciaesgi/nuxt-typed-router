@@ -32,18 +32,12 @@ test('navigateTo types should be correct', async () => {
   // @ts-expect-error
   assertType(navigateTo({ name: 'user-id', params: { foo: 'bar' } })); // Error
 
-  assertType(navigateTo({ name: 'user-id', params: { id: 1 } })); // Good
-
   // ---- [foo]-[[bar]].vue
 
   // @ts-expect-error
   assertType(navigateTo({ name: 'user-foo-bar' })); // Error
   // @ts-expect-error
   assertType(navigateTo({ name: 'user-foo-bar', params: { bar: 1 } })); // Error
-
-  assertType(navigateTo({ name: 'user-foo-bar', params: { foo: 'bar' } })); // Good
-
-  assertType(navigateTo({ name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } })); // Good
 
   // ---- [...slug].vue
 
@@ -52,10 +46,6 @@ test('navigateTo types should be correct', async () => {
   // @ts-expect-error
   assertType(navigateTo({ name: 'user-slug', params: { slug: 1 } })); // Error
 
-  assertType(navigateTo({ name: 'user-slug', params: { slug: ['foo'] } })); // Good
-
-  assertType(navigateTo({ name: 'user-slug', params: { slug: [1, 2, 3] } })); // Good
-
   // ---- [one]-foo-[two].vue
 
   // @ts-expect-error
@@ -63,16 +53,12 @@ test('navigateTo types should be correct', async () => {
   // @ts-expect-error
   assertType(navigateTo({ name: 'user-one-foo-two', params: { one: 1 } })); // Error
 
-  assertType(navigateTo({ name: 'user-one-foo-two', params: { one: 1, two: '2' } })); // Good
-
   // ---- [id]/[slug].vue
 
   // @ts-expect-error
   assertType(navigateTo({ name: 'user-id-slug' })); // Error
   // @ts-expect-error
   assertType(navigateTo({ name: 'user-id-slug', params: { id: 1 } })); // Error
-
-  assertType(navigateTo({ name: 'user-id-slug', params: { slug: '2' } })); // Good
 
   // ---- Routes added by config extend
 

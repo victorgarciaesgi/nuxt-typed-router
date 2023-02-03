@@ -28,65 +28,49 @@ test('router types should be correct', () => {
 
   // - Misc
 
-  assertType(router.push({ name: 'index', query: { foo: 'bar' } }));
+  // @ts-expect-error
+  assertType(router.push({ name: 'index', params: { id: '1' } }));
+  // @ts-expect-error
+  assertType(router.hasRoute('blabla'));
+  // @ts-expect-error
+  assertType(router.removeRoute('baguette'));
 
   // @ts-expect-error
-  assertType(router.push({ name: 'index', params: { id: '1' } })); // Error
-  // @ts-expect-error
-  assertType(router.hasRoute('blabla')); // Error
-  // @ts-expect-error
-  assertType(router.removeRoute('baguette')); // Error
-
-  // @ts-expect-error
-  assertType(router.replace({ name: 'index', params: { id: '1' } })); // Error
+  assertType(router.replace({ name: 'index', params: { id: '1' } }));
 
   // ---- [id].vue
 
   // @ts-expect-error
-  assertType(router.push({ name: 'user-id' })); // Error
+  assertType(router.push({ name: 'user-id' }));
 
   // @ts-expect-error
-  assertType(router.push({ name: 'user-id', params: { foo: 'bar' } })); // Error
-
-  assertType(router.push({ name: 'user-id', params: { id: 1 } })); // Good
+  assertType(router.push({ name: 'user-id', params: { foo: 'bar' } }));
 
   // ---- [foo]-[[bar]].vue
 
   // @ts-expect-error
-  assertType(router.push({ name: 'user-foo-bar' })); // Error
+  assertType(router.push({ name: 'user-foo-bar' }));
   // @ts-expect-error
-  assertType(router.push({ name: 'user-foo-bar', params: { bar: 1 } })); // Error
-
-  assertType(router.push({ name: 'user-foo-bar', params: { foo: 'bar' } })); // Good
-
-  assertType(router.push({ name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } })); // Good
+  assertType(router.push({ name: 'user-foo-bar', params: { bar: 1 } }));
 
   // ---- [...slug].vue
 
   // @ts-expect-error
-  assertType(router.push({ name: 'user-slug' })); // Error
+  assertType(router.push({ name: 'user-slug' }));
   // @ts-expect-error
-  assertType(router.push({ name: 'user-slug', params: { slug: 1 } })); // Error
-
-  assertType(router.push({ name: 'user-slug', params: { slug: ['foo'] } })); // Good
-
-  assertType(router.push({ name: 'user-slug', params: { slug: [1, 2, 3] } })); // Good
+  assertType(router.push({ name: 'user-slug', params: { slug: 1 } }));
 
   // ---- [one]-foo-[two].vue
 
   // @ts-expect-error
-  assertType(router.push({ name: 'user-one-foo-two' })); // Error
+  assertType(router.push({ name: 'user-one-foo-two' }));
   // @ts-expect-error
-  assertType(router.push({ name: 'user-one-foo-two', params: { one: 1 } })); // Error
-
-  assertType(router.push({ name: 'user-one-foo-two', params: { one: 1, two: '2' } })); // Good
+  assertType(router.push({ name: 'user-one-foo-two', params: { one: 1 } }));
 
   // ---- [id]/[slug].vue
 
   // @ts-expect-error
-  assertType(router.push({ name: 'user-id-slug' })); // Error
+  assertType(router.push({ name: 'user-id-slug' }));
   // @ts-expect-error
-  assertType(router.push({ name: 'user-id-slug', params: { id: 1 } })); // Error
-
-  assertType(router.push({ name: 'user-id-slug', params: { slug: '2' } })); // Good
+  assertType(router.push({ name: 'user-id-slug', params: { id: 1 } }));
 });

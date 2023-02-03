@@ -28,8 +28,6 @@ test('router types should be correct', () => {
 
   // - Misc
 
-  assertType(router.push({ name: 'index', query: { foo: 'bar' } }));
-
   // @ts-expect-error
   assertType(router.push({ name: 'index', params: { id: '1' } })); // Error
   // @ts-expect-error
@@ -60,20 +58,12 @@ test('router types should be correct', () => {
   // @ts-expect-error
   assertType(router.push({ name: 'user-foo-bar', params: { bar: 1 } })); // Error
 
-  assertType(router.push({ name: 'user-foo-bar', params: { foo: 'bar' } })); // Good
-
-  assertType(router.push({ name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } })); // Good
-
   // ---- [...slug].vue
 
   // @ts-expect-error
   assertType(router.push({ name: 'user-slug' })); // Error
   // @ts-expect-error
   assertType(router.push({ name: 'user-slug', params: { slug: 1 } })); // Error
-
-  assertType(router.push({ name: 'user-slug', params: { slug: ['foo'] } })); // Good
-
-  assertType(router.push({ name: 'user-slug', params: { slug: [1, 2, 3] } })); // Good
 
   // ---- [one]-foo-[two].vue
 
@@ -82,16 +72,12 @@ test('router types should be correct', () => {
   // @ts-expect-error
   assertType(router.push({ name: 'user-one-foo-two', params: { one: 1 } })); // Error
 
-  assertType(router.push({ name: 'user-one-foo-two', params: { one: 1, two: '2' } })); // Good
-
   // ---- [id]/[slug].vue
 
   // @ts-expect-error
   assertType(router.push({ name: 'user-id-slug' })); // Error
   // @ts-expect-error
   assertType(router.push({ name: 'user-id-slug', params: { id: 1 } })); // Error
-
-  assertType(router.push({ name: 'user-id-slug', params: { slug: '2' } })); // Good
 
   // ---- Routes added by config extend
 

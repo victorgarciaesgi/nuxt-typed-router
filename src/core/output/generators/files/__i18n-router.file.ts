@@ -5,14 +5,17 @@ export function createi18nRouterFile() {
   return /* typescript */ `
 
   import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from 'vue-i18n-routing';
-  import type {TypedRouteLocationRawFromName, TypedRouteFromName} from './__router';
+  import type {TypedRouteLocationRawFromName, TypedRouteFromName, TypedLocationAsRelativeRaw} from './__router';
   import type {RoutesNamesList} from './__routes';
 
   export type I18nLocales = ${
     i18nLocales.length ? i18nLocales.map((loc) => `"${loc}"`).join('|') : 'string'
   };
 
-  export type TypedToLocalePath = <T extends RoutesNamesList>(to: TypedRouteLocationRawFromName<T>, locale?: I18nLocales | undefined) => TypedRouteLocationRawFromName<T>;
+  export type TypedToLocalePath = <T extends RoutesNamesList>(
+    to: TypedRouteLocationRawFromName<T>,
+    locale?: I18nLocales | undefined
+  ) => Required<TypedLocationAsRelativeRaw<T>>;
 
   export function useLocalePath(options?: Pick<NonNullable<Parameters<typeof _useLocalePath>[0]>, 'i18n'>): TypedToLocalePath {
      return _useLocalePath(options) as any;

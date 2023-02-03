@@ -3,6 +3,7 @@ import { moduleOptionStore } from '../../../config';
 
 export function createTypedRouterFile() {
   const strictOptions = moduleOptionStore.getResolvedStrictOptions();
+  const { i18n } = moduleOptionStore;
 
   return /* typescript */ `
   
@@ -38,7 +39,8 @@ export function createTypedRouterFile() {
     strictOptions.router.strictRouteLocation,
     `| Omit<RouteLocationPathRaw, 'path'>`,
     '| RouteLocationPathRaw'
-  )};
+  )}
+  ;
   
 
   /**
