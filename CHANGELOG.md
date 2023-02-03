@@ -13,7 +13,7 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Zero config!
 - Generate correct routes names for prefixed routes
 
-## Strict mode support (#68)
+## Strict mode support (#64)
 
 
 - Added `strict` option to prevent passing string paths 
