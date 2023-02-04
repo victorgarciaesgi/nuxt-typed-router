@@ -14,7 +14,7 @@ const router = useRouter();
 const localePath = useLocalePath();
 const localeRoute = useLocaleRoute();
 
-navigateTo(localePath({ name: 'user' }));
+navigateTo(localePath('/foo'));
 
 router.push(localePath({ name: 'user', params: { id: 1 } }));
 

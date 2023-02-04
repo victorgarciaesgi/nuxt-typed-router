@@ -12,10 +12,10 @@ export function createi18nRouterFile() {
     i18nLocales.length ? i18nLocales.map((loc) => `"${loc}"`).join('|') : 'string'
   };
 
-  export type TypedToLocalePath = <T extends RoutesNamesList>(
+  export type TypedToLocalePath = <T extends RoutesNamesList = never>(
     to: TypedRouteLocationRawFromName<T>,
     locale?: I18nLocales | undefined
-  ) => Required<TypedLocationAsRelativeRaw<T>>;
+  ) => [T] extends [never] ? string : Required<TypedLocationAsRelativeRaw<T>>;
 
   export function useLocalePath(options?: Pick<NonNullable<Parameters<typeof _useLocalePath>[0]>, 'i18n'>): TypedToLocalePath {
      return _useLocalePath(options) as any;

@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   modules: [NuxtTypedRouter, '@nuxtjs/i18n'],
   nuxtTypedRouter: {
     plugin: true,
+    strict: true,
   },
   srcDir: './src',
   i18n: {
