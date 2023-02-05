@@ -10,6 +10,12 @@ export interface RouteParamsDecl {
   params: ParamDecl[];
 }
 
+export interface RoutePathsDecl {
+  path: string;
+  name?: string;
+  typePath: string;
+}
+
 export interface GeneratorOutput {
   /** String template of the exported route object of `__routes.ts` file (contains `as const`) */
   routesObjectTemplate: string;
@@ -19,4 +25,5 @@ export interface GeneratorOutput {
   routesList: string[];
   /** Array of RouteParams mapping with routeList  */
   routesParams: RouteParamsDecl[];
+  routesPaths: RoutePathsDecl[];
 }

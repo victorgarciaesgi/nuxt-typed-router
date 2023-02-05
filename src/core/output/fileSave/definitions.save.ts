@@ -22,27 +22,20 @@ type SaveGeneratedFiles = {
   outputData: GeneratorOutput;
 };
 
-export async function saveGeneratedFiles({
-  outputData: { routesDeclTemplate, routesList, routesObjectTemplate, routesParams },
-}: SaveGeneratedFiles): Promise<void> {
+export async function saveGeneratedFiles({ outputData }: SaveGeneratedFiles): Promise<void> {
   const { i18n } = moduleOptionStore;
   const filesMap: Array<{ fileName: string; content: string }> = [
     {
       fileName: '__useTypedRouter.ts',
-      content: createUseTypedRouterFile(routesDeclTemplate),
+      content: createUseTypedRouterFile(outputData.routesDeclTemplate),
     },
     {
       fileName: '__useTypedRoute.ts',
-      content: createUseTypedRouteFile(routesDeclTemplate),
+      content: createUseTypedRouteFile(outputData.routesDeclTemplate),
     },
     {
       fileName: `__routes.ts`,
-      content: createRoutesTypesFile({
-        routesList,
-        routesObjectTemplate,
-        routesDeclTemplate,
-        routesParams,
-      }),
+      content: createRoutesTypesFile(outputData),
     },
     {
       fileName: '__navigateTo.ts',
@@ -83,8 +76,8 @@ export async function saveGeneratedFiles({
       return processPathAndWriteFile({ content: waterMakeredContent, fileName });
     })
   );
-  if (previousGeneratedRoutes !== routesList.join(',')) {
-    previousGeneratedRoutes = routesList.join(',');
+  if (previousGeneratedRoutes !== outputData.routesList.join(',')) {
+    previousGeneratedRoutes = outputData.routesList.join(',');
     console.log(logSymbols.success, `Router autocompletions generated 🚦`);
   }
 }
