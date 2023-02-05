@@ -2,14 +2,14 @@ import { NuxtPage } from '@nuxt/schema';
 import { camelCase } from 'lodash-es';
 import { GeneratorOutput, ParamDecl } from '../../types';
 import { isItemLast } from '../../utils';
-import { extractRouteParamsFromPath } from './extractParams';
+import { extractRouteParamsFromPath, replaceParamsFromPathDecl } from './params';
 import { extractMatchingSiblings, extractUnMatchingSiblings } from './extractChunks';
 
 type WalkThoughRoutesParams = {
   route: NuxtPage;
   level: number;
   siblings?: NuxtPage[];
-  parentName?: string;
+  parent?: NuxtPage;
   previousParams?: ParamDecl[];
   output: GeneratorOutput;
   isLast: boolean;
@@ -36,12 +36,24 @@ function createNameKeyFromFullName(route: NuxtPage, level: number, parentName?: 
   return keyName;
 }
 
+function hasi18nSibling(
+  source: Array<Record<string, any> & { name?: string; path: string }>,
+  route: NuxtPage
+) {
+  return source.some((rt) => {
+    return (
+      route.name?.match(new RegExp(`^(${rt.name})___[a-zA-Z]+`, 'g')) ||
+      (rt.path !== '/' && route.path?.match(new RegExp(`/?[a-zA-Z]+${rt.path}`, 'g')))
+    );
+  });
+}
+
 /** Mutates the output object with generated routes */
 export function walkThoughRoutes({
   route,
   level,
   siblings,
-  parentName,
+  parent,
   previousParams,
   output,
   isLast,
@@ -52,6 +64,7 @@ export function walkThoughRoutes({
   const chunkArray = route.file?.split('/') ?? [];
   const lastChunkArray = chunkArray[chunkArray?.length - 1].split('.vue')[0];
   const isRootSibling = lastChunkArray === 'index';
+
   if (
     (route.children?.length && !haveMatchingSiblings) ||
     (!route.children?.length && haveMatchingSiblings && isRootSibling)
@@ -60,61 +73,68 @@ export function walkThoughRoutes({
 
     let nameKey = createKeyedName(route);
 
-    const hasSamePathI18nSibling = siblings?.some((sibling) => {
-      const _name = createKeyedName(sibling);
-      return _name === nameKey;
-    });
-
-    if (hasSamePathI18nSibling) {
-      nameKey = camelCase(route.path.split('/').join('-'));
-    }
-
-    // Output
-    output.routesObjectTemplate += `${nameKey}:{`;
-    output.routesDeclTemplate += `"${nameKey}":{`;
-
-    // Recursive walk though children
-
     const allRouteParams = extractRouteParamsFromPath(route.path, false, previousParams);
-    childrenChunks?.map((routeConfig, index) =>
-      walkThoughRoutes({
-        route: routeConfig,
-        level: level + 1,
-        siblings: extractUnMatchingSiblings(route, siblings),
-        parentName: nameKey,
-        previousParams: allRouteParams,
-        output,
-        isLast: isItemLast(childrenChunks, index),
-      })
-    );
-    // Output
-    output.routesObjectTemplate += '},';
-    output.routesDeclTemplate += `}${isLast ? '' : ','}`;
-  } else if (route.name) {
-    let keyName = createNameKeyFromFullName(route, level, parentName);
+    const newPath = `${parent?.path ?? ''}${
+      route.path.startsWith('/') ? route.path : `/${route.path}`
+    }`;
 
-    const hasSameNameI18nSibling = siblings?.some((sibling) => {
-      const _name = createNameKeyFromFullName(sibling, level, parentName);
-      return _name === keyName;
-    });
+    if (!hasi18nSibling(output.routesPaths, route)) {
+      output.routesPaths.push({
+        name: route.name,
+        typePath: replaceParamsFromPathDecl(newPath),
+        path: newPath,
+      });
 
-    if (hasSameNameI18nSibling) {
-      keyName = camelCase(route.name);
+      const newRoute = { ...route, name: nameKey, path: newPath } satisfies NuxtPage;
+      // Recursive walk though children
+
+      // Output
+      output.routesObjectTemplate += `${nameKey}:{`;
+      output.routesDeclTemplate += `"${nameKey}":{`;
+
+      childrenChunks?.map((routeConfig, index) =>
+        walkThoughRoutes({
+          route: routeConfig,
+          level: level + 1,
+          siblings: extractUnMatchingSiblings(route, siblings),
+          parent: newRoute,
+          previousParams: allRouteParams,
+          output,
+          isLast: isItemLast(childrenChunks, index),
+        })
+      );
+      // Output
+      output.routesObjectTemplate += '},';
+      output.routesDeclTemplate += `}${isLast ? '' : ','}`;
     }
+  } else if (route.name) {
+    let keyName = createNameKeyFromFullName(route, level, parent?.name);
 
-    // Output
-    output.routesObjectTemplate += `'${keyName}': '${route.name}' as const,`;
-    output.routesDeclTemplate += `"${keyName}": "${route.name}"${isLast ? '' : ','}`;
-    output.routesList.push(route.name);
-    const isIndexFileForRouting = route.path === '';
-    const allRouteParams = extractRouteParamsFromPath(
-      route.path,
-      isIndexFileForRouting,
-      previousParams
-    );
-    output.routesParams.push({
-      name: route.name,
-      params: allRouteParams,
-    });
+    if (!hasi18nSibling(output.routesPaths, route)) {
+      // Output
+      output.routesObjectTemplate += `'${keyName}': '${route.name}' as const,`;
+      output.routesDeclTemplate += `"${keyName}": "${route.name}"${isLast ? '' : ','}`;
+      output.routesList.push(route.name);
+
+      const isIndexFileForRouting = route.path === '';
+      const allRouteParams = extractRouteParamsFromPath(
+        route.path,
+        isIndexFileForRouting,
+        previousParams
+      );
+      output.routesParams.push({
+        name: route.name,
+        params: allRouteParams,
+      });
+
+      const newPath = `${parent?.path ?? ''}${
+        route.path.startsWith('/') ? route.path : `/${route.path}`
+      }`;
+      output.routesPaths.push({
+        name: route.name,
+        typePath: replaceParamsFromPathDecl(newPath),
+        path: newPath,
+      });
+    }
   }
 }

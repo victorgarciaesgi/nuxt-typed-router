@@ -23,6 +23,8 @@ export function createIndexFile(): string {
       RoutesNamesList,
       RoutesNamesListRecord,
       RoutesParamsRecord,
+      RoutePath,
+      RoutePathByName
     } from './__routes';
     export { useRoute } from './__useTypedRoute';
     export { useRouter } from './__useTypedRouter';

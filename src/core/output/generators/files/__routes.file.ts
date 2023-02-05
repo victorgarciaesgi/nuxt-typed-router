@@ -1,32 +1,46 @@
-import { RouteParamsDecl } from '../../../../types';
+import { GeneratorOutput, RouteParamsDecl } from '../../../../types';
 import {
+  createRoutePathByNameBlock,
   createRoutesNamedLocationsExport,
   createRoutesNamedLocationsResolvedExport,
   createRoutesNamesListExport,
   createRoutesParamsRecordExport,
   createRoutesParamsRecordResolvedExport,
 } from '../blocks';
+
 export function createRoutesTypesFile({
   routesList,
   routesObjectTemplate,
   routesDeclTemplate,
   routesParams,
-}: {
-  routesList: string[];
-  routesObjectTemplate: string;
-  routesDeclTemplate: string;
-  routesParams: RouteParamsDecl[];
-}): string {
+  routesPaths,
+}: GeneratorOutput): string {
+  const filteredRoutesList = routesList.filter(
+    (routeName, index) => routesList.indexOf(routeName) === index
+  );
+
+  const filteredRoutesParams = routesParams.filter(
+    (route, index) => routesParams.findIndex((r) => route.name === r.name) === index
+  );
+
+  const filteredRoutesPaths = routesPaths.filter(
+    (route, index) => routesPaths.findIndex((r) => route.name === r.name) === index
+  );
+
   return /* typescript */ `
-    ${createRoutesNamesListExport(routesList)}
+    ${createRoutesNamesListExport(filteredRoutesList)}
 
-    ${createRoutesParamsRecordExport(routesParams)}
+    export type RoutePath = RoutePathByName[keyof RoutePathByName];
+
+    ${createRoutePathByNameBlock(filteredRoutesPaths)}
+
+    ${createRoutesParamsRecordExport(filteredRoutesParams)}
     
-    ${createRoutesParamsRecordResolvedExport(routesParams)}
+    ${createRoutesParamsRecordResolvedExport(filteredRoutesParams)}
 
-    ${createRoutesNamedLocationsExport(routesParams)}
+    ${createRoutesNamedLocationsExport(filteredRoutesParams)}
 
-    ${createRoutesNamedLocationsResolvedExport(routesParams)}
+    ${createRoutesNamedLocationsResolvedExport(filteredRoutesParams)}
 
     export type RoutesNamesListRecord = ${routesDeclTemplate};
 
