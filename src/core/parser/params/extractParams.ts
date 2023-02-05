@@ -1,23 +1,12 @@
-import { ParamDecl } from '../../types';
-
-const routeParamExtractRegxp = /(:(\w+)(\(.+\)[*+]?)?(\?)?)+/g;
+import { ParamDecl } from '../../../types';
+import { extractParamsFromPathDecl } from './replaceParams';
 
 export function extractRouteParamsFromPath(
   path: string,
   isIndexFileForRouting: boolean,
   previousParams?: ParamDecl[]
 ): ParamDecl[] {
-  let params: Array<{ name: string; optional: boolean; catchAll: boolean }> = [];
-  let matches: RegExpExecArray | null;
-  do {
-    matches = routeParamExtractRegxp.exec(path);
-    if (matches) {
-      const [_, mtch, key, catchAll, optional] = matches;
-      if (mtch) {
-        params.push({ name: key, optional: !!optional, catchAll: !!catchAll });
-      }
-    }
-  } while (matches);
+  const params = extractParamsFromPathDecl(path);
 
   let allMergedParams = params.map(
     ({ name, optional, catchAll }): ParamDecl => ({
