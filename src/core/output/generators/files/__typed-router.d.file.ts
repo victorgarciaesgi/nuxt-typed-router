@@ -10,7 +10,7 @@ export function createTypedRouterDefinitionFile(): string {
     import type { NuxtLinkProps } from '#app';
     import type { DefineComponent } from 'vue';
     import type { RouteLocationRaw, RouteLocationPathRaw } from 'vue-router';
-    import type { RoutesNamesList, RoutesNamedLocations, RoutesNamesListRecord } from './__routes';
+    import type { RoutesNamesList, RoutesNamedLocations, RoutesNamesListRecord, RoutePath } from './__routes';
     import type {TypedRouter, TypedRoute} from './__router';
     import { useRoute as _useRoute } from './__useTypedRoute';
     import { useRouter as _useRouter } from './__useTypedRouter';
@@ -39,10 +39,11 @@ export function createTypedRouterDefinitionFile(): string {
     type TypedNuxtLinkProps = Omit<NuxtLinkProps, 'to'> & {
       to: 
       Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations
-      ${returnIfFalse(strictOptions.NuxtLink.strictToArgument, '| string')}
+      ${returnIfFalse(strictOptions.NuxtLink.strictToArgument, '| RoutePath')}
+      | Omit<RouteLocationPathRaw, 'path'>
       ${returnIfTrue(
         strictOptions.NuxtLink.strictRouteLocation,
-        `| Omit<RouteLocationPathRaw, 'path'>`,
+        `& {path?: RoutePath}`,
         '| RouteLocationPathRaw'
       )}
     };
