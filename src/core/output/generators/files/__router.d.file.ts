@@ -21,7 +21,8 @@ export function createTypedRouterFile() {
     RoutesNamedLocationsResolved,
     RoutesNamesList,
     RoutesParamsRecord,
-    RoutesParamsRecordResolved
+    RoutesParamsRecordResolved,
+    RoutePath
   } from './__routes';
   import type { HasOneRequiredParameter } from './__types_utils';
 
