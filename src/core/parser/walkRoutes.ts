@@ -2,7 +2,7 @@ import { NuxtPage } from '@nuxt/schema';
 import { camelCase } from 'lodash-es';
 import { GeneratorOutput, ParamDecl } from '../../types';
 import { isItemLast } from '../../utils';
-import { extractRouteParamsFromPath, replaceParamsFromPathDecl } from './params';
+import { extractRouteParamsFromPath, replaceParamsFromPathDecl, destructurePath } from './params';
 import { extractMatchingSiblings, extractUnMatchingSiblings } from './extractChunks';
 
 type WalkThoughRoutesParams = {
@@ -80,6 +80,8 @@ export function walkThoughRoutes({
       (route.children?.length && !haveMatchingSiblings) ||
       (!route.children?.length && haveMatchingSiblings && isRootSibling)
     ) {
+      // - Route with children
+
       let childrenChunks = haveMatchingSiblings ? matchingSiblings : route.children;
       let nameKey = createKeyedName(route);
       const allRouteParams = extractRouteParamsFromPath(route.path, false, previousParams);
@@ -106,13 +108,15 @@ export function walkThoughRoutes({
       output.routesObjectTemplate += '},';
       output.routesDeclTemplate += `}${isLast ? '' : ','}`;
     } else if (route.name) {
+      // - Single route
+
       let keyName = createNameKeyFromFullName(route, level, parent?.name);
 
       output.routesObjectTemplate += `'${keyName}': '${route.name}' as const,`;
       output.routesDeclTemplate += `"${keyName}": "${route.name}"${isLast ? '' : ','}`;
       output.routesList.push(route.name);
 
-      // - Params
+      // Params
       const isIndexFileForRouting = route.path === '';
       const allRouteParams = extractRouteParamsFromPath(
         route.path,

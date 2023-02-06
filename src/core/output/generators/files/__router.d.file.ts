@@ -35,12 +35,8 @@ export function createTypedRouterFile() {
    * */
   export type TypedRouteLocationRaw =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations)
-  ${returnIfFalse(strictOptions.router.strictToArgument, '| string')}
-  ${returnIfTrue(
-    strictOptions.router.strictRouteLocation,
-    `| Omit<RouteLocationPathRaw, 'path'>`,
-    '| RouteLocationPathRaw'
-  )}
+  | Omit<RouteLocationPathRaw, 'path'>
+  ${returnIfFalse(strictOptions.router.strictRouteLocation, `& {path?: RoutePath}`)}
   ;
   
 
@@ -49,12 +45,8 @@ export function createTypedRouterFile() {
    */
   export type TypedRouteLocationRawFromName<T extends RoutesNamesList> =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
-  ${returnIfFalse(strictOptions.router.strictToArgument, '| string')}
-  ${returnIfTrue(
-    strictOptions.router.strictRouteLocation,
-    `| Omit<RouteLocationPathRaw, 'path'>`,
-    '| RouteLocationPathRaw'
-  )}
+  | Omit<RouteLocationPathRaw, 'path'>
+  ${returnIfFalse(strictOptions.router.strictRouteLocation, `& {path?: RoutePath}`)}
 
   /** 
    * Generic providing inference and dynamic inclusion of \`params\` property
@@ -100,6 +92,10 @@ export function createTypedRouterFile() {
       to: TypedRouteLocationRawFromName<T>,
       currentLocation?: TypedRoute
     ): TypedRouteLocationFromName<T>;
+    resolve(
+      to: RoutePath,
+      currentLocation?: TypedRoute
+    ): TypedRouteLocation;
     /**
      * Programmatically navigate to a new URL by pushing an entry in the history
      * stack.
@@ -107,6 +103,7 @@ export function createTypedRouterFile() {
      * @param to - Route location to navigate to
      */
     push(to: TypedRouteLocationRaw): Promise<NavigationFailure | void | undefined>;
+    push(to: RoutePath): Promise<NavigationFailure | void | undefined>;
     /**
      * Programmatically navigate to a new URL by replacing the current entry in
      * the history stack.
@@ -114,6 +111,7 @@ export function createTypedRouterFile() {
      * @param to - Route location to navigate to
      */
     replace(to: TypedRouteLocationRaw): Promise<NavigationFailure | void | undefined>;
+    replace(to: RoutePath): Promise<NavigationFailure | void | undefined>;
   }
 
 
