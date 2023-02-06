@@ -1,28 +1,36 @@
 import { RoutePathsDecl } from '../../../../../types';
 
-// export function createRoutePathBlock() {
-//   return /* typescript */ `
-//     export type RoutePath<T, Key extends keyof T = keyof T> =
-//       Key extends string
-//       ? T[Key] extends Record<string, any>
-//         ? | \`\${Key}.\${Path<T[Key], Exclude<keyof T[Key], keyof String>> & string}\`
-//           | \`\${Key}.\${Exclude<keyof T[Key], keyof String> & string}\`
-//           | Key
-//         : T[Key] & string
-//       : never;
+//--- temp
 
-//       export type RoutePathValue<T, P extends RoutePath<T>> =
-//         P extends \`\${infer Key}.\${infer Rest}\`
-//         ? Key extends keyof T
-//           ? Rest extends RoutePath<T[Key]>
-//             ? RoutePathValue<T[Key], Rest>
-//             : never
-//           : never
-//         : P extends keyof T
-//           ? T[P]
-//           : never;
-//           `;
-// }
+type ValidatePath<T extends string = never> = T extends string
+  ? T extends `/`
+    ? T
+    : T extends `/user${infer U}`
+    ? U extends ''
+      ? ['Type shouldnt match /user']
+      : U extends `/${infer P}`
+      ? P extends ''
+        ? ['Type shouldnt match /user/']
+        : T
+      : false
+    : ['Type should not be empty']
+  : ['Type should be a string'];
+
+// @ts-ignore
+function checkRoute<T extends string>(path: ValidatePath<T> | RoutePathSchema) {
+  //
+}
+checkRoute('/user');
+//--- temp
+
+export function createRoutePathSchema(routePaths: RoutePathsDecl[]) {
+  return `export type RoutePathSchema = 
+    ${routePaths
+      .filter((f) => !!f.path)
+      .map((route) => `"${route.path}"`)
+      .join('|')}
+  `;
+}
 
 export function createRoutePathByNameBlock(routePaths: RoutePathsDecl[]) {
   return `export type RoutePathByName = {
@@ -32,3 +40,5 @@ export function createRoutePathByNameBlock(routePaths: RoutePathsDecl[]) {
       .join(',')}
   }`;
 }
+
+export function createTypeValidatePathCondition(routePaths: RoutePathsDecl[]) {}
