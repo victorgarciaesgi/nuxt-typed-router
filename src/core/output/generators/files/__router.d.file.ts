@@ -3,7 +3,7 @@ import { moduleOptionStore } from '../../../config';
 
 export function createTypedRouterFile() {
   const strictOptions = moduleOptionStore.getResolvedStrictOptions();
-  const { i18n } = moduleOptionStore;
+  const { i18n, experimentalPathCheck } = moduleOptionStore;
 
   return /* typescript */ `
   
@@ -23,7 +23,10 @@ export function createTypedRouterFile() {
     RoutesParamsRecord,
     RoutesParamsRecordResolved,
   } from './__routes';
-  import type {ValidatePath, RoutePathSchema} from './__paths'
+  ${returnIfTrue(
+    experimentalPathCheck,
+    `import type {ValidatePath, RoutePathSchema} from './__paths';`
+  )}
   import type { HasOneRequiredParameter } from './__types_utils';
 
 
@@ -33,20 +36,28 @@ export function createTypedRouterFile() {
    * RouteLocationRaw with discrimanated name and params properties 
    * {@link RouteLocationRaw}
    * */
-  export type TypedRouteLocationRaw =
+  export type TypedRouteLocationRaw<T extends string = string> =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations)
   | Omit<RouteLocationPathRaw, 'path'>
-  ${returnIfFalse(strictOptions.router.strictRouteLocation, `& {path?: RoutePathSchema}`)}
+  ${returnIfFalse(
+    strictOptions.router.strictRouteLocation,
+    `& {path?: ValidatePath<T> | RoutePathSchema}`
+  )}
+  ${returnIfFalse(experimentalPathCheck && !strictOptions.router.strictRouteLocation, ` | string`)}
   ;
   
 
   /**
    * Alternative version of {@link TypedRouteLocationRaw} but with a name generic
    */
-  export type TypedRouteLocationRawFromName<T extends RoutesNamesList> =
+  export type TypedRouteLocationRawFromName<T extends RoutesNamesList, P extends string = string> =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
   | Omit<RouteLocationPathRaw, 'path'>
-  ${returnIfFalse(strictOptions.router.strictRouteLocation, `& {path?: RoutePathSchema}`)}
+  ${returnIfFalse(
+    strictOptions.router.strictRouteLocation,
+    `& {path?: ValidatePath<P> | RoutePathSchema}`
+  )}
+  ${returnIfFalse(experimentalPathCheck && !strictOptions.router.strictRouteLocation, ` | string`)}
 
   /** 
    * Generic providing inference and dynamic inclusion of \`params\` property
@@ -90,12 +101,12 @@ export function createTypedRouterFile() {
      */
     resolve<T extends RoutesNamesList>(
       to: TypedRouteLocationRawFromName<T>,
-      currentLocation?: TypedRoute
+      currentLocation?: TypedRouteLocationRaw
     ): TypedRouteLocationFromName<T>;
-    resolve(
-      to: RoutePathSchema,
-      currentLocation?: TypedRoute
-    ): TypedRouteLocation;
+    ${returnIfTrue(
+      experimentalPathCheck && !strictOptions.router.strictToArgument,
+      `resolve<T extends string>(to: ValidatePath<T> | RoutePathSchema, currentLocation?: TypedRouteLocationRaw): TypedRouteLocation;`
+    )}
     /**
      * Programmatically navigate to a new URL by pushing an entry in the history
      * stack.
@@ -103,7 +114,10 @@ export function createTypedRouterFile() {
      * @param to - Route location to navigate to
      */
     push(to: TypedRouteLocationRaw): Promise<NavigationFailure | void | undefined>;
-    push<T extends string>(to: ValidatePath<T> | RoutePathSchema): Promise<NavigationFailure | void | undefined>;
+    ${returnIfTrue(
+      experimentalPathCheck && !strictOptions.router.strictToArgument,
+      `push<T extends string>(to: ValidatePath<T> | RoutePathSchema): Promise<NavigationFailure | void | undefined>;`
+    )}
     /**
      * Programmatically navigate to a new URL by replacing the current entry in
      * the history stack.
@@ -111,7 +125,10 @@ export function createTypedRouterFile() {
      * @param to - Route location to navigate to
      */
     replace(to: TypedRouteLocationRaw): Promise<NavigationFailure | void | undefined>;
-    replace(to: RoutePathSchema): Promise<NavigationFailure | void | undefined>;
+    ${returnIfTrue(
+      experimentalPathCheck && !strictOptions.router.strictToArgument,
+      `replace<T extends string>(to: ValidatePath<T> | RoutePathSchema): Promise<NavigationFailure | void | undefined>;`
+    )}
   }
 
 

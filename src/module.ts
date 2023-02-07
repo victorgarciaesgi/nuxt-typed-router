@@ -15,6 +15,7 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     plugin: false,
     strict: false,
+    experimentalPathCheck: true,
   } satisfies ModuleOptions,
   setup(moduleOptions, nuxt: Nuxt) {
     const { resolve } = createResolver(import.meta.url);
@@ -53,9 +54,15 @@ export default defineNuxtModule<ModuleOptions>({
     // Force register of type declaration
     nuxt.options.typescript.tsConfig = {
       include: ['./typed-router/typed-router.d.ts'],
+      ...(moduleOptions.experimentalPathCheck && {
+        // Enable Volar components generics https://github.com/vuejs/rfcs/discussions/436
+        vueCompilerOptions: {
+          jsxTemplates: true,
+          experimentalRfc436: true,
+        },
+      }),
     };
 
-    // Allow generating files on load
     createTypedRouter({ nuxt });
   },
 });

@@ -1,7 +1,9 @@
 <template>
   <div>
     <button @click="navigate"> Navigate button </button>
-    <nuxt-link to="">Navigate Link</nuxt-link>
+    <nuxt-link to="/admin/foo">Navigate Link</nuxt-link>
+    <nuxt-link to="/admin/foo/bar">Navigate Link</nuxt-link>
+    <test name="foo"></test>
   </div>
 </template>
 
@@ -12,10 +14,10 @@ const router = useRouter();
 const localePath = useLocalePath();
 const localeRoute = useLocaleRoute();
 
-navigateTo(localePath('/user/0/1/articles/'));
+navigateTo(localePath('/admin/foo/bar'));
 
-router.push('/user/foo/posts');
-router.push({ name: 'index' });
+router.push('/admin/foo');
+router.push('/user/:id/:slug/articles/');
 
 // const route = localeRoute({ name: 'index___en', query: { foo: '1' } });
 // if (route) {

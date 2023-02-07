@@ -1,5 +1,13 @@
 export interface ModuleOptions {
   /**
+   * ⛔️ Experimental, disable it if you encounter problems
+   *
+   * Enables path autocomplete and path validity for programmatic validation
+   *
+   *  @default true
+   */
+  experimentalPathCheck?: boolean;
+  /**
    * Set to false if you don't want a plugin generated
    * @default false
    */

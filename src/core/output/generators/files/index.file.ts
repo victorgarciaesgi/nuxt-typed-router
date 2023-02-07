@@ -2,7 +2,7 @@ import { returnIfTrue } from '../../../../utils';
 import { moduleOptionStore } from '../../../config';
 
 export function createIndexFile(): string {
-  const { i18n } = moduleOptionStore;
+  const { i18n, experimentalPathCheck } = moduleOptionStore;
 
   return /* typescript */ `
 
@@ -29,7 +29,10 @@ export function createIndexFile(): string {
     export { useRoute } from './__useTypedRoute';
     export { useRouter } from './__useTypedRouter';
     export { navigateTo } from './__navigateTo';
-    export { ValidatePath } from './__paths.d.ts';
+    ${returnIfTrue(
+      experimentalPathCheck,
+      `export type { ValidatePath, RoutePathSchema } from './__paths';`
+    )}
     ${returnIfTrue(i18n, `export {useLocalePath, useLocaleRoute} from './__i18n-router.ts';`)}
   `;
 }

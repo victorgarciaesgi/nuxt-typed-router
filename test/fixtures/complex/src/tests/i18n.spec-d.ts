@@ -1,13 +1,13 @@
-import { useLocalePath, useRouter, navigateTo, useLocaleRoute } from '@typed-router';
 import { required, optional } from '../../../../utils/typecheck';
 import type { TypedNuxtLinkProps } from '../../.nuxt/typed-router/typed-router';
+import { useLocalePath, useRouter, navigateTo, useLocaleRoute } from '@typed-router';
 
 const localePath = useLocalePath();
 const router = useRouter();
 const localeRoute = useLocaleRoute();
 
 router.push(localePath({ name: 'user-id', params: { id: 1 } }, 'fr'));
-let toProp: TypedNuxtLinkProps = {} as TypedNuxtLinkProps;
+let toProp: TypedNuxtLinkProps<string> = {} as TypedNuxtLinkProps<string>;
 toProp.to = localePath({ name: 'user-id', params: { id: 1 } }, 'fr');
 toProp.to = localePath({ name: 'index' }, 'fr');
 
