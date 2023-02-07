@@ -29,6 +29,7 @@ export function createIndexFile(): string {
     export { useRoute } from './__useTypedRoute';
     export { useRouter } from './__useTypedRouter';
     export { navigateTo } from './__navigateTo';
+    export { ValidatePath } from './__paths.d.ts';
     ${returnIfTrue(i18n, `export {useLocalePath, useLocaleRoute} from './__i18n-router.ts';`)}
   `;
 }

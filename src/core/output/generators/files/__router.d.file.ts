@@ -22,8 +22,8 @@ export function createTypedRouterFile() {
     RoutesNamesList,
     RoutesParamsRecord,
     RoutesParamsRecordResolved,
-    RoutePath
   } from './__routes';
+  import type {ValidatePath, RoutePathSchema} from './__paths'
   import type { HasOneRequiredParameter } from './__types_utils';
 
 
@@ -36,7 +36,7 @@ export function createTypedRouterFile() {
   export type TypedRouteLocationRaw =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations)
   | Omit<RouteLocationPathRaw, 'path'>
-  ${returnIfFalse(strictOptions.router.strictRouteLocation, `& {path?: RoutePath}`)}
+  ${returnIfFalse(strictOptions.router.strictRouteLocation, `& {path?: RoutePathSchema}`)}
   ;
   
 
@@ -46,7 +46,7 @@ export function createTypedRouterFile() {
   export type TypedRouteLocationRawFromName<T extends RoutesNamesList> =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
   | Omit<RouteLocationPathRaw, 'path'>
-  ${returnIfFalse(strictOptions.router.strictRouteLocation, `& {path?: RoutePath}`)}
+  ${returnIfFalse(strictOptions.router.strictRouteLocation, `& {path?: RoutePathSchema}`)}
 
   /** 
    * Generic providing inference and dynamic inclusion of \`params\` property
@@ -93,7 +93,7 @@ export function createTypedRouterFile() {
       currentLocation?: TypedRoute
     ): TypedRouteLocationFromName<T>;
     resolve(
-      to: RoutePath,
+      to: RoutePathSchema,
       currentLocation?: TypedRoute
     ): TypedRouteLocation;
     /**
@@ -103,7 +103,7 @@ export function createTypedRouterFile() {
      * @param to - Route location to navigate to
      */
     push(to: TypedRouteLocationRaw): Promise<NavigationFailure | void | undefined>;
-    push(to: RoutePath): Promise<NavigationFailure | void | undefined>;
+    push<T extends string>(to: ValidatePath<T> | RoutePathSchema): Promise<NavigationFailure | void | undefined>;
     /**
      * Programmatically navigate to a new URL by replacing the current entry in
      * the history stack.
@@ -111,7 +111,7 @@ export function createTypedRouterFile() {
      * @param to - Route location to navigate to
      */
     replace(to: TypedRouteLocationRaw): Promise<NavigationFailure | void | undefined>;
-    replace(to: RoutePath): Promise<NavigationFailure | void | undefined>;
+    replace(to: RoutePathSchema): Promise<NavigationFailure | void | undefined>;
   }
 
 

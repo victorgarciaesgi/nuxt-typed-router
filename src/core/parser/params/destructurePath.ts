@@ -1,12 +1,8 @@
 const ExtractRegex = /(^(\/)?([^:/]+)?(:(\w+)(\(.+\)[*+]?)?(\?)?)*([^:/]+)?)+/g;
-export type DestructuredPath =
-  | {
-      type: 'name';
-      content: string;
-    }
-  | {
-      type: 'param' | 'optionalParam' | 'catchAll';
-    };
+export type DestructuredPath = {
+  type: 'name' | 'param' | 'optionalParam' | 'catchAll';
+  content: string;
+};
 
 export function destructurePath(path: string): DestructuredPath[] {
   let allPathElements: DestructuredPath[] = [];
@@ -17,7 +13,7 @@ export function destructurePath(path: string): DestructuredPath[] {
     _path = _path.replace(strippedPath, '');
   } while (_path.length);
 
-  return allPathElements.flat();
+  return allPathElements;
 }
 
 function extractPathElements(partOfPath: string) {
@@ -33,7 +29,10 @@ function extractPathElements(partOfPath: string) {
         pathElements.push({ type: 'name', content: path1 });
       }
       if (key) {
-        pathElements.push({ type: catchAll ? 'catchAll' : optional ? 'optionalParam' : 'param' });
+        pathElements.push({
+          type: catchAll ? 'catchAll' : optional ? 'optionalParam' : 'param',
+          content: key,
+        });
       }
       if (path2) {
         pathElements.push({ type: 'name', content: path2 });

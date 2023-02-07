@@ -27,6 +27,7 @@ importers:
       lodash-es: ^4.17.21
       log-symbols: ^5.1.0
       mkdirp: ^2.1.3
+      nanoid: ^4.0.1
       nuxt: 3.1.2
       pathe: 1.1.0
       playwright: 1.30.0
@@ -43,6 +44,7 @@ importers:
       lodash-es: 4.17.21
       log-symbols: 5.1.0
       mkdirp: 2.1.3
+      nanoid: 4.0.1
       pathe: 1.1.0
       prettier: 2.8.3
     devDependencies:
@@ -2426,7 +2428,7 @@ packages:
       '@babel/core': 7.20.12
       '@babel/plugin-transform-typescript': 7.20.13_@babel+core@7.20.12
       '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.20.12
-      vite: 4.1.1
+      vite: 4.1.1_@types+node@18.11.19
       vue: 3.2.47
     transitivePeerDependencies:
       - supports-color
@@ -2439,7 +2441,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.1.1
+      vite: 4.1.1_@types+node@18.11.19
       vue: 3.2.47
     dev: true
 
@@ -5799,7 +5801,6 @@ packages:
     resolution: {integrity: sha512-udKGtCCUafD3nQtJg9wBhRP3KMbPglUsgV5JVsXhvyBs/oefqb4sqMEhKBBgqZncYowu58p1prsZQBYvAj/Gww==}
     engines: {node: ^14 || ^16 || >=18}
     hasBin: true
-    dev: true
 
   /natural-compare-lite/1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}

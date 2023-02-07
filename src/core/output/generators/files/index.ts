@@ -8,3 +8,4 @@ export * from './__useTypedRouter.file';
 export * from './__navigateTo.file';
 export * from './__types-utils.d.file';
 export * from './__i18n-router.file';
+export * from './__paths.file';
