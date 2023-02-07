@@ -4,34 +4,6 @@ import { customAlphabet } from 'nanoid';
 
 const nanoid = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10);
 
-//--- temp
-
-type ValidateUser<T> = T extends `/user/${infer hlvos}`
-  ? hlvos extends ''
-    ? ['Parameter id is required']
-    : T
-  : never;
-
-type ValidateFoo<T> = T extends `/foo` ? T : never;
-
-export type ValidatePath<T extends string> = T extends string
-  ? T extends '/'
-    ? T
-    : T extends ValidateUser<T>
-    ? T
-    : T extends ValidateFoo<T>
-    ? T
-    : never
-  : never;
-
-// TODO think about query string /user/1?param=foo
-// @ts-ignore
-function checkRoute<T extends string>(path: ValidatePath<T> | RouteSchema) {
-  //
-}
-checkRoute('/user');
-//--- temp
-
 export function createRoutePathSchema(routePaths: RoutePathsDecl[]) {
   return `export type RoutePathSchema = 
     ${routePaths
@@ -41,26 +13,15 @@ export function createRoutePathSchema(routePaths: RoutePathsDecl[]) {
   `;
 }
 
-export function createRoutePathByNameBlock(routePaths: RoutePathsDecl[]) {
-  return `export type RoutePathByName = {
-    ${routePaths
-      .filter((f) => !!f.name)
-      .map((route) => `"${route.name}": \`${route.typePath}\``)
-      .join(',')}
-  }`;
-}
-
 export function createValidatePathType(pathElements: DestructuredPath[][][]): string {
   let pathConditions = pathElements.map(createTypeValidatePathCondition);
 
   const typeNamesList = pathConditions.map((m) => m.typeName);
   const conditionsList = pathConditions.map((m) => m.condition);
 
-  // if (!pathConditions.length) {
-  //   pathConditions = ['["Type should represent a path"]'];
-  // }
   return `
-    ${pathConditions.length ? conditionsList.join('\n') : ''}
+    ${pathConditions.length ? conditionsList.join('\n\n') : ''}
+
     export type ValidatePath<T extends string> = T extends string 
       ? T extends '/' 
         ? T 
@@ -81,14 +42,20 @@ export function createTypeValidatePathCondition(elements: DestructuredPath[][]) 
     .map((elementArray, index) => {
       return elementArray
         .map((elem) => {
-          if (elem.type === 'name') {
+          const isLast = index === elements.flat().length - 1;
+
+          if (elem.type === 'name' && isLast && !hasOnlyNames) {
+            const id = nanoid(6);
+            params.set(elem.id, id);
+            return `${elem.content}\${infer ${id}}`;
+          } else if (elem.type === 'name') {
             return elem.content;
           } else if (elem.type === 'param' || elem.type === 'optionalParam') {
             const id = nanoid(6);
-            params.set(index, id);
-            const isOptionalAndLast =
-              elem.type === 'optionalParam' && index === elements.length - 1;
-            return `\${infer ${id}}${isOptionalAndLast ? '' : ''}`;
+            params.set(elem.id, id);
+            return `\${infer ${id}}`;
+          } else if (elem.type === 'catchAll') {
+            return `\${string}`;
           }
         })
         .join('');
@@ -101,22 +68,28 @@ export function createTypeValidatePathCondition(elements: DestructuredPath[][]) 
             .flat()
             .map((elem, index) => {
               let output = '';
-              const isLast = index === elements.length - 1;
-              if (elem.type === 'name') {
-                output = ``;
-              }
-              if (elem.type === 'param' && isLast) {
-                output = `ValidParam<${params.get(index)}> extends false ? "Parameter ${
+              const isLast = index === elements.flat().length - 1;
+              const isName = elem.type === 'name';
+              const isOptional = elem.type === 'optionalParam';
+              const isParam = elem.type === 'param';
+              const isCatchAll = elem.type === 'catchAll';
+
+              if (isName && isLast) {
+                output = `ValidEndOfPath<${params.get(elem.id)}> extends false ? "End of path '${
+                  elem.fullPath
+                }' is invalid" : true :`;
+              } else if (isParam && isLast) {
+                output = `ValidParam<${params.get(elem.id)}> extends false ? "Parameter {${
                   elem.content
-                } is invalid" : true :`;
-              } else if (elem.type === 'param') {
-                output = `${params.get(index)} extends '' ? ["Parameter ${
+                }} of path '${elem.fullPath}' is invalid" : true :`;
+              } else if (isParam) {
+                output = `${params.get(elem.id)} extends '' ? "Parameter {${
                   elem.content
-                } is required"] : `;
-              } else if (elem.type === 'optionalParam' && isLast) {
-                output = `ValidParam<${params.get(index)}> extends false ? "Parameter ${
+                }} of path '${elem.fullPath}' is required" : `;
+              } else if (isOptional && isLast) {
+                output = `ValidParam<${params.get(elem.id)}> extends false ? "Parameter {${
                   elem.content
-                } is invalid" : true :`;
+                }} of path '${elem.fullPath}' is invalid" : true :`;
               } else if (isLast) {
                 output += 'true :';
               }

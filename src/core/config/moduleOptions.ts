@@ -11,6 +11,7 @@ interface CustomNuxtConfigOptions {
 class ModuleOptionsStore {
   plugin: boolean = false;
   strict: boolean | StrictOptions = false;
+  experimentalPathCheck: boolean = true;
   autoImport: boolean = false;
   rootDir: string = '';
   i18n: boolean = false;
@@ -23,6 +24,8 @@ class ModuleOptionsStore {
     if (options.rootDir != null) this.rootDir = options.rootDir;
     if (options.i18n != null) this.i18n = options.i18n;
     if (options.i18nLocales != null) this.i18nLocales = options.i18nLocales;
+    if (options.experimentalPathCheck != null)
+      this.experimentalPathCheck = options.experimentalPathCheck;
   }
 
   getResolvedStrictOptions(): Required<StrictOptions> {

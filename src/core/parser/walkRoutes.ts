@@ -15,12 +15,14 @@ type WalkThoughRoutesParams = {
   isLast: boolean;
 };
 
-function createKeyedName(route: NuxtPage): string {
+function createKeyedName(route: NuxtPage, parent?: NuxtPage): string {
   const splittedPaths = route.path.split('/');
   const parentPath = splittedPaths[splittedPaths.length - 1];
-  const nameKey = camelCase(parentPath || 'index');
-
-  return nameKey;
+  if (parent) {
+    return camelCase(parentPath || 'index');
+  } else {
+    return camelCase(route.path.split('/').join('-') || 'index');
+  }
 }
 
 function createNameKeyFromFullName(route: NuxtPage, level: number, parentName?: string): string {
@@ -59,8 +61,6 @@ export function walkThoughRoutes({
   isLast,
 }: WalkThoughRoutesParams) {
   //
-  const matchingSiblings = extractMatchingSiblings(route, siblings);
-  const haveMatchingSiblings = !!matchingSiblings?.length && route.path !== '/';
   const chunkArray = route.file?.split('/') ?? [];
   const lastChunkArray = chunkArray[chunkArray?.length - 1].split('.vue')[0];
   const isRootSibling = lastChunkArray === 'index';
@@ -76,14 +76,11 @@ export function walkThoughRoutes({
       path: newPath,
     });
 
-    if (
-      (route.children?.length && !haveMatchingSiblings) ||
-      (!route.children?.length && haveMatchingSiblings && isRootSibling)
-    ) {
+    if (route.children?.length) {
       // - Route with children
 
-      let childrenChunks = haveMatchingSiblings ? matchingSiblings : route.children;
-      let nameKey = createKeyedName(route);
+      let childrenChunks = route.children;
+      let nameKey = createKeyedName(route, parent);
       const allRouteParams = extractRouteParamsFromPath(route.path, false, previousParams);
 
       const newRoute = { ...route, name: nameKey, path: newPath } satisfies NuxtPage;

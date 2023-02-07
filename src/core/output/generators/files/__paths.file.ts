@@ -13,11 +13,10 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
       return route.path
         .split('/')
         .filter((f) => f.length)
-        .map(destructurePath);
+        .map((m) => destructurePath(m, route.path));
     });
 
   const validatePathType = createValidatePathType(pathElements);
-  console.log(validatePathType);
 
   return /* typescript */ `
     
@@ -30,6 +29,8 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
     ? true
     : false
   : true;
+
+  type ValidEndOfPath<T> = T extends \`/\` ? true : T extends "" ? true : false
 
   ${validatePathType}
 
