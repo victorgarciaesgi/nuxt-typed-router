@@ -1,14 +1,10 @@
-import { GeneratorOutput, RouteParamsDecl } from '../../../../types';
-import { destructurePath, DestructuredPath } from '../../../parser/params';
+import { GeneratorOutput } from '../../../../types';
 import {
-  createRoutePathByNameBlock,
-  createRoutePathSchema,
   createRoutesNamedLocationsExport,
   createRoutesNamedLocationsResolvedExport,
   createRoutesNamesListExport,
   createRoutesParamsRecordExport,
   createRoutesParamsRecordResolvedExport,
-  createValidatePathType,
 } from '../blocks';
 
 export function createRoutesTypesFile({
