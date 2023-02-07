@@ -12,6 +12,7 @@ import {
   createUseTypedRouteFile,
   createTypedRouterDefinitionFile,
   createi18nRouterFile,
+  createPathsFiles,
 } from '../generators/files';
 
 import { watermarkTemplate } from '../static';
@@ -32,6 +33,10 @@ export async function saveGeneratedFiles({ outputData }: SaveGeneratedFiles): Pr
     {
       fileName: '__useTypedRoute.ts',
       content: createUseTypedRouteFile(outputData.routesDeclTemplate),
+    },
+    {
+      fileName: '__paths.d.ts',
+      content: createPathsFiles(outputData),
     },
     {
       fileName: `__routes.ts`,

@@ -1,5 +1,5 @@
 import { GeneratorOutput, RouteParamsDecl } from '../../../../types';
-import { destructurePath } from '../../../parser/params';
+import { destructurePath, DestructuredPath } from '../../../parser/params';
 import {
   createRoutePathByNameBlock,
   createRoutePathSchema,
@@ -8,6 +8,7 @@ import {
   createRoutesNamesListExport,
   createRoutesParamsRecordExport,
   createRoutesParamsRecordResolvedExport,
+  createValidatePathType,
 } from '../blocks';
 
 export function createRoutesTypesFile({
@@ -25,29 +26,9 @@ export function createRoutesTypesFile({
     (route, index) => routesParams.findIndex((r) => route.name === r.name) === index
   );
 
-  const filteredRoutesPaths = routesPaths.filter(
-    (route, index) => routesPaths.findIndex((r) => route.name === r.name) === index
-  );
-
-  const pathElements = filteredRoutesPaths
-    .filter((f) => f.path && f.path !== '/')
-    .map((route) => {
-      return route.path
-        .split('/')
-        .filter((f) => f.length)
-        .map(destructurePath);
-    });
-  console.log(JSON.stringify(pathElements));
-
   return /* typescript */ `
     ${createRoutesNamesListExport(filteredRoutesList)}
     export type WithoutBracket<T extends string> = T extends \`:\${string}\` ? never : T;
-
-    ${createRoutePathSchema(filteredRoutesPaths)};
-
-    export type RoutePath = RoutePathByName[keyof RoutePathByName] | RoutePathSchema;
-
-    ${createRoutePathByNameBlock(filteredRoutesPaths)}
 
     ${createRoutesParamsRecordExport(filteredRoutesParams)}
     
