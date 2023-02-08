@@ -12,9 +12,10 @@ const router = useRouter();
 const localePath = useLocalePath();
 const localeRoute = useLocaleRoute();
 
+router.push(localePath('/'));
 const route = localePath('/admin/37883');
 
-router.push('/user/:id/:slug/articles?foo=bar');
+router.push('/user/:id/:slug/articles#baz');
 router.push('/baguette'); // Error
 router.push('/admin/888'); // ✅
 
@@ -26,8 +27,6 @@ router.push('/');
 // }
 
 // router.push({ path: '/login' });
-
-// await navigateTo({ name: 'user-id-posts', params: { id: 1 } });
 
 function navigate() {
   router.push({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } });

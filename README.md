@@ -24,9 +24,6 @@
 - Out of the box `i18n` support
 - Supports routes extended by config and modules
 
-> ⚠️ Since `v2.1.x`, `useTypedRouter` and `useTypedRoute` are no longer exported.   
-The package can now override types from `useRouter`, `useRoute` and `navigateTo`
-
 <br/>
 
 <br/>

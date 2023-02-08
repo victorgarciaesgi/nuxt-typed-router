@@ -36,7 +36,7 @@ export function createValidatePathTypes(pathElements: DestructuredPath[][][]): s
   
     export type RouteNameFromPath<T extends string> = T extends string 
       ? T extends '/' 
-        ? T 
+        ? "index"
         : ${
           pathConditions.length
             ? pathConditions
