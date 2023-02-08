@@ -1,6 +1,6 @@
 import { assertType, expectTypeOf, vi } from 'vitest';
+import { GlobalComponents } from 'vue';
 import type { HistoryState, LocationQueryRaw } from 'vue-router';
-import { TypedNuxtLink } from '../../.nuxt/typed-router/typed-router';
 import { useLocalePath, useRouter } from '@typed-router';
 
 // Given
@@ -86,6 +86,8 @@ router.push(localePath({ name: 'user-slug', params: { slug: ['foo'] } }));
 router.push(localePath({ name: 'user-slug', params: { slug: [1, 2, 3] } }, 'en'));
 router.push(localePath({ name: 'user-one-foo-two', params: { one: 1, two: '2' } }));
 router.push(localePath({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } }));
+router.push(localePath({ name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } }));
+router.push(localePath({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } }));
 
 router.replace(localePath({ name: 'index' }));
 router.replace(localePath({ name: 'user-id', params: { id: 1 }, hash: 'baz' }));
@@ -103,4 +105,91 @@ assertType<{ id: string }>(resolved2.params);
 
 // -  Usage of localePath with NuxtLink
 
-const NuxtLink: TypedNuxtLink = vi.fn() as any;
+const NuxtLink: GlobalComponents['NuxtLink'] = vi.fn() as any;
+
+// ! ------ Should Error ❌
+
+// *  index.vue
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'index' }, 'DE') }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'index', params: { id: 1 } }, 'es') }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'index', params: { id: 1 } }) }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'blabla-baguette' }) }));
+
+// * --- [id].vue
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'user-id' }) }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'user-id', params: { foo: 'bar' } }) }));
+
+// * --- [foo]-[[bar]].vue
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'user-foo-bar' }) }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'user-foo-bar', params: { bar: 1 } }) }));
+
+// * --- [...slug].vue
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'user-slug' }) }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'user-slug', params: { slug: 1 } }) }));
+
+// * --- [one]-foo-[two].vue
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'user-one-foo-two' }) }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'user-one-foo-two', params: { one: 1 } }) }));
+
+// * --- [id]/[slug].vue
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'user-id-slug' }) }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'user-id-slug', params: { id: 1 } }) }));
+
+// * --- Routes added by config extend
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'test-extend' }) }));
+
+// * --- Routes added by modules
+// @ts-expect-error
+assertType(new NuxtLink({ to: localePath({ name: 'test-module' }) }));
+
+// $ ----- Should be valid ✅
+
+assertType(new NuxtLink({ to: localePath({ name: 'index' }) }));
+assertType(
+  new NuxtLink({ to: localePath({ name: 'user-id', params: { id: 1 }, hash: 'baz' }, 'en') })
+);
+assertType(
+  new NuxtLink({ to: localePath({ name: 'user-foo-bar', params: { foo: 'bar' }, force: true }) })
+);
+assertType(
+  new NuxtLink({
+    to: localePath({ name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } }, 'fr'),
+  })
+);
+assertType(new NuxtLink({ to: localePath({ name: 'user-slug', params: { slug: ['foo'] } }) }));
+assertType(
+  new NuxtLink({ to: localePath({ name: 'user-slug', params: { slug: [1, 2, 3] } }, 'en') })
+);
+assertType(
+  new NuxtLink({ to: localePath({ name: 'user-one-foo-two', params: { one: 1, two: '2' } }) })
+);
+assertType(
+  new NuxtLink({
+    to: localePath({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } }),
+  })
+);
+assertType(
+  new NuxtLink({
+    to: localePath({ name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } }),
+  })
+);
+assertType(
+  new NuxtLink({
+    to: localePath({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } }),
+  })
+);
