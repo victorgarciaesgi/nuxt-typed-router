@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import logSymbols from 'log-symbols';
 import { GeneratorOutput } from '../../../types';
 import { moduleOptionStore } from '../../config';
@@ -18,6 +19,7 @@ import {
 import { watermarkTemplate } from '../static';
 
 let previousGeneratedRoutes = '';
+let firstRun = false;
 
 type SaveGeneratedFiles = {
   outputData: GeneratorOutput;
@@ -84,5 +86,14 @@ export async function saveGeneratedFiles({ outputData }: SaveGeneratedFiles): Pr
   if (previousGeneratedRoutes !== outputData.routesList.join(',')) {
     previousGeneratedRoutes = outputData.routesList.join(',');
     console.log(logSymbols.success, `Router autocompletions generated 🚦`);
+    if (!firstRun) {
+      firstRun = true;
+      console.log(
+        logSymbols.warning,
+        chalk.yellow(
+          `Route path autocomplete is still experimental. You can disable it with the "experimentalPathCheck: false" option`
+        )
+      );
+    }
   }
 }

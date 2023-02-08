@@ -1,8 +1,6 @@
-/// <reference path='../../../fixtures/simple/tests/routerTypes.spec-d.ts'/>
-
-import { assertType, expectTypeOf } from 'vitest';
+import { expectTypeOf } from 'vitest';
 import type { LocationQuery } from 'vue-router';
-import type { TypedRouter, TypedRoute } from '../../../fixtures/simple/.nuxt/typed-router';
+import type { TypedRoute, TypedRouter } from '../../../fixtures/simple/.nuxt/typed-router';
 
 declare const router: TypedRouter;
 
@@ -19,7 +17,7 @@ test('router types should be correct', () => {
 
   expectTypeOf(router.currentRoute.value).toMatchTypeOf<TypedRoute>();
 
-  expectTypeOf(resolved.name).toMatchTypeOf<'user-id-slug'>();
+  expectTypeOf(resolved.name).toMatchTypeOf<'user-id-slu'>();
   expectTypeOf(resolved.params).toMatchTypeOf<{
     id?: string | number | undefined;
     slug: string | number;

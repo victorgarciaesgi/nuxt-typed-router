@@ -12,7 +12,7 @@ export function createNavigateToFile() {
     import type { RoutesNamesList } from './__routes';
     ${returnIfTrue(
       experimentalPathCheck,
-      `import type {ValidatePath, RoutePathSchema} from './__paths';`
+      `import type {ValidatePath, RoutePathSchema, RouteNameFromPath} from './__paths';`
     )}
 
     /** 
@@ -27,7 +27,7 @@ export function createNavigateToFile() {
   
 
   interface NavigateToFunction {
-    <T extends string>(
+    <T extends RoutesNamesList>(
       to: TypedRouteLocationRawFromName<T>,
       options?: NavigateToOptions
     ) : Promise<void | NavigationFailure | TypedRouteFromName<T>>
@@ -36,7 +36,7 @@ export function createNavigateToFile() {
       `<T extends string>(
         to: ValidatePath<T> | RoutePathSchema,
         options?: NavigateToOptions
-      ) : Promise<void | NavigationFailure | TypedRoute>`
+      ) : Promise<void | NavigationFailure | TypedRouteFromName<RouteNameFromPath<T>>>`
     )}
   }
     export const navigateTo: NavigateToFunction = defaultNavigateTo as any;

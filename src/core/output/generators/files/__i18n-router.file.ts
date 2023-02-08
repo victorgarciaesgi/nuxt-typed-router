@@ -11,7 +11,7 @@ export function createi18nRouterFile() {
   import type {RoutesNamesList} from './__routes';
   ${returnIfTrue(
     experimentalPathCheck,
-    `import type {ValidatePath, RoutePathSchema} from './__paths';`
+    `import type {ValidatePath, RoutePathSchema, RouteNameFromPath} from './__paths';`
   )}
 
   export type I18nLocales = ${
@@ -19,7 +19,7 @@ export function createi18nRouterFile() {
   };
 
   export interface TypedToLocalePath {
-    <T extends RoutesNamesList = never>(
+    <T extends RoutesNamesList>(
       to: TypedRouteLocationRawFromName<T>,
       locale?: I18nLocales | undefined
     ) : [T] extends [never] ? string : Required<TypedLocationAsRelativeRaw<T>>
@@ -28,7 +28,7 @@ export function createi18nRouterFile() {
       `<T extends string>(
       to: ValidatePath<T> | RoutePathSchema,
       locale?: I18nLocales | undefined
-    ) : [T] extends [never] ? string : Required<TypedRouteLocationRaw>;`
+    ) : [T] extends [never] ? string : Required<TypedRouteLocationRawFromName<RouteNameFromPath<T>, T>>;`
     )}
   }
 
@@ -40,7 +40,7 @@ export function createi18nRouterFile() {
     <T extends RoutesNamesList>(to: TypedRouteLocationRawFromName<T>, locale?: I18nLocales | undefined) : TypedRouteFromName<T>
     ${returnIfTrue(
       experimentalPathCheck && !router.strictToArgument,
-      ` <T extends string>(to: ValidatePath<T> | RoutePathSchema, locale?: I18nLocales | undefined) : TypedRoute;`
+      ` <T extends string>(to: ValidatePath<T> | RoutePathSchema, locale?: I18nLocales | undefined) : TypedRouteFromName<RouteNameFromPath<T>>;`
     )}
   }
 

@@ -1,11 +1,64 @@
 import { GeneratorOutput } from '../../../../types';
-import { DestructuredPath, destructurePath } from '../../../parser/params';
-import { createRoutePathSchema, createValidatePathType } from '../blocks';
+import { destructurePath } from '../../../parser/params';
+import { createRoutePathSchema, createValidatePathTypes } from '../blocks';
 
 export function createPathsFiles({ routesPaths }: GeneratorOutput) {
-  const filteredRoutesPaths = routesPaths.filter(
-    (route, index) => routesPaths.findIndex((r) => route.name === r.name) === index
-  );
+  const filteredRoutesPaths = routesPaths
+    .filter(
+      (route, index) =>
+        routesPaths.findIndex((r) => route.name === r.name) === index &&
+        !routesPaths.find((r) => `${route.path}/` === r.path)
+    )
+    .sort((a, b) => {
+      const pathCountA = a.path.split('/');
+      const pathCountB = b.path.split('/');
+      pathCountA.splice(0, 1);
+      pathCountB.splice(0, 1);
+      const maxIndex = Math.max(pathCountA.length, pathCountB.length) - 1;
+
+      let order = 0;
+      let index = 0;
+      let reason: string = '';
+
+      let alphabetOrder: number;
+      let hasElement: number;
+      let hasParam: number;
+      let indexOfParam: number;
+      do {
+        alphabetOrder = pathCountA[index]?.localeCompare(pathCountB[index]);
+        hasElement = (pathCountA[index] != null ? 1 : 0) - (pathCountB[index] != null ? 1 : 0);
+        hasParam =
+          (pathCountA[index]?.includes(':') ? 1 : 0) - (pathCountB[index]?.includes(':') ? 1 : 0);
+        indexOfParam = pathCountB[index]?.indexOf(':') - pathCountA[index]?.indexOf(':');
+
+        if (alphabetOrder !== 0 && index === 0) {
+          order = alphabetOrder;
+          reason = 'Alphabet-0';
+          break;
+        } else {
+          if (hasElement !== 0) {
+            order = hasElement;
+            reason = 'No element';
+            break;
+          } else if (hasParam !== 0) {
+            order = hasParam;
+            reason = 'No param';
+            break;
+          } else if (hasParam === 0 && indexOfParam !== 0) {
+            order = indexOfParam;
+            reason = 'Param index';
+            break;
+          } else if (alphabetOrder !== 0) {
+            order = alphabetOrder;
+            reason = 'Alphabet';
+            break;
+          }
+        }
+        index = index + 1;
+      } while (index < maxIndex);
+      // console.log(a.path, b.path, order, reason);
+      return order;
+    });
 
   const pathElements = filteredRoutesPaths
     .filter((f) => f.path && f.path !== '/')
@@ -13,10 +66,10 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
       return route.path
         .split('/')
         .filter((f) => f.length)
-        .map((m) => destructurePath(m, route.path));
+        .map((m) => destructurePath(m, route.path, route.name!));
     });
 
-  const validatePathType = createValidatePathType(pathElements);
+  const validatePathTypes = createValidatePathTypes(pathElements);
 
   return /* typescript */ `
     
@@ -24,15 +77,22 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
 
   type ValidParam<T> = T extends \`\${infer A}/\${infer B}\`
   ? A extends ''
-    ? false
+    ? B extends ''
+      ? true
+      : false
     : B extends ''
     ? true
     : false
   : true;
 
-  type ValidEndOfPath<T> = T extends \`/\` ? true : T extends "" ? true : false
-
-  ${validatePathType}
+  type ValidEndOfPath<T> = T extends \`/\`
+  ? true
+  : T extends ''
+  ? true
+  : T extends \`?\${string}\`
+  ? true
+  : false;
+  ${validatePathTypes}
 
   `;
 }

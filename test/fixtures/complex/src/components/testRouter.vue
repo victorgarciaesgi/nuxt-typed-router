@@ -1,4 +1,6 @@
-<template> Router </template>
+<template>
+  <div> </div>
+</template>
 
 <script setup lang="ts">
 import { useRouter } from '@typed-router';
