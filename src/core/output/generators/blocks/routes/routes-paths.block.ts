@@ -13,10 +13,9 @@ export function createRoutePathSchema(routePaths: RoutePathsDecl[]) {
   `;
 }
 
-export function createValidatePathType(pathElements: DestructuredPath[][][]): string {
+export function createValidatePathTypes(pathElements: DestructuredPath[][][]): string {
   let pathConditions = pathElements.map(createTypeValidatePathCondition);
 
-  const typeNamesList = pathConditions.map((m) => m.typeName);
   const conditionsList = pathConditions.map((m) => m.condition);
 
   return `
@@ -27,17 +26,55 @@ export function createValidatePathType(pathElements: DestructuredPath[][][]): st
         ? T 
         : ${
           pathConditions.length
-            ? typeNamesList.map((t) => `${t}<T> extends true ? T`).join(': ')
+            ? pathConditions.map((t) => `${t.typeName}<T> extends true ? T`).join(': ')
             : 'never'
         } 
-      : \`Error: \${${typeNamesList.map((t) => `${t}<T>`).join('|')}}\` : 'Type should be a string';
+      : \`Error: \${${pathConditions
+        .map((t) => `${t.typeName}<T>`)
+        .join('|')}}\` : 'Type should be a string';
+  
+  
+    export type RouteNameFromPath<T extends string> = T extends string 
+      ? T extends '/' 
+        ? T 
+        : ${
+          pathConditions.length
+            ? pathConditions
+                .map((t) => `${t.typeName}<T> extends true ? "${t.routeName}"`)
+                .join(': ')
+            : 'never'
+        } 
+      : never : never;
+  
+        `;
+}
+
+export function createTypedRouteFromPathType(pathElements: DestructuredPath[][][]): string {
+  let pathConditions = pathElements.map(createTypeValidatePathCondition);
+
+  const conditionsList = pathConditions.map((m) => m.condition);
+
+  return `
+    export type ValidatePath<T extends string> = T extends string 
+      ? T extends '/' 
+        ? 'index' 
+        : ${
+          pathConditions.length
+            ? pathConditions.map((t) => `${t.typeName}<T> extends true ? T`).join(': ')
+            : 'never'
+        } 
+      : \`Error: \${${pathConditions
+        .map((t) => `${t.typeName}<T>`)
+        .join('|')}}\` : 'Type should be a string';
   `;
 }
 
 export function createTypeValidatePathCondition(elements: DestructuredPath[][]) {
   const typeName = `Validate${nanoid(7)}`;
   const params = new Map();
+  const routeName = elements.flat()[0].routeName;
   const hasOnlyNames = elements.flat().every((elem) => elem.type === 'name');
+
   const condition = `type ${typeName}<T> = T extends \`/${elements
     .map((elementArray, index) => {
       return elementArray
@@ -97,8 +134,10 @@ export function createTypeValidatePathCondition(elements: DestructuredPath[][]) 
             })
             .join('')
     } "Incorrect route path" ;`;
+
   return {
     typeName,
     condition,
+    routeName,
   };
 }

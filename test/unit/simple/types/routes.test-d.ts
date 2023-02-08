@@ -1,5 +1,3 @@
-/// <reference path='../../../fixtures/simple/tests/routerTypes.spec-d.ts'/>
-
 import type { RouteLocationMatched } from 'vue-router';
 import { assertType, expectTypeOf } from 'vitest';
 import type { TypedRoute, TypedRouteFromName } from '../../../fixtures/simple/.nuxt/typed-router';

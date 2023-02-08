@@ -6,13 +6,18 @@ export type DestructuredPath = {
   content: string;
   fullPath?: string;
   id: string;
+  routeName: string;
 };
 
-export function destructurePath(path: string, fullPath: string): DestructuredPath[] {
+export function destructurePath(
+  path: string,
+  fullPath: string,
+  routeName: string
+): DestructuredPath[] {
   let allPathElements: DestructuredPath[] = [];
   let _path = `${path}`;
   do {
-    const { pathElements, strippedPath } = extractPathElements(_path, fullPath);
+    const { pathElements, strippedPath } = extractPathElements(_path, fullPath, routeName);
     allPathElements = allPathElements.concat(pathElements);
     _path = _path.replace(strippedPath, '');
   } while (_path.length);
@@ -20,7 +25,7 @@ export function destructurePath(path: string, fullPath: string): DestructuredPat
   return allPathElements;
 }
 
-function extractPathElements(partOfPath: string, fullPath: string) {
+function extractPathElements(partOfPath: string, fullPath: string, routeName: string) {
   let pathElements: DestructuredPath[] = [];
   let strippedPath = '';
   let matches: RegExpExecArray | null;
@@ -30,7 +35,7 @@ function extractPathElements(partOfPath: string, fullPath: string) {
     if (mtch) {
       strippedPath = mtch;
       if (path1) {
-        pathElements.push({ type: 'name', content: path1, fullPath, id: nanoid(6) });
+        pathElements.push({ type: 'name', content: path1, fullPath, id: nanoid(6), routeName });
       }
       if (key) {
         pathElements.push({
@@ -38,10 +43,11 @@ function extractPathElements(partOfPath: string, fullPath: string) {
           content: key,
           fullPath,
           id: nanoid(6),
+          routeName,
         });
       }
       if (path2) {
-        pathElements.push({ type: 'name', content: path2, fullPath, id: nanoid(6) });
+        pathElements.push({ type: 'name', content: path2, fullPath, id: nanoid(6), routeName });
       }
     }
   }

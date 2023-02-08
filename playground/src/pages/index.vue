@@ -3,21 +3,22 @@
     <button @click="navigate"> Navigate button </button>
     <nuxt-link to="/admin/foo">Navigate Link</nuxt-link>
     <nuxt-link to="/admin/foo/bar">Navigate Link</nuxt-link>
-    <test name="foo"></test>
   </div>
 </template>
 
 <script setup lang="ts">
-// const route = useRoute('user-foo-bar');
 const router = useRouter();
 
 const localePath = useLocalePath();
 const localeRoute = useLocaleRoute();
 
-navigateTo(localePath('/admin/foo/bar'));
+const route = localePath('/admin/37883');
 
-router.push('/admin/foo');
-router.push('/user/:id/:slug/articles/');
+router.push('/user/:id/:slug/articles?foo=bar');
+router.push('/baguette'); // Error
+router.push('/admin/888'); // ✅
+
+router.push('/');
 
 // const route = localeRoute({ name: 'index___en', query: { foo: '1' } });
 // if (route) {

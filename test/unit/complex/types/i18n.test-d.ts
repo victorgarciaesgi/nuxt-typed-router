@@ -1,4 +1,4 @@
-/// <reference path='../../../fixtures/complex/src/tests/routerTypes.spec-d.ts'/>
+/// <reference path='../../../fixtures/complex/.nuxt/typed-router/index.ts'/>
 
 import { assertType } from 'vitest';
 import { LocationQuery, RouteLocationMatched } from 'vue-router';
@@ -9,7 +9,6 @@ import {
   TypedRouteFromName,
   TypedRouter,
 } from '../../../fixtures/complex/.nuxt/typed-router';
-import type { TypedNuxtLinkProps } from '../../../fixtures/complex/.nuxt/typed-router/typed-router';
 import type {
   TypedLocaleRoute,
   TypedToLocalePath,
@@ -91,11 +90,11 @@ test('useLocalePath types should be correct', async () => {
   assertType(navigateTo(localePath({ name: 'test-module' })));
 });
 
-test('route types should be correct', () => {
+test('localeRoute types should be correct', () => {
   let localeRoute: TypedLocaleRoute = useLocaleRoute() as TypedLocaleRoute;
-  const resolved = localeRoute({ name: 'user-foo-bar___en', params: { foo: 1 } });
+  const resolved = localeRoute({ name: 'user-foo-bar', params: { foo: 1 } }, 'fr');
 
-  expectTypeOf(resolved).toMatchTypeOf<TypedRouteFromName<'user-foo-bar___en'>>();
+  expectTypeOf(resolved).toMatchTypeOf<TypedRouteFromName<'user-foo-bar'>>();
 
   expectTypeOf(resolved.fullPath).toMatchTypeOf<string>();
   expectTypeOf(resolved.hash).toMatchTypeOf<string>();
