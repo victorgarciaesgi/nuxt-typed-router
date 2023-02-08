@@ -24,9 +24,6 @@
 - Out of the box `i18n` support
 - Supports routes extended by config and modules
 
-> A beta version with `path` autocomplete is available in version `v3.0.0-beta.0`
-> https://github.com/victorgarciaesgi/nuxt-typed-router/releases/tag/v3.0.0-beta.0
-
 <br/>
 
 <br/>

@@ -5,9 +5,9 @@ export function createi18nRouterFile() {
   const { router } = moduleOptionStore.getResolvedStrictOptions();
   const { i18nLocales, experimentalPathCheck } = moduleOptionStore;
   return /* typescript */ `
-
+  import type { RouteLocationRaw } from 'vue-router';
   import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from 'vue-i18n-routing';
-  import type {TypedRouteLocationRawFromName, TypedRouteFromName, TypedLocationAsRelativeRaw, TypedRouteLocationRaw, TypedRoute} from './__router';
+  import type {TypedRouteLocationRawFromName, TypedLocationAsRelativeRaw, TypedRouteFromName} from './__router';
   import type {RoutesNamesList} from './__routes';
   ${returnIfTrue(
     experimentalPathCheck,
@@ -22,7 +22,9 @@ export function createi18nRouterFile() {
     <T extends RoutesNamesList>(
       to: TypedRouteLocationRawFromName<T>,
       locale?: I18nLocales | undefined
-    ) : [T] extends [never] ? string : Required<TypedLocationAsRelativeRaw<T>>
+    ) : [T] extends [never] ? string : Required<
+    (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
+    >
     ${returnIfTrue(
       experimentalPathCheck && !router.strictToArgument,
       `<T extends string>(
