@@ -33,6 +33,6 @@ export function createIndexFile(): string {
       experimentalPathCheck,
       `export type { ValidatePath, RoutePathSchema } from './__paths';`
     )}
-    ${returnIfTrue(i18n, `export {useLocalePath, useLocaleRoute} from './__i18n-router.ts';`)}
+    ${returnIfTrue(i18n, `export {useLocalePath, useLocaleRoute} from './__i18n-router';`)}
   `;
 }

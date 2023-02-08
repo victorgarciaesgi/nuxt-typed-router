@@ -1,5 +1,3 @@
-/// <reference path='../../../fixtures/complex/src/tests/routerTypes.spec-d.ts'/>
-
 import { assertType } from 'vitest';
 import { LocationQuery } from 'vue-router';
 import { navigateTo } from '../../../fixtures/complex/.nuxt/typed-router';
@@ -17,6 +15,7 @@ test('navigateTo types should be correct', async () => {
     expectTypeOf(route.query).toMatchTypeOf<LocationQuery>();
   }
 
+  // @ts-expect-error
   assertType(navigateTo({ name: 'index', query: { id: 1 } }));
   // @ts-expect-error
   assertType(navigateTo({ name: 'index', params: { id: 1 } })); // Error
