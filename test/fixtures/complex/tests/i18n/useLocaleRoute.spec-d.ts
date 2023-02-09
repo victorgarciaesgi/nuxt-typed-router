@@ -1,8 +1,6 @@
-import { expectTypeOf, assertType, test } from 'vitest';
-import type { LocationQuery, RouteLocationMatched } from 'vue-router';
-import { GlobalComponents } from 'vue';
-import { required, optional } from '../../../../utils/typecheck';
-import { useRouter, navigateTo, useLocaleRoute, TypedRouteFromName } from '@typed-router';
+import { assertType, test } from 'vitest';
+import type { RouteLocationMatched } from 'vue-router';
+import { TypedRouteFromName, useLocaleRoute } from '@typed-router';
 
 const localeRoute = useLocaleRoute();
 
@@ -55,6 +53,12 @@ assertType(localeRoute({ name: 'test-extend' }));
 // * --- Routes added by modules
 // @ts-expect-error
 assertType(localeRoute({ name: 'test-module' }));
+
+// * --- Path navigation
+// @ts-expect-error
+assertType(localeRoute('/fooooo'));
+// @ts-expect-error
+assertType(localeRoute({ path: '/foooo' }));
 
 // *  Basic types
 

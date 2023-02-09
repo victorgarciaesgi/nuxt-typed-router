@@ -24,7 +24,7 @@ describe('Simple config behaviour', async () => {
     const page = await createPage('/');
     await page.click('#useRouter');
     const html = await page.innerHTML('body');
-
+    await timeout(2000);
     expect(html).toContain('Navigate back');
 
     await expectNoClientErrors('/');
@@ -45,7 +45,7 @@ describe('Simple config behaviour', async () => {
     const page = await createPage('/');
     await page.click('#navigateTo');
     const html = await page.innerHTML('body');
-
+    await timeout(2000);
     expect(html).toContain('Navigate back');
 
     await expectNoClientErrors('/');
