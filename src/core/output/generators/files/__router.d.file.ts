@@ -39,11 +39,11 @@ export function createTypedRouterFile() {
   export type TypedRouteLocationRaw<T extends string = string> =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations)
   | Omit<RouteLocationPathRaw, 'path'>
-  ${returnIfFalse(
-    strictOptions.router.strictRouteLocation,
+  ${returnIfTrue(
+    experimentalPathCheck && !strictOptions.router.strictRouteLocation,
     `& {path?: ValidatePath<T> | RoutePathSchema}`
   )}
-  ${returnIfFalse(experimentalPathCheck && !strictOptions.router.strictRouteLocation, ` | string`)}
+  ${returnIfTrue(!experimentalPathCheck && !strictOptions.router.strictToArgument, ` | string`)}
   ;
   
 
@@ -53,11 +53,11 @@ export function createTypedRouterFile() {
   export type TypedRouteLocationRawFromName<T extends RoutesNamesList, P extends string = string> =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
   | Omit<RouteLocationPathRaw, 'path'>
-  ${returnIfFalse(
-    strictOptions.router.strictRouteLocation,
+  ${returnIfTrue(
+    experimentalPathCheck && !strictOptions.router.strictRouteLocation,
     `& {path?: ValidatePath<P> | RoutePathSchema}`
   )}
-  ${returnIfFalse(experimentalPathCheck && !strictOptions.router.strictRouteLocation, ` | string`)}
+  ${returnIfTrue(!experimentalPathCheck && !strictOptions.router.strictToArgument, ` | string`)}
 
   /** 
    * Generic providing inference and dynamic inclusion of \`params\` property

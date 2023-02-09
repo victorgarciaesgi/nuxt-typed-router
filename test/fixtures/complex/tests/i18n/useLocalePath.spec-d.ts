@@ -1,7 +1,7 @@
 import { assertType, expectTypeOf, vi } from 'vitest';
 import { GlobalComponents } from 'vue';
-import type { HistoryState, LocationQueryRaw, LocationQuery } from 'vue-router';
-import { useLocalePath, useRouter, navigateTo } from '@typed-router';
+import type { HistoryState, LocationQuery, LocationQueryRaw } from 'vue-router';
+import { navigateTo, useLocalePath, useRouter } from '@typed-router';
 
 // Given
 const localePath = useLocalePath();
@@ -77,6 +77,12 @@ router.push(localePath({ name: 'test-extend' }));
 // * --- Routes added by modules
 // @ts-expect-error
 router.push(localePath({ name: 'test-module' }));
+
+// * --- Path navigation
+// @ts-expect-error
+router.push(localePath('/fooooooooooo'));
+// @ts-expect-error
+router.push(localePath({ path: '/foo' }));
 
 // $ ----- Should be valid ✅
 
