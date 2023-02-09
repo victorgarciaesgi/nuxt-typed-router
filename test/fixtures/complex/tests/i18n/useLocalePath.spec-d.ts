@@ -1,14 +1,12 @@
 import { assertType, expectTypeOf, vi } from 'vitest';
 import { GlobalComponents } from 'vue';
-import type { HistoryState, LocationQueryRaw } from 'vue-router';
-import { useLocalePath, useRouter } from '@typed-router';
+import type { HistoryState, LocationQueryRaw, LocationQuery } from 'vue-router';
+import { useLocalePath, useRouter, navigateTo } from '@typed-router';
 
 // Given
 const localePath = useLocalePath();
 
-// -  Usage of localePath with useRouter
-
-const router = useRouter();
+// - Return types
 
 const localeRouteLocation = localePath({
   name: 'user-foo-bar',
@@ -26,11 +24,15 @@ expectTypeOf(localeRouteLocation.hash).toMatchTypeOf<string>();
 expectTypeOf(localeRouteLocation.query).toMatchTypeOf<LocationQueryRaw>();
 expectTypeOf(localeRouteLocation.state).toMatchTypeOf<HistoryState>;
 
+// -  Usage of localePath with useRouter
+
+const router = useRouter();
+
 // ! ------ Should Error ❌
 
+// *  index.vue
 // @ts-expect-error
 router.push(localePath({ name: 'index' }, 'DE'));
-// *  index.vue
 // @ts-expect-error
 router.push(localePath({ name: 'index', params: { id: 1 } }, 'es'));
 // @ts-expect-error
@@ -193,3 +195,86 @@ assertType(
     to: localePath({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } }),
   })
 );
+
+// -  Usage of localePath with navigateTo
+
+// ! ------ Should Error ❌
+
+// *  index.vue
+// @ts-expect-error
+navigateTo(localePath({ name: 'index' }, 'DE'));
+// @ts-expect-error
+navigateTo(localePath({ name: 'index', params: { id: 1 } }, 'es'));
+// @ts-expect-error
+navigateTo(localePath({ name: 'index', params: { id: 1 } }));
+// @ts-expect-error
+navigateTo(localePath({ name: 'blabla-baguette' }));
+
+// * --- [id].vue
+// @ts-expect-error
+navigateTo(localePath({ name: 'user-id' }));
+// @ts-expect-error
+navigateTo(localePath({ name: 'user-id', params: { foo: 'bar' } }));
+
+// * --- [foo]-[[bar]].vue
+// @ts-expect-error
+navigateTo(localePath({ name: 'user-foo-bar' }));
+// @ts-expect-error
+navigateTo(localePath({ name: 'user-foo-bar', params: { bar: 1 } }));
+
+// * --- [...slug].vue
+// @ts-expect-error
+navigateTo(localePath({ name: 'user-slug' }));
+// @ts-expect-error
+navigateTo(localePath({ name: 'user-slug', params: { slug: 1 } }));
+
+// * --- [one]-foo-[two].vue
+// @ts-expect-error
+navigateTo(localePath({ name: 'user-one-foo-two' }));
+// @ts-expect-error
+navigateTo(localePath({ name: 'user-one-foo-two', params: { one: 1 } }));
+
+// * --- [id]/[slug].vue
+// @ts-expect-error
+navigateTo(localePath({ name: 'user-id-slug' }));
+// @ts-expect-error
+navigateTo(localePath({ name: 'user-id-slug', params: { id: 1 } }));
+
+// * --- Routes added by config extend
+// @ts-expect-error
+navigateTo(localePath({ name: 'test-extend' }));
+
+// * --- Routes added by modules
+// @ts-expect-error
+navigateTo(localePath({ name: 'test-module' }));
+
+// $ ----- Should be valid ✅
+
+navigateTo(localePath({ name: 'index' }));
+navigateTo(localePath({ name: 'user-id', params: { id: 1 }, hash: 'baz' }, 'en'));
+navigateTo(localePath({ name: 'user-foo-bar', params: { foo: 'bar' }, force: true }));
+navigateTo(localePath({ name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } }, 'fr'));
+navigateTo(localePath({ name: 'user-slug', params: { slug: ['foo'] } }));
+navigateTo(localePath({ name: 'user-slug', params: { slug: [1, 2, 3] } }, 'en'));
+navigateTo(localePath({ name: 'user-one-foo-two', params: { one: 1, two: '2' } }));
+navigateTo(localePath({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } }));
+navigateTo(localePath({ name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } }));
+navigateTo(localePath({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } }));
+
+// * --- Resolved types added by modules
+
+const resolvedNavigateToRoute = await navigateTo(
+  localePath({
+    name: 'user-one-foo-two',
+    params: { one: 1, two: 2 },
+  })
+);
+
+if (resolvedNavigateToRoute && !(resolvedNavigateToRoute instanceof Error)) {
+  expectTypeOf(resolvedNavigateToRoute.name).toMatchTypeOf<'user-one-foo-two'>();
+  expectTypeOf(resolvedNavigateToRoute.params).toMatchTypeOf<{
+    one: string | number;
+    two: string | number;
+  }>();
+  expectTypeOf(resolvedNavigateToRoute.query).toMatchTypeOf<LocationQuery>();
+}
