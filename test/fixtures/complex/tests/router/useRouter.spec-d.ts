@@ -6,7 +6,7 @@ const router = useRouter();
 
 assertType<TypedRouter>(router);
 
-// -  Usage of localePath with useRouter
+// -  Usage of useRouter with useRouter
 
 // ! ------ Should Error ❌
 
@@ -55,6 +55,12 @@ router.push({ name: 'test-extend' });
 // * --- Routes added by modules
 // @ts-expect-error
 router.push({ name: 'test-module' });
+
+// * --- Path navigation
+// @ts-expect-error
+router.push('/fooooooooooo');
+// @ts-expect-error
+router.push({ path: '/foo' });
 
 // $ ----- Should be valid ✅
 

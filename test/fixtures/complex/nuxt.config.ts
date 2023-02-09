@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   modules: [NuxtTypedRouter, TestModuleRoute, '@nuxtjs/i18n'],
   nuxtTypedRouter: {
     plugin: true,
+    strict: true,
     experimentalPathCheck: false,
   },
   i18n: {
