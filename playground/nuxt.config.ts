@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     plugin: true,
     experimentalPathCheck: true,
   },
+  imports: {},
   srcDir: './src',
   i18n: {
     // add `vueI18n` option to `@nuxtjs/i18n` module options

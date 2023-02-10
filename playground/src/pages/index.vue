@@ -2,12 +2,32 @@
   <div>
     <button @click="navigate"> Navigate button </button>
     <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
-    <nuxt-link to="/user/:id/">Navigate Link</nuxt-link>
+    <nuxt-link to="/admin/:id/foo">Navigate Link</nuxt-link>
     <nuxt-link :to="localePath('/admin/:id')">Navigate Link</nuxt-link>
   </div>
 </template>
 
 <script setup lang="ts">
+import { GlobalComponents } from 'vue';
+import { PageMeta } from '#app';
+import { definePageMeta, TypedRouteLocationRawFromName } from '@typed-router';
+
+definePageMeta({
+  validate(route) {
+    return route.name === 'index';
+  },
+  redirect(route) {
+    return { name: 'admin-id', params: { id: 1 } };
+  },
+});
+
+const t = 'zfef';
+const u = 'krzfzlkj' as string;
+
+type test<T> = string extends T ? true : false;
+
+type foo = test<typeof u>;
+
 const router = useRouter();
 
 const localePath = useLocalePath();

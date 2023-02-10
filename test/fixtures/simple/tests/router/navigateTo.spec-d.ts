@@ -1,10 +1,6 @@
 import { assertType } from 'vitest';
 import { LocationQuery } from 'vue-router';
 import test from 'node:test';
-import { navigateTo } from '@typed-router';
-
-// @ts-expect-error Ensure global imports are disabled
-declare const globalDecl: (typeof globalThis)['navigateTo'];
 
 // ! ------ Should Error ❌
 
@@ -54,12 +50,6 @@ navigateTo({ name: 'test-extend' });
 // @ts-expect-error
 navigateTo({ name: 'test-module' });
 
-// * --- Path navigation
-// @ts-expect-error
-navigateTo('/fooooooooooo');
-// @ts-expect-error
-navigateTo({ path: '/efzefzef' });
-
 // $ ----- Should be valid ✅
 
 navigateTo({ name: 'index' }, { external: true });
@@ -70,6 +60,62 @@ navigateTo({ name: 'user-catch-slug', params: { slug: ['foo'] } });
 navigateTo({ name: 'user-catch-slug', params: { slug: [1, 2, 3] } });
 navigateTo({ name: 'user-one-foo-two', params: { one: 1, two: '2' } });
 navigateTo({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } });
+
+// --- Path navigation
+
+// ! ------ Should Error ❌
+
+// @ts-expect-error
+assertType(navigateTo(''));
+// @ts-expect-error
+assertType(navigateTo('/admin '));
+// @ts-expect-error
+assertType(navigateTo('/admin/ /'));
+// @ts-expect-error
+assertType(navigateTo(`/ / // / / eefzr`));
+// @ts-expect-error
+assertType(navigateTo('/elzhlzehflzhef'));
+// @ts-expect-error
+assertType(navigateTo('/admin/foo/bar'));
+// @ts-expect-error
+assertType(navigateTo('/admin/foo/bar/baz'));
+// @ts-expect-error
+assertType(navigateTo(`/admin/${id}/action-bar/taz?query`));
+// @ts-expect-error
+assertType(navigateTo('/admin/panel/3O9393/bar'));
+// @ts-expect-error
+assertType(navigateTo('/admin/foo/ profile/ezfje'));
+// @ts-expect-error
+assertType(navigateTo('/admin/3U93U/settings/baz'));
+// @ts-expect-error
+assertType(navigateTo('/admin/panel/?fjzk'));
+assertType(navigateTo('/admin/panel/938783/'));
+assertType(navigateTo('/user/38873-'));
+assertType(navigateTo('/user/38673/bar/'));
+assertType(navigateTo('/user/ç9737/foo/articles?baz=foo'));
+assertType(navigateTo('/user/catch/1/2'));
+assertType(navigateTo('/user/test-'));
+assertType(navigateTo('/user'));
+
+// $ ----- Should be valid ✅
+
+const id = '38789803';
+assertType(navigateTo('/'));
+assertType(navigateTo('/baguette'));
+assertType(navigateTo('/admin/foo'));
+assertType(navigateTo('/admin/foo/'));
+assertType(navigateTo(`/admin/${id}/action-bar#hash`));
+assertType(navigateTo(`/admin/${id}/action-bar?query=bar`));
+assertType(navigateTo('/admin/foo/profile/'));
+assertType(navigateTo(`/admin/${id}/settings`));
+assertType(navigateTo('/admin/panel/'));
+assertType(navigateTo('/admin/panel/938783/'));
+assertType(navigateTo('/user/38873-'));
+assertType(navigateTo('/user/38673/bar/#hash'));
+assertType(navigateTo('/user/ç9737/foo/articles?baz=foo'));
+assertType(navigateTo('/user/catch/1/2'));
+assertType(navigateTo('/user/test-'));
+assertType(navigateTo('/user'));
 
 // - Resolved routes
 
@@ -171,5 +217,23 @@ test('', async () => {
       id: string;
       slug: string;
     }>(resolvedNavigateToRoute.params);
+  }
+});
+
+// - With paths
+
+// * --- [foo]-[[bar]].vue
+test('', async () => {
+  const resolvedNavigateToRoute = await navigateTo('/admin/3883/action-376773');
+
+  if (resolvedNavigateToRoute && !(resolvedNavigateToRoute instanceof Error)) {
+    assertType<'admin-id-action-slug'>(resolvedNavigateToRoute.name);
+    assertType<{
+      id: string;
+      slug: string;
+    }>(resolvedNavigateToRoute.params);
+
+    // @ts-expect-error
+    assertType<'admin-id'>(resolvedNavigateToRoute.name);
   }
 });

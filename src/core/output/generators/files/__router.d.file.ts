@@ -25,7 +25,7 @@ export function createTypedRouterFile() {
   } from './__routes';
   ${returnIfTrue(
     experimentalPathCheck,
-    `import type {ValidatePath, RoutePathSchema} from './__paths';`
+    `import type {TypedPathParameter, RouteNameFromPath} from './__paths';`
   )}
   import type { HasOneRequiredParameter } from './__types_utils';
 
@@ -41,7 +41,7 @@ export function createTypedRouterFile() {
   | Omit<RouteLocationPathRaw, 'path'>
   ${returnIfTrue(
     experimentalPathCheck && !strictOptions.router.strictRouteLocation,
-    `& {path?: ValidatePath<T> | RoutePathSchema}`
+    `& {path?: TypedPathParameter<T>}`
   )}
   ${returnIfTrue(!experimentalPathCheck && !strictOptions.router.strictToArgument, ` | string`)}
   ;
@@ -55,7 +55,7 @@ export function createTypedRouterFile() {
   | Omit<RouteLocationPathRaw, 'path'>
   ${returnIfTrue(
     experimentalPathCheck && !strictOptions.router.strictRouteLocation,
-    `& {path?: ValidatePath<P> | RoutePathSchema}`
+    `& {path?: TypedPathParameter<P>}`
   )}
   ${returnIfTrue(!experimentalPathCheck && !strictOptions.router.strictToArgument, ` | string`)}
 
@@ -105,7 +105,7 @@ export function createTypedRouterFile() {
     ): TypedRouteLocationFromName<T>;
     ${returnIfTrue(
       experimentalPathCheck && !strictOptions.router.strictToArgument,
-      `resolve<T extends string>(to: ValidatePath<T> | RoutePathSchema, currentLocation?: TypedRouteLocationRaw): TypedRouteLocation;`
+      `resolve<T extends string>(to: TypedPathParameter<T>, currentLocation?: TypedRouteLocationRaw): TypedRouteLocationFromName<RouteNameFromPath<T>>;`
     )}
     /**
      * Programmatically navigate to a new URL by pushing an entry in the history
@@ -116,7 +116,7 @@ export function createTypedRouterFile() {
     push<T extends RoutesNamesList, P extends string>(to: TypedRouteLocationRawFromName<T, P>): Promise<NavigationFailure | void | undefined>;
     ${returnIfTrue(
       experimentalPathCheck && !strictOptions.router.strictToArgument,
-      `push<T extends string>(to: ValidatePath<T> | RoutePathSchema): Promise<NavigationFailure | void | undefined>;`
+      `push<T extends string>(to: TypedPathParameter<T>): Promise<NavigationFailure | void | undefined>;`
     )}
     /**
      * Programmatically navigate to a new URL by replacing the current entry in
@@ -127,7 +127,7 @@ export function createTypedRouterFile() {
     replace<T extends RoutesNamesList, P extends string>(to: TypedRouteLocationRawFromName<T, P>): Promise<NavigationFailure | void | undefined>;
     ${returnIfTrue(
       experimentalPathCheck && !strictOptions.router.strictToArgument,
-      `replace<T extends string>(to: ValidatePath<T> | RoutePathSchema): Promise<NavigationFailure | void | undefined>;`
+      `replace<T extends string>(to: TypedPathParameter<T>): Promise<NavigationFailure | void | undefined>;`
     )}
   }
 

@@ -1,4 +1,4 @@
-export function createUseTypedRouteFile(routesDeclTemplate: string): string {
+export function createUseTypedRouteFile(): string {
   return /* typescript */ `
   import { useRoute as defaultRoute } from '#app';
   import type { RoutesNamesList } from './__routes';

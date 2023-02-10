@@ -75,17 +75,31 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
     
   ${createRoutePathSchema(filteredRoutesPaths)};
 
+  type ValidStringPath<T> = T extends \`\${string} \${string}\` ? false : T extends '' ? false : true;
+
   type ValidParam<T> = T extends \`\${infer A}/\${infer B}\`
-  ? A extends ''
+  ? A extends \`\${string} \${string}\`
+    ? false
+    : A extends \`?\${string}\`
+    ? false
+    : A extends \`\${string} \${string}\`
+    ? false
+    : A extends ''
     ? B extends ''
       ? true
       : false
+    : B extends \`?\${string}\`
+    ? false
+    : B extends \`#\${string}\`
+    ? true
     : B extends ''
     ? true
     : false
+  : T extends \`?\${string}\`
+  ? false
   : T extends \`\${string} \${string}\`
-   ? false 
-   : true;
+  ? false
+  : true;
 
   type ValidEndOfPath<T> = T extends \`/\`
     ? true
@@ -100,6 +114,9 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
     : false;
 
   ${validatePathTypes}
+
+
+  export type TypedPathParameter<T extends string> = Omit<ValidatePath<T> | RoutePathSchema, keyof String>;
 
   `;
 }
