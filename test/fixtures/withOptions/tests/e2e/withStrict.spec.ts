@@ -3,6 +3,8 @@ import path from 'path';
 import { setup } from '@nuxt/test-utils';
 import { assertType } from 'vitest';
 import { runTypesDiagnostics } from '../../../../utils';
+import { useRouter } from '../../.nuxt/typed-router';
+import { TypedNuxtLink } from '../../.nuxt/typed-router/typed-router';
 
 test('The strict option should behave correctly with strict: true', async () => {
   await setup({
@@ -19,15 +21,9 @@ test('The strict option should behave correctly with strict: true', async () => 
 
   expect(diagnostic.length).toBe(0);
 
-  type TypedRouter = import('../../.nuxt/typed-router').TypedRouter;
-  type TypedNuxtLinkProps =
-    import('../../.nuxt/typed-router/typed-router').TypedNuxtLinkProps<string>;
+  const NuxtLink: TypedNuxtLink = vi.fn() as any;
 
-  const router = {
-    push: vi.fn(),
-  } as unknown as TypedRouter;
-
-  let toProp: TypedNuxtLinkProps = {} as TypedNuxtLinkProps;
+  const router = { push: vi.fn() } as unknown as ReturnType<typeof useRouter>;
 
   // @ts-expect-error
   assertType(router.push('/foo'));
@@ -35,7 +31,7 @@ test('The strict option should behave correctly with strict: true', async () => 
   assertType(router.push({ path: '/login' }));
 
   // @ts-expect-error
-  assertType((toProp.to = '/login'));
+  assertType(new NuxtLink('/login'));
   // @ts-expect-error
-  assertType((toProp.to = { path: '/login' }));
+  assertType(new NuxtLink({ path: '/goooo' }));
 });

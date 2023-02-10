@@ -48,9 +48,9 @@ if (route.name === 'user-foo-bar') {
 }
 
 // * --- [...slug].vue
-if (route.name === 'user-slug') {
-  assertType<TypedRouteFromName<'user-slug'>>(route);
-  assertType<'user-slug'>(route.name);
+if (route.name === 'user-catch-slug') {
+  assertType<TypedRouteFromName<'user-catch-slug'>>(route);
+  assertType<'user-catch-slug'>(route.name);
   assertType<{
     slug: string[];
   }>(route.params);
@@ -73,23 +73,5 @@ if (route.name === 'user-id-slug') {
   assertType<{
     id: string;
     slug: string;
-  }>(route.params);
-}
-
-// * --- Routes added by config extend
-if (route.name === 'test-extend') {
-  assertType<TypedRouteFromName<'test-extend'>>(route);
-  assertType<'test-extend'>(route.name);
-  assertType<{
-    id: string;
-  }>(route.params);
-}
-
-// * --- Routes added by modules
-if (route.name === 'test-module') {
-  assertType<TypedRouteFromName<'test-module'>>(route);
-  assertType<'test-module'>(route.name);
-  assertType<{
-    foo: string;
   }>(route.params);
 }

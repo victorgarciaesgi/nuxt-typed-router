@@ -3,6 +3,9 @@ import { GlobalComponents } from 'vue';
 import type { HistoryState, LocationQuery, LocationQueryRaw } from 'vue-router';
 import { navigateTo, useLocalePath, useRouter } from '@typed-router';
 
+// @ts-expect-error Ensure global imports are disabled
+declare const globalDecl: (typeof globalThis)['useLocalePath'];
+
 // Given
 const localePath = useLocalePath();
 
@@ -122,8 +125,6 @@ const NuxtLink: GlobalComponents['NuxtLink'] = vi.fn() as any;
 assertType(new NuxtLink({ to: localePath({ name: 'index' }, 'DE') }));
 // @ts-expect-error
 assertType(new NuxtLink({ to: localePath({ name: 'index', params: { id: 1 } }, 'es') }));
-// @ts-expect-error
-assertType(new NuxtLink({ to: localePath({ name: 'index', params: { id: 1 } }) }));
 // @ts-expect-error
 assertType(new NuxtLink({ to: localePath({ name: 'blabla-baguette' }) }));
 

@@ -27,8 +27,8 @@ export function createNavigateToFile() {
   
 
   interface NavigateToFunction {
-    <T extends RoutesNamesList>(
-      to: TypedRouteLocationRawFromName<T>,
+    <T extends RoutesNamesList, P extends string>(
+      to: TypedRouteLocationRawFromName<T, P>,
       options?: NavigateToOptions
     ) : Promise<void | NavigationFailure | TypedRouteFromName<T>>
     ${returnIfTrue(

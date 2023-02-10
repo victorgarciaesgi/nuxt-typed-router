@@ -91,7 +91,7 @@ export async function saveGeneratedFiles({ outputData }: SaveGeneratedFiles): Pr
       console.log(
         logSymbols.warning,
         chalk.yellow(
-          `Route path autocomplete is still experimental. You can disable it with the "experimentalPathCheck: false" option`
+          `Route path autocomplete is still experimental. You can disable it with the "nuxtTypedRouter.experimentalPathCheck: false" option`
         )
       );
     }
