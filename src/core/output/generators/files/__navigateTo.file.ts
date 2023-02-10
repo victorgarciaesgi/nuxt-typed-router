@@ -12,7 +12,7 @@ export function createNavigateToFile() {
     import type { RoutesNamesList } from './__routes';
     ${returnIfTrue(
       experimentalPathCheck,
-      `import type {ValidatePath, RoutePathSchema, RouteNameFromPath} from './__paths';`
+      `import type {TypedPathParameter, RouteNameFromPath} from './__paths';`
     )}
 
     /** 
@@ -34,7 +34,7 @@ export function createNavigateToFile() {
     ${returnIfTrue(
       experimentalPathCheck && !router.strictToArgument,
       `<T extends string>(
-        to: ValidatePath<T> | RoutePathSchema,
+        to: TypedPathParameter<T>,
         options?: NavigateToOptions
       ) : Promise<void | NavigationFailure | TypedRouteFromName<RouteNameFromPath<T>>>`
     )}

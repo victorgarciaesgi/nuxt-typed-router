@@ -12,14 +12,19 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 Can be disabled with the `experimentalPathCheck` option.
 
 - Autocomplete for path programmatic navigation
-- Throw an error if the path doesn't match any defined routes
-- Report human readable errors instead of cryptic TS errors
+- Support `NuxtLink`, `useRouter`, `navigateTo` and `useLocalePath`
+- Support query params and hashs
+- Throw an error if the path doesn't match any defined routes pattern
 
-This feature is still experimental and has to be well tested on apps before making it default
+This feature is still experimental and has to be well tested on more apps.
 
-## Nuxt devtools support
+## Nuxt devtools support ⚙️
 
-- Display Nuxt typed router docs from devtools
+- Display nuxt-typed-router docs from devtools
+
+## `definePageMeta` support
+
+Get autocompletion et type check for `redirect`, `validate` and `key`
 
 # Breaking changes ⚠️
 

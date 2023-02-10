@@ -29,6 +29,8 @@ export function createValidatePathTypes(pathElements: DestructuredPath[][][]): s
             ? pathConditions.map((t) => `${t.typeName}<T> extends true ? T`).join(': ')
             : 'never'
         } 
+      : string extends T
+      ? T
       : \`Error: \${${pathConditions
         .map((t) => `${t.typeName}<T>`)
         .join('|')}}\` : 'Type should be a string';
@@ -120,7 +122,7 @@ export function createTypeValidatePathCondition(elements: DestructuredPath[][]) 
                   elem.content
                 }} of path '${elem.fullPath}' is invalid" : true :`;
               } else if (isParam) {
-                output = `${params.get(elem.id)} extends '' ? "Parameter {${
+                output = `ValidStringPath<${params.get(elem.id)}> extends false ? "Parameter {${
                   elem.content
                 }} of path '${elem.fullPath}' is required" : `;
               } else if (isOptional && isLast) {
@@ -133,7 +135,7 @@ export function createTypeValidatePathCondition(elements: DestructuredPath[][]) 
               return output;
             })
             .join('')
-    } "Incorrect route path" ;`;
+    } false ;`;
 
   return {
     typeName,

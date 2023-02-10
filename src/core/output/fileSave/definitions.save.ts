@@ -14,6 +14,7 @@ import {
   createTypedRouterDefinitionFile,
   createi18nRouterFile,
   createPathsFiles,
+  createDefinePageMetaFile,
 } from '../generators/files';
 
 import { watermarkTemplate } from '../static';
@@ -30,11 +31,11 @@ export async function saveGeneratedFiles({ outputData }: SaveGeneratedFiles): Pr
   const filesMap: Array<{ fileName: string; content: string }> = [
     {
       fileName: '__useTypedRouter.ts',
-      content: createUseTypedRouterFile(outputData.routesDeclTemplate),
+      content: createUseTypedRouterFile(),
     },
     {
       fileName: '__useTypedRoute.ts',
-      content: createUseTypedRouteFile(outputData.routesDeclTemplate),
+      content: createUseTypedRouteFile(),
     },
     {
       fileName: '__paths.d.ts',
@@ -47,6 +48,10 @@ export async function saveGeneratedFiles({ outputData }: SaveGeneratedFiles): Pr
     {
       fileName: '__navigateTo.ts',
       content: createNavigateToFile(),
+    },
+    {
+      fileName: '__definePageMeta.ts',
+      content: createDefinePageMetaFile(),
     },
     {
       fileName: `__router.d.ts`,
