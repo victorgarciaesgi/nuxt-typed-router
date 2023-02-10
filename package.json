@@ -26,9 +26,11 @@
     "test:types": "pnpm run typecheck && pnpm run test:vue",
     "test:vue": "vue-tsc -p test/fixtures/simple/tsconfig.json --noEmit && vue-tsc -p test/fixtures/complex/tsconfig.json --noEmit && vue-tsc -p test/fixtures/withOptions/tsconfig.json --noEmit",
     "test": "pnpm run dev:prepare && pnpm run test:types && pnpm run test:fixtures",
+    "lint": "eslint --ext .ts --ext .vue .",
     "docs:dev": "cd docs && pnpm run dev",
     "docs:build": "npm run dev:prepare && cd docs && nuxi generate",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "release": "pnpm test && standard-version && git push --follow-tags && npm publish"
   },
   "publishConfig": {
     "access": "public"
@@ -88,6 +90,7 @@
     "eslint-plugin-vue": "^9.9.0",
     "nuxt": "3.2.0",
     "playwright": "1.30.0",
+    "standard-version": "^9.5.0",
     "tsd": "^0.25.0",
     "typescript": "^4.9.5",
     "vitest": "^0.28.2",

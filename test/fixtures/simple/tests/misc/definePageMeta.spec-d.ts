@@ -3,80 +3,75 @@ import test from 'node:test';
 import { TypedRouter } from '@typed-router';
 
 // Given
-const router = useRouter();
-
-assertType<TypedRouter>(router);
 
 // -  Usage of useRouter with useRouter
 
 // ! ------ Should Error ❌
 
 // *  index.vue
+definePageMeta({ redirect: { name: 'admin-id' } });
 // @ts-expect-error
-router.push({ name: 'index', params: { id: 1 } });
+definePageMeta({ redirect: { name: 'index', params: { id: 1 } } });
 // @ts-expect-error
-router.push({ name: 'index', params: { id: 1 } });
-// @ts-expect-error
-router.push({ name: 'blabla-baguette' });
+definePageMeta({ redirect: { name: 'blabla-baguette' } });
 
 // * --- [id].vue
 // @ts-expect-error
-router.push({ name: 'user-id' });
+definePageMeta({ redirect: { name: 'user-id' } });
 // @ts-expect-error
-router.push({ name: 'user-id', params: { foo: 'bar' } });
+definePageMeta({ redirect: { name: 'user-id', params: { foo: 'bar' } } });
 
 // * --- [foo]-[[bar]].vue
 // @ts-expect-error
-router.push({ name: 'user-foo-bar' });
+definePageMeta({ redirect: { name: 'user-foo-bar' } });
 // @ts-expect-error
-router.push({ name: 'user-foo-bar', params: { bar: 1 } });
+definePageMeta({ redirect: { name: 'user-foo-bar', params: { bar: 1 } } });
 
 // * --- [...slug].vue
 // @ts-expect-error
-router.push({ name: 'user-slug' });
+definePageMeta({ redirect: { name: 'user-slug' } });
 // @ts-expect-error
-router.push({ name: 'user-slug', params: { slug: 1 } });
+definePageMeta({ redirect: { name: 'user-slug', params: { slug: 1 } } });
 
 // * --- [one]-foo-[two].vue
 // @ts-expect-error
-router.push({ name: 'user-one-foo-two' });
+definePageMeta({ redirect: { name: 'user-one-foo-two' } });
 // @ts-expect-error
-router.push({ name: 'user-one-foo-two', params: { one: 1 } });
+definePageMeta({ redirect: { name: 'user-one-foo-two', params: { one: 1 } } });
 
 // * --- [id]/[slug].vue
 // @ts-expect-error
-router.push({ name: 'user-id-slug' });
+definePageMeta({ redirect: { name: 'user-id-slug' } });
 // @ts-expect-error
-router.push({ name: 'user-id-slug', params: { id: 1 } });
+definePageMeta({ redirect: { name: 'user-id-slug', params: { id: 1 } } });
 
 // * --- Routes added by config extend
 // @ts-expect-error
-router.push({ name: 'test-extend' });
+definePageMeta({ redirect: { name: 'test-extend' } });
 
 // * --- Routes added by modules
 // @ts-expect-error
-router.push({ name: 'test-module' });
+definePageMeta({ redirect: { name: 'test-module' } });
 
 // * --- Path navigation
 // @ts-expect-error
-router.push('/fooooooooooo');
+definePageMeta({ redirect: '/fooooooooooo' });
 // @ts-expect-error
-router.push({ path: '/foo' });
+definePageMeta({ redirect: { path: '/foo' } });
 
 // $ ----- Should be valid ✅
 
-router.push({ name: 'index' });
-router.push({ name: 'user-id', params: { id: 1 }, hash: 'baz' });
-router.push({ name: 'user-foo-bar', params: { foo: 'bar' }, force: true });
-router.push({ name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } });
-router.push({ name: 'user-catch-slug', params: { slug: ['foo'] } });
-router.push({ name: 'user-catch-slug', params: { slug: [1, 2, 3] } });
-router.push({ name: 'user-one-foo-two', params: { one: 1, two: '2' } });
-router.push({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } });
+definePageMeta({ redirect: { name: 'index' } });
+definePageMeta({ redirect: { name: 'user-id', params: { id: 1 }, hash: 'baz' } });
+definePageMeta({ redirect: { name: 'user-foo-bar', params: { foo: 'bar' }, force: true } });
+definePageMeta({ redirect: { name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } } });
+definePageMeta({ redirect: { name: 'user-catch-slug', params: { slug: ['foo'] } } });
+definePageMeta({ redirect: { name: 'user-catch-slug', params: { slug: [1, 2, 3] } } });
+definePageMeta({ redirect: { name: 'user-one-foo-two', params: { one: 1, two: '2' } } });
+definePageMeta({
+  redirect: { name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } },
+});
 
-router.replace({ name: 'index' });
-router.replace({ name: 'user-id', params: { id: 1 }, hash: 'baz' });
-router.replace('/admin');
 // --- Path navigation
 
 // ! ------ Should Error ❌

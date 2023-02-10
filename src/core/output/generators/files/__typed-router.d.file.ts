@@ -1,4 +1,4 @@
-import { returnIfTrue, returnIfFalse } from '../../../../utils';
+import { returnIfTrue } from '../../../../utils';
 import { moduleOptionStore } from '../../../config';
 
 export function createTypedRouterDefinitionFile(): string {
@@ -7,7 +7,7 @@ export function createTypedRouterDefinitionFile(): string {
 
   return /* typescript */ `
     
-    import type { NuxtLinkProps } from '#app';
+    import type { NuxtLinkProps, PageMeta } from '#app';
     import NuxtLink from 'nuxt/dist/app/components/nuxt-link';
     import type { RouteLocationRaw, RouteLocationPathRaw } from 'vue-router';
     import type { RoutesNamedLocations, RoutesNamesListRecord, RoutesNamesList } from './__routes';
@@ -16,10 +16,10 @@ export function createTypedRouterDefinitionFile(): string {
     import { useRouter as _useRouter } from './__useTypedRouter';
     import { navigateTo as _navigateTo } from './__navigateTo';
     import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from './__i18n-router';
-    ${returnIfTrue(
-      experimentalPathCheck,
-      `import type {ValidatePath, RoutePathSchema} from './__paths';`
-    )}
+    import {definePageMeta as _definePageMeta} from './__definePageMeta';
+
+    ${returnIfTrue(experimentalPathCheck, `import type {TypedPathParameter} from './__paths';`)}
+
 
     declare global {
  
@@ -29,6 +29,8 @@ export function createTypedRouterDefinitionFile(): string {
             const useRoute: typeof _useRoute;
             const useRouter: typeof _useRouter;
             const navigateTo: typeof _navigateTo;
+            const definePageMeta: typeof _definePageMeta;
+            
             ${returnIfTrue(
               i18n,
               /* typescript */ `
@@ -47,7 +49,7 @@ export function createTypedRouterDefinitionFile(): string {
         | Omit<RouteLocationPathRaw, 'path'>
         ${returnIfTrue(
           experimentalPathCheck && !strictOptions.NuxtLink.strictRouteLocation,
-          `& {path?: ValidatePath<T> | RoutePathSchema}`
+          `& {path?: TypedPathParameter<T>}`
         )}
         ${returnIfTrue(
           !experimentalPathCheck && !strictOptions.NuxtLink.strictToArgument,
@@ -55,7 +57,7 @@ export function createTypedRouterDefinitionFile(): string {
         )}
         ${returnIfTrue(
           experimentalPathCheck && !strictOptions.NuxtLink.strictToArgument,
-          ` | ValidatePath<T> | RoutePathSchema`
+          ` | TypedPathParameter<T>`
         )}
       }
     

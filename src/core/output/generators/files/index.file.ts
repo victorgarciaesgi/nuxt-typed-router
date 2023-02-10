@@ -29,10 +29,27 @@ export function createIndexFile(): string {
     export { useRoute } from './__useTypedRoute';
     export { useRouter } from './__useTypedRouter';
     export { navigateTo } from './__navigateTo';
+    export { definePageMeta } from './__definePageMeta';
+    
     ${returnIfTrue(
       experimentalPathCheck,
-      `export type { ValidatePath, RoutePathSchema } from './__paths';`
+      `export type { ValidatePath, RoutePathSchema, TypedPathParameter, RouteNameFromPath } from './__paths';`
     )}
     ${returnIfTrue(i18n, `export {useLocalePath, useLocaleRoute} from './__i18n-router';`)}
+
+    export const helpers = {
+      route(
+        to: TypedRouteLocationRawFromName<T, P>,
+      ): [T] extends [never] ? string : Required<
+        (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
+      > {
+        return to;
+      },
+      path(
+        to: TypedPathParameter<T>,
+      ) : [T] extends [never] ? string : Required<TypedRouteLocationRawFromName<RouteNameFromPath<T>, T>> {
+        return to;
+      }
+    } 
   `;
 }

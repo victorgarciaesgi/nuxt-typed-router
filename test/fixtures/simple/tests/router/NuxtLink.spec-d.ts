@@ -78,7 +78,7 @@ assertType(
 assertType(new NuxtLink({ to: '' }));
 // @ts-expect-error
 assertType(new NuxtLink({ to: '/admin ' }));
-
+// @ts-expect-error
 assertType(new NuxtLink({ to: '/admin/ /' }));
 // @ts-expect-error
 assertType(new NuxtLink({ to: `/ / // / / eefzr` }));
@@ -94,8 +94,10 @@ assertType(new NuxtLink({ to: `/admin/${id}/action-bar/taz?query` }));
 assertType(new NuxtLink({ to: '/admin/panel/3O9393/bar' }));
 // @ts-expect-error
 assertType(new NuxtLink({ to: '/admin/foo/ profile/ezfje' }));
-assertType(new NuxtLink({ to: '/admin/3U93U/settings' }));
-assertType(new NuxtLink({ to: '/admin/panel/' }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: '/admin/3U93U/settings/baz' }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: '/admin/panel/?fjzk' }));
 assertType(new NuxtLink({ to: '/admin/panel/938783/' }));
 assertType(new NuxtLink({ to: '/user/38873-' }));
 assertType(new NuxtLink({ to: '/user/38673/bar/' }));
@@ -105,6 +107,7 @@ assertType(new NuxtLink({ to: '/user/test-' }));
 assertType(new NuxtLink({ to: '/user' }));
 
 // $ ----- Should be valid ✅
+
 const id = '38789803';
 assertType(new NuxtLink({ to: '/' }));
 assertType(new NuxtLink({ to: '/baguette' }));
@@ -117,7 +120,7 @@ assertType(new NuxtLink({ to: `/admin/${id}/settings` }));
 assertType(new NuxtLink({ to: '/admin/panel/' }));
 assertType(new NuxtLink({ to: '/admin/panel/938783/' }));
 assertType(new NuxtLink({ to: '/user/38873-' }));
-assertType(new NuxtLink({ to: '/user/38673/bar/' }));
+assertType(new NuxtLink({ to: '/user/38673/bar/#hash' }));
 assertType(new NuxtLink({ to: '/user/ç9737/foo/articles?baz=foo' }));
 assertType(new NuxtLink({ to: '/user/catch/1/2' }));
 assertType(new NuxtLink({ to: '/user/test-' }));
