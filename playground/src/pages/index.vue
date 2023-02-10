@@ -1,8 +1,9 @@
 <template>
   <div>
     <button @click="navigate"> Navigate button </button>
-    <nuxt-link to="/admin/foo">Navigate Link</nuxt-link>
-    <nuxt-link to="/admin/foo/bar">Navigate Link</nuxt-link>
+    <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
+    <nuxt-link to="/user/:id/">Navigate Link</nuxt-link>
+    <nuxt-link :to="localePath('/admin/:id')">Navigate Link</nuxt-link>
   </div>
 </template>
 
@@ -12,8 +13,10 @@ const router = useRouter();
 const localePath = useLocalePath();
 const localeRoute = useLocaleRoute();
 
-router.push(localePath('/'));
-const route = localePath('/admin/37883');
+router.push(localePath('/admin/888'));
+const route = localePath('/user/:id/:slug/articles');
+navigateTo({ path: '/admin/:id' });
+router.push({ path: '' });
 
 router.push('/user/:id/:slug/articles#baz');
 router.push('/baguette'); // Error

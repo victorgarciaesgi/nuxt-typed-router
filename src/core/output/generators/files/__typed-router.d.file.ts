@@ -10,8 +10,8 @@ export function createTypedRouterDefinitionFile(): string {
     import type { NuxtLinkProps } from '#app';
     import NuxtLink from 'nuxt/dist/app/components/nuxt-link';
     import type { RouteLocationRaw, RouteLocationPathRaw } from 'vue-router';
-    import type { RoutesNamedLocations, RoutesNamesListRecord } from './__routes';
-    import type {TypedRouter, TypedRoute} from './__router';
+    import type { RoutesNamedLocations, RoutesNamesListRecord, RoutesNamesList } from './__routes';
+    import type {TypedRouter, TypedRoute, TypedRouteLocationRawFromName, TypedLocationAsRelativeRaw} from './__router';
     import { useRoute as _useRoute } from './__useTypedRoute';
     import { useRouter as _useRouter } from './__useTypedRouter';
     import { navigateTo as _navigateTo } from './__navigateTo';
@@ -40,31 +40,32 @@ export function createTypedRouterDefinitionFile(): string {
       )}
     }
     
-    type TypedNuxtLinkProps<T extends string> = Omit<NuxtLinkProps, 'to'> & (
-    ${returnIfTrue(
-      experimentalPathCheck && !strictOptions.NuxtLink.strictToArgument,
-      `| { to: ValidatePath<T> | RoutePathSchema }`
-    )}
-    | {
+    type TypedNuxtLinkProps<T extends string> = Omit<NuxtLinkProps, 'to'> &
+     {
       to: 
         | Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations
         | Omit<RouteLocationPathRaw, 'path'>
         ${returnIfTrue(
           experimentalPathCheck && !strictOptions.NuxtLink.strictRouteLocation,
-          `& {path?: ValidatePath<T> | RoutePathSchema}`,
-          '| RouteLocationPathRaw'
+          `& {path?: ValidatePath<T> | RoutePathSchema}`
         )}
         ${returnIfTrue(
           !experimentalPathCheck && !strictOptions.NuxtLink.strictToArgument,
-          '| string'
+          ` | string`
         )}
-    });
+        ${returnIfTrue(
+          experimentalPathCheck && !strictOptions.NuxtLink.strictToArgument,
+          ` | ValidatePath<T> | RoutePathSchema`
+        )}
+      }
     
-    export type TypedNuxtLink = new <T extends string>(props: TypedNuxtLinkProps<T>) => Omit<
+        
+          
+    export type TypedNuxtLink = new <P extends string>(props: TypedNuxtLinkProps<P>) => Omit<
       typeof NuxtLink,
       '$props'
     > & {
-      $props: TypedNuxtLinkProps<T>;
+      $props: TypedNuxtLinkProps<P>;
     };
     
     declare module 'vue' {

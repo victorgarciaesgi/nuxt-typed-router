@@ -19,8 +19,8 @@ export function createi18nRouterFile() {
   };
 
   export interface TypedToLocalePath {
-    <T extends RoutesNamesList>(
-      to: TypedRouteLocationRawFromName<T>,
+    <T extends RoutesNamesList, P extends string>(
+      to: TypedRouteLocationRawFromName<T, P>,
       locale?: I18nLocales | undefined
     ) : [T] extends [never] ? string : Required<
     (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
@@ -39,7 +39,7 @@ export function createi18nRouterFile() {
   }
   
   export interface TypedLocaleRoute {
-    <T extends RoutesNamesList>(to: TypedRouteLocationRawFromName<T>, locale?: I18nLocales | undefined) : TypedRouteFromName<T>
+    <T extends RoutesNamesList, P extends string>(to: TypedRouteLocationRawFromName<T, P>, locale?: I18nLocales | undefined) : TypedRouteFromName<T>
     ${returnIfTrue(
       experimentalPathCheck && !router.strictToArgument,
       ` <T extends string>(to: ValidatePath<T> | RoutePathSchema, locale?: I18nLocales | undefined) : TypedRouteFromName<RouteNameFromPath<T>>;`

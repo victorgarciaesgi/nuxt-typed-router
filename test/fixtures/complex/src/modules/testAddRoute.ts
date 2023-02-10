@@ -5,7 +5,7 @@ export default defineNuxtModule({
     const { resolve } = createResolver(import.meta.url);
     extendPages((routes) => {
       routes.push({
-        file: resolve('../components/testRouter.vue'),
+        file: resolve('../components/testModule.vue'),
         path: '/testModule/:foo',
         name: 'test-module',
       });

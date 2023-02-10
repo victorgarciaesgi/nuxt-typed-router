@@ -63,6 +63,20 @@ export default defineNuxtModule<ModuleOptions>({
       }),
     };
 
+    if (nuxt.options.dev) {
+      nuxt.hook('devtools:customTabs' as any, (tabs: any[]) => {
+        tabs.push({
+          name: 'nuxt-typed-router',
+          title: 'Nuxt Typed Router',
+          icon: 'https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/.github/images/logo.png?raw=true',
+          view: {
+            type: 'iframe',
+            src: 'https://nuxt-typed-router.vercel.app/',
+          },
+        });
+      });
+    }
+
     createTypedRouter({ nuxt });
   },
 });
