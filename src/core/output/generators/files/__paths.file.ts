@@ -83,12 +83,16 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
     : B extends ''
     ? true
     : false
-  : true;
+  : T extends \`\${string} \${string}\`
+   ? false 
+   : true;
 
   type ValidEndOfPath<T> = T extends \`/\`
     ? true
     : T extends ''
     ? true
+    : T extends \`\${string} \${string}\`
+    ? false 
     : T extends \`?\${string}\`
     ? true
     : T extends \`#\${string}\`

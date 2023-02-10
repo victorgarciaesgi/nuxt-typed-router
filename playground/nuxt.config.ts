@@ -1,7 +1,7 @@
 import NuxtTypedRouter from '..';
 
 export default defineNuxtConfig({
-  modules: [NuxtTypedRouter, '@nuxtjs/i18n'],
+  modules: [NuxtTypedRouter, '@nuxtjs/i18n', '@nuxt/devtools'],
   nuxtTypedRouter: {
     plugin: true,
     experimentalPathCheck: true,
@@ -15,7 +15,6 @@ export default defineNuxtConfig({
     vueI18n: {
       legacy: false,
       locale: 'en',
-
       messages: {
         en: {
           welcome: 'Welcome',

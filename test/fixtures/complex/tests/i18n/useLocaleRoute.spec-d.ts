@@ -2,6 +2,9 @@ import { assertType, test } from 'vitest';
 import type { RouteLocationMatched } from 'vue-router';
 import { TypedRouteFromName, useLocaleRoute } from '@typed-router';
 
+// @ts-expect-error Ensure global imports are disabled
+declare const globalDecl: (typeof globalThis)['useLocaleRoute'];
+
 const localeRoute = useLocaleRoute();
 
 // ! ------ Should Error ❌

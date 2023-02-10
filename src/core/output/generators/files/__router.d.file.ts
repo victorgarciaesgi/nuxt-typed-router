@@ -99,8 +99,8 @@ export function createTypedRouterFile() {
      * @param to - Raw route location to resolve
      * @param currentLocation - Optional current location to resolve against
      */
-    resolve<T extends RoutesNamesList>(
-      to: TypedRouteLocationRawFromName<T>,
+    resolve<T extends RoutesNamesList, P extends string>(
+      to: TypedRouteLocationRawFromName<T, P>,
       currentLocation?: TypedRouteLocationRaw
     ): TypedRouteLocationFromName<T>;
     ${returnIfTrue(
@@ -113,7 +113,7 @@ export function createTypedRouterFile() {
      *
      * @param to - Route location to navigate to
      */
-    push(to: TypedRouteLocationRaw): Promise<NavigationFailure | void | undefined>;
+    push<T extends RoutesNamesList, P extends string>(to: TypedRouteLocationRawFromName<T, P>): Promise<NavigationFailure | void | undefined>;
     ${returnIfTrue(
       experimentalPathCheck && !strictOptions.router.strictToArgument,
       `push<T extends string>(to: ValidatePath<T> | RoutePathSchema): Promise<NavigationFailure | void | undefined>;`
@@ -124,7 +124,7 @@ export function createTypedRouterFile() {
      *
      * @param to - Route location to navigate to
      */
-    replace(to: TypedRouteLocationRaw): Promise<NavigationFailure | void | undefined>;
+    replace<T extends RoutesNamesList, P extends string>(to: TypedRouteLocationRawFromName<T, P>): Promise<NavigationFailure | void | undefined>;
     ${returnIfTrue(
       experimentalPathCheck && !strictOptions.router.strictToArgument,
       `replace<T extends string>(to: ValidatePath<T> | RoutePathSchema): Promise<NavigationFailure | void | undefined>;`
