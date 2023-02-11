@@ -126,7 +126,7 @@ export function createTypeValidatePathCondition(elements: DestructuredPath[][]) 
                   elem.content
                 }} of path '${elem.fullPath}' is required" : `;
               } else if (isOptional && isLast) {
-                output = `ValidParam<${params.get(elem.id)}> extends false ? "Parameter {${
+                output = `ValidParam<${params.get(elem.id)}, false> extends false ? "Parameter {${
                   elem.content
                 }} of path '${elem.fullPath}' is invalid" : true :`;
               } else if (isLast) {

@@ -10,15 +10,13 @@
 <script setup lang="ts">
 import { GlobalComponents } from 'vue';
 import { PageMeta } from '#app';
-import { definePageMeta, TypedRouteLocationRawFromName } from '@typed-router';
+import { definePageMeta, TypedRouteLocationRawFromName, helpers } from '@typed-router';
 
 definePageMeta({
   validate(route) {
     return route.name === 'index';
   },
-  redirect(route) {
-    return { name: 'admin-id', params: { id: 1 } };
-  },
+  redirect: '/admin/:id/oo',
 });
 
 const t = 'zfef';
