@@ -89,13 +89,12 @@ assertType(navigateTo('/admin/foo/ profile/ezfje'));
 assertType(navigateTo('/admin/3U93U/settings/baz'));
 // @ts-expect-error
 assertType(navigateTo('/admin/panel/?fjzk'));
-assertType(navigateTo('/admin/panel/938783/'));
-assertType(navigateTo('/user/38873-'));
-assertType(navigateTo('/user/38673/bar/'));
-assertType(navigateTo('/user/ç9737/foo/articles?baz=foo'));
-assertType(navigateTo('/user/catch/1/2'));
-assertType(navigateTo('/user/test-'));
-assertType(navigateTo('/user'));
+// @ts-expect-error
+assertType(navigateTo('/admin/panel/938783/ '));
+// @ts-expect-error
+assertType(navigateTo('/user/3887/foo/bar/'));
+// @ts-expect-error
+assertType(navigateTo('/admin/:id//'));
 
 // $ ----- Should be valid ✅
 

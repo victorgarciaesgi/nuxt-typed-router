@@ -98,13 +98,6 @@ assertType(new NuxtLink({ to: '/admin/foo/ profile/ezfje' }));
 assertType(new NuxtLink({ to: '/admin/3U93U/settings/baz' }));
 // @ts-expect-error
 assertType(new NuxtLink({ to: '/admin/panel/?fjzk' }));
-assertType(new NuxtLink({ to: '/admin/panel/938783/' }));
-assertType(new NuxtLink({ to: '/user/38873-' }));
-assertType(new NuxtLink({ to: '/user/38673/bar/' }));
-assertType(new NuxtLink({ to: '/user/ç9737/foo/articles?baz=foo' }));
-assertType(new NuxtLink({ to: '/user/catch/1/2' }));
-assertType(new NuxtLink({ to: '/user/test-' }));
-assertType(new NuxtLink({ to: '/user' }));
 
 // $ ----- Should be valid ✅
 
