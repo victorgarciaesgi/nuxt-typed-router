@@ -77,7 +77,7 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
 
   type ValidStringPath<T> = T extends \`\${string} \${string}\` ? false : T extends '' ? false : true;
 
-  type ValidParam<T> = T extends \`\${infer A}/\${infer B}\`
+  type ValidParam<T, R extends boolean = true> = T extends \`\${infer A}/\${infer B}\`
   ? A extends \`\${string} \${string}\`
     ? false
     : A extends \`?\${string}\`
@@ -95,6 +95,10 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
     : B extends ''
     ? true
     : false
+  : R extends true
+  ? T extends ''
+    ? false
+    : ValidParam<T, false>
   : T extends \`?\${string}\`
   ? false
   : T extends \`\${string} \${string}\`
@@ -116,7 +120,7 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
   ${validatePathTypes}
 
 
-  export type TypedPathParameter<T extends string> = Omit<ValidatePath<T> | RoutePathSchema, keyof String>;
+  export type TypedPathParameter<T extends string> = ValidatePath<T> | RoutePathSchema
 
   `;
 }

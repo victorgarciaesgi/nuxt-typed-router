@@ -4,6 +4,8 @@ import { setup, $fetch, createPage } from '@nuxt/test-utils';
 import { expectNoClientErrors } from '../utils';
 import { timeout } from '$$/utils';
 
+const TIME = 1000;
+
 describe('Simple config behaviour', async () => {
   await setup({
     rootDir: fileURLToPath(new URL('../../fixtures/simple', import.meta.url)),
@@ -24,7 +26,7 @@ describe('Simple config behaviour', async () => {
     const page = await createPage('/');
     await page.click('#useRouter');
     const html = await page.innerHTML('body');
-    await timeout(2000);
+    await timeout(TIME);
     expect(html).toContain('Navigate back');
 
     await expectNoClientErrors('/');
@@ -33,7 +35,7 @@ describe('Simple config behaviour', async () => {
   it('should navigate correctly with nuxtLink', async () => {
     const page = await createPage('/');
     await page.click('#nuxtLink');
-    await timeout(2000);
+    await timeout(TIME);
     const html = await page.innerHTML('body');
 
     expect(html).toContain('Navigate back');
@@ -45,7 +47,7 @@ describe('Simple config behaviour', async () => {
     const page = await createPage('/');
     await page.click('#navigateTo');
     const html = await page.innerHTML('body');
-    await timeout(2000);
+    await timeout(TIME);
     expect(html).toContain('Navigate back');
 
     await expectNoClientErrors('/');

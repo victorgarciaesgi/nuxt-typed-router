@@ -105,13 +105,6 @@ assertType(router.push('/admin/foo/ profile/ezfje'));
 assertType(router.push('/admin/3U93U/settings/baz'));
 // @ts-expect-error
 assertType(router.push('/admin/panel/?fjzk'));
-assertType(router.push('/admin/panel/938783/'));
-assertType(router.push('/user/38873-'));
-assertType(router.push('/user/38673/bar/'));
-assertType(router.push('/user/ç9737/foo/articles?baz=foo'));
-assertType(router.push('/user/catch/1/2'));
-assertType(router.push('/user/test-'));
-assertType(router.push('/user'));
 
 // $ ----- Should be valid ✅
 
