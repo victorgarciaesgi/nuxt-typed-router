@@ -24,8 +24,8 @@
 - Out of the box `i18n` support
 - Supports routes extended by config and modules
 
-> ⚠️ Since `v2.1.x`, `useTypedRouter` and `useTypedRoute` are no longer exported.   
-The package can now override types from `useRouter`, `useRoute` and `navigateTo`
+> A beta version with `path` autocomplete is available in version `v3.0.0-beta.0`
+> https://github.com/victorgarciaesgi/nuxt-typed-router/releases/tag/v3.0.0-beta.0
 
 <br/>
 
