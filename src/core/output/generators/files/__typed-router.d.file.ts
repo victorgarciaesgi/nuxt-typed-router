@@ -64,8 +64,8 @@ export function createTypedRouterDefinitionFile(): string {
       {}
     >;
     
-    declare module '@vue/runtime-core' {
-      export interface GlobalComponents {
+    declare module 'vue' {
+      interface GlobalComponents {
         NuxtLink: TypedNuxtLink;
       }
     }
