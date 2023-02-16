@@ -2,7 +2,7 @@
   <div>
     <button @click="navigate"> Navigate button </button>
     <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
-    <nuxt-link to="/admin/:id/foo">Navigate Link</nuxt-link>
+    <nuxt-link to="/foo">Navigate Link</nuxt-link>
     <nuxt-link :to="localePath('/admin/:id')">Navigate Link</nuxt-link>
   </div>
 </template>
@@ -16,7 +16,7 @@ definePageMeta({
   validate(route) {
     return route.name === 'index';
   },
-  redirect: '/admin/:id/oo',
+  redirect: '/admin/foo',
 });
 
 const t = 'zfef';
