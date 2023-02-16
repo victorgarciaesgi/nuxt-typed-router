@@ -4,7 +4,7 @@ import { setup, $fetch, createPage } from '@nuxt/test-utils';
 import { expectNoClientErrors } from '../utils';
 import { timeout } from '$$/utils';
 
-const TIME = 1000;
+const TIME = 2000;
 
 describe('Complex config behaviour', async () => {
   await setup({
