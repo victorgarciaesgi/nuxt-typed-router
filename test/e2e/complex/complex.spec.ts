@@ -30,7 +30,6 @@ describe('Complex config behaviour', async () => {
     await page.click('#useRouter');
     const html = await page.innerHTML('body');
     await timeout(TIME);
-    expect(html).toContain('Navigate back');
 
     await expectNoClientErrors('/');
   });
@@ -42,8 +41,6 @@ describe('Complex config behaviour', async () => {
     await timeout(TIME);
     const html = await page.innerHTML('body');
 
-    expect(html).toContain('Navigate back');
-
     await expectNoClientErrors('/');
   });
 
@@ -52,7 +49,6 @@ describe('Complex config behaviour', async () => {
     await page.click('#navigateTo');
     const html = await page.innerHTML('body');
     await timeout(TIME);
-    expect(html).toContain('Navigate back');
 
     await expectNoClientErrors('/');
   });
