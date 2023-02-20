@@ -15,6 +15,7 @@ import {
   createi18nRouterFile,
   createPathsFiles,
   createDefinePageMetaFile,
+  createHelpersFile,
 } from '../generators/files';
 
 import { watermarkTemplate } from '../static';
@@ -44,6 +45,10 @@ export async function saveGeneratedFiles({ outputData }: SaveGeneratedFiles): Pr
     {
       fileName: `__routes.ts`,
       content: createRoutesTypesFile(outputData),
+    },
+    {
+      fileName: `__helpers.ts`,
+      content: createHelpersFile(),
     },
     {
       fileName: '__navigateTo.ts',

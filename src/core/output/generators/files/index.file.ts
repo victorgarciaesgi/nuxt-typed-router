@@ -30,6 +30,7 @@ export function createIndexFile(): string {
     export { useRouter } from './__useTypedRouter';
     export { navigateTo } from './__navigateTo';
     export { definePageMeta } from './__definePageMeta';
+    export { helpers } from './__helpers';
     
     ${returnIfTrue(
       experimentalPathCheck,
@@ -37,19 +38,6 @@ export function createIndexFile(): string {
     )}
     ${returnIfTrue(i18n, `export {useLocalePath, useLocaleRoute} from './__i18n-router';`)}
 
-    export const helpers = {
-      route(
-        to: TypedRouteLocationRawFromName<T, P>,
-      ): [T] extends [never] ? string : Required<
-        (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
-      > {
-        return to;
-      },
-      path(
-        to: TypedPathParameter<T>,
-      ) : [T] extends [never] ? string : Required<TypedRouteLocationRawFromName<RouteNameFromPath<T>, T>> {
-        return to;
-      }
-    } 
+    
   `;
 }
