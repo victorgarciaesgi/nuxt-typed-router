@@ -8,23 +8,18 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalComponents } from 'vue';
-import { PageMeta } from '#app';
 import { definePageMeta, TypedRouteLocationRawFromName, helpers } from '@typed-router';
 
 definePageMeta({
-  validate(route) {
-    return route.name === 'index';
-  },
-  redirect: '/admin/foo',
+  redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
+});
+
+definePageMeta('index', {
+  redirect: '/admin/foo/ar',
 });
 
 const t = 'zfef';
 const u = 'krzfzlkj' as string;
-
-type test<T> = string extends T ? true : false;
-
-type foo = test<typeof u>;
 
 const router = useRouter();
 
@@ -34,7 +29,7 @@ const localeRoute = useLocaleRoute();
 router.push(localePath('/admin/888'));
 const route = localePath('/user/:id/:slug/articles');
 navigateTo({ path: '/admin/:id' });
-router.push({ path: '' });
+router.push({ path: '/' });
 
 router.push('/user/:id/:slug/articles#baz');
 router.push('/baguette'); // Error

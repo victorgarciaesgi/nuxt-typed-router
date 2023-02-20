@@ -52,16 +52,15 @@ export default defineNuxtModule<ModuleOptions>({
     };
 
     // Force register of type declaration
-    nuxt.options.typescript.tsConfig = {
-      include: ['./typed-router/typed-router.d.ts'],
-      ...(moduleOptions.experimentalPathCheck && {
-        // Enable Volar components generics https://github.com/vuejs/rfcs/discussions/436
-        vueCompilerOptions: {
+    nuxt.hook('prepare:types', (options) => {
+      options.tsConfig.include?.unshift('./typed-router/typed-router.d.ts');
+      if (moduleOptions.experimentalPathCheck) {
+        (options.tsConfig as any).vueCompilerOptions = {
           jsxTemplates: true,
           experimentalRfc436: true,
-        },
-      }),
-    };
+        };
+      }
+    });
 
     if (nuxt.options.dev) {
       nuxt.hook('devtools:customTabs' as any, (tabs: any[]) => {

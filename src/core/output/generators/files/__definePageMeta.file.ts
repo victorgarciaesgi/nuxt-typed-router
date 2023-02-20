@@ -9,15 +9,15 @@ export function createDefinePageMetaFile(): string {
   
   import { definePageMeta as defaultDefinePageMeta } from '#imports';
   import type {PageMeta, NuxtError} from '#app'
-  import type {TypedRouteFromName, TypedRoute, TypedRouteLocationRawFromName} from './__router';
-  import type {RoutesNamesList, RoutesNamedLocations} from './__routes';
+  import type {TypedRouteFromName, TypedRoute, TypedRouteLocationRawFromName, TypedRouteLocationRaw} from './__router';
+  import type {RoutesNamesList} from './__routes';
   ${returnIfTrue(experimentalPathCheck, `import type {TypedPathParameter} from './__paths';`)}
 
   type FilteredPageMeta = {
     [T in keyof PageMeta as [unknown] extends [PageMeta[T]] ? never : T]: PageMeta[T];
   }
 
-  export type TypedPageMeta<T extends RoutesNamesList, P extends string, U extends RoutesNamesList> = Omit<FilteredPageMeta, 'redirect' | 'validate' | 'key'> & {
+  export type TypedPageMeta<T extends RoutesNamesList> = Omit<FilteredPageMeta, 'redirect' | 'validate' | 'key'> & {
     /**
      * Validate whether a given route can validly be rendered with this page.
      *
@@ -27,22 +27,6 @@ export function createDefinePageMetaFile(): string {
      * will not be checked).
      */
     validate?: (route: [T] extends [never] ? TypedRoute : TypedRouteFromName<T>) => boolean | Promise<boolean> | Partial<NuxtError> | Promise<Partial<NuxtError>>;
-    /**
-     * Where to redirect if the route is directly matched. The redirection happens
-     * before any navigation guard and triggers a new navigation with the new
-     * target location.
-     */
-    redirect?: 
-     | TypedRouteLocationRawFromName<U, P>
-     | ((to: [T] extends [never] ? TypedRoute : TypedRouteFromName<T>) 
-          => TypedRouteLocationRawFromName<any, P> ${returnIfTrue(
-            experimentalPathCheck && !strictOptions.router.strictToArgument,
-            ` | TypedPathParameter<P>`
-          )})
-     ${returnIfTrue(
-       experimentalPathCheck && !strictOptions.router.strictToArgument,
-       ` | TypedPathParameter<P>`
-     )}
     key?: false | string | ((route: [T] extends [never] ? TypedRoute : TypedRouteFromName<T>) => string);
   }
 
@@ -51,7 +35,16 @@ export function createDefinePageMetaFile(): string {
    * Typed clone of \`definePageMeta\`
    * 
    * ⚠️ Types for the redirect function may be buggy or not display autocomplete
-   * 
+   * Use \`helpers.route\` or \`helpers.path\` to provide autocomplete.
+   *
+   * \`\`\`ts
+   * import {helpers} from '@typed-router';
+   * definePageMeta({
+   *   redirect(route) {
+   *      return helpers.path('/foo')
+   *   }
+   * });
+   * \`\`\`
    * @exemple
    * 
    * \`\`\`ts
@@ -64,22 +57,73 @@ export function createDefinePageMetaFile(): string {
    * });
    * \`\`\`
    */
-  export function definePageMeta<
-    P extends string,
-    U extends RoutesNamesList
-  >(meta: TypedPageMeta<never, P, U>): void;
-  export function definePageMeta<
-    T extends RoutesNamesList,
-    P extends string,
-    U extends RoutesNamesList
-  >(routeName: T, meta: TypedPageMeta<T, P, U>): void;
-  export function definePageMeta(metaOrName: any, meta?: any): void {
-    if (typeof metaOrName === 'string') {
-      return defaultDefinePageMeta(meta as any);
-    } else {
-      return defaultDefinePageMeta(metaOrName as any);
-    }
+export function definePageMeta<P extends string, U extends RoutesNamesList>(
+  meta: TypedPageMeta<never> & { redirect: TypedRouteLocationRawFromName<U, P> }
+): void;
+${returnIfTrue(
+  experimentalPathCheck && !strictOptions.router.strictToArgument,
+  `export function definePageMeta<P extends string>(
+  meta: TypedPageMeta<never> & { redirect: TypedPathParameter<P> }
+): void;`
+)}
+export function definePageMeta<P extends string = string>(
+  meta: TypedPageMeta<never> & {
+    redirect?: (to: TypedRoute) => TypedRouteLocationRaw<P> ${returnIfTrue(
+      experimentalPathCheck && !strictOptions.router.strictToArgument,
+      ` | TypedPathParameter<P>`
+    )};
   }
+): void;
+export function definePageMeta<P extends string = string>(
+  meta: TypedPageMeta<never> & {
+    redirect?: () => TypedRouteLocationRaw<P> ${returnIfTrue(
+      experimentalPathCheck && !strictOptions.router.strictToArgument,
+      ` | TypedPathParameter<P>`
+    )};
+  }
+): void;
+export function definePageMeta<
+  T extends RoutesNamesList,
+  P extends string,
+  U extends RoutesNamesList
+>(routeName: T, meta: TypedPageMeta<T> & { redirect: TypedRouteLocationRawFromName<U, P> }): void;
+${returnIfTrue(
+  experimentalPathCheck && !strictOptions.router.strictToArgument,
+  `export function definePageMeta<T extends RoutesNamesList, P extends string>(
+  routeName: T,
+  meta: TypedPageMeta<T> & { redirect: TypedPathParameter<P> }
+): void;`
+)}
+export function definePageMeta<
+  T extends RoutesNamesList,
+  P extends string,
+  U extends RoutesNamesList
+>(
+  routeName: T,
+  meta: TypedPageMeta<T> & {
+    redirect?: (to: TypedRouteFromName<T>) => TypedRouteLocationRaw<P> ${returnIfTrue(
+      experimentalPathCheck && !strictOptions.router.strictToArgument,
+      ` | TypedPathParameter<P>`
+    )};
+  }
+): void;
+export function definePageMeta<T extends RoutesNamesList, P extends string>(
+  routeName: T,
+  meta: TypedPageMeta<T> & {
+    redirect?: () => TypedRouteLocationRaw<P> ${returnIfTrue(
+      experimentalPathCheck && !strictOptions.router.strictToArgument,
+      ` | TypedPathParameter<P>`
+    )};
+  }
+): void;
+export function definePageMeta(metaOrName: any, meta?: any): void {
+  if (typeof metaOrName === 'string') {
+    return defaultDefinePageMeta(meta as any);
+  } else {
+    return defaultDefinePageMeta(metaOrName as any);
+  }
+}
+
    
   `;
 }
