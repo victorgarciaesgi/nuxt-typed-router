@@ -15,7 +15,11 @@ export function createTypedRouterDefinitionFile(): string {
     import { useRoute as _useRoute } from './__useTypedRoute';
     import { useRouter as _useRouter } from './__useTypedRouter';
     import { navigateTo as _navigateTo } from './__navigateTo';
-    import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from './__i18n-router';
+    ${returnIfTrue(
+      i18n,
+      `import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from './__i18n-router';`
+    )}
+
     import {definePageMeta as _definePageMeta} from './__definePageMeta';
 
     ${returnIfTrue(experimentalPathCheck, `import type {TypedPathParameter} from './__paths';`)}
@@ -70,7 +74,8 @@ export function createTypedRouterDefinitionFile(): string {
       $props: TypedNuxtLinkProps<P>;
     };
     
-    declare module 'vue' {
+    // Declare runtime-core instead of vue for compatibility issues with pnpm
+    declare module '@vue/runtime-core' {
       interface GlobalComponents {
         NuxtLink: TypedNuxtLink;
       }

@@ -24,29 +24,32 @@ export function createValidatePathTypes(pathElements: DestructuredPath[][][]): s
     export type ValidatePath<T extends string> = T extends string 
       ? T extends '/' 
         ? T 
-        : ${
-          pathConditions.length
-            ? pathConditions.map((t) => `${t.typeName}<T> extends true ? T`).join(': ')
-            : 'never'
-        } 
+         ${
+           pathConditions.length
+             ? `:${pathConditions.map((t) => `${t.typeName}<T> extends true ? T`).join(': ')}`
+             : ''
+         } 
       : string extends T
       ? T
-      : \`Error: \${${pathConditions
-        .map((t) => `${t.typeName}<T>`)
-        .join('|')}}\` : 'Type should be a string';
+      : ${
+        pathConditions.length
+          ? `\`Error: \${${pathConditions.map((t) => `${t.typeName}<T>`).join('|')}}\``
+          : 'never'
+      }
+      : never;
   
   
     export type RouteNameFromPath<T extends string> = T extends string 
       ? T extends '/' 
         ? "index"
-        : ${
-          pathConditions.length
-            ? pathConditions
-                .map((t) => `${t.typeName}<T> extends true ? "${t.routeName}"`)
-                .join(': ')
-            : 'never'
-        } 
-      : never : never;
+         ${
+           pathConditions.length
+             ? `: ${pathConditions
+                 .map((t) => `${t.typeName}<T> extends true ? "${t.routeName}"`)
+                 .join(': ')} : never`
+             : ': never'
+         } 
+       : never; 
   
         `;
 }
@@ -65,9 +68,11 @@ export function createTypedRouteFromPathType(pathElements: DestructuredPath[][][
             ? pathConditions.map((t) => `${t.typeName}<T> extends true ? T`).join(': ')
             : 'never'
         } 
-      : \`Error: \${${pathConditions
-        .map((t) => `${t.typeName}<T>`)
-        .join('|')}}\` : 'Type should be a string';
+      : \ ${
+        pathConditions.length
+          ? `Error: \${${pathConditions.map((t) => `${t.typeName}<T>`).join('|')}}\``
+          : 'never'
+      } : 'Type should be a string';
   `;
 }
 

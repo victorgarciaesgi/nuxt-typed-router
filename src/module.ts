@@ -1,5 +1,6 @@
 import { defineNuxtModule, createResolver, extendNuxtSchema } from '@nuxt/kit';
 import { Nuxt } from '@nuxt/schema';
+import { NuxtI18nOptions } from '@nuxtjs/i18n';
 import { createTypedRouter } from './core';
 import { moduleOptionStore } from './core/config';
 import type { ModuleOptions } from './types';
@@ -21,20 +22,20 @@ export default defineNuxtModule<ModuleOptions>({
     const { resolve } = createResolver(import.meta.url);
 
     const rootDir = nuxt.options.rootDir;
-    let i18nLocales: string[] = [];
+    let i18nOptions: NuxtI18nOptions | null = null;
 
     const hasi18nModuleRegistered = nuxt.options.modules.some((mod) => {
       if (Array.isArray(mod)) {
         const [moduleName, options] = mod;
         const isRegistered = moduleName === '@nuxtjs/i18n';
         if (isRegistered) {
-          i18nLocales = options?.locales ?? [];
+          i18nOptions = options;
         }
         return isRegistered;
       } else {
         const isRegistered = mod === '@nuxtjs/i18n';
         if (isRegistered) {
-          i18nLocales = (nuxt.options as any).i18n?.locales ?? [];
+          i18nOptions = (nuxt.options as any).i18n;
         }
         return isRegistered;
       }
@@ -43,7 +44,7 @@ export default defineNuxtModule<ModuleOptions>({
     moduleOptionStore.updateOptions({
       ...moduleOptions,
       i18n: hasi18nModuleRegistered,
-      i18nLocales,
+      i18nOptions,
     });
 
     nuxt.options.alias = {

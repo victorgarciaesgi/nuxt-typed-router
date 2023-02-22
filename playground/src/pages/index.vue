@@ -4,6 +4,7 @@
     <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
     <nuxt-link to="/foo">Navigate Link</nuxt-link>
     <nuxt-link :to="localePath('/admin/:id')">Navigate Link</nuxt-link>
+    <nuxt-layout></nuxt-layout>
   </div>
 </template>
 
@@ -28,7 +29,7 @@ const localeRoute = useLocaleRoute();
 
 router.push(localePath('/admin/888'));
 const route = localePath('/user/:id/:slug/articles');
-navigateTo({ path: '/admin/:id' });
+navigateTo(localePath({ name: 'index' }));
 router.push({ path: '/' });
 
 router.push('/user/:id/:slug/articles#baz');

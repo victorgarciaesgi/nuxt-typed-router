@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     // add `vueI18n` option to `@nuxtjs/i18n` module options
     locales: ['en', 'fr'],
     defaultLocale: 'en',
-    strategy: 'prefix',
+    strategy: 'prefix_except_default',
     vueI18n: {
       legacy: false,
       locale: 'en',
