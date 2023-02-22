@@ -1,6 +1,6 @@
 import { DestructuredPath } from '../../../../../core/parser/params';
 import { RoutePathsDecl } from '../../../../../types';
-import { customAlphabet } from 'nanoid';
+import { customAlphabet } from 'nanoid/non-secure';
 import { returnIfTrue } from '../../../../../../src/utils';
 
 const nanoid = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10);
