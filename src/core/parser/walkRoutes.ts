@@ -50,6 +50,10 @@ function hasi18nSibling(
   });
 }
 
+function splitI18nName(name: string | undefined) {
+  return (name as string).split('___')[0]
+}
+
 /** Mutates the output object with generated routes */
 export function walkThoughRoutes({
   route,
@@ -71,7 +75,7 @@ export function walkThoughRoutes({
       route.path.startsWith('/') ? route.path : `/${route.path}`
     }`;
     output.routesPaths.push({
-      name: route.name,
+      name: splitI18nName(route.name),
       typePath: replaceParamsFromPathDecl(newPath),
       path: newPath,
     });
@@ -80,7 +84,7 @@ export function walkThoughRoutes({
       // - Route with children
 
       let childrenChunks = route.children;
-      let nameKey = createKeyedName(route, parent);
+      let nameKey = splitI18nName(createKeyedName(route, parent));
       const allRouteParams = extractRouteParamsFromPath(route.path, false, previousParams);
 
       const newRoute = { ...route, name: nameKey, path: newPath } satisfies NuxtPage;
@@ -109,9 +113,9 @@ export function walkThoughRoutes({
 
       let keyName = createNameKeyFromFullName(route, level, parent?.name);
 
-      output.routesObjectTemplate += `'${keyName}': '${route.name}' as const,`;
-      output.routesDeclTemplate += `"${keyName}": "${route.name}"${isLast ? '' : ','}`;
-      output.routesList.push(route.name);
+      output.routesObjectTemplate += `'${keyName}': '${splitI18nName(route.name)}' as const,`;
+      output.routesDeclTemplate += `"${keyName}": "${splitI18nName(route.name)}"${isLast ? '' : ','}`;
+      output.routesList.push(splitI18nName(route.name));
 
       // Params
       const isIndexFileForRouting = route.path === '';
@@ -121,7 +125,7 @@ export function walkThoughRoutes({
         previousParams
       );
       output.routesParams.push({
-        name: route.name,
+        name: splitI18nName(route.name),
         params: allRouteParams,
       });
     }

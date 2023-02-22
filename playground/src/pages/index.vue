@@ -34,6 +34,7 @@ router.push({ path: '/' });
 router.push('/user/:id/:slug/articles#baz');
 router.push('/baguette'); // Error
 router.push('/admin/888'); // ✅
+router.push(localePath({ name: 'admin-id', params: { id: 1 } }))
 
 router.push('/');
 
