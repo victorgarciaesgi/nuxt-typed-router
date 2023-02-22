@@ -1,8 +1,17 @@
+import { returnIfTrue } from '../../../../../src/utils';
 import { GeneratorOutput } from '../../../../types';
+import { moduleOptionStore } from '../../../config';
 import { destructurePath } from '../../../parser/params';
-import { createRoutePathSchema, createValidatePathTypes } from '../blocks';
+import {
+  createLocaleRoutePathSchema,
+  createRoutePathSchema,
+  createValidatePathTypes,
+} from '../blocks';
 
 export function createPathsFiles({ routesPaths }: GeneratorOutput) {
+  const { i18n, i18nOptions } = moduleOptionStore;
+  const hasPrefixStrategy = i18n && i18nOptions?.strategy !== 'no_prefix';
+
   const filteredRoutesPaths = routesPaths
     .filter(
       (route, index) =>
@@ -66,14 +75,17 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
       return route.path
         .split('/')
         .filter((f) => f.length)
-        .map((m) => destructurePath(m, route.path, route.name!));
+        .map((m) => destructurePath(m, route));
     });
 
   const validatePathTypes = createValidatePathTypes(pathElements);
+  const validateLocalePathTypes = createValidatePathTypes(pathElements, true);
 
   return /* typescript */ `
     
   ${createRoutePathSchema(filteredRoutesPaths)};
+
+  ${returnIfTrue(hasPrefixStrategy, createLocaleRoutePathSchema(filteredRoutesPaths))}
 
   type ValidStringPath<T> = T extends \`\${string} \${string}\` ? false : T extends '' ? false : true;
 
@@ -118,9 +130,14 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
     : false;
 
   ${validatePathTypes}
+  ${returnIfTrue(hasPrefixStrategy, validateLocalePathTypes)}
 
 
-  export type TypedPathParameter<T extends string> = ValidatePath<T> | RoutePathSchema
+  export type TypedPathParameter<T extends string> = ValidatePath<T> | RoutePathSchema;
+  ${returnIfTrue(
+    hasPrefixStrategy,
+    `export type TypedLocalePathParameter<T extends string> = ValidateLocalePath<T> | LocaleRoutePathSchema;`
+  )}
 
   `;
 }

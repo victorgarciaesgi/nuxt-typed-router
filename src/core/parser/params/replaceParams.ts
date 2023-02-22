@@ -22,10 +22,3 @@ export function extractParamsFromPathDecl(path: string): ExtractedParam[] {
 
   return params;
 }
-
-export function replaceParamsFromPathDecl(path: string): string {
-  const replacedPath = path.replace(routeParamExtractRegxp, (_, mtch, key, catchAll, optional) => {
-    return catchAll ? `\${((string | ''))}` : `\${(string ${optional ? "| ''" : ''})}`;
-  });
-  return replacedPath;
-}

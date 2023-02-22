@@ -1,6 +1,7 @@
 import { DestructuredPath } from '../../../../../core/parser/params';
 import { RoutePathsDecl } from '../../../../../types';
 import { customAlphabet } from 'nanoid';
+import { returnIfTrue } from '../../../../../../src/utils';
 
 const nanoid = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10);
 
@@ -13,15 +14,35 @@ export function createRoutePathSchema(routePaths: RoutePathsDecl[]) {
   `;
 }
 
-export function createValidatePathTypes(pathElements: DestructuredPath[][][]): string {
-  let pathConditions = pathElements.map(createTypeValidatePathCondition);
+export function createLocaleRoutePathSchema(routePaths: RoutePathsDecl[]) {
+  return `export type LocaleRoutePathSchema = 
+    ${routePaths
+      .filter((f) => !!f.path && !f.isLocale)
+      .map((route) => `"${route.path}"`)
+      .join('|')}
+  `;
+}
+
+export function createValidatePathTypes(
+  pathElements: DestructuredPath[][][],
+  withLocale = false
+): string {
+  let pathConditions = pathElements.map(createTypeValidatePathCondition).filter((f) => {
+    if (withLocale) {
+      return !f.isLocale;
+    }
+    return true;
+  });
 
   const conditionsList = pathConditions.map((m) => m.condition);
 
   return `
     ${pathConditions.length ? conditionsList.join('\n\n') : ''}
 
-    export type ValidatePath<T extends string> = T extends string 
+    export type Validate${returnIfTrue(
+      withLocale,
+      'Locale'
+    )}Path<T extends string> = T extends string 
       ? T extends '/' 
         ? T 
          ${
@@ -39,7 +60,10 @@ export function createValidatePathTypes(pathElements: DestructuredPath[][][]): s
       : never;
   
   
-    export type RouteNameFromPath<T extends string> = T extends string 
+    export type RouteNameFrom${returnIfTrue(
+      withLocale,
+      'Locale'
+    )}Path<T extends string> = T extends string 
       ? T extends '/' 
         ? "index"
          ${
@@ -56,8 +80,6 @@ export function createValidatePathTypes(pathElements: DestructuredPath[][][]): s
 
 export function createTypedRouteFromPathType(pathElements: DestructuredPath[][][]): string {
   let pathConditions = pathElements.map(createTypeValidatePathCondition);
-
-  const conditionsList = pathConditions.map((m) => m.condition);
 
   return `
     export type ValidatePath<T extends string> = T extends string 
@@ -81,6 +103,7 @@ export function createTypeValidatePathCondition(elements: DestructuredPath[][]) 
   const params = new Map();
   const routeName = elements.flat()[0].routeName;
   const hasOnlyNames = elements.flat().every((elem) => elem.type === 'name');
+  const isLocale = elements.flat()[0].isLocale;
 
   const condition = `type ${typeName}<T> = T extends \`/${elements
     .map((elementArray, index) => {
@@ -146,5 +169,6 @@ export function createTypeValidatePathCondition(elements: DestructuredPath[][]) 
     typeName,
     condition,
     routeName,
+    isLocale,
   };
 }

@@ -10,7 +10,6 @@ export function constructRouteMap(routesConfig: NuxtPage[]): GeneratorOutput {
     let routesList: string[] = [];
     let routesParams: RouteParamsDecl[] = [];
     let routesPaths: RoutePathsDecl[] = [];
-    let routesPathsTree: string = '{';
 
     const output = {
       routesObjectTemplate,
@@ -18,13 +17,13 @@ export function constructRouteMap(routesConfig: NuxtPage[]): GeneratorOutput {
       routesList,
       routesParams,
       routesPaths,
-      routesPathsTree,
     };
 
     startGenerator({
       output,
       routesConfig,
     });
+
     return output;
   } catch (e) {
     throw new Error('Generation failed', e as any);
@@ -45,6 +44,7 @@ export function startGenerator({ output, routesConfig }: StartGeneratorParams): 
       output,
       siblings: rootSiblingsRoutes,
       isLast: isItemLast(routesConfig, index),
+      isLocale: false,
     });
   });
   output.routesObjectTemplate += '}';

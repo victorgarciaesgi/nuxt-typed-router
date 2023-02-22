@@ -13,7 +13,7 @@ export interface RouteParamsDecl {
 export interface RoutePathsDecl {
   path: string;
   name?: string;
-  typePath: string;
+  isLocale: boolean;
 }
 
 export interface GeneratorOutput {

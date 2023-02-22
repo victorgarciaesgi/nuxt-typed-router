@@ -11,7 +11,7 @@ export function createi18nRouterFile() {
   import type {RoutesNamesList} from './__routes';
   ${returnIfTrue(
     experimentalPathCheck,
-    `import type {TypedPathParameter, RouteNameFromPath} from './__paths';`
+    `import type {TypedLocalePathParameter, RouteNameFromLocalePath} from './__paths';`
   )}
 
   export type I18nLocales = ${
@@ -28,9 +28,9 @@ export function createi18nRouterFile() {
     ${returnIfTrue(
       experimentalPathCheck && !router.strictToArgument,
       `<T extends string>(
-      to: TypedPathParameter<T>,
+      to: TypedLocalePathParameter<T>,
       locale?: I18nLocales | undefined
-    ) : [T] extends [never] ? string : Required<TypedRouteLocationRawFromName<RouteNameFromPath<T>, T>>;`
+    ) : [T] extends [never] ? string : Required<TypedRouteLocationRawFromName<RouteNameFromLocalePath<T>, T>>;`
     )}
   }
 
@@ -42,7 +42,7 @@ export function createi18nRouterFile() {
     <T extends RoutesNamesList, P extends string>(to: TypedRouteLocationRawFromName<T, P>, locale?: I18nLocales | undefined) : TypedRouteFromName<T>
     ${returnIfTrue(
       experimentalPathCheck && !router.strictToArgument,
-      ` <T extends string>(to: TypedPathParameter<T>, locale?: I18nLocales | undefined) : TypedRouteFromName<RouteNameFromPath<T>>;`
+      ` <T extends string>(to: TypedLocalePathParameter<T>, locale?: I18nLocales | undefined) : TypedRouteFromName<RouteNameFromLocalePath<T>>;`
     )}
   }
 

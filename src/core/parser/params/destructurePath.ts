@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import { RoutePathsDecl } from '../../../../src/types';
 
 const ExtractRegex = /(^(\/)?([^:/]+)?(:(\w+)(\(.+\)[*+]?)?(\?)?)*([^:/]+)?)+/g;
 export type DestructuredPath = {
@@ -7,17 +8,14 @@ export type DestructuredPath = {
   fullPath?: string;
   id: string;
   routeName: string;
+  isLocale: boolean;
 };
 
-export function destructurePath(
-  path: string,
-  fullPath: string,
-  routeName: string
-): DestructuredPath[] {
+export function destructurePath(path: string, route: RoutePathsDecl): DestructuredPath[] {
   let allPathElements: DestructuredPath[] = [];
   let _path = `${path}`;
   do {
-    const { pathElements, strippedPath } = extractPathElements(_path, fullPath, routeName);
+    const { pathElements, strippedPath } = extractPathElements(_path, route);
     allPathElements = allPathElements.concat(pathElements);
     _path = _path.replace(strippedPath, '');
   } while (_path.length);
@@ -25,7 +23,7 @@ export function destructurePath(
   return allPathElements;
 }
 
-function extractPathElements(partOfPath: string, fullPath: string, routeName: string) {
+function extractPathElements(partOfPath: string, route: RoutePathsDecl) {
   let pathElements: DestructuredPath[] = [];
   let strippedPath = '';
   let matches: RegExpExecArray | null;
@@ -34,20 +32,35 @@ function extractPathElements(partOfPath: string, fullPath: string, routeName: st
     const [_, mtch, slash, path1, paramDef, key, catchAll, optional, path2] = matches;
     if (mtch) {
       strippedPath = mtch;
+
+      const sharedProperties = {
+        fullPath: route.path,
+        routeName: route.name!,
+        isLocale: route.isLocale,
+      };
       if (path1) {
-        pathElements.push({ type: 'name', content: path1, fullPath, id: nanoid(6), routeName });
+        pathElements.push({
+          type: 'name',
+          content: path1,
+          id: nanoid(6),
+          ...sharedProperties,
+        });
       }
       if (key) {
         pathElements.push({
           type: catchAll ? 'catchAll' : optional ? 'optionalParam' : 'param',
           content: key,
-          fullPath,
           id: nanoid(6),
-          routeName,
+          ...sharedProperties,
         });
       }
       if (path2) {
-        pathElements.push({ type: 'name', content: path2, fullPath, id: nanoid(6), routeName });
+        pathElements.push({
+          type: 'name',
+          content: path2,
+          id: nanoid(6),
+          ...sharedProperties,
+        });
       }
     }
   }

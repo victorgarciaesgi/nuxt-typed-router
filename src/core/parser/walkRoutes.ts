@@ -4,7 +4,7 @@ import { GeneratorOutput, ParamDecl } from '../../types';
 import { isItemLast } from '../../utils';
 import { moduleOptionStore } from '../config';
 import { extractUnMatchingSiblings } from './extractChunks';
-import { extractRouteParamsFromPath, replaceParamsFromPathDecl } from './params';
+import { extractRouteParamsFromPath } from './params';
 
 type WalkThoughRoutesParams = {
   route: NuxtPage;
@@ -14,6 +14,7 @@ type WalkThoughRoutesParams = {
   previousParams?: ParamDecl[];
   output: GeneratorOutput;
   isLast: boolean;
+  isLocale: boolean;
 };
 
 function createKeyedName(route: NuxtPage, parent?: NuxtPage): string {
@@ -59,7 +60,7 @@ function hasi18nSibling(
 
 function modifyRoutePrefixDefaultIfI18n(route: NuxtPage) {
   const { i18n, i18nOptions } = moduleOptionStore;
-  if (i18n && route.name) {
+  if (i18n && route.name && i18nOptions?.strategy === 'prefix_and_default') {
     const separator = i18nOptions?.routesNameSeparator ?? '___';
     const routeDefaultRegXp = new RegExp(
       `([a-zA-Z-]+)${separator}[a-zA-Z]+${separator}default`,
@@ -82,68 +83,76 @@ export function walkThoughRoutes({
   previousParams,
   output,
   isLast,
+  isLocale,
 }: WalkThoughRoutesParams) {
   modifyRoutePrefixDefaultIfI18n(route);
 
+  const newPath = `${parent?.path ?? ''}${
+    route.path.startsWith('/') ? route.path : `/${route.path}`
+  }`;
+
+  const isLocaleRoute = isLocale || hasi18nSibling(output.routesPaths, route);
+
+  output.routesPaths.push({
+    name: route.name,
+    path: newPath,
+    isLocale: isLocaleRoute,
+  });
+
   // Filter routes added by i18n module
-  if (!hasi18nSibling(output.routesPaths, route)) {
-    const newPath = `${parent?.path ?? ''}${
-      route.path.startsWith('/') ? route.path : `/${route.path}`
-    }`;
-    output.routesPaths.push({
-      name: route.name,
-      typePath: replaceParamsFromPathDecl(newPath),
-      path: newPath,
-    });
+  if (route.children?.length) {
+    // - Route with children
 
-    if (route.children?.length) {
-      // - Route with children
+    let childrenChunks = route.children;
+    let nameKey = createKeyedName(route, parent);
+    const allRouteParams = extractRouteParamsFromPath(route.path, false, previousParams);
 
-      let childrenChunks = route.children;
-      let nameKey = createKeyedName(route, parent);
-      const allRouteParams = extractRouteParamsFromPath(route.path, false, previousParams);
+    const newRoute = { ...route, name: nameKey, path: newPath } satisfies NuxtPage;
 
-      const newRoute = { ...route, name: nameKey, path: newPath } satisfies NuxtPage;
-
+    if (!isLocaleRoute) {
       // Output
       output.routesObjectTemplate += `${nameKey}:{`;
       output.routesDeclTemplate += `"${nameKey}":{`;
+    }
 
-      // Recursive walk though children
-      childrenChunks?.map((routeConfig, index) =>
-        walkThoughRoutes({
-          route: routeConfig,
-          level: level + 1,
-          siblings: extractUnMatchingSiblings(route, siblings),
-          parent: newRoute,
-          previousParams: allRouteParams,
-          output,
-          isLast: isItemLast(childrenChunks, index),
-        })
-      );
-      // Output
+    // Recursive walk though children
+    childrenChunks?.map((routeConfig, index) =>
+      walkThoughRoutes({
+        route: routeConfig,
+        level: level + 1,
+        siblings: extractUnMatchingSiblings(route, siblings),
+        parent: newRoute,
+        previousParams: allRouteParams,
+        output,
+        isLast: isItemLast(childrenChunks, index),
+        isLocale: isLocaleRoute,
+      })
+    );
+    if (!isLocaleRoute) {
       output.routesObjectTemplate += '},';
       output.routesDeclTemplate += `}${isLast ? '' : ','}`;
-    } else if (route.name) {
-      // - Single route
-
-      let keyName = createNameKeyFromFullName(route, level, parent?.name);
-
-      output.routesObjectTemplate += `'${keyName}': '${route.name}' as const,`;
-      output.routesDeclTemplate += `"${keyName}": "${route.name}"${isLast ? '' : ','}`;
-      output.routesList.push(route.name);
-
-      // Params
-      const isIndexFileForRouting = route.path === '';
-      const allRouteParams = extractRouteParamsFromPath(
-        route.path,
-        isIndexFileForRouting,
-        previousParams
-      );
-      output.routesParams.push({
-        name: route.name,
-        params: allRouteParams,
-      });
     }
+
+    // Output
+  } else if (route.name && !isLocaleRoute) {
+    // - Single route
+
+    let keyName = createNameKeyFromFullName(route, level, parent?.name);
+
+    output.routesObjectTemplate += `'${keyName}': '${route.name}' as const,`;
+    output.routesDeclTemplate += `"${keyName}": "${route.name}"${isLast ? '' : ','}`;
+    output.routesList.push(route.name);
+
+    // Params
+    const isIndexFileForRouting = route.path === '';
+    const allRouteParams = extractRouteParamsFromPath(
+      route.path,
+      isIndexFileForRouting,
+      previousParams
+    );
+    output.routesParams.push({
+      name: route.name,
+      params: allRouteParams,
+    });
   }
 }
