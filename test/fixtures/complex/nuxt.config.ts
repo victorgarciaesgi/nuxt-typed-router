@@ -32,7 +32,7 @@ export default defineNuxtConfig({
       const { resolve } = createResolver(import.meta.url);
 
       routes.push({
-        file: resolve('./src/components/testNuxtLink.vue'),
+        file: resolve('./src/components/testModule.vue'),
         path: '/testExtend/:id',
         name: 'test-extend',
       });

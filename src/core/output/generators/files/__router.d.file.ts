@@ -3,7 +3,7 @@ import { moduleOptionStore } from '../../../config';
 
 export function createTypedRouterFile() {
   const strictOptions = moduleOptionStore.getResolvedStrictOptions();
-  const { i18n } = moduleOptionStore;
+  const { i18n, experimentalPathCheck } = moduleOptionStore;
 
   return /* typescript */ `
   
@@ -21,8 +21,12 @@ export function createTypedRouterFile() {
     RoutesNamedLocationsResolved,
     RoutesNamesList,
     RoutesParamsRecord,
-    RoutesParamsRecordResolved
+    RoutesParamsRecordResolved,
   } from './__routes';
+  ${returnIfTrue(
+    experimentalPathCheck,
+    `import type {TypedPathParameter, RouteNameFromPath} from './__paths';`
+  )}
   import type { HasOneRequiredParameter } from './__types_utils';
 
 
@@ -32,28 +36,28 @@ export function createTypedRouterFile() {
    * RouteLocationRaw with discrimanated name and params properties 
    * {@link RouteLocationRaw}
    * */
-  export type TypedRouteLocationRaw =
+  export type TypedRouteLocationRaw<T extends string = string> =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations)
-  ${returnIfFalse(strictOptions.router.strictToArgument, '| string')}
+  | Omit<RouteLocationPathRaw, 'path'>
   ${returnIfTrue(
-    strictOptions.router.strictRouteLocation,
-    `| Omit<RouteLocationPathRaw, 'path'>`,
-    '| RouteLocationPathRaw'
+    experimentalPathCheck && !strictOptions.router.strictRouteLocation,
+    `& {path?: TypedPathParameter<T>}`
   )}
+  ${returnIfTrue(!experimentalPathCheck && !strictOptions.router.strictToArgument, ` | string`)}
   ;
   
 
   /**
    * Alternative version of {@link TypedRouteLocationRaw} but with a name generic
    */
-  export type TypedRouteLocationRawFromName<T extends RoutesNamesList> =
+  export type TypedRouteLocationRawFromName<T extends RoutesNamesList, P extends string = string> =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
-  ${returnIfFalse(strictOptions.router.strictToArgument, '| string')}
+  | Omit<RouteLocationPathRaw, 'path'>
   ${returnIfTrue(
-    strictOptions.router.strictRouteLocation,
-    `| Omit<RouteLocationPathRaw, 'path'>`,
-    '| RouteLocationPathRaw'
+    experimentalPathCheck && !strictOptions.router.strictRouteLocation,
+    `& {path?: TypedPathParameter<P>}`
   )}
+  ${returnIfTrue(!experimentalPathCheck && !strictOptions.router.strictToArgument, ` | string`)}
 
   /** 
    * Generic providing inference and dynamic inclusion of \`params\` property
@@ -95,24 +99,36 @@ export function createTypedRouterFile() {
      * @param to - Raw route location to resolve
      * @param currentLocation - Optional current location to resolve against
      */
-    resolve<T extends RoutesNamesList>(
-      to: TypedRouteLocationRawFromName<T>,
-      currentLocation?: TypedRoute
+    resolve<T extends RoutesNamesList, P extends string>(
+      to: TypedRouteLocationRawFromName<T, P>,
+      currentLocation?: TypedRouteLocationRaw
     ): TypedRouteLocationFromName<T>;
+    ${returnIfTrue(
+      experimentalPathCheck && !strictOptions.router.strictToArgument,
+      `resolve<T extends string>(to: TypedPathParameter<T>, currentLocation?: TypedRouteLocationRaw): TypedRouteLocationFromName<RouteNameFromPath<T>>;`
+    )}
     /**
      * Programmatically navigate to a new URL by pushing an entry in the history
      * stack.
      *
      * @param to - Route location to navigate to
      */
-    push(to: TypedRouteLocationRaw): Promise<NavigationFailure | void | undefined>;
+    push<T extends RoutesNamesList, P extends string>(to: TypedRouteLocationRawFromName<T, P>): Promise<NavigationFailure | void | undefined>;
+    ${returnIfTrue(
+      experimentalPathCheck && !strictOptions.router.strictToArgument,
+      `push<T extends string>(to: TypedPathParameter<T>): Promise<NavigationFailure | void | undefined>;`
+    )}
     /**
      * Programmatically navigate to a new URL by replacing the current entry in
      * the history stack.
      *
      * @param to - Route location to navigate to
      */
-    replace(to: TypedRouteLocationRaw): Promise<NavigationFailure | void | undefined>;
+    replace<T extends RoutesNamesList, P extends string>(to: TypedRouteLocationRawFromName<T, P>): Promise<NavigationFailure | void | undefined>;
+    ${returnIfTrue(
+      experimentalPathCheck && !strictOptions.router.strictToArgument,
+      `replace<T extends string>(to: TypedPathParameter<T>): Promise<NavigationFailure | void | undefined>;`
+    )}
   }
 
 

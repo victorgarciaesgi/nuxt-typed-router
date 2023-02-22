@@ -14,7 +14,6 @@ Files to update for testing:
 - fixtures/simple/tests/*.ts
 - fixtures/complex/components/*.vue
 - fixtures/complex/tests/*.ts
-- unit/types/*.ts
 
 
 Cannot use pnpm workspaces because of a Nuxt bug with workspaces

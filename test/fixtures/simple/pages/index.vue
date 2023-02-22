@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from '#app';
 // const route = useRoute('user-foo-bar');
 const router = useRouter();
 

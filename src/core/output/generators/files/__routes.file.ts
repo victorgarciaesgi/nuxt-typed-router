@@ -1,4 +1,4 @@
-import { RouteParamsDecl } from '../../../../types';
+import { GeneratorOutput } from '../../../../types';
 import {
   createRoutesNamedLocationsExport,
   createRoutesNamedLocationsResolvedExport,
@@ -6,27 +6,33 @@ import {
   createRoutesParamsRecordExport,
   createRoutesParamsRecordResolvedExport,
 } from '../blocks';
+
 export function createRoutesTypesFile({
   routesList,
   routesObjectTemplate,
   routesDeclTemplate,
   routesParams,
-}: {
-  routesList: string[];
-  routesObjectTemplate: string;
-  routesDeclTemplate: string;
-  routesParams: RouteParamsDecl[];
-}): string {
+  routesPaths,
+}: GeneratorOutput): string {
+  const filteredRoutesList = routesList.filter(
+    (routeName, index) => routesList.indexOf(routeName) === index
+  );
+
+  const filteredRoutesParams = routesParams.filter(
+    (route, index) => routesParams.findIndex((r) => route.name === r.name) === index
+  );
+
   return /* typescript */ `
-    ${createRoutesNamesListExport(routesList)}
+    ${createRoutesNamesListExport(filteredRoutesList)}
+    export type WithoutBracket<T extends string> = T extends \`:\${string}\` ? never : T;
 
-    ${createRoutesParamsRecordExport(routesParams)}
+    ${createRoutesParamsRecordExport(filteredRoutesParams)}
     
-    ${createRoutesParamsRecordResolvedExport(routesParams)}
+    ${createRoutesParamsRecordResolvedExport(filteredRoutesParams)}
 
-    ${createRoutesNamedLocationsExport(routesParams)}
+    ${createRoutesNamedLocationsExport(filteredRoutesParams)}
 
-    ${createRoutesNamedLocationsResolvedExport(routesParams)}
+    ${createRoutesNamedLocationsResolvedExport(filteredRoutesParams)}
 
     export type RoutesNamesListRecord = ${routesDeclTemplate};
 

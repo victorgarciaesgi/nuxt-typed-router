@@ -1,21 +1,20 @@
 import NuxtTypedRouter from '..';
 
 export default defineNuxtConfig({
-  modules: [NuxtTypedRouter, '@nuxtjs/i18n'],
+  modules: [NuxtTypedRouter, '@nuxtjs/i18n', '@nuxt/devtools'],
   nuxtTypedRouter: {
     plugin: true,
-    strict: true,
+    experimentalPathCheck: true,
   },
+  imports: {},
   srcDir: './src',
   i18n: {
-    // add `vueI18n` option to `@nuxtjs/i18n` module options
     locales: ['en', 'fr'],
     defaultLocale: 'en',
     strategy: 'prefix',
     vueI18n: {
       legacy: false,
       locale: 'en',
-
       messages: {
         en: {
           welcome: 'Welcome',

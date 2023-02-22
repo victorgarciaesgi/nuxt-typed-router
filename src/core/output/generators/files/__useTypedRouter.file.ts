@@ -1,4 +1,4 @@
-export function createUseTypedRouterFile(routesDeclTemplate: string): string {
+export function createUseTypedRouterFile(): string {
   return /* typescript */ `
   
   import { useRouter as defaultRouter } from '#app';

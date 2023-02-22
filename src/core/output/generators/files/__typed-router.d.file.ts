@@ -1,21 +1,29 @@
-import { returnIfTrue, returnIfFalse } from '../../../../utils';
+import { returnIfTrue } from '../../../../utils';
 import { moduleOptionStore } from '../../../config';
 
 export function createTypedRouterDefinitionFile(): string {
-  const { plugin, autoImport, i18n } = moduleOptionStore;
   const strictOptions = moduleOptionStore.getResolvedStrictOptions();
+  const { plugin, autoImport, i18n, experimentalPathCheck } = moduleOptionStore;
 
   return /* typescript */ `
     
-    import type { NuxtLinkProps } from '#app';
-    import type { DefineComponent } from 'vue';
+    import type { NuxtLinkProps, PageMeta } from '#app';
+    import NuxtLink from 'nuxt/dist/app/components/nuxt-link';
     import type { RouteLocationRaw, RouteLocationPathRaw } from 'vue-router';
-    import type { RoutesNamesList, RoutesNamedLocations, RoutesNamesListRecord } from './__routes';
-    import type {TypedRouter, TypedRoute} from './__router';
+    import type { RoutesNamedLocations, RoutesNamesListRecord, RoutesNamesList } from './__routes';
+    import type {TypedRouter, TypedRoute, TypedRouteLocationRawFromName, TypedLocationAsRelativeRaw} from './__router';
     import { useRoute as _useRoute } from './__useTypedRoute';
     import { useRouter as _useRouter } from './__useTypedRouter';
     import { navigateTo as _navigateTo } from './__navigateTo';
-    import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from './__i18n-router';
+    ${returnIfTrue(
+      i18n,
+      `import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from './__i18n-router';`
+    )}
+
+    import {definePageMeta as _definePageMeta} from './__definePageMeta';
+
+    ${returnIfTrue(experimentalPathCheck, `import type {TypedPathParameter} from './__paths';`)}
+
 
     declare global {
  
@@ -25,6 +33,8 @@ export function createTypedRouterDefinitionFile(): string {
             const useRoute: typeof _useRoute;
             const useRouter: typeof _useRouter;
             const navigateTo: typeof _navigateTo;
+            const definePageMeta: typeof _definePageMeta;
+            
             ${returnIfTrue(
               i18n,
               /* typescript */ `
@@ -36,35 +46,36 @@ export function createTypedRouterDefinitionFile(): string {
       )}
     }
     
-    type TypedNuxtLinkProps = Omit<NuxtLinkProps, 'to'> & {
+    type TypedNuxtLinkProps<T extends string> = Omit<NuxtLinkProps, 'to'> &
+     {
       to: 
-      Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations
-      ${returnIfFalse(strictOptions.NuxtLink.strictToArgument, '| string')}
-      ${returnIfTrue(
-        strictOptions.NuxtLink.strictRouteLocation,
-        `| Omit<RouteLocationPathRaw, 'path'>`,
-        '| RouteLocationPathRaw'
-      )}
+        | Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations
+        | Omit<RouteLocationPathRaw, 'path'>
+        ${returnIfTrue(
+          experimentalPathCheck && !strictOptions.NuxtLink.strictRouteLocation,
+          `& {path?: TypedPathParameter<T>}`
+        )}
+        ${returnIfTrue(
+          !experimentalPathCheck && !strictOptions.NuxtLink.strictToArgument,
+          ` | string`
+        )}
+        ${returnIfTrue(
+          experimentalPathCheck && !strictOptions.NuxtLink.strictToArgument,
+          ` | TypedPathParameter<T>`
+        )}
+      }
+    
+        
+          
+    export type TypedNuxtLink = new <P extends string>(props: TypedNuxtLinkProps<P>) => Omit<
+      typeof NuxtLink,
+      '$props'
+    > & {
+      $props: TypedNuxtLinkProps<P>;
     };
     
-    export type TypedNuxtLink = DefineComponent<
-      TypedNuxtLinkProps,
-      {},
-      {},
-      import('vue').ComputedOptions,
-      import('vue').MethodOptions,
-      import('vue').ComponentOptionsMixin,
-      import('vue').ComponentOptionsMixin,
-      {},
-      string,
-      import('vue').VNodeProps &
-        import('vue').AllowedComponentProps &
-        import('vue').ComponentCustomProps,
-      Readonly<TypedNuxtLinkProps>,
-      {}
-    >;
-    
-    declare module 'vue' {
+    // Declare runtime-core instead of vue for compatibility issues with pnpm
+    declare module '@vue/runtime-core' {
       interface GlobalComponents {
         NuxtLink: TypedNuxtLink;
       }

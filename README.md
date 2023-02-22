@@ -16,22 +16,20 @@
 [![npm downloads][npm-total-downloads-src]][npm-downloads-href]
 <img src='https://img.shields.io/npm/l/nuxt-typed-router.svg'>
 
-## Provide a type safe router to Nuxt with auto-generated typed definitions for route names and autocompletion for route params
+## Provide a type safe router to Nuxt with auto-generated typed definitions for route path, name and params
 
-- `NuxtLink` route autocomplete and params type-check 
-- `useRouter`, `useRoute` and `navigateTo` route autocomplete and params type-check
+- Supports all programmatic navigation utils (`NuxtLink`, `useRouter`, `navigateTo`, `useRoute`, `useLocalePath`, etc...)
 - Supports optional params and catchAll routes
+- Autocompletes routes paths, names and params
+- Throw error if route path is invalid
 - Out of the box `i18n` support
 - Supports routes extended by config and modules
-
-> A beta version with `path` autocomplete is available in version `v3.0.0-beta.0`
-> https://github.com/victorgarciaesgi/nuxt-typed-router/releases/tag/v3.0.0-beta.0
 
 <br/>
 
 <br/>
 <p align="center">
-  <img src="https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/.github/images/nuxt-router.gif?raw=true"/>
+  <img src="https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/.github/images/nuxt-typed-router.gif?raw=true"/>
 </p>
 <br/>
 

@@ -10,7 +10,10 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["node", "vitest/globals"]
+    "types": ["node", "vitest/globals"],
+    "paths": {
+      "$$/*": ["./*"]
+    }
   },
   "include": ["./**/*.ts", "./fixtures/**/.nuxt/**/*.ts", "./**/*.tsx"]
 }

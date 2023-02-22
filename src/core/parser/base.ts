@@ -1,5 +1,5 @@
 import { NuxtPage } from '@nuxt/schema';
-import { GeneratorOutput, RouteParamsDecl } from '../../types';
+import { GeneratorOutput, RouteParamsDecl, RoutePathsDecl } from '../../types';
 import { isItemLast } from '../../utils';
 import { walkThoughRoutes } from './walkRoutes';
 
@@ -9,16 +9,24 @@ export function constructRouteMap(routesConfig: NuxtPage[]): GeneratorOutput {
     let routesDeclTemplate = '{';
     let routesList: string[] = [];
     let routesParams: RouteParamsDecl[] = [];
+    let routesPaths: RoutePathsDecl[] = [];
 
-    const output = { routesObjectTemplate, routesDeclTemplate, routesList, routesParams };
+    const output = {
+      routesObjectTemplate,
+      routesDeclTemplate,
+      routesList,
+      routesParams,
+      routesPaths,
+    };
 
     startGenerator({
       output,
       routesConfig,
     });
+
     return output;
   } catch (e) {
-    throw new Error('Generation failed');
+    throw new Error('Generation failed', e as any);
   }
 }
 
@@ -36,6 +44,7 @@ export function startGenerator({ output, routesConfig }: StartGeneratorParams): 
       output,
       siblings: rootSiblingsRoutes,
       isLast: isItemLast(routesConfig, index),
+      isLocale: false,
     });
   });
   output.routesObjectTemplate += '}';

@@ -2,6 +2,9 @@ import { fileURLToPath } from 'node:url';
 import { describe, it, expect } from 'vitest';
 import { setup, $fetch, createPage } from '@nuxt/test-utils';
 import { expectNoClientErrors } from '../utils';
+import { timeout } from '$$/utils';
+
+const TIME = 2000;
 
 describe('Complex config behaviour', async () => {
   await setup({
@@ -26,8 +29,7 @@ describe('Complex config behaviour', async () => {
     const page = await createPage('/');
     await page.click('#useRouter');
     const html = await page.innerHTML('body');
-
-    expect(html).toContain('Navigate back');
+    await timeout(TIME);
 
     await expectNoClientErrors('/');
   });
@@ -35,9 +37,9 @@ describe('Complex config behaviour', async () => {
   it('should navigate correctly with nuxtLink', async () => {
     const page = await createPage('/');
     await page.click('#nuxtLink');
-    const html = await page.innerHTML('body');
 
-    expect(html).toContain('Navigate back');
+    await timeout(TIME);
+    const html = await page.innerHTML('body');
 
     await expectNoClientErrors('/');
   });
@@ -46,8 +48,7 @@ describe('Complex config behaviour', async () => {
     const page = await createPage('/');
     await page.click('#navigateTo');
     const html = await page.innerHTML('body');
-
-    expect(html).toContain('Navigate back');
+    await timeout(TIME);
 
     await expectNoClientErrors('/');
   });

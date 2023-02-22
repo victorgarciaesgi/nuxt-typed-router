@@ -1,20 +1,22 @@
 import { defu } from 'defu';
+import { NuxtI18nOptions } from '@nuxtjs/i18n';
 import { ModuleOptions, StrictOptions } from '../../types';
 
 interface CustomNuxtConfigOptions {
   autoImport?: boolean;
   rootDir?: string;
   i18n?: boolean;
-  i18nLocales?: string[];
+  i18nOptions?: NuxtI18nOptions | null;
 }
 
 class ModuleOptionsStore {
   plugin: boolean = false;
   strict: boolean | StrictOptions = false;
+  experimentalPathCheck: boolean = true;
   autoImport: boolean = false;
   rootDir: string = '';
   i18n: boolean = false;
-  i18nLocales: string[] = [];
+  i18nOptions: NuxtI18nOptions | null = null;
 
   updateOptions(options: ModuleOptions & CustomNuxtConfigOptions) {
     if (options.plugin != null) this.plugin = options.plugin;
@@ -22,7 +24,9 @@ class ModuleOptionsStore {
     if (options.autoImport != null) this.autoImport = options.autoImport;
     if (options.rootDir != null) this.rootDir = options.rootDir;
     if (options.i18n != null) this.i18n = options.i18n;
-    if (options.i18nLocales != null) this.i18nLocales = options.i18nLocales;
+    if (options.i18nOptions != null) this.i18nOptions = options.i18nOptions;
+    if (options.experimentalPathCheck != null)
+      this.experimentalPathCheck = options.experimentalPathCheck;
   }
 
   getResolvedStrictOptions(): Required<StrictOptions> {
