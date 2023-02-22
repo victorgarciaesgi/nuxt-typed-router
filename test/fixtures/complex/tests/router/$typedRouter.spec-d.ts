@@ -59,9 +59,7 @@ $typedRouter.push({ name: 'test-module' });
 
 // * --- Path navigation
 // @ts-expect-error
-$typedRouter.push('/fooooooooooo');
-// @ts-expect-error
-$typedRouter.push({ path: '/foo' });
+$typedRouter.push('/admin/:id/foo');
 
 // $ ----- Should be valid ✅
 
@@ -69,8 +67,8 @@ $typedRouter.push({ name: 'index' });
 $typedRouter.push({ name: 'user-id', params: { id: 1 }, hash: 'baz' });
 $typedRouter.push({ name: 'user-foo-bar', params: { foo: 'bar' }, force: true });
 $typedRouter.push({ name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } });
-$typedRouter.push({ name: 'user-slug', params: { slug: ['foo'] } });
-$typedRouter.push({ name: 'user-slug', params: { slug: [1, 2, 3] } });
+$typedRouter.push({ name: 'user-catch-slug', params: { slug: ['foo'] } });
+$typedRouter.push({ name: 'user-catch-slug', params: { slug: [1, 2, 3] } });
 $typedRouter.push({ name: 'user-one-foo-two', params: { one: 1, two: '2' } });
 $typedRouter.push({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } });
 $typedRouter.push({ name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } });

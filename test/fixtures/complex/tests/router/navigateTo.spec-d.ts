@@ -54,25 +54,73 @@ navigateTo({ name: 'test-extend' });
 // @ts-expect-error
 navigateTo({ name: 'test-module' });
 
-// * --- Path navigation
-// @ts-expect-error
-navigateTo('/fooooooooooo');
-// @ts-expect-error
-navigateTo({ path: '/foo' });
-
 // $ ----- Should be valid ✅
 
 navigateTo({ name: 'index' }, { external: true });
 navigateTo({ name: 'user-id', params: { id: 1 }, hash: 'baz' });
 navigateTo({ name: 'user-foo-bar', params: { foo: 'bar' }, force: true });
 navigateTo({ name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } });
-navigateTo({ name: 'user-slug', params: { slug: ['foo'] } });
-navigateTo({ name: 'user-slug', params: { slug: [1, 2, 3] } });
+navigateTo({ name: 'user-catch-slug', params: { slug: ['foo'] } });
+navigateTo({ name: 'user-catch-slug', params: { slug: [1, 2, 3] } });
 navigateTo({ name: 'user-one-foo-two', params: { one: 1, two: '2' } });
 navigateTo({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } });
 navigateTo({ name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } });
 navigateTo({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } });
 
+// --- Path navigation
+
+// ! ------ Should Error ❌
+
+// @ts-expect-error
+assertType(navigateTo(''));
+// @ts-expect-error
+assertType(navigateTo('/admin '));
+// @ts-expect-error
+assertType(navigateTo('/admin/ /'));
+// @ts-expect-error
+assertType(navigateTo(`/ / // / / eefzr`));
+// @ts-expect-error
+assertType(navigateTo('/elzhlzehflzhef'));
+// @ts-expect-error
+assertType(navigateTo('/admin/foo/bar'));
+// @ts-expect-error
+assertType(navigateTo('/admin/foo/bar/baz'));
+// @ts-expect-error
+assertType(navigateTo(`/admin/${id}/action-bar/taz?query`));
+// @ts-expect-error
+assertType(navigateTo('/admin/panel/3O9393/bar'));
+// @ts-expect-error
+assertType(navigateTo('/admin/foo/ profile/ezfje'));
+// @ts-expect-error
+assertType(navigateTo('/admin/3U93U/settings/baz'));
+// @ts-expect-error
+assertType(navigateTo('/admin/panel/?fjzk'));
+// @ts-expect-error
+assertType(navigateTo('/admin/panel/938783/ '));
+// @ts-expect-error
+assertType(navigateTo('/user/3887/foo/bar/'));
+// @ts-expect-error
+assertType(navigateTo('/admin/:id//'));
+
+// $ ----- Should be valid ✅
+
+const id = '38789803';
+assertType(navigateTo('/'));
+assertType(navigateTo('/baguette'));
+assertType(navigateTo('/admin/foo'));
+assertType(navigateTo('/admin/foo/'));
+assertType(navigateTo(`/admin/${id}/action-bar#hash`));
+assertType(navigateTo(`/admin/${id}/action-bar?query=bar`));
+assertType(navigateTo('/admin/foo/profile/'));
+assertType(navigateTo(`/admin/${id}/settings`));
+assertType(navigateTo('/admin/panel/'));
+assertType(navigateTo('/admin/panel/938783/'));
+assertType(navigateTo('/user/38873-'));
+assertType(navigateTo('/user/38673/bar/#hash'));
+assertType(navigateTo('/user/ç9737/foo/articles?baz=foo'));
+assertType(navigateTo('/user/catch/1/2'));
+assertType(navigateTo('/user/test-'));
+assertType(navigateTo('/user'));
 // - Resolved routes
 
 // *  index.vue
@@ -127,14 +175,14 @@ test('', async () => {
 // * --- [...slug].vue
 test('', async () => {
   const resolvedNavigateToRoute = await navigateTo({
-    name: 'user-slug',
+    name: 'user-catch-slug',
     params: {
       slug: [1, 2, 3],
     },
   });
 
   if (resolvedNavigateToRoute && !(resolvedNavigateToRoute instanceof Error)) {
-    assertType<'user-slug'>(resolvedNavigateToRoute.name);
+    assertType<'user-catch-slug'>(resolvedNavigateToRoute.name);
     assertType<{
       slug: string[];
     }>(resolvedNavigateToRoute.params);

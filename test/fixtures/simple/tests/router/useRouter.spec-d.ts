@@ -77,6 +77,7 @@ router.push({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' }
 router.replace({ name: 'index' });
 router.replace({ name: 'user-id', params: { id: 1 }, hash: 'baz' });
 router.replace('/admin');
+
 // --- Path navigation
 
 // ! ------ Should Error ❌

@@ -29,7 +29,7 @@
 
 <br/>
 <p align="center">
-  <img src="https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/.github/images/nuxt-router.gif?raw=true"/>
+  <img src="https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/.github/images/nuxt-typed-router.gif?raw=true"/>
 </p>
 <br/>
 

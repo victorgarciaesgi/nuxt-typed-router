@@ -48,9 +48,9 @@ if (route.name === 'user-foo-bar') {
 }
 
 // * --- [...slug].vue
-if (route.name === 'user-slug') {
-  assertType<TypedRouteFromName<'user-slug'>>(route);
-  assertType<'user-slug'>(route.name);
+if (route.name === 'user-catch-slug') {
+  assertType<TypedRouteFromName<'user-catch-slug'>>(route);
+  assertType<'user-catch-slug'>(route.name);
   assertType<{
     slug: string[];
   }>(route.params);

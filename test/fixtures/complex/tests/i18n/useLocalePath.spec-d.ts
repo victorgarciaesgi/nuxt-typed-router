@@ -93,8 +93,8 @@ router.push(localePath({ name: 'index' }));
 router.push(localePath({ name: 'user-id', params: { id: 1 }, hash: 'baz' }, 'en'));
 router.push(localePath({ name: 'user-foo-bar', params: { foo: 'bar' }, force: true }));
 router.push(localePath({ name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } }, 'fr'));
-router.push(localePath({ name: 'user-slug', params: { slug: ['foo'] } }));
-router.push(localePath({ name: 'user-slug', params: { slug: [1, 2, 3] } }, 'en'));
+router.push(localePath({ name: 'user-catch-slug', params: { slug: ['foo'] } }));
+router.push(localePath({ name: 'user-catch-slug', params: { slug: [1, 2, 3] } }, 'en'));
 router.push(localePath({ name: 'user-one-foo-two', params: { one: 1, two: '2' } }));
 router.push(localePath({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } }));
 router.push(localePath({ name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } }));
@@ -102,6 +102,55 @@ router.push(localePath({ name: 'test-module', params: { foo: 1 }, query: { foo: 
 
 router.replace(localePath({ name: 'index' }));
 router.replace(localePath({ name: 'user-id', params: { id: 1 }, hash: 'baz' }));
+
+// --- Path navigation
+
+// ! ------ Should Error ❌
+
+// @ts-expect-error
+assertType(router.push(localePath('')));
+// @ts-expect-error
+assertType(router.push(localePath('/admin ')));
+// @ts-expect-error
+assertType(router.push(localePath('/admin/ /')));
+// @ts-expect-error
+assertType(router.push(localePath(`/ / // / / eefzr`)));
+// @ts-expect-error
+assertType(router.push(localePath('/elzhlzehflzhef')));
+// @ts-expect-error
+assertType(router.push(localePath('/admin/foo/bar')));
+// @ts-expect-error
+assertType(router.push(localePath('/admin/foo/bar/baz')));
+// @ts-expect-error
+assertType(router.push(localePath(`/admin/${id}/action-bar/taz?query`)));
+// @ts-expect-error
+assertType(router.push(localePath('/admin/panel/3O9393/bar')));
+// @ts-expect-error
+assertType(router.push(localePath('/admin/foo/ profile/ezfje')));
+// @ts-expect-error
+assertType(router.push(localePath('/admin/3U93U/settings/baz')));
+// @ts-expect-error
+assertType(router.push(localePath('/admin/panel/?fjzk')));
+
+// $ ----- Should be valid ✅
+
+const id = '38789803';
+assertType(router.push(localePath('/')));
+assertType(router.push(localePath('/baguette')));
+assertType(router.push(localePath('/admin/foo')));
+assertType(router.push(localePath('/admin/foo/')));
+assertType(router.push(localePath(`/admin/${id}/action-bar#hash`)));
+assertType(router.push(localePath(`/admin/${id}/action-bar?query=bar`)));
+assertType(router.push(localePath('/admin/foo/profile/')));
+assertType(router.push(localePath(`/admin/${id}/settings`)));
+assertType(router.push(localePath('/admin/panel/')));
+assertType(router.push(localePath('/admin/panel/938783/')));
+assertType(router.push(localePath('/user/38873-')));
+assertType(router.push(localePath('/user/38673/bar/#hash')));
+assertType(router.push(localePath('/user/ç9737/foo/articles?baz=foo')));
+assertType(router.push(localePath('/user/catch/1/2')));
+assertType(router.push(localePath('/user/test-')));
+assertType(router.push(localePath('/user')));
 
 // * Resolved routes
 
@@ -180,9 +229,11 @@ assertType(
     to: localePath({ name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } }, 'fr'),
   })
 );
-assertType(new NuxtLink({ to: localePath({ name: 'user-slug', params: { slug: ['foo'] } }) }));
 assertType(
-  new NuxtLink({ to: localePath({ name: 'user-slug', params: { slug: [1, 2, 3] } }, 'en') })
+  new NuxtLink({ to: localePath({ name: 'user-catch-slug', params: { slug: ['foo'] } }) })
+);
+assertType(
+  new NuxtLink({ to: localePath({ name: 'user-catch-slug', params: { slug: [1, 2, 3] } }, 'en') })
 );
 assertType(
   new NuxtLink({ to: localePath({ name: 'user-one-foo-two', params: { one: 1, two: '2' } }) })
@@ -200,6 +251,14 @@ assertType(
 assertType(
   new NuxtLink({
     to: localePath({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } }),
+  })
+);
+
+// * with path
+
+assertType(
+  new NuxtLink({
+    to: localePath('/user'),
   })
 );
 
@@ -231,9 +290,9 @@ navigateTo(localePath({ name: 'user-foo-bar', params: { bar: 1 } }));
 
 // * --- [...slug].vue
 // @ts-expect-error
-navigateTo(localePath({ name: 'user-slug' }));
+navigateTo(localePath({ name: 'user-catch-slug' }));
 // @ts-expect-error
-navigateTo(localePath({ name: 'user-slug', params: { slug: 1 } }));
+navigateTo(localePath({ name: 'user-catch-slug', params: { slug: 1 } }));
 
 // * --- [one]-foo-[two].vue
 // @ts-expect-error
@@ -261,12 +320,14 @@ navigateTo(localePath({ name: 'index' }));
 navigateTo(localePath({ name: 'user-id', params: { id: 1 }, hash: 'baz' }, 'en'));
 navigateTo(localePath({ name: 'user-foo-bar', params: { foo: 'bar' }, force: true }));
 navigateTo(localePath({ name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } }, 'fr'));
-navigateTo(localePath({ name: 'user-slug', params: { slug: ['foo'] } }));
-navigateTo(localePath({ name: 'user-slug', params: { slug: [1, 2, 3] } }, 'en'));
+navigateTo(localePath({ name: 'user-catch-slug', params: { slug: ['foo'] } }));
+navigateTo(localePath({ name: 'user-catch-slug', params: { slug: [1, 2, 3] } }, 'en'));
 navigateTo(localePath({ name: 'user-one-foo-two', params: { one: 1, two: '2' } }));
 navigateTo(localePath({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } }));
 navigateTo(localePath({ name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } }));
 navigateTo(localePath({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } }));
+
+navigateTo(localePath('/user'));
 
 // * --- Resolved types added by modules
 

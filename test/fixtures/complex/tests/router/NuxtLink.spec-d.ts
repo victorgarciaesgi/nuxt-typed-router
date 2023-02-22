@@ -51,11 +51,54 @@ assertType(new NuxtLink({ to: { name: 'test-extend' } }));
 // @ts-expect-error
 assertType(new NuxtLink({ to: { name: 'test-module' } }));
 
-// * --- Path navigation
+// --- Path navigation
+
+// ! ------ Should Error ❌
+
 // @ts-expect-error
-assertType(new NuxtLink({ to: '/goooo' }));
+assertType(new NuxtLink({ to: '' }));
 // @ts-expect-error
-assertType(new NuxtLink({ to: { path: '/fooooo' } }));
+assertType(new NuxtLink({ to: '/admin ' }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: '/admin/ /' }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: `/ / // / / eefzr` }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: '/elzhlzehflzhef' }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: '/admin/foo/bar' }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: '/admin/foo/bar/baz' }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: `/admin/${id}/action-bar/taz?query` }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: '/admin/panel/3O9393/bar' }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: '/admin/foo/ profile/ezfje' }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: '/admin/3U93U/settings/baz' }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: '/admin/panel/?fjzk' }));
+
+// $ ----- Should be valid ✅
+
+const id = '38789803';
+assertType(new NuxtLink({ to: '/' }));
+assertType(new NuxtLink({ to: '/baguette' }));
+assertType(new NuxtLink({ to: '/admin/foo' }));
+assertType(new NuxtLink({ to: '/admin/foo/' }));
+assertType(new NuxtLink({ to: `/admin/${id}/action-bar#hash` }));
+assertType(new NuxtLink({ to: `/admin/${id}/action-bar?query=bar` }));
+assertType(new NuxtLink({ to: '/admin/foo/profile/' }));
+assertType(new NuxtLink({ to: `/admin/${id}/settings` }));
+assertType(new NuxtLink({ to: '/admin/panel/' }));
+assertType(new NuxtLink({ to: '/admin/panel/938783/' }));
+assertType(new NuxtLink({ to: '/user/38873-' }));
+assertType(new NuxtLink({ to: '/user/38673/bar/#hash' }));
+assertType(new NuxtLink({ to: '/user/ç9737/foo/articles?baz=foo' }));
+assertType(new NuxtLink({ to: '/user/catch/1/2' }));
+assertType(new NuxtLink({ to: '/user/test-' }));
+assertType(new NuxtLink({ to: '/user' }));
 
 // $ ----- Should be valid ✅
 
@@ -67,8 +110,8 @@ assertType(
     to: { name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } },
   })
 );
-assertType(new NuxtLink({ to: { name: 'user-slug', params: { slug: ['foo'] } } }));
-assertType(new NuxtLink({ to: { name: 'user-slug', params: { slug: [1, 2, 3] } } }));
+assertType(new NuxtLink({ to: { name: 'user-catch-slug', params: { slug: ['foo'] } } }));
+assertType(new NuxtLink({ to: { name: 'user-catch-slug', params: { slug: [1, 2, 3] } } }));
 assertType(new NuxtLink({ to: { name: 'user-one-foo-two', params: { one: 1, two: '2' } } }));
 assertType(
   new NuxtLink({

@@ -59,20 +59,14 @@ router.push({ name: 'test-extend' });
 // @ts-expect-error
 router.push({ name: 'test-module' });
 
-// * --- Path navigation
-// @ts-expect-error
-router.push('/fooooooooooo');
-// @ts-expect-error
-router.push({ path: '/foo' });
-
 // $ ----- Should be valid ✅
 
 router.push({ name: 'index' });
 router.push({ name: 'user-id', params: { id: 1 }, hash: 'baz' });
 router.push({ name: 'user-foo-bar', params: { foo: 'bar' }, force: true });
 router.push({ name: 'user-foo-bar', params: { foo: 'bar', bar: 'baz' } });
-router.push({ name: 'user-slug', params: { slug: ['foo'] } });
-router.push({ name: 'user-slug', params: { slug: [1, 2, 3] } });
+router.push({ name: 'user-catch-slug', params: { slug: ['foo'] } });
+router.push({ name: 'user-catch-slug', params: { slug: [1, 2, 3] } });
 router.push({ name: 'user-one-foo-two', params: { one: 1, two: '2' } });
 router.push({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } });
 router.push({ name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } });
@@ -80,6 +74,55 @@ router.push({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } });
 
 router.replace({ name: 'index' });
 router.replace({ name: 'user-id', params: { id: 1 }, hash: 'baz' });
+
+// --- Path navigation
+
+// ! ------ Should Error ❌
+
+// @ts-expect-error
+assertType(router.push(''));
+// @ts-expect-error
+assertType(router.push('/admin '));
+// @ts-expect-error
+assertType(router.push('/admin/ /'));
+// @ts-expect-error
+assertType(router.push(`/ / // / / eefzr`));
+// @ts-expect-error
+assertType(router.push('/elzhlzehflzhef'));
+// @ts-expect-error
+assertType(router.push('/admin/foo/bar'));
+// @ts-expect-error
+assertType(router.push('/admin/foo/bar/baz'));
+// @ts-expect-error
+assertType(router.push(`/admin/${id}/action-bar/taz?query`));
+// @ts-expect-error
+assertType(router.push('/admin/panel/3O9393/bar'));
+// @ts-expect-error
+assertType(router.push('/admin/foo/ profile/ezfje'));
+// @ts-expect-error
+assertType(router.push('/admin/3U93U/settings/baz'));
+// @ts-expect-error
+assertType(router.push('/admin/panel/?fjzk'));
+
+// $ ----- Should be valid ✅
+
+const id = '38789803';
+assertType(router.push('/'));
+assertType(router.push('/baguette'));
+assertType(router.push('/admin/foo'));
+assertType(router.push('/admin/foo/'));
+assertType(router.push(`/admin/${id}/action-bar#hash`));
+assertType(router.push(`/admin/${id}/action-bar?query=bar`));
+assertType(router.push('/admin/foo/profile/'));
+assertType(router.push(`/admin/${id}/settings`));
+assertType(router.push('/admin/panel/'));
+assertType(router.push('/admin/panel/938783/'));
+assertType(router.push('/user/38873-'));
+assertType(router.push('/user/38673/bar/#hash'));
+assertType(router.push('/user/ç9737/foo/articles?baz=foo'));
+assertType(router.push('/user/catch/1/2'));
+assertType(router.push('/user/test-'));
+assertType(router.push('/user'));
 
 // * Resolved routes
 

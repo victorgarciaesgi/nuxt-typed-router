@@ -45,7 +45,6 @@ export async function createTypedRouter({
 
     // We use extendPages here to access the NuxtPage, not accessible in the `pages:extend` hook
     extendPages(async (routes: NuxtPage[]) => {
-      // console.log(JSON.stringify(routes));
       hasRoutesDefined = true;
       const outputData = constructRouteMap(routes);
 

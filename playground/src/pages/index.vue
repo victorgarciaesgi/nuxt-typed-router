@@ -19,17 +19,20 @@ definePageMeta('index', {
   redirect: '/admin/foo/ar',
 });
 
-const t = 'zfef';
-const u = 'krzfzlkj' as string;
-
 const router = useRouter();
 
 const localePath = useLocalePath();
 const localeRoute = useLocaleRoute();
 
 router.push(localePath('/admin/888'));
-const route = localePath('/user/:id/:slug/articles');
-navigateTo(localePath({ name: 'index' }));
+
+const t = '///';
+const u = 'krzfzlkj' as string;
+
+const route = localePath(`/user/${u}/:slug/articles`);
+const route2 = localePath(`/user/${t}/:slug/articles`); // Should error
+router.push('/');
+navigateTo(localePath('/'));
 router.push({ path: '/' });
 
 router.push('/user/:id/:slug/articles#baz');

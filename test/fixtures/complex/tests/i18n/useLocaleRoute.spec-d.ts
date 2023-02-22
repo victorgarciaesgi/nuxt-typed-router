@@ -115,10 +115,10 @@ test('[foo]-[[bar]]', () => {
 
 // * --- [...slug].vue
 test('[...slug]', () => {
-  const resolved = localeRoute({ name: 'user-slug', params: { slug: [1, 2] } }, 'fr');
+  const resolved = localeRoute({ name: 'user-catch-slug', params: { slug: [1, 2] } }, 'fr');
 
-  assertType<TypedRouteFromName<'user-slug'>>(resolved);
-  assertType<'user-slug'>(resolved.name);
+  assertType<TypedRouteFromName<'user-catch-slug'>>(resolved);
+  assertType<'user-catch-slug'>(resolved.name);
   assertType<{
     slug: string[];
   }>(resolved.params);
