@@ -75,7 +75,7 @@ export function createTypedRouterDefinitionFile(): string {
     };
     
     // Declare runtime-core instead of vue for compatibility issues with pnpm
-    declare module '@vue/runtime-core' {
+    declare module 'vue' {
       interface GlobalComponents {
         NuxtLink: TypedNuxtLink;
       }

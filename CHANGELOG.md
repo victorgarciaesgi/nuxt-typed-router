@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+[3.0.#] - 2022-02-23
+
+- Fixed GlobalComponents declaration #70
+
 [3.0.0] - 2022-02-22
 
 # 🎉 New features
