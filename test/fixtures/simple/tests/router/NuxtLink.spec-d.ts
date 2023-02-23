@@ -1,7 +1,7 @@
 import { assertType, vi } from 'vitest';
-import { GlobalComponents } from 'vue';
+import { TypedNuxtLink } from '../../.nuxt/typed-router/typed-router';
 
-const NuxtLink: GlobalComponents['NuxtLink'] = vi.fn() as any;
+const NuxtLink: TypedNuxtLink = vi.fn() as any;
 
 // ! ------ Should Error ❌
 
