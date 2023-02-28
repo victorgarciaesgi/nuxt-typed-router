@@ -7,13 +7,14 @@ export function hasi18nSibling(
   route: NuxtPage
 ) {
   const { i18n, i18nOptions } = moduleOptionStore;
-  if (i18n) {
+  if (i18n && i18nOptions?.strategy !== 'no_prefix') {
     const separator = i18nOptions?.routesNameSeparator ?? '___';
 
     return source.some((rt) => {
       return (
         route.name?.match(new RegExp(`^(${rt.name})${separator}[a-zA-Z]+`, 'g')) ||
-        (rt.path !== '/' && route.path?.match(new RegExp(`/?[a-zA-Z]+${rt.path}`, 'g')))
+        (rt.path !== '/' &&
+          route.path?.match(new RegExp(`/?[${i18nOptions?.locales?.join('|')}]${rt.path}`, 'g')))
       );
     });
   }

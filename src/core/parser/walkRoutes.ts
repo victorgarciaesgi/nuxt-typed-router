@@ -1,4 +1,3 @@
-import { json } from 'stream/consumers';
 import { NuxtPage } from '@nuxt/schema';
 import { camelCase } from 'lodash-es';
 import { GeneratorOutput, ParamDecl } from '../../types';
