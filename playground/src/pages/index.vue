@@ -11,35 +11,18 @@
 <script setup lang="ts">
 import { definePageMeta, TypedRouteLocationRawFromName, helpers } from '@typed-router';
 
-definePageMeta({
-  redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
-});
+// definePageMeta({
+//   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
+// });
 
-definePageMeta('index', {
-  redirect: '/admin/foo/ar',
-});
+// definePageMeta('index', {
+//   redirect: '/admin/foo/ar',
+// });
 
 const router = useRouter();
 
 const localePath = useLocalePath();
 const localeRoute = useLocaleRoute();
-
-router.push(localePath('/admin/888'));
-
-const t = '///';
-const u = 'krzfzlkj' as string;
-
-const route = localePath(`/user/${u}/:slug/articles`);
-const route2 = localePath(`/user/${t}/:slug/articles`); // Should error
-router.push('/');
-navigateTo(localePath('/'));
-router.push({ path: '/' });
-
-router.push('/user/:id/:slug/articles#baz');
-router.push('/baguette'); // Error
-router.push('/admin/888'); // ✅
-
-router.push('/');
 
 // const route = localeRoute({ name: 'index___en', query: { foo: '1' } });
 // if (route) {
@@ -50,5 +33,22 @@ router.push('/');
 
 function navigate() {
   router.push({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } });
+
+  router.push(localePath('/admin/888'));
+
+  const t = '///';
+  const u = 'krzfzlkj' as string;
+
+  const route = localePath(`/user/${u}/:slug/articles`);
+  const route2 = localePath(`/user/${t}/:slug/articles`); // Should error
+  router.push('/');
+  navigateTo(localePath('/'));
+  router.push({ path: '/' });
+
+  router.push('/user/:id/:slug/articles#baz');
+  router.push('/baguette'); // Error
+  router.push('/admin/888'); // ✅
+
+  router.push('/');
 }
 </script>

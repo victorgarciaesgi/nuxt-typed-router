@@ -30,7 +30,7 @@
     "docs:dev": "cd docs && pnpm run dev",
     "docs:build": "npm run dev:prepare && cd docs && nuxi generate",
     "typecheck": "tsc --noEmit",
-    "release": "pnpm test && standard-version && git push --follow-tags && npm publish"
+    "release": "pnpm test && bumpp && npm publish git push --follow-tags"
   },
   "publishConfig": {
     "access": "public"
@@ -84,6 +84,7 @@
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "@vue/test-utils": "^2.3.0",
+    "bumpp": "9.0.0",
     "cross-env": "^7.0.3",
     "eslint": "8.34.0",
     "eslint-config-prettier": "^8.6.0",
