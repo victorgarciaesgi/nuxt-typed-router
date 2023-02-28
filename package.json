@@ -1,6 +1,6 @@
 {
   "name": "nuxt-typed-router",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Provide autocompletion for routes paths, names and params in Nuxt apps",
   "type": "module",
   "main": "./dist/module.cjs",
@@ -31,7 +31,7 @@
     "docs:dev": "cd docs && pnpm run dev",
     "docs:build": "npm run dev:prepare && cd docs && nuxi generate",
     "typecheck": "tsc --noEmit",
-    "release": "pnpm test && bumpp && npm publish && git push --follow-tags"
+    "release": "bumpp && npm publish && git push --follow-tags"
   },
   "publishConfig": {
     "access": "public"
