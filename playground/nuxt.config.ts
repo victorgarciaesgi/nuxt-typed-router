@@ -9,7 +9,10 @@ export default defineNuxtConfig({
   imports: {},
   srcDir: './src',
   i18n: {
-    locales: ['en', 'fr'],
+    locales: [
+      { code: 'en', name: 'en' },
+      { code: 'fr', name: 'fr' },
+    ],
     defaultLocale: 'en',
     strategy: 'prefix_and_default',
     vueI18n: {

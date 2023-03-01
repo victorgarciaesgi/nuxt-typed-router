@@ -6,7 +6,7 @@ export function hasi18nSibling(
   source: Array<Record<string, any> & { name?: string; path: string }>,
   route: NuxtPage
 ) {
-  const { i18n, i18nOptions } = moduleOptionStore;
+  const { i18n, i18nOptions, i18nLocales } = moduleOptionStore;
   if (i18n && i18nOptions?.strategy !== 'no_prefix') {
     const separator = i18nOptions?.routesNameSeparator ?? '___';
 
@@ -14,7 +14,7 @@ export function hasi18nSibling(
       return (
         route.name?.match(new RegExp(`^(${rt.name})${separator}[a-zA-Z]+`, 'g')) ||
         (rt.path !== '/' &&
-          route.path?.match(new RegExp(`/?[${i18nOptions?.locales?.join('|')}]${rt.path}`, 'g')))
+          route.path?.match(new RegExp(`/?[${i18nLocales?.join('|')}]${rt.path}`, 'g')))
       );
     });
   }

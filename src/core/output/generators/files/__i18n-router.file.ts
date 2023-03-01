@@ -3,7 +3,7 @@ import { moduleOptionStore } from '../../../config';
 
 export function createi18nRouterFile() {
   const { router } = moduleOptionStore.getResolvedStrictOptions();
-  const { i18nOptions, experimentalPathCheck } = moduleOptionStore;
+  const { i18nOptions, experimentalPathCheck, i18nLocales } = moduleOptionStore;
   return /* typescript */ `
   import type { RouteLocationRaw } from 'vue-router';
   import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from 'vue-i18n-routing';
@@ -15,7 +15,7 @@ export function createi18nRouterFile() {
   )}
 
   export type I18nLocales = ${
-    i18nOptions?.locales?.length ? i18nOptions.locales.map((loc) => `"${loc}"`).join('|') : 'string'
+    i18nLocales?.length ? i18nLocales.map((loc) => `"${loc}"`).join('|') : 'string'
   };
 
   export interface TypedToLocalePath {
