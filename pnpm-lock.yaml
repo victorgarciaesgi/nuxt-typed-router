@@ -13,7 +13,6 @@ importers:
       '@nuxtjs/i18n': 8.0.0-beta.9
       '@nuxtjs/web-vitals': ^0.2.2
       '@types/lodash-es': ^4.17.6
-      '@types/mkdirp': ^2.0.0
       '@types/node': ^18.14.0
       '@types/prettier': ^2.7.2
       '@typescript-eslint/eslint-plugin': ^5.53.0
@@ -60,7 +59,6 @@ importers:
       '@nuxtjs/i18n': 8.0.0-beta.9_crs6kntd544zxo7snxgg7rwmpa
       '@nuxtjs/web-vitals': 0.2.2_rollup@3.17.3
       '@types/lodash-es': 4.17.6
-      '@types/mkdirp': 2.0.0
       '@types/node': 18.14.2
       '@types/prettier': 2.7.2
       '@typescript-eslint/eslint-plugin': 5.54.0_6mj2wypvdnknez7kws2nfdgupi
@@ -2077,13 +2075,6 @@ packages:
 
   /@types/minimist/1.2.2:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
-    dev: true
-
-  /@types/mkdirp/2.0.0:
-    resolution: {integrity: sha512-c/iUqMymAlxLAyIK3u5SzrwkrkyOdv1XDc91T+b5FsY7Jr6ERhUD19jJHOhPW4GD6tmN6mFEorfSdks525pwdQ==}
-    deprecated: This is a stub types definition. mkdirp provides its own type definitions, so you do not need this installed.
-    dependencies:
-      mkdirp: 2.1.3
     dev: true
 
   /@types/node/18.11.18:
@@ -6281,6 +6272,7 @@ packages:
     resolution: {integrity: sha512-sjAkg21peAG9HS+Dkx7hlG9Ztx7HLeKnvB3NQRcu/mltCVmvkF0pisbiTSfDVYTT86XEfZrTUosLdZLStquZUw==}
     engines: {node: '>=10'}
     hasBin: true
+    dev: false
 
   /mkdist/1.1.1_typescript@4.9.5:
     resolution: {integrity: sha512-9cEzCsBD0qpybR/lJMB0vRIDZiHP7hJHTN2mQtFU2qt0vr7lFnghxersOJbKLshaDsl4GlnY2OBzmRRUTfuaDg==}

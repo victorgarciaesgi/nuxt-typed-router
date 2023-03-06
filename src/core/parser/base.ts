@@ -26,7 +26,7 @@ export function constructRouteMap(routesConfig: NuxtPage[]): GeneratorOutput {
 
     return output;
   } catch (e) {
-    throw new Error('Generation failed', e as any);
+    throw new Error(`Generation failed: ${e}`);
   }
 }
 

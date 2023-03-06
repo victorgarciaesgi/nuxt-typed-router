@@ -14,7 +14,14 @@ export function hasi18nSibling(
       return (
         route.name?.match(new RegExp(`^(${rt.name})${separator}[a-zA-Z]+`, 'g')) ||
         (rt.path !== '/' &&
-          route.path?.match(new RegExp(`/?[${i18nLocales?.join('|')}]${rt.path}`, 'g')))
+          route.path?.match(
+            new RegExp(
+              `/?[${i18nLocales?.map((m) => m.replace(/[^a-zA-Z0-9_]/gm, '\\$&')).join('|')}]${
+                rt.path
+              }`,
+              'g'
+            )
+          ))
       );
     });
   }

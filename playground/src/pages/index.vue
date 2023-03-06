@@ -33,6 +33,7 @@ const localeRoute = useLocaleRoute();
 
 function navigate() {
   router.push({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } });
+  router.push('/fr-FR?bar');
 
   router.push(localePath('/admin/888'));
 
