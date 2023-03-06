@@ -111,7 +111,7 @@ export function createTypeValidatePathCondition(elements: DestructuredPath[][]) 
         .map((elem) => {
           const isLast = index === elements.flat().length - 1;
 
-          if (elem.type === 'name' && isLast && !hasOnlyNames) {
+          if (elem.type === 'name' && isLast) {
             const id = nanoid(6);
             params.set(elem.id, id);
             return `${elem.content}\${infer ${id}}`;
@@ -128,42 +128,38 @@ export function createTypeValidatePathCondition(elements: DestructuredPath[][]) 
         .join('');
     })
     .join('/')}\`
-    ? ${
-      hasOnlyNames
-        ? `true :`
-        : elements
-            .flat()
-            .map((elem, index) => {
-              let output = '';
-              const isLast = index === elements.flat().length - 1;
-              const isName = elem.type === 'name';
-              const isOptional = elem.type === 'optionalParam';
-              const isParam = elem.type === 'param';
-              const isCatchAll = elem.type === 'catchAll';
+    ? ${elements
+      .flat()
+      .map((elem, index) => {
+        let output = '';
+        const isLast = index === elements.flat().length - 1;
+        const isName = elem.type === 'name';
+        const isOptional = elem.type === 'optionalParam';
+        const isParam = elem.type === 'param';
+        const isCatchAll = elem.type === 'catchAll';
 
-              if (isName && isLast) {
-                output = `ValidEndOfPath<${params.get(elem.id)}> extends false ? "End of path '${
-                  elem.fullPath
-                }' is invalid" : true :`;
-              } else if (isParam && isLast) {
-                output = `ValidParam<${params.get(elem.id)}> extends false ? "Parameter {${
-                  elem.content
-                }} of path '${elem.fullPath}' is invalid" : true :`;
-              } else if (isParam) {
-                output = `ValidStringPath<${params.get(elem.id)}> extends false ? "Parameter {${
-                  elem.content
-                }} of path '${elem.fullPath}' is required" : `;
-              } else if (isOptional && isLast) {
-                output = `ValidParam<${params.get(elem.id)}, false> extends false ? "Parameter {${
-                  elem.content
-                }} of path '${elem.fullPath}' is invalid" : true :`;
-              } else if (isLast) {
-                output += 'true :';
-              }
-              return output;
-            })
-            .join('')
-    } false ;`;
+        if (isName && isLast) {
+          output = `ValidEndOfPath<${params.get(elem.id)}> extends false ? "End of path '${
+            elem.fullPath
+          }' is invalid" : true :`;
+        } else if (isParam && isLast) {
+          output = `ValidParam<${params.get(elem.id)}> extends false ? "Parameter {${
+            elem.content
+          }} of path '${elem.fullPath}' is invalid" : true :`;
+        } else if (isParam) {
+          output = `ValidStringPath<${params.get(elem.id)}> extends false ? "Parameter {${
+            elem.content
+          }} of path '${elem.fullPath}' is required" : `;
+        } else if (isOptional && isLast) {
+          output = `ValidParam<${params.get(elem.id)}, false> extends false ? "Parameter {${
+            elem.content
+          }} of path '${elem.fullPath}' is invalid" : true :`;
+        } else if (isLast) {
+          output += 'true :';
+        }
+        return output;
+      })
+      .join('')} false ;`;
 
   return {
     typeName,
