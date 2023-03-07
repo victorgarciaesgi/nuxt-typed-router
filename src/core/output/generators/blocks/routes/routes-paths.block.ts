@@ -2,10 +2,12 @@ import { DestructuredPath } from '../../../../../core/parser/params';
 import { RoutePathsDecl } from '../../../../../types';
 import { customAlphabet } from 'nanoid/non-secure';
 import { returnIfTrue } from '../../../../../../src/utils';
+import { moduleOptionStore } from '../../../../../../src/core/config';
 
 const nanoid = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10);
 
 export function createRoutePathSchema(routePaths: RoutePathsDecl[]) {
+  const { i18nOptions } = moduleOptionStore;
   return `export type RoutePathSchema = 
     ${routePaths
       .filter((f) => !!f.path)

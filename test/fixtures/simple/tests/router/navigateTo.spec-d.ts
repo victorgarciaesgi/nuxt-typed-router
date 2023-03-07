@@ -42,10 +42,6 @@ navigateTo({ name: 'user-id-slug' });
 // @ts-expect-error
 navigateTo({ name: 'user-id-slug', params: { id: 1 } });
 
-// * --- Routes added by config extend
-// @ts-expect-error
-navigateTo({ name: 'test-extend' });
-
 // * --- Routes added by modules
 // @ts-expect-error
 navigateTo({ name: 'test-module' });

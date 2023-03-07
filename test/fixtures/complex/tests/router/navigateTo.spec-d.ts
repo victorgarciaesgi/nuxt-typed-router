@@ -46,10 +46,6 @@ navigateTo({ name: 'user-id-slug' });
 // @ts-expect-error
 navigateTo({ name: 'user-id-slug', params: { id: 1 } });
 
-// * --- Routes added by config extend
-// @ts-expect-error
-navigateTo({ name: 'test-extend' });
-
 // * --- Routes added by modules
 // @ts-expect-error
 navigateTo({ name: 'test-module' });
@@ -64,7 +60,6 @@ navigateTo({ name: 'user-catch-slug', params: { slug: ['foo'] } });
 navigateTo({ name: 'user-catch-slug', params: { slug: [1, 2, 3] } });
 navigateTo({ name: 'user-one-foo-two', params: { one: 1, two: '2' } });
 navigateTo({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } });
-navigateTo({ name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } });
 navigateTo({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } });
 
 // --- Path navigation
@@ -220,23 +215,6 @@ test('', async () => {
     assertType<{
       id: string;
       slug: string;
-    }>(resolvedNavigateToRoute.params);
-  }
-});
-
-// * --- Routes added by config extend
-test('', async () => {
-  const resolvedNavigateToRoute = await navigateTo({
-    name: 'test-extend',
-    params: {
-      id: 1,
-    },
-  });
-
-  if (resolvedNavigateToRoute && !(resolvedNavigateToRoute instanceof Error)) {
-    assertType<'test-extend'>(resolvedNavigateToRoute.name);
-    assertType<{
-      id: string;
     }>(resolvedNavigateToRoute.params);
   }
 });

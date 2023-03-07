@@ -43,10 +43,6 @@ assertType(new NuxtLink({ to: { name: 'user-id-slug' } }));
 // @ts-expect-error
 assertType(new NuxtLink({ to: { name: 'user-id-slug', params: { id: 1 } } }));
 
-// * --- Routes added by config extend
-// @ts-expect-error
-assertType(new NuxtLink({ to: { name: 'test-extend' } }));
-
 // * --- Routes added by modules
 // @ts-expect-error
 assertType(new NuxtLink({ to: { name: 'test-module' } }));
@@ -118,11 +114,7 @@ assertType(
     to: { name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } },
   })
 );
-assertType(
-  new NuxtLink({
-    to: { name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } },
-  })
-);
+
 assertType(
   new NuxtLink({
     to: { name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } },

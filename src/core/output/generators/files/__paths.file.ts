@@ -13,11 +13,7 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
   const hasPrefixStrategy = i18n && i18nOptions?.strategy !== 'no_prefix';
 
   const filteredRoutesPaths = routesPaths
-    .filter(
-      (route, index) =>
-        routesPaths.findIndex((r) => route.name === r.name) === index &&
-        !routesPaths.find((r) => `${route.path}/` === r.path)
-    )
+    .filter((route) => !routesPaths.find((r) => `${route.path}/` === r.path))
     .sort((a, b) => {
       const pathCountA = a.path.split('/');
       const pathCountB = b.path.split('/');

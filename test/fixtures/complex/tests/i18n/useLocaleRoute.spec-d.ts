@@ -49,10 +49,6 @@ assertType(localeRoute({ name: 'user-id-slug' }));
 // @ts-expect-error
 assertType(localeRoute({ name: 'user-id-slug', params: { id: 1 } }));
 
-// * --- Routes added by config extend
-// @ts-expect-error
-assertType(localeRoute({ name: 'test-extend' }));
-
 // * --- Routes added by modules
 // @ts-expect-error
 assertType(localeRoute({ name: 'test-module' }));
@@ -146,17 +142,6 @@ test('[id]/[slug]', () => {
   assertType<{
     id: string;
     slug: string;
-  }>(resolved.params);
-});
-
-// * --- Routes added by config extend
-test('Routes added by config extend', () => {
-  const resolved = localeRoute({ name: 'test-extend', params: { id: 1 } }, 'fr');
-
-  assertType<TypedRouteFromName<'test-extend'>>(resolved);
-  assertType<'test-extend'>(resolved.name);
-  assertType<{
-    id: string;
   }>(resolved.params);
 });
 

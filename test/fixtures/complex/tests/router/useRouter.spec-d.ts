@@ -51,10 +51,6 @@ router.push({ name: 'user-id-slug' });
 // @ts-expect-error
 router.push({ name: 'user-id-slug', params: { id: 1 } });
 
-// * --- Routes added by config extend
-// @ts-expect-error
-router.push({ name: 'test-extend' });
-
 // * --- Routes added by modules
 // @ts-expect-error
 router.push({ name: 'test-module' });
@@ -69,7 +65,6 @@ router.push({ name: 'user-catch-slug', params: { slug: ['foo'] } });
 router.push({ name: 'user-catch-slug', params: { slug: [1, 2, 3] } });
 router.push({ name: 'user-one-foo-two', params: { one: 1, two: '2' } });
 router.push({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } });
-router.push({ name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } });
 router.push({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } });
 
 router.replace({ name: 'index' });

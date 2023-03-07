@@ -3,7 +3,7 @@ import { camelCase } from 'lodash-es';
 import { GeneratorOutput, ParamDecl } from '../../types';
 import { isItemLast } from '../../utils';
 import { extractUnMatchingSiblings } from './extractChunks';
-import { hasi18nSibling, modifyRoutePrefixDefaultIfI18n } from './i18n.modifiers';
+import { is18Sibling, modifyRoutePrefixDefaultIfI18n } from './i18n.modifiers';
 import { extractRouteParamsFromPath } from './params';
 
 type WalkThoughRoutesParams = {
@@ -57,7 +57,7 @@ export function walkThoughRoutes({
     route.path.startsWith('/') ? route.path : `/${route.path}`
   }`;
 
-  const isLocaleRoute = isLocale || hasi18nSibling(output.routesPaths, route);
+  const isLocaleRoute = isLocale || is18Sibling(output.routesPaths, route);
 
   output.routesPaths.push({
     name: route.name,

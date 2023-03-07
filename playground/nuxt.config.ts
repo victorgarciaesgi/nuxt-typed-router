@@ -1,3 +1,4 @@
+import { createResolver, defineNuxtModule, extendPages } from '@nuxt/kit';
 import NuxtTypedRouter from '..';
 
 export default defineNuxtConfig({
@@ -6,15 +7,11 @@ export default defineNuxtConfig({
     plugin: true,
     experimentalPathCheck: true,
   },
-  imports: {},
   srcDir: './src',
   i18n: {
-    locales: [
-      { code: 'en', name: 'en' },
-      { code: 'fr-FR', name: 'fr' },
-    ],
+    locales: ['en', 'fr-FR'],
     defaultLocale: 'en',
-    strategy: 'prefix_and_default',
+    strategy: 'prefix',
     vueI18n: {
       legacy: false,
       locale: 'en',

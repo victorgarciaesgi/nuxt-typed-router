@@ -14,25 +14,17 @@ export function createRoutesTypesFile({
   routesParams,
   routesPaths,
 }: GeneratorOutput): string {
-  const filteredRoutesList = routesList.filter(
-    (routeName, index) => routesList.indexOf(routeName) === index
-  );
-
-  const filteredRoutesParams = routesParams.filter(
-    (route, index) => routesParams.findIndex((r) => route.name === r.name) === index
-  );
-
   return /* typescript */ `
-    ${createRoutesNamesListExport(filteredRoutesList)}
+    ${createRoutesNamesListExport(routesList)}
     export type WithoutBracket<T extends string> = T extends \`:\${string}\` ? never : T;
 
-    ${createRoutesParamsRecordExport(filteredRoutesParams)}
+    ${createRoutesParamsRecordExport(routesParams)}
     
-    ${createRoutesParamsRecordResolvedExport(filteredRoutesParams)}
+    ${createRoutesParamsRecordResolvedExport(routesParams)}
 
-    ${createRoutesNamedLocationsExport(filteredRoutesParams)}
+    ${createRoutesNamedLocationsExport(routesParams)}
 
-    ${createRoutesNamedLocationsResolvedExport(filteredRoutesParams)}
+    ${createRoutesNamedLocationsResolvedExport(routesParams)}
 
     export type RoutesNamesListRecord = ${routesDeclTemplate};
 

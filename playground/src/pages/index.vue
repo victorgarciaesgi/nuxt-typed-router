@@ -33,12 +33,12 @@ const localeRoute = useLocaleRoute();
 
 function navigate() {
   router.push({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } });
-  router.push('/fr-FR?bar');
+  router.push('/user?foo');
 
   router.push(localePath('/admin/888'));
 
-  const t = '///';
   const u = 'krzfzlkj' as string;
+  const t = '///';
 
   const route = localePath(`/user/${u}/:slug/articles`);
   const route2 = localePath(`/user/${t}/:slug/articles`); // Should error
@@ -47,7 +47,7 @@ function navigate() {
   router.push({ path: '/' });
 
   router.push('/user/:id/:slug/articles#baz');
-  router.push('/baguette'); // Error
+  router.push('/baguette'); // Should error
   router.push('/admin/888'); // ✅
 
   router.push('/');

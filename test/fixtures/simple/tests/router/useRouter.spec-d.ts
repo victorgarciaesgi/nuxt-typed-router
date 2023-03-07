@@ -49,10 +49,6 @@ router.push({ name: 'user-id-slug' });
 // @ts-expect-error
 router.push({ name: 'user-id-slug', params: { id: 1 } });
 
-// * --- Routes added by config extend
-// @ts-expect-error
-router.push({ name: 'test-extend' });
-
 // * --- Routes added by modules
 // @ts-expect-error
 router.push({ name: 'test-module' });

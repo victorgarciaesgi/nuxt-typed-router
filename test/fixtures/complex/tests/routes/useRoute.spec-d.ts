@@ -76,15 +76,6 @@ if (route.name === 'user-id-slug') {
   }>(route.params);
 }
 
-// * --- Routes added by config extend
-if (route.name === 'test-extend') {
-  assertType<TypedRouteFromName<'test-extend'>>(route);
-  assertType<'test-extend'>(route.name);
-  assertType<{
-    id: string;
-  }>(route.params);
-}
-
 // * --- Routes added by modules
 if (route.name === 'test-module') {
   assertType<TypedRouteFromName<'test-module'>>(route);

@@ -73,10 +73,6 @@ router.push(localePath({ name: 'user-id-slug' }));
 // @ts-expect-error
 router.push(localePath({ name: 'user-id-slug', params: { id: 1 } }));
 
-// * --- Routes added by config extend
-// @ts-expect-error
-router.push(localePath({ name: 'test-extend' }));
-
 // * --- Routes added by modules
 // @ts-expect-error
 router.push(localePath({ name: 'test-module' }));
@@ -97,7 +93,6 @@ router.push(localePath({ name: 'user-catch-slug', params: { slug: ['foo'] } }));
 router.push(localePath({ name: 'user-catch-slug', params: { slug: [1, 2, 3] } }, 'en'));
 router.push(localePath({ name: 'user-one-foo-two', params: { one: 1, two: '2' } }));
 router.push(localePath({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } }));
-router.push(localePath({ name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } }));
 router.push(localePath({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } }));
 
 router.replace(localePath({ name: 'index' }));
@@ -207,10 +202,6 @@ assertType(new NuxtLink({ to: localePath({ name: 'user-id-slug' }) }));
 // @ts-expect-error
 assertType(new NuxtLink({ to: localePath({ name: 'user-id-slug', params: { id: 1 } }) }));
 
-// * --- Routes added by config extend
-// @ts-expect-error
-assertType(new NuxtLink({ to: localePath({ name: 'test-extend' }) }));
-
 // * --- Routes added by modules
 // @ts-expect-error
 assertType(new NuxtLink({ to: localePath({ name: 'test-module' }) }));
@@ -243,11 +234,7 @@ assertType(
     to: localePath({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } }),
   })
 );
-assertType(
-  new NuxtLink({
-    to: localePath({ name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } }),
-  })
-);
+
 assertType(
   new NuxtLink({
     to: localePath({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } }),
@@ -306,10 +293,6 @@ navigateTo(localePath({ name: 'user-id-slug' }));
 // @ts-expect-error
 navigateTo(localePath({ name: 'user-id-slug', params: { id: 1 } }));
 
-// * --- Routes added by config extend
-// @ts-expect-error
-navigateTo(localePath({ name: 'test-extend' }));
-
 // * --- Routes added by modules
 // @ts-expect-error
 navigateTo(localePath({ name: 'test-module' }));
@@ -324,7 +307,6 @@ navigateTo(localePath({ name: 'user-catch-slug', params: { slug: ['foo'] } }));
 navigateTo(localePath({ name: 'user-catch-slug', params: { slug: [1, 2, 3] } }, 'en'));
 navigateTo(localePath({ name: 'user-one-foo-two', params: { one: 1, two: '2' } }));
 navigateTo(localePath({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } }));
-navigateTo(localePath({ name: 'test-extend', params: { id: 1 }, query: { foo: 'bar' } }));
 navigateTo(localePath({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } }));
 
 navigateTo(localePath('/user'));

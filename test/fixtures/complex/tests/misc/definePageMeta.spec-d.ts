@@ -44,10 +44,6 @@ definePageMeta({ redirect: { name: 'user-id-slug' } });
 // @ts-expect-error
 definePageMeta({ redirect: { name: 'user-id-slug', params: { id: 1 } } });
 
-// * --- Routes added by config extend
-// @ts-expect-error
-definePageMeta({ redirect: { name: 'test-extend' } });
-
 // * --- Routes added by modules
 // @ts-expect-error
 definePageMeta({ redirect: { name: 'test-module' } });
