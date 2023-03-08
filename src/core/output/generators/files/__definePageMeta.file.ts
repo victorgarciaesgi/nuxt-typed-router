@@ -28,6 +28,8 @@ export function createDefinePageMetaFile(): string {
      */
     validate?: (route: [T] extends [never] ? TypedRoute : TypedRouteFromName<T>) => boolean | Promise<boolean> | Partial<NuxtError> | Promise<Partial<NuxtError>>;
     key?: false | string | ((route: [T] extends [never] ? TypedRoute : TypedRouteFromName<T>) => string);
+    /** Allow types augmented by other modules */
+    [key: string]: any;
   }
 
 

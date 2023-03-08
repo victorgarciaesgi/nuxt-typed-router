@@ -9,15 +9,15 @@
 </template>
 
 <script setup lang="ts">
-import { definePageMeta, TypedRouteLocationRawFromName, helpers } from '@typed-router';
+import { TypedRouteLocationRawFromName, helpers } from '@typed-router';
 
 // definePageMeta({
 //   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
 // });
 
-// definePageMeta('index', {
-//   redirect: '/admin/foo/ar',
-// });
+definePageMeta({
+  title: 'foo',
+});
 
 const router = useRouter();
 

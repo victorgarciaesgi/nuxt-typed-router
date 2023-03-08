@@ -2,6 +2,7 @@ import { createResolver, defineNuxtModule, extendPages } from '@nuxt/kit';
 import NuxtTypedRouter from '..';
 
 export default defineNuxtConfig({
+  extends: ['nuxt-seo-kit'],
   modules: [NuxtTypedRouter, '@nuxtjs/i18n', '@nuxt/devtools'],
   nuxtTypedRouter: {
     plugin: true,
