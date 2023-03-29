@@ -5,6 +5,7 @@ import { ModuleOptions, StrictOptions } from '../../types';
 interface CustomNuxtConfigOptions {
   autoImport?: boolean;
   rootDir?: string;
+  buildDir?: string;
   i18n?: boolean;
   i18nOptions?: NuxtI18nOptions | null;
 }
@@ -15,6 +16,7 @@ class ModuleOptionsStore {
   experimentalPathCheck: boolean = true;
   autoImport: boolean = false;
   rootDir: string = '';
+  buildDir: string = '';
   i18n: boolean = false;
   i18nOptions: NuxtI18nOptions | null = null;
   i18nLocales: string[] = [];
@@ -24,6 +26,7 @@ class ModuleOptionsStore {
     if (options.strict != null) this.strict = options.strict;
     if (options.autoImport != null) this.autoImport = options.autoImport;
     if (options.rootDir != null) this.rootDir = options.rootDir;
+    if (options.buildDir != null) this.buildDir = options.buildDir;
     if (options.i18n != null) this.i18n = options.i18n;
     if (options.i18nOptions != null) {
       this.i18nOptions = options.i18nOptions;

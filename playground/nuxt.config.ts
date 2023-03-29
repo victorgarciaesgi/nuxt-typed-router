@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   nuxtTypedRouter: {
     plugin: true,
     experimentalPathCheck: true,
+    experimentalRemoveNuxtDefs: true,
   },
   srcDir: './src',
   i18n: {

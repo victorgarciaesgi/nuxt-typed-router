@@ -22,6 +22,11 @@ export interface ModuleOptions {
    * @default false
    */
   strict?: boolean | StrictOptions;
+  /**
+   * Remove Nuxt definitions to avoid conflicts
+   * @default false
+   */
+  experimentalRemoveNuxtDefs?: boolean;
 }
 
 export interface StrictOptions {
