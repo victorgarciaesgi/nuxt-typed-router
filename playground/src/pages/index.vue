@@ -17,6 +17,7 @@ import { TypedRouteLocationRawFromName, helpers } from '@typed-router';
 
 definePageMeta({
   title: 'foo',
+  redirect: { name: 'admin-id', params: { id: 1 } },
 });
 
 const router = useRouter();

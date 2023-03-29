@@ -17,7 +17,7 @@ export default defineNuxtModule<ModuleOptions>({
     plugin: false,
     strict: false,
     experimentalPathCheck: true,
-    experimentalRemoveNuxtDefs: false,
+    experimentalRemoveNuxtDefs: true,
   },
   setup(moduleOptions, nuxt: Nuxt) {
     const { resolve } = createResolver(import.meta.url);
