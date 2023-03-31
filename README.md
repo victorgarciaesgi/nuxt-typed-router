@@ -66,7 +66,7 @@ npm install -D nuxt-typed-router
 pnpm install -D nuxt-typed-router
 ```
 
-### Nuxt 2 legacy
+### Nuxt 2 legacy (not maintained)
 
 Nuxt 2 version is no longer maintained, but still available in [`nuxt2` branch](https://github.com/victorgarciaesgi/nuxt-typed-router/tree/nuxt2)
 It only has route name autocomplete functionnality
@@ -85,15 +85,6 @@ export default defineNuxtConfig({
   modules: ['nuxt-typed-router'],
 });
 ```
-
-
-# Roadmap
-
-- [x] Add `path` autocomplete with TS string templates
-- [x] Add support for `validate` and `redirect` in `definePageMeta`
-- [x] Add `strict` option to prevent path navigation
-- [ ] Enforce strong params typing depending of origin route
-
 
 ## Development
 
