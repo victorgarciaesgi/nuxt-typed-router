@@ -4,6 +4,7 @@
     <nuxt-link id="nuxtLink" :to="{ name: 'user-id-slug', params: { id: 'foo', slug: 'bar' } }"
       >Navigate link</nuxt-link
     >
+    <nuxt-link to="http://vicflix.dev" external></nuxt-link>
     <button id="navigateTo" @click="testNavigateTo"> NavigateTo button </button>
     <button id="plugin" @click="testNavigatePlugin"> Navigate plugin </button>
   </div>

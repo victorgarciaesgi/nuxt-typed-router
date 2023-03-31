@@ -3,7 +3,7 @@ import { moduleOptionStore } from '../../../config';
 
 export function createNavigateToFile() {
   const { router } = moduleOptionStore.getResolvedStrictOptions();
-  const { experimentalPathCheck } = moduleOptionStore;
+  const { pathCheck } = moduleOptionStore;
   return /* typescript */ `
     import { navigateTo as defaultNavigateTo } from '#app';
     import type { NavigateToOptions } from 'nuxt/dist/app/composables/router';
@@ -11,7 +11,7 @@ export function createNavigateToFile() {
     import type { TypedRouteLocationRawFromName, TypedRouteFromName, TypedRoute } from './__router';
     import type { RoutesNamesList } from './__routes';
     ${returnIfTrue(
-      experimentalPathCheck,
+      pathCheck,
       `import type {TypedPathParameter, RouteNameFromPath} from './__paths';`
     )}
 
@@ -32,7 +32,7 @@ export function createNavigateToFile() {
       options?: NavigateToOptions
     ) : Promise<void | NavigationFailure | TypedRouteFromName<T>>
     ${returnIfTrue(
-      experimentalPathCheck && !router.strictToArgument,
+      pathCheck && !router.strictToArgument,
       `<T extends string>(
         to: TypedPathParameter<T>,
         options?: NavigateToOptions

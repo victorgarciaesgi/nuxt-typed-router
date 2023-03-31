@@ -16,7 +16,7 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     plugin: false,
     strict: false,
-    experimentalPathCheck: true,
+    pathCheck: true,
     experimentalRemoveNuxtDefs: true,
   },
   setup(moduleOptions, nuxt: Nuxt) {
@@ -56,7 +56,7 @@ export default defineNuxtModule<ModuleOptions>({
     // Force register of type declaration
     nuxt.hook('prepare:types', (options) => {
       options.tsConfig.include?.unshift('./typed-router/typed-router.d.ts');
-      if (moduleOptions.experimentalPathCheck) {
+      if (moduleOptions.pathCheck) {
         (options.tsConfig as any).vueCompilerOptions = {
           jsxTemplates: true,
           experimentalRfc436: true,

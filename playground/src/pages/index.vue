@@ -2,7 +2,7 @@
   <div>
     <button @click="navigate"> Navigate button </button>
     <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
-    <nuxt-link to="/foo">Navigate Link</nuxt-link>
+    <nuxt-link to="/">Navigate Link</nuxt-link>
     <nuxt-link :to="localePath('/admin/:id')">Navigate Link</nuxt-link>
     <nuxt-layout></nuxt-layout>
   </div>
