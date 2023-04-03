@@ -2,7 +2,9 @@
   <div>
     <button @click="navigate"> Navigate button </button>
     <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
-    <nuxt-link to="/">Navigate Link</nuxt-link>
+    <!-- Should error -->
+    <nuxt-link to="/foo" external>Navigate Link</nuxt-link>
+
     <nuxt-link :to="localePath('/admin/:id')">Navigate Link</nuxt-link>
     <nuxt-layout></nuxt-layout>
   </div>
@@ -15,8 +17,10 @@ import { TypedRouteLocationRawFromName, helpers } from '@typed-router';
 //   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
 // });
 
+type foo = 'foo' | 'bar' | void;
+
 definePageMeta({
-  title: 'foo',
+  name: 'foo-bar',
   redirect: { name: 'admin-id', params: { id: 1 } },
 });
 
@@ -41,14 +45,16 @@ function navigate() {
   const u = 'krzfzlkj' as string;
   const t = '///';
 
-  const route = localePath(`/user/${u}/:slug/articles`);
   const route2 = localePath(`/user/${t}/:slug/articles`); // Should error
+  navigateTo('/foo'); // Should error
+  router.push('/baguette'); // Should error
+
+  const route = localePath(`/user/${u}/:slug/articles`);
   router.push('/');
-  navigateTo(localePath('/'));
+  navigateTo('ednzelfjle', { external: true });
   router.push({ path: '/' });
 
   router.push('/user/:id/:slug/articles#baz');
-  router.push('/baguette'); // Should error
   router.push('/admin/888'); // ✅
 
   router.push('/');

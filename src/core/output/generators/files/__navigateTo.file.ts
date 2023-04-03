@@ -15,6 +15,10 @@ export function createNavigateToFile() {
       `import type {TypedPathParameter, RouteNameFromPath} from './__paths';`
     )}
 
+    type TypedNavigateToOptions<E extends boolean> = Omit<NavigateToOptions, 'external'> & {
+      external?: E
+    }
+
     /** 
    * Typed clone of \`navigateTo\`
    * 
@@ -27,15 +31,15 @@ export function createNavigateToFile() {
   
 
   interface NavigateToFunction {
-    <T extends RoutesNamesList, P extends string>(
-      to: TypedRouteLocationRawFromName<T, P>,
-      options?: NavigateToOptions
+    <T extends RoutesNamesList, P extends string, E extends boolean = false>(
+      to: TypedRouteLocationRawFromName<T, P, E>,
+      options?: TypedNavigateToOptions<E>
     ) : Promise<void | NavigationFailure | TypedRouteFromName<T>>
     ${returnIfTrue(
       pathCheck && !router.strictToArgument,
-      `<T extends string>(
-        to: TypedPathParameter<T>,
-        options?: NavigateToOptions
+      `<T extends string, E extends boolean = false>(
+        to: (E extends true ? string : TypedPathParameter<T>),
+        options?: TypedNavigateToOptions<E>
       ) : Promise<void | NavigationFailure | TypedRouteFromName<RouteNameFromPath<T>>>`
     )}
   }

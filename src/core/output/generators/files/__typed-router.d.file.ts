@@ -57,6 +57,10 @@ export function createTypedRouterDefinitionFile(): string {
         )}
         ${returnIfTrue(!pathCheck && !strictOptions.NuxtLink.strictToArgument, ` | string`)}
         ${returnIfTrue(
+          pathCheck && strictOptions.NuxtLink.strictToArgument,
+          ` | (E extends true ? string : void)`
+        )}
+        ${returnIfTrue(
           pathCheck && !strictOptions.NuxtLink.strictToArgument,
           ` | (E extends true ? string : TypedPathParameter<T>)`
         )},
