@@ -3,7 +3,7 @@ import { moduleOptionStore } from '../../../config';
 
 export function createTypedRouterDefinitionFile(): string {
   const strictOptions = moduleOptionStore.getResolvedStrictOptions();
-  const { plugin, autoImport, i18n, experimentalPathCheck } = moduleOptionStore;
+  const { plugin, autoImport, i18n, pathCheck } = moduleOptionStore;
 
   return /* typescript */ `
     
@@ -22,7 +22,7 @@ export function createTypedRouterDefinitionFile(): string {
 
     import {definePageMeta as _definePageMeta} from './__definePageMeta';
 
-    ${returnIfTrue(experimentalPathCheck, `import type {TypedPathParameter} from './__paths';`)}
+    ${returnIfTrue(pathCheck, `import type {TypedPathParameter} from './__paths';`)}
 
 
     declare global {
@@ -46,32 +46,34 @@ export function createTypedRouterDefinitionFile(): string {
       )}
     }
     
-    type TypedNuxtLinkProps<T extends string> = Omit<NuxtLinkProps, 'to'> &
+    type TypedNuxtLinkProps<T extends string, E extends boolean = false> = Omit<NuxtLinkProps, 'to' | 'external'> &
      {
       to: 
         | Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations
         | Omit<RouteLocationPathRaw, 'path'>
         ${returnIfTrue(
-          experimentalPathCheck && !strictOptions.NuxtLink.strictRouteLocation,
-          `& {path?: TypedPathParameter<T>}`
+          pathCheck && !strictOptions.NuxtLink.strictRouteLocation,
+          `& {path?: (E extends true ? string : TypedPathParameter<T>)}`
+        )}
+        ${returnIfTrue(!pathCheck && !strictOptions.NuxtLink.strictToArgument, ` | string`)}
+        ${returnIfTrue(
+          pathCheck && strictOptions.NuxtLink.strictToArgument,
+          ` | (E extends true ? string : void)`
         )}
         ${returnIfTrue(
-          !experimentalPathCheck && !strictOptions.NuxtLink.strictToArgument,
-          ` | string`
-        )}
-        ${returnIfTrue(
-          experimentalPathCheck && !strictOptions.NuxtLink.strictToArgument,
-          ` | TypedPathParameter<T>`
-        )}
+          pathCheck && !strictOptions.NuxtLink.strictToArgument,
+          ` | (E extends true ? string : TypedPathParameter<T>)`
+        )},
+      external?: E
       }
     
         
           
-    export type TypedNuxtLink = new <P extends string>(props: TypedNuxtLinkProps<P>) => Omit<
+    export type TypedNuxtLink = new <P extends string, E extends boolean = false>(props: TypedNuxtLinkProps<P, E>) => Omit<
       typeof NuxtLink,
       '$props'
     > & {
-      $props: TypedNuxtLinkProps<P>;
+      $props: TypedNuxtLinkProps<P, E>;
     };
     
     // Declare runtime-core instead of vue for compatibility issues with pnpm

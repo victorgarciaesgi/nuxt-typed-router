@@ -120,3 +120,10 @@ assertType(
     to: { name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } },
   })
 );
+
+// - With External prop
+
+// $ ----- Should be valid ✅
+
+assertType(new NuxtLink({ to: '/admin/:id/', external: false }));
+assertType(new NuxtLink({ to: 'http://google.com', external: true }));

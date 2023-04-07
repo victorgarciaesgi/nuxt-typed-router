@@ -13,7 +13,7 @@ interface CustomNuxtConfigOptions {
 class ModuleOptionsStore {
   plugin: boolean = false;
   strict: boolean | StrictOptions = false;
-  experimentalPathCheck: boolean = true;
+  pathCheck: boolean = true;
   autoImport: boolean = false;
   rootDir: string = '';
   buildDir: string = '';
@@ -40,8 +40,8 @@ class ModuleOptionsStore {
         });
       }
     }
-    if (options.experimentalPathCheck != null) {
-      this.experimentalPathCheck = options.experimentalPathCheck;
+    if (options.pathCheck != null) {
+      this.pathCheck = options.pathCheck;
     }
   }
 

@@ -2,7 +2,7 @@ import { returnIfFalse, returnIfTrue } from '../../../../utils';
 import { moduleOptionStore } from '../../../config';
 
 export function createHelpersFile() {
-  const { experimentalPathCheck } = moduleOptionStore;
+  const { pathCheck } = moduleOptionStore;
 
   return /* typescript */ `
   
@@ -12,7 +12,7 @@ export function createHelpersFile() {
   import type { TypedRouteLocationRawFromName, TypedLocationAsRelativeRaw } from './__router';
   import type { RoutesNamesList } from './__routes';
   ${returnIfTrue(
-    experimentalPathCheck,
+    pathCheck,
     `import type {TypedPathParameter, RouteNameFromPath} from './__paths';`
   )}
 

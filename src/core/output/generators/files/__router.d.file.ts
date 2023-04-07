@@ -3,7 +3,7 @@ import { moduleOptionStore } from '../../../config';
 
 export function createTypedRouterFile() {
   const strictOptions = moduleOptionStore.getResolvedStrictOptions();
-  const { i18n, experimentalPathCheck } = moduleOptionStore;
+  const { i18n, pathCheck } = moduleOptionStore;
 
   return /* typescript */ `
   
@@ -24,7 +24,7 @@ export function createTypedRouterFile() {
     RoutesParamsRecordResolved,
   } from './__routes';
   ${returnIfTrue(
-    experimentalPathCheck,
+    pathCheck,
     `import type {TypedPathParameter, RouteNameFromPath} from './__paths';`
   )}
   import type { HasOneRequiredParameter } from './__types_utils';
@@ -40,24 +40,29 @@ export function createTypedRouterFile() {
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations)
   | Omit<RouteLocationPathRaw, 'path'>
   ${returnIfTrue(
-    experimentalPathCheck && !strictOptions.router.strictRouteLocation,
+    pathCheck && !strictOptions.router.strictRouteLocation,
     `& {path?: TypedPathParameter<T>}`
   )}
-  ${returnIfTrue(!experimentalPathCheck && !strictOptions.router.strictToArgument, ` | string`)}
+  ${returnIfTrue(!pathCheck && !strictOptions.router.strictToArgument, ` | string`)}
   ;
   
 
   /**
    * Alternative version of {@link TypedRouteLocationRaw} but with a name generic
    */
-  export type TypedRouteLocationRawFromName<T extends RoutesNamesList, P extends string = string> =
+  export type TypedRouteLocationRawFromName<T extends RoutesNamesList, P extends string = string, E extends boolean = false> =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
   | Omit<RouteLocationPathRaw, 'path'>
   ${returnIfTrue(
-    experimentalPathCheck && !strictOptions.router.strictRouteLocation,
+    pathCheck && !strictOptions.router.strictRouteLocation,
     `& {path?: TypedPathParameter<P>}`
   )}
-  ${returnIfTrue(!experimentalPathCheck && !strictOptions.router.strictToArgument, ` | string`)}
+  ${returnIfTrue(!pathCheck && !strictOptions.router.strictToArgument, ` | string`)}
+  ${returnIfTrue(
+    pathCheck && strictOptions.router.strictToArgument,
+    `| (E extends true ? string : void)`
+  )}
+
 
   /** 
    * Generic providing inference and dynamic inclusion of \`params\` property
@@ -70,6 +75,27 @@ export function createTypedRouterFile() {
     : HasOneRequiredParameter<T> extends false
     ? { params?: RoutesParamsRecord[T] }
     : { params: RoutesParamsRecord[T] });
+
+  
+   /** 
+   * Used for type assertion:
+   * 
+   * @usage
+   * 
+   * \`\`\`ts
+   *  const myRoute = '/foo' as TypedRouteLocation;
+   * \`\`\`
+   * */
+  export type TypedRouteLocation<T extends string = '/'> =
+  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations)
+  | Omit<RouteLocationPathRaw, 'path'>
+  ${returnIfTrue(
+    pathCheck && !strictOptions.router.strictRouteLocation,
+    `& {path?: TypedPathParameter<T>}`
+  )}
+  ${returnIfTrue(!pathCheck && !strictOptions.router.strictToArgument, ` | string`)}
+  ${returnIfTrue(pathCheck && !strictOptions.router.strictToArgument, `| TypedPathParameter<T>`)}
+  ;
 
   
   /** Augmented Router with typed methods
@@ -104,7 +130,7 @@ export function createTypedRouterFile() {
       currentLocation?: TypedRouteLocationRaw
     ): TypedRouteLocationFromName<T>;
     ${returnIfTrue(
-      experimentalPathCheck && !strictOptions.router.strictToArgument,
+      pathCheck && !strictOptions.router.strictToArgument,
       `resolve<T extends string>(to: TypedPathParameter<T>, currentLocation?: TypedRouteLocationRaw): TypedRouteLocationFromName<RouteNameFromPath<T>>;`
     )}
     /**
@@ -115,7 +141,7 @@ export function createTypedRouterFile() {
      */
     push<T extends RoutesNamesList, P extends string>(to: TypedRouteLocationRawFromName<T, P>): Promise<NavigationFailure | void | undefined>;
     ${returnIfTrue(
-      experimentalPathCheck && !strictOptions.router.strictToArgument,
+      pathCheck && !strictOptions.router.strictToArgument,
       `push<T extends string>(to: TypedPathParameter<T>): Promise<NavigationFailure | void | undefined>;`
     )}
     /**
@@ -126,10 +152,12 @@ export function createTypedRouterFile() {
      */
     replace<T extends RoutesNamesList, P extends string>(to: TypedRouteLocationRawFromName<T, P>): Promise<NavigationFailure | void | undefined>;
     ${returnIfTrue(
-      experimentalPathCheck && !strictOptions.router.strictToArgument,
+      pathCheck && !strictOptions.router.strictToArgument,
       `replace<T extends string>(to: TypedPathParameter<T>): Promise<NavigationFailure | void | undefined>;`
     )}
   }
+
+  
 
 
 

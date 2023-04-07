@@ -114,3 +114,10 @@ assertType(new NuxtLink({ to: '/user/ç9737/foo/articles?baz=foo' }));
 assertType(new NuxtLink({ to: '/user/catch/1/2' }));
 assertType(new NuxtLink({ to: '/user/test-' }));
 assertType(new NuxtLink({ to: '/user' }));
+
+// - With External prop
+
+// $ ----- Should be valid ✅
+
+assertType(new NuxtLink({ to: '/admin/:id/', external: false }));
+assertType(new NuxtLink({ to: 'http://google.com', external: true }));
