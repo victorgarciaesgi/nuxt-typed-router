@@ -77,6 +77,27 @@ export function createTypedRouterFile() {
     : { params: RoutesParamsRecord[T] });
 
   
+   /** 
+   * Used for type assertion:
+   * 
+   * @usage
+   * 
+   * \`\`\`ts
+   *  const myRoute = '/foo' as TypedRouteLocation;
+   * \`\`\`
+   * */
+  export type TypedRouteLocation<T extends string = '/'> =
+  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations)
+  | Omit<RouteLocationPathRaw, 'path'>
+  ${returnIfTrue(
+    pathCheck && !strictOptions.router.strictRouteLocation,
+    `& {path?: TypedPathParameter<T>}`
+  )}
+  ${returnIfTrue(!pathCheck && !strictOptions.router.strictToArgument, ` | string`)}
+  ${returnIfTrue(pathCheck && !strictOptions.router.strictToArgument, `| TypedPathParameter<T>`)}
+  ;
+
+  
   /** Augmented Router with typed methods
    * {@link Router}
    */
@@ -135,6 +156,8 @@ export function createTypedRouterFile() {
       `replace<T extends string>(to: TypedPathParameter<T>): Promise<NavigationFailure | void | undefined>;`
     )}
   }
+
+  
 
 
 

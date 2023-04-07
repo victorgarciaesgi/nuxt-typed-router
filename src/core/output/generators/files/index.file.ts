@@ -2,7 +2,8 @@ import { returnIfTrue } from '../../../../utils';
 import { moduleOptionStore } from '../../../config';
 
 export function createIndexFile(): string {
-  const { i18n, pathCheck } = moduleOptionStore;
+  const { i18n, i18nOptions, pathCheck } = moduleOptionStore;
+  const hasPrefixStrategy = i18n && i18nOptions?.strategy !== 'no_prefix';
 
   return /* typescript */ `
 
@@ -11,6 +12,7 @@ export function createIndexFile(): string {
       TypedResolvedMatcherLocation,
       TypedRoute,
       TypedRouteFromName,
+      TypedRouteLocation,
       TypedRouteLocationFromName,
       TypedRouteLocationRaw,
       TypedRouteLocationRawFromName,
@@ -34,9 +36,15 @@ export function createIndexFile(): string {
     
     ${returnIfTrue(
       pathCheck,
-      `export type { ValidatePath, RoutePathSchema, TypedPathParameter, RouteNameFromPath } from './__paths';`
+      `export type { ValidatePath, RoutePathSchema, TypedPathParameter, RouteNameFromPath, ${returnIfTrue(
+        hasPrefixStrategy,
+        `TypedLocalePathParameter`
+      )} } from './__paths';`
     )}
-    ${returnIfTrue(i18n, `export {useLocalePath, useLocaleRoute} from './__i18n-router';`)}
+    ${returnIfTrue(
+      i18n,
+      `export {useLocalePath, useLocaleRoute, TypedToLocalePath, TypedLocaleRoute} from './__i18n-router';`
+    )}
 
     
   `;

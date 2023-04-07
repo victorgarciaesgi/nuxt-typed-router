@@ -11,13 +11,11 @@
 </template>
 
 <script setup lang="ts">
-import { TypedRouteLocationRawFromName, helpers } from '@typed-router';
+import { TypedRouteLocationRawFromName, helpers, TypedRouteLocation } from '@typed-router';
 
 // definePageMeta({
 //   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
 // });
-
-type foo = 'foo' | 'bar' | void;
 
 definePageMeta({
   name: 'foo-bar',
@@ -37,6 +35,9 @@ const localeRoute = useLocaleRoute();
 // router.push({ path: '/login' });
 
 function navigate() {
+  const testAssert = '/foo' as TypedRouteLocation;
+  router.push(testAssert);
+  navigateTo(testAssert);
   router.push({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } });
   router.push('/user?foo');
 
