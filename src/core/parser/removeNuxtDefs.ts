@@ -36,7 +36,7 @@ export async function removeNuxtDefinitions({
 
   if (autoImport) {
     const importsFilePath = resolve(buildDir, 'types/imports.d.ts');
-    if (importsFilePath) {
+    if (existsSync(importsFilePath)) {
       let globalDefinitions = await readFile(importsFilePath, {
         encoding: 'utf8',
       });
