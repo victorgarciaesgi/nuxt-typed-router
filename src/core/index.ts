@@ -32,6 +32,7 @@ export async function createTypedRouter({
         return;
       }
       nuxt.hook('pages:extend', (routesConfig) => {
+        console.log(JSON.stringify(routesConfig));
         createTypedRouter({ nuxt, routesConfig, isHookCall: true });
       });
       nuxt.hook('modules:done', () => {
