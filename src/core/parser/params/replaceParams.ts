@@ -1,4 +1,4 @@
-const routeParamExtractRegxp = /(:(\w+)(\(.+\)[*+]?)?(\?)?)+/g;
+const routeParamExtractRegxp = /(:(\w+)(\(.*[^(]\)[*+]?)?(\?)?)+/g;
 
 type ExtractedParam = { name: string; optional: boolean; catchAll: boolean };
 

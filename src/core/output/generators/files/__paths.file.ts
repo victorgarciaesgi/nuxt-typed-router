@@ -14,6 +14,10 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
 
   const filteredRoutesPaths = routesPaths
     .filter((route) => !routesPaths.find((r) => `${route.path}/` === r.path))
+    .map((route) => ({
+      ...route,
+      path: route.path.replace(/\(\)/g, ''),
+    }))
     .sort((a, b) => {
       const pathCountA = a.path.split('/');
       const pathCountB = b.path.split('/');

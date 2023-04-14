@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import { RoutePathsDecl } from '../../../../src/types';
 
-const ExtractRegex = /(^(\/)?([^:/]+)?(:(\w+)(\(.+\)[*+]?)?(\?)?)*([^:/]+)?)+/g;
+const ExtractRegex = /(^(\/)?([^:/]+)?(:(\w+)(\((.*)\)[*+]?)?(\?)?)*([^:/]+)?)+/g;
 export type DestructuredPath = {
   type: 'name' | 'param' | 'optionalParam' | 'catchAll';
   content: string;
@@ -29,7 +29,8 @@ function extractPathElements(partOfPath: string, route: RoutePathsDecl) {
   let matches: RegExpExecArray | null;
   matches = ExtractRegex.exec(partOfPath);
   if (matches) {
-    const [_, mtch, slash, path1, paramDef, key, catchAll, optional, path2] = matches;
+    const [_, mtch, slash, path1, paramDef, key, catchAll, parentheseContent, optional, path2] =
+      matches;
     if (mtch) {
       strippedPath = mtch;
 
@@ -48,7 +49,7 @@ function extractPathElements(partOfPath: string, route: RoutePathsDecl) {
       }
       if (key) {
         pathElements.push({
-          type: catchAll ? 'catchAll' : optional ? 'optionalParam' : 'param',
+          type: catchAll && parentheseContent ? 'catchAll' : optional ? 'optionalParam' : 'param',
           content: key,
           id: nanoid(6),
           ...sharedProperties,

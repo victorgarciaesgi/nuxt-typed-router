@@ -4,6 +4,10 @@ import { moduleOptionStore } from '../../../config';
 export function createi18nRouterFile() {
   const { router } = moduleOptionStore.getResolvedStrictOptions();
   const { i18nOptions, pathCheck, i18nLocales } = moduleOptionStore;
+
+  const LocalePathType =
+    i18nOptions?.strategy === 'no_prefix' ? 'TypedPathParameter' : 'TypedLocalePathParameter';
+
   return /* typescript */ `
   import type { RouteLocationRaw } from 'vue-router';
   import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from 'vue-i18n-routing';
@@ -11,7 +15,7 @@ export function createi18nRouterFile() {
   import type {RoutesNamesList} from './__routes';
   ${returnIfTrue(
     pathCheck,
-    `import type {TypedLocalePathParameter, RouteNameFromLocalePath} from './__paths';`
+    `import type {TypedLocalePathParameter, TypedPathParameter, RouteNameFromLocalePath} from './__paths';`
   )}
 
   export type I18nLocales = ${
@@ -28,7 +32,7 @@ export function createi18nRouterFile() {
     ${returnIfTrue(
       pathCheck && !router.strictToArgument,
       `<T extends string>(
-      to: TypedLocalePathParameter<T>,
+      to: ${LocalePathType}<T>,
       locale?: I18nLocales | undefined
     ) : [T] extends [never] ? string : Required<TypedRouteLocationRawFromName<RouteNameFromLocalePath<T>, T>>;`
     )}
@@ -42,7 +46,7 @@ export function createi18nRouterFile() {
     <T extends RoutesNamesList, P extends string>(to: TypedRouteLocationRawFromName<T, P>, locale?: I18nLocales | undefined) : TypedRouteFromName<T>
     ${returnIfTrue(
       pathCheck && !router.strictToArgument,
-      ` <T extends string>(to: TypedLocalePathParameter<T>, locale?: I18nLocales | undefined) : TypedRouteFromName<RouteNameFromLocalePath<T>>;`
+      ` <T extends string>(to: ${LocalePathType}<T>, locale?: I18nLocales | undefined) : TypedRouteFromName<RouteNameFromLocalePath<T>>;`
     )}
   }
 
