@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   i18n: {
     locales: ['en', 'fr-FR'],
     defaultLocale: 'en',
-    strategy: 'prefix',
+    strategy: 'no_prefix',
     vueI18n: {
       legacy: false,
       locale: 'en',

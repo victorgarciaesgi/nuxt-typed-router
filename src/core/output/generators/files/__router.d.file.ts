@@ -50,7 +50,7 @@ export function createTypedRouterFile() {
   /**
    * Alternative version of {@link TypedRouteLocationRaw} but with a name generic
    */
-  export type TypedRouteLocationRawFromName<T extends RoutesNamesList, P extends string = string, E extends boolean = false> =
+  export type TypedRouteLocationRawFromName<T extends RoutesNamesList, P extends string = string> =
   | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
   | Omit<RouteLocationPathRaw, 'path'>
   ${returnIfTrue(
@@ -86,15 +86,10 @@ export function createTypedRouterFile() {
    *  const myRoute = '/foo' as TypedRouteLocation;
    * \`\`\`
    * */
-  export type TypedRouteLocation<T extends string = '/'> =
-  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations)
-  | Omit<RouteLocationPathRaw, 'path'>
-  ${returnIfTrue(
-    pathCheck && !strictOptions.router.strictRouteLocation,
-    `& {path?: TypedPathParameter<T>}`
-  )}
-  ${returnIfTrue(!pathCheck && !strictOptions.router.strictToArgument, ` | string`)}
-  ${returnIfTrue(pathCheck && !strictOptions.router.strictToArgument, `| TypedPathParameter<T>`)}
+  export type TypedRouteLocation<T extends '/' = '/'> =
+  TypedRouteLocationRawFromName<any, T>
+  ${returnIfTrue(!pathCheck && !strictOptions.router.strictToArgument, ` & string`)}
+  ${returnIfTrue(pathCheck && !strictOptions.router.strictToArgument, `& TypedPathParameter<T>`)}
   ;
 
   

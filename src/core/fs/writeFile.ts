@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url';
 import { resolve, dirname } from 'pathe';
 import logSymbols from 'log-symbols';
 import chalk from 'chalk';
-import mkdirp from 'mkdirp';
+import { mkdirp } from 'mkdirp';
 import { moduleOptionStore } from '../config';
 import { formatOutputWithPrettier } from './prettierFormat';
 

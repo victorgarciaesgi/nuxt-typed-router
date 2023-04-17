@@ -3,6 +3,8 @@
     <button @click="navigate"> Navigate button </button>
     <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
     <!-- Should error -->
+    <nuxt-link to="/foo">Navigate Link</nuxt-link>
+
     <nuxt-link to="/foo" external>Navigate Link</nuxt-link>
 
     <nuxt-link :to="localePath('/admin/:id')">Navigate Link</nuxt-link>
@@ -36,8 +38,9 @@ const localeRoute = useLocaleRoute();
 
 function navigate() {
   const testAssert = '/foo' as TypedRouteLocation;
+  const testAssert2 = { name: 'foo' } as TypedRouteLocation;
   router.push(testAssert);
-  navigateTo(testAssert);
+  navigateTo(testAssert2);
   router.push({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } });
   router.push('/user?foo');
 
