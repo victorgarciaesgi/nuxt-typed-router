@@ -9,7 +9,7 @@ export function is18Sibling(
   route: NuxtPage
 ) {
   const { i18n, i18nOptions, i18nLocales } = moduleOptionStore;
-  if (i18n && i18nOptions?.strategy !== 'no_prefix') {
+  if (i18n && i18nOptions && i18nOptions?.strategy !== 'no_prefix') {
     const separator = i18nOptions?.routesNameSeparator ?? '___';
 
     const i18LocalesRecognizer = i18nLocales
@@ -43,7 +43,7 @@ export function is18Sibling(
 
 export function modifyRoutePrefixDefaultIfI18n(route: NuxtPage) {
   const { i18n, i18nOptions, i18nLocales } = moduleOptionStore;
-  if (i18n && route.name) {
+  if (i18n && i18nOptions && route.name) {
     const separator = i18nOptions?.routesNameSeparator ?? '___';
     const i18LocalesRecognizer = i18nLocales
       ?.map((m) => m.replace(specialCharacterRegxp, '\\$&'))

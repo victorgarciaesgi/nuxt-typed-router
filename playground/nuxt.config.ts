@@ -10,21 +10,21 @@ export default defineNuxtConfig({
     experimentalRemoveNuxtDefs: true,
   },
   srcDir: './src',
-  i18n: {
-    locales: ['en', 'fr-FR'],
-    defaultLocale: 'en',
-    strategy: 'no_prefix',
-    vueI18n: {
-      legacy: false,
-      locale: 'en',
-      messages: {
-        en: {
-          welcome: 'Welcome',
-        },
-        fr: {
-          welcome: 'Bienvenue',
-        },
-      },
-    },
-  },
+  // i18n: {
+  //   locales: ['en', 'fr-FR'],
+  //   defaultLocale: 'en',
+  //   strategy: 'no_prefix',
+  //   vueI18n: {
+  //     legacy: false,
+  //     locale: 'en',
+  //     messages: {
+  //       en: {
+  //         welcome: 'Welcome',
+  //       },
+  //       fr: {
+  //         welcome: 'Bienvenue',
+  //       },
+  //     },
+  //   },
+  // },
 });
