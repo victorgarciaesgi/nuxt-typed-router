@@ -17,7 +17,7 @@ export function createDefinePageMetaFile(): string {
     [T in keyof PageMeta as [unknown] extends [PageMeta[T]] ? never : T]: PageMeta[T];
   }
 
-  export type TypedPageMeta<T extends RoutesNamesList> = Omit<FilteredPageMeta, 'redirect' | 'validate' | 'key'> & {
+  export type TypedPageMeta = Omit<FilteredPageMeta, 'redirect' | 'validate' | 'key'> & {
     /**
      * Validate whether a given route can validly be rendered with this page.
      *
@@ -26,8 +26,8 @@ export function createDefinePageMetaFile(): string {
      * statusCode/statusMessage to respond immediately with an error (other matches
      * will not be checked).
      */
-    validate?: (route: [T] extends [never] ? TypedRoute : TypedRouteFromName<T>) => boolean | Promise<boolean> | Partial<NuxtError> | Promise<Partial<NuxtError>>;
-    key?: false | string | ((route: [T] extends [never] ? TypedRoute : TypedRouteFromName<T>) => string);
+    validate?: (route: TypedRoute) => boolean | Promise<boolean> | Partial<NuxtError> | Promise<Partial<NuxtError>>;
+    key?: false | string | ((route: TypedRoute) => string);
     /** Allow types augmented by other modules */
     [key: string]: any;
   }
@@ -50,26 +50,22 @@ export function createDefinePageMetaFile(): string {
    * @exemple
    * 
    * \`\`\`ts
-   * definePageMeta('current-location-name', {
-   *   validate(route) {
-   * });
-   * // or
    * definePageMeta({
    *   validate(route) {
    * });
    * \`\`\`
    */
 export function definePageMeta<P extends string, U extends RoutesNamesList>(
-  meta: TypedPageMeta<never> & { redirect: TypedRouteLocationRawFromName<U, P> }
+  meta: TypedPageMeta & { redirect: TypedRouteLocationRawFromName<U, P> }
 ): void;
 ${returnIfTrue(
   pathCheck && !strictOptions.router.strictToArgument,
   `export function definePageMeta<P extends string>(
-  meta: TypedPageMeta<never> & { redirect: TypedPathParameter<P> }
+  meta: TypedPageMeta & { redirect: TypedPathParameter<P> }
 ): void;`
 )}
 export function definePageMeta<P extends string = string>(
-  meta: TypedPageMeta<never> & {
+  meta: TypedPageMeta & {
     redirect?: (to: TypedRoute) => TypedRouteLocationRaw<P> ${returnIfTrue(
       pathCheck && !strictOptions.router.strictToArgument,
       ` | TypedPathParameter<P>`
@@ -77,55 +73,16 @@ export function definePageMeta<P extends string = string>(
   }
 ): void;
 export function definePageMeta<P extends string = string>(
-  meta: TypedPageMeta<never> & {
+  meta: TypedPageMeta & {
     redirect?: () => TypedRouteLocationRaw<P> ${returnIfTrue(
       pathCheck && !strictOptions.router.strictToArgument,
       ` | TypedPathParameter<P>`
     )};
   }
 ): void;
-export function definePageMeta<
-  T extends RoutesNamesList,
-  P extends string,
-  U extends RoutesNamesList
->(routeName: T, meta: TypedPageMeta<T> & { redirect: TypedRouteLocationRawFromName<U, P> }): void;
-${returnIfTrue(
-  pathCheck && !strictOptions.router.strictToArgument,
-  `export function definePageMeta<T extends RoutesNamesList, P extends string>(
-  routeName: T,
-  meta: TypedPageMeta<T> & { redirect: TypedPathParameter<P> }
-): void;`
-)}
-export function definePageMeta<
-  T extends RoutesNamesList,
-  P extends string,
-  U extends RoutesNamesList
->(
-  routeName: T,
-  meta: TypedPageMeta<T> & {
-    redirect?: (to: TypedRouteFromName<T>) => TypedRouteLocationRaw<P> ${returnIfTrue(
-      pathCheck && !strictOptions.router.strictToArgument,
-      ` | TypedPathParameter<P>`
-    )};
-  }
-): void;
-export function definePageMeta<T extends RoutesNamesList, P extends string>(
-  routeName: T,
-  meta: TypedPageMeta<T> & {
-    redirect?: () => TypedRouteLocationRaw<P> ${returnIfTrue(
-      pathCheck && !strictOptions.router.strictToArgument,
-      ` | TypedPathParameter<P>`
-    )};
-  }
-): void;
-export function definePageMeta(metaOrName: any, meta?: any): void {
-  if (typeof metaOrName === 'string') {
-    return defaultDefinePageMeta(meta as any);
-  } else {
-    return defaultDefinePageMeta(metaOrName as any);
-  }
+export function definePageMeta(meta?: TypedPageMeta): void {
+  return defaultDefinePageMeta(meta);
 }
-
    
   `;
 }

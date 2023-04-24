@@ -29,7 +29,9 @@ class ModuleOptionsStore {
     if (options.buildDir != null) this.buildDir = options.buildDir;
     if (options.i18n != null) this.i18n = options.i18n;
     if (options.i18nOptions != null) {
-      this.i18nOptions = options.i18nOptions;
+      this.i18nOptions = defu(options.i18nOptions, {
+        strategy: 'prefix_except_default',
+      } satisfies Partial<NuxtI18nOptions>);
       if (options.i18nOptions.locales) {
         this.i18nLocales = options.i18nOptions.locales.map((l) => {
           if (typeof l === 'string') {
