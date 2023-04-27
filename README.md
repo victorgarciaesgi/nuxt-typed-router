@@ -17,8 +17,8 @@
 <img src='https://img.shields.io/npm/l/nuxt-typed-router.svg'>
 
 -----------
-> ⚠️ Nuxt 3.4 introduced a breaking change in its router output
-> Install `v3.1.4` of nuxt-typed-router if you're using this Nuxt version
+> ⚠️ Nuxt 3.4 introduced a breaking change in its router output.  
+> Install a version superior > `v3.1.4` of nuxt-typed-router if you're using this Nuxt version
 -----------
 
 ## Provide a type safe router to Nuxt with auto-generated typed definitions for route path, name and params

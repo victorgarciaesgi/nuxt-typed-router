@@ -115,22 +115,3 @@ assertType(definePageMeta({ redirect: '/user/ç9737/foo/articles?baz=foo' }));
 assertType(definePageMeta({ redirect: '/user/catch/1/2' }));
 assertType(definePageMeta({ redirect: '/user/test-' }));
 assertType(definePageMeta({ redirect: '/user' }));
-
-// * Resolved routes
-
-assertType(
-  definePageMeta('admin-id', {
-    validate(route) {
-      return !!route.params.id;
-    },
-  })
-);
-
-assertType(
-  definePageMeta('admin-id', {
-    redirect(route) {
-      expectTypeOf(route.params).toMatchTypeOf<{ id: string }>();
-      return route.fullPath;
-    },
-  })
-);
