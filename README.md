@@ -50,6 +50,11 @@
 
 Demo repo 🧪 : [nuxt-typed-router-demo](https://github.com/victorgarciaesgi/nuxt-typed-router-demo)
 
+## Cool video about it from LearnVue!
+
+[![Watch the video](https://img.youtube.com/vi/jiYoAiFb71Y/default.jpg)](https://www.youtube.com/watch?v=jiYoAiFb71Y&t)
+
+
 <br/>
 
 # Compatibility:
