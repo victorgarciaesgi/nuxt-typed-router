@@ -42,7 +42,7 @@ function createNameKeyFromFullName(route: NuxtPage, level: number, parentName?: 
 
 /** Mutates the output object with generated routes */
 export function walkThoughRoutes({
-  route,
+  route: _route,
   level,
   siblings,
   parent,
@@ -51,13 +51,12 @@ export function walkThoughRoutes({
   isLast,
   isLocale,
 }: WalkThoughRoutesParams) {
-  modifyRoutePrefixDefaultIfI18n(route);
+  const route = modifyRoutePrefixDefaultIfI18n(_route);
+  const isLocaleRoute = isLocale || is18Sibling(output.routesPaths, route);
 
   const newPath = `${parent?.path ?? ''}${
     route.path.startsWith('/') ? route.path : `/${route.path}`
   }`;
-
-  const isLocaleRoute = isLocale || is18Sibling(output.routesPaths, route);
 
   output.routesPaths.push({
     name: route.name,

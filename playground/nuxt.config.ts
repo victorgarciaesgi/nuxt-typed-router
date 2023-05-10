@@ -3,7 +3,10 @@ import NuxtTypedRouter from '..';
 
 export default defineNuxtConfig({
   extends: ['nuxt-seo-kit'],
-  modules: [NuxtTypedRouter, '@nuxtjs/i18n', '@nuxt/devtools'],
+  modules: [NuxtTypedRouter, '@nuxtjs/i18n'],
+  devtools: {
+    enabled: true,
+  },
   nuxtTypedRouter: {
     plugin: true,
     pathCheck: true,
@@ -11,20 +14,26 @@ export default defineNuxtConfig({
   },
   srcDir: './src',
   i18n: {
-    locales: ['en', 'fr-FR'],
-    defaultLocale: 'en',
-    // strategy: '',
+    defaultLocale: 'de',
+    // dynamicRouteParams: true,
+    locales: [
+      {
+        code: 'en',
+        iso: 'en-US',
+      },
+      {
+        code: 'de',
+        iso: 'de-DE',
+      },
+      {
+        code: 'zh',
+        iso: 'zh-CN',
+      },
+    ],
     vueI18n: {
       legacy: false,
-      locale: 'en',
-      messages: {
-        en: {
-          welcome: 'Welcome',
-        },
-        fr: {
-          welcome: 'Bienvenue',
-        },
-      },
+      fallbackLocale: 'de',
+      locale: 'de',
     },
   },
 });
