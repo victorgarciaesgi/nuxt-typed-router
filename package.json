@@ -28,7 +28,8 @@
     "test": "pnpm run dev:prepare && pnpm run test:types && pnpm run test:fixtures",
     "lint": "eslint --ext .ts --ext .vue .",
     "docs:dev": "cd docs && pnpm run dev",
-    "docs:build": "npm run dev:prepare && cd docs && nuxi generate",
+    "docs:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "docs:build": "npm run docs:prepare && cd docs && nuxi generate",
     "typecheck": "tsc --noEmit",
     "release": "bumpp && npm publish && git push --follow-tags"
   },
