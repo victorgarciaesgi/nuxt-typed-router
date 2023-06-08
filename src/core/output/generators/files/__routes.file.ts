@@ -16,7 +16,6 @@ export function createRoutesTypesFile({
 }: GeneratorOutput): string {
   return /* typescript */ `
     ${createRoutesNamesListExport(routesList)}
-    export type WithoutBracket<T extends string> = T extends \`:\${string}\` ? never : T;
 
     ${createRoutesParamsRecordExport(routesParams)}
     

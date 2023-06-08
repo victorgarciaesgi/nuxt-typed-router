@@ -98,12 +98,6 @@ export async function saveGeneratedFiles({ outputData }: SaveGeneratedFiles): Pr
     console.log(logSymbols.success, `Router autocompletions generated 🚦`);
     if (!firstRun) {
       firstRun = true;
-      console.log(
-        logSymbols.warning,
-        chalk.yellow(
-          `Route path autocomplete is still experimental. You can disable it with the "nuxtTypedRouter.pathCheck: false" option`
-        )
-      );
     }
   }
 }

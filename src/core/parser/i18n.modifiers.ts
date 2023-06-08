@@ -12,7 +12,7 @@ export function is18Sibling(source: RoutePathsDecl[], route: NuxtPage) {
       ?.map((m) => m.replace(specialCharacterRegxp, '\\$&'))
       .join('|');
 
-    return !!route.path?.match(new RegExp(`/?(${i18LocalesRecognizer})(/.+)?`, 'g'));
+    return !!route.path?.match(new RegExp(`^/?(${i18LocalesRecognizer})(/.*)?$`, 'g'));
   }
   return false;
 }

@@ -25,8 +25,6 @@ export function createIndexFile(): string {
       RoutesNamesList,
       RoutesNamesListRecord,
       RoutesParamsRecord,
-      RoutePath,
-      RoutePathByName
     } from './__routes';
     export { useRoute } from './__useTypedRoute';
     export { useRouter } from './__useTypedRouter';
@@ -44,7 +42,7 @@ export function createIndexFile(): string {
     ${returnIfTrue(
       i18n,
       `export {useLocalePath, useLocaleRoute} from './__i18n-router';
-      export type {TypedToLocalePath, TypedLocaleRoute} from './__i18n-router';`
+      export type {TypedToLocalePath, TypedLocaleRoute, I18nLocales} from './__i18n-router';`
     )}
 
     

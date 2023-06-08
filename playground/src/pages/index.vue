@@ -5,7 +5,7 @@
     <!-- Should error -->
     <nuxt-link to="/foo">Navigate Link</nuxt-link>
 
-    <nuxt-link to="/foo" external>Navigate Link</nuxt-link>
+    <nuxt-link to="/admin/:id?foo">Navigate Link</nuxt-link>
 
     <nuxt-link :to="localePath('/admin/:id')">Navigate Link</nuxt-link>
     <nuxt-layout></nuxt-layout>
