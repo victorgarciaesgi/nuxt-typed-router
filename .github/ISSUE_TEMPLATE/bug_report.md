@@ -20,7 +20,7 @@ If applicable, add screenshots to help explain your problem.
 
 Run `nuxi infos`
 
-** Your `pages` folder structure **
+**Your `pages` folder structure**
 
 Run `npx tree-node-cli {your page folder path}`
 
