@@ -20,5 +20,9 @@ If applicable, add screenshots to help explain your problem.
 
 Run `nuxi infos`
 
+** Your `pages` folder structure
+
+Run `npx tree-node-cli {your page folder path}`
+
 **Your nuxt.config.ts**
 Paste your modules config (and i18n config if you're using it)
