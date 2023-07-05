@@ -103,9 +103,9 @@ export function createTypedRouteFromPathType(pathElements: DestructuredPath[][][
 export function createTypeValidatePathCondition(elements: DestructuredPath[][]) {
   const typeName = `Validate${nanoid(7)}`;
   const params = new Map();
-  const routeName = elements.flat()[0].routeName;
+  const routeName = elements.flat()[0]?.routeName ?? 'index';
   const hasOnlyNames = elements.flat().every((elem) => elem.type === 'name');
-  const isLocale = elements.flat()[0].isLocale;
+  const isLocale = elements.flat()[0]?.isLocale ?? false;
 
   const condition = `type ${typeName}<T> = T extends \`/${elements
     .map((elementArray, index) => {

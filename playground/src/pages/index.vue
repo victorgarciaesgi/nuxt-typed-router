@@ -7,7 +7,8 @@
 
     <nuxt-link to="/admin/:id?foo">Navigate Link</nuxt-link>
 
-    <nuxt-link :to="localePath('/admin/:id')">Navigate Link</nuxt-link>
+    <nuxt-link :to="{ name: '' }">Navigate Link</nuxt-link>
+    <nuxt-link :to="localePath({ name: '' })">Navigate Link</nuxt-link>
     <nuxt-layout></nuxt-layout>
   </div>
 </template>

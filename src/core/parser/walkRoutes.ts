@@ -23,7 +23,7 @@ function createKeyedName(route: NuxtPage, parent?: NuxtPage): string {
   if (parent) {
     return camelCase(parentPath || 'index');
   } else {
-    return camelCase(route.path.split('/').join('-') || 'index');
+    return camelCase(route.path.split('/').join('-')) || 'index';
   }
 }
 
@@ -55,14 +55,16 @@ export function walkThoughRoutes({
   const isLocaleRoute = isLocale || is18Sibling(output.routesPaths, route);
 
   const newPath = `${parent?.path ?? ''}${
-    route.path.startsWith('/') ? route.path : `/${route.path}`
+    route.path.startsWith('/') || parent?.path === '/' ? route.path : `/${route.path}`
   }`;
 
-  output.routesPaths.push({
-    name: route.name,
-    path: newPath,
-    isLocale: isLocaleRoute,
-  });
+  if (parent?.path !== '/') {
+    output.routesPaths.push({
+      name: route.name,
+      path: newPath,
+      isLocale: isLocaleRoute,
+    });
+  }
 
   // Filter routes added by i18n module
   if (route.children?.length) {

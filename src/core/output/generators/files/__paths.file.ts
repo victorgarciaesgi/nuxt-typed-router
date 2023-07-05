@@ -76,7 +76,8 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
         .split('/')
         .filter((f) => f.length)
         .map((m) => destructurePath(m, route));
-    });
+    })
+    .filter((f) => f.length);
 
   const validatePathTypes = createValidatePathTypes(pathElements);
   const validateLocalePathTypes = createValidatePathTypes(pathElements, true);
