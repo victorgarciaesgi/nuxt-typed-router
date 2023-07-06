@@ -68,7 +68,7 @@
     "mkdirp": "^3.0.1",
     "nanoid": "^4.0.2",
     "pathe": "1.1.0",
-    "prettier": "2.8.8"
+    "prettier": "3.0.0"
   },
   "devDependencies": {
     "@nuxt/devtools": "^0.5.5",
