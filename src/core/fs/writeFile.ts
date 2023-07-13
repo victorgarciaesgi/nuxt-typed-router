@@ -5,7 +5,6 @@ import logSymbols from 'log-symbols';
 import chalk from 'chalk';
 import { mkdirp } from 'mkdirp';
 import { moduleOptionStore } from '../config';
-import { formatOutputWithPrettier } from './prettierFormat';
 
 // @ts-ignore
 export const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -27,16 +26,15 @@ export async function processPathAndWriteFile({
     const finalOutDir = outDir ?? `.nuxt/typed-router`;
     const processedOutDir = resolve(rootDir, finalOutDir);
     const outputFile = resolve(process.cwd(), `${processedOutDir}/${fileName}`);
-    const formatedContent = await formatOutputWithPrettier(content);
 
     if (fs.existsSync(outputFile)) {
-      await writeFile(outputFile, formatedContent);
+      await writeFile(outputFile, content);
     } else {
       let dirList = outputFile.split('/');
       dirList.pop();
       const dirPath = dirList.join('/');
       await mkdirp(dirPath);
-      await writeFile(outputFile, formatedContent);
+      await writeFile(outputFile, content);
     }
   } catch (e) {
     return Promise.reject(e);
