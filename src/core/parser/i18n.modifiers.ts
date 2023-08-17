@@ -26,7 +26,7 @@ export function modifyRoutePrefixDefaultIfI18n(route: NuxtPage) {
       .join('|');
     if (i18nOptions?.strategy === 'prefix_and_default') {
       const routeDefaultRegXp = new RegExp(
-        `([a-zA-Z-]+)${separator}(${i18LocalesRecognizer})${separator}default`,
+        `([a-zA-Z0-9-]+)${separator}(${i18LocalesRecognizer})${separator}default`,
         'g'
       );
       const match = routeDefaultRegXp.exec(route.name);
