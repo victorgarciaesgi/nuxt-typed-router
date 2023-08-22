@@ -42,7 +42,7 @@ export function modifyRoutePrefixDefaultIfI18n(route: NuxtPage) {
       let defaultLocale = i18nLocales.find((f) => f === i18nOptions.defaultLocale)
         ? i18nOptions.defaultLocale?.replace(specialCharacterRegxp, '\\$&')
         : '';
-      const routeDefaultNameRegXp = new RegExp(`^([a-zA-Z-]+)${separator}${defaultLocale}`, 'g');
+      const routeDefaultNameRegXp = new RegExp(`^([a-zA-Z0-9-]+)${separator}${defaultLocale}`, 'g');
       const match = routeDefaultNameRegXp.exec(route.name);
       if (match) {
         const [_, routeName] = match;

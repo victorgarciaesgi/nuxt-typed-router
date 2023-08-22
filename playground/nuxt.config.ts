@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     plugin: true,
     pathCheck: true,
     experimentalRemoveNuxtDefs: true,
+    experimentalIgnoreRoutes: ['[...404].vue'],
   },
   srcDir: './src',
   i18n: {

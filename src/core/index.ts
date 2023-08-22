@@ -22,8 +22,9 @@ export async function createTypedRouter({
 }: CreateTypedRouterArgs): Promise<void> {
   try {
     const rootDir = nuxt.options.rootDir;
+    const srcDir = nuxt.options.srcDir;
     const autoImport = nuxt.options.imports.autoImport ?? true;
-    moduleOptionStore.updateOptions({ rootDir, autoImport });
+    moduleOptionStore.updateOptions({ rootDir, autoImport, srcDir });
 
     if (!isHookCall) {
       // Allow to collect custom routes added by config or module before generating it

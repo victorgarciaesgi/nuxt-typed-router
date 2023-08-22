@@ -2,6 +2,7 @@ import { NuxtPage } from '@nuxt/schema';
 import { camelCase } from 'lodash-es';
 import { GeneratorOutput, ParamDecl } from '../../types';
 import { isItemLast } from '../../utils';
+import { moduleOptionStore } from '../config';
 import { extractUnMatchingSiblings } from './extractChunks';
 import { is18Sibling, modifyRoutePrefixDefaultIfI18n } from './i18n.modifiers';
 import { extractRouteParamsFromPath } from './params';
@@ -53,6 +54,10 @@ export function walkThoughRoutes({
 }: WalkThoughRoutesParams) {
   const route = modifyRoutePrefixDefaultIfI18n(_route);
   const isLocaleRoute = isLocale || is18Sibling(output.routesPaths, route);
+
+  if (route.file && moduleOptionStore.resolvedIgnoredRoutes.includes(route.file)) {
+    return;
+  }
 
   const newPath = `${parent?.path ?? ''}${
     route.path.startsWith('/') || parent?.path === '/' ? route.path : `/${route.path}`

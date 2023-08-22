@@ -26,6 +26,13 @@ export interface ModuleOptions {
    * @default true
    */
   experimentalRemoveNuxtDefs?: boolean;
+  /**
+   * ⚠️ Experimental
+   *
+   * Exclude certain routes from being included into the generated types
+   * Ex: 404 routes or catchAll routes
+   */
+  experimentalIgnoreRoutes?: string[];
 }
 
 export interface StrictOptions {

@@ -1,11 +1,12 @@
+import path from 'path';
 import { defu } from 'defu';
 import { NuxtI18nOptions } from '@nuxtjs/i18n';
 import { ModuleOptions, StrictOptions } from '../../types';
-
 interface CustomNuxtConfigOptions {
   autoImport?: boolean;
   rootDir?: string;
   buildDir?: string;
+  srcDir?: string;
   i18n?: boolean;
   i18nOptions?: NuxtI18nOptions | null;
 }
@@ -17,16 +18,21 @@ class ModuleOptionsStore {
   autoImport: boolean = false;
   rootDir: string = '';
   buildDir: string = '';
+  srcDir: string = '';
+  pagesDir: string = '';
   i18n: boolean = false;
   i18nOptions: NuxtI18nOptions | null = null;
   i18nLocales: string[] = [];
+  experimentalIgnoreRoutes: string[] = [];
 
   updateOptions(options: ModuleOptions & CustomNuxtConfigOptions) {
     if (options.plugin != null) this.plugin = options.plugin;
     if (options.strict != null) this.strict = options.strict;
     if (options.autoImport != null) this.autoImport = options.autoImport;
     if (options.rootDir != null) this.rootDir = options.rootDir;
+    if (options.srcDir != null) this.srcDir = options.srcDir;
     if (options.buildDir != null) this.buildDir = options.buildDir;
+    this.pagesDir = path.join(this.srcDir, 'pages');
     if (options.i18n != null) this.i18n = options.i18n;
     if (options.i18nOptions != null) {
       this.i18nOptions = defu(options.i18nOptions, {
@@ -45,6 +51,13 @@ class ModuleOptionsStore {
     if (options.pathCheck != null) {
       this.pathCheck = options.pathCheck;
     }
+    if (options.experimentalIgnoreRoutes) {
+      this.experimentalIgnoreRoutes = options.experimentalIgnoreRoutes;
+    }
+  }
+
+  get resolvedIgnoredRoutes(): string[] {
+    return this.experimentalIgnoreRoutes.map((file) => path.join(this.pagesDir, file));
   }
 
   getResolvedStrictOptions(): Required<StrictOptions> {

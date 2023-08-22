@@ -18,6 +18,7 @@ export default defineNuxtModule<ModuleOptions>({
     strict: false,
     pathCheck: true,
     experimentalRemoveNuxtDefs: true,
+    experimentalIgnoreRoutes: [],
   },
   setup(moduleOptions, nuxt: Nuxt) {
     const { resolve } = createResolver(import.meta.url);
