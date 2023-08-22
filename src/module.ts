@@ -71,6 +71,15 @@ export default defineNuxtModule<ModuleOptions>({
       }
     });
 
+    nuxt.hook('build:done', () => {
+      if (moduleOptions.experimentalRemoveNuxtDefs) {
+        removeNuxtDefinitions({
+          autoImport: nuxt.options.imports.autoImport ?? true,
+          buildDir: nuxt.options.buildDir,
+        });
+      }
+    });
+
     if (nuxt.options.dev) {
       nuxt.hook('devtools:customTabs' as any, (tabs: any[]) => {
         tabs.push({

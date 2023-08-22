@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { TypedRouteLocationRawFromName, helpers, TypedRouteLocation } from '@typed-router';
-
+import { Body } from '#components';
 // definePageMeta({
 //   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
 // });
