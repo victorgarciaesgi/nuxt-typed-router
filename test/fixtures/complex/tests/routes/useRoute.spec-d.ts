@@ -1,6 +1,7 @@
 import { assertType, test } from 'vitest';
 import type { RouteLocationMatched } from 'vue-router';
-import { TypedRouteFromName, useRoute } from '@typed-router';
+import type { TypedRouteFromName } from '@typed-router';
+import {useRoute} from '@typed-router'
 
 // @ts-expect-error Ensure global imports are disabled
 declare const globalDecl: (typeof globalThis)['useRoute'];

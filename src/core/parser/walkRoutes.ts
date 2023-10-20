@@ -1,6 +1,6 @@
-import { NuxtPage } from '@nuxt/schema';
+import type { NuxtPage } from '@nuxt/schema';
 import { camelCase } from 'lodash-es';
-import { GeneratorOutput, ParamDecl } from '../../types';
+import type { GeneratorOutput, ParamDecl } from '../../types';
 import { isItemLast } from '../../utils';
 import { moduleOptionStore } from '../config';
 import { extractUnMatchingSiblings } from './extractChunks';

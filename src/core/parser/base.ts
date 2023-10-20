@@ -1,5 +1,5 @@
-import { NuxtPage } from '@nuxt/schema';
-import { GeneratorOutput, RouteParamsDecl, RoutePathsDecl } from '../../types';
+import type { NuxtPage } from '@nuxt/schema';
+import type { GeneratorOutput, RouteParamsDecl, RoutePathsDecl } from '../../types';
 import { isItemLast } from '../../utils';
 import { walkThoughRoutes } from './walkRoutes';
 

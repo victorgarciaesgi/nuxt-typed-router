@@ -1,5 +1,6 @@
 import { assertType } from 'vitest';
-import { TypedRouter, useRouter } from '@typed-router';
+import type { TypedRouter, } from '@typed-router';
+import  { useRouter } from '@typed-router';
 
 // @ts-expect-error Ensure global imports are disabled
 declare const globalDecl: (typeof globalThis)['useRouter'];

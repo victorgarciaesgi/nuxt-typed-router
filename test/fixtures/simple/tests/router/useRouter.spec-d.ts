@@ -1,6 +1,6 @@
 import { assertType } from 'vitest';
 import test from 'node:test';
-import { TypedRouter } from '@typed-router';
+import type { TypedRouter } from '@typed-router';
 
 // Given
 const router = useRouter();

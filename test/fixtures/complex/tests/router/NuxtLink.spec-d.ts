@@ -1,5 +1,5 @@
 import { assertType, vi } from 'vitest';
-import { GlobalComponents } from 'vue';
+import type { GlobalComponents } from 'vue';
 
 const NuxtLink: GlobalComponents['NuxtLink'] = vi.fn() as any;
 

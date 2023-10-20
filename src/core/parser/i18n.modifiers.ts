@@ -1,6 +1,6 @@
-import { NuxtPage } from '@nuxt/schema';
+import type { NuxtPage } from '@nuxt/schema';
 import { moduleOptionStore } from '../config';
-import { RoutePathsDecl } from '../../types';
+import type { RoutePathsDecl } from '../../types';
 
 const specialCharacterRegxp = /([^a-zA-Z0-9_])/gm;
 

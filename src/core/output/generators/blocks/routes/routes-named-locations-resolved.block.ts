@@ -1,4 +1,4 @@
-import { RouteParamsDecl } from '../../../../../types';
+import type { RouteParamsDecl } from '../../../../../types';
 
 export function createRoutesNamedLocationsResolvedExport(routesParams: RouteParamsDecl[]): string {
   return `

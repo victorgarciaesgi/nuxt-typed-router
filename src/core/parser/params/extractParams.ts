@@ -1,4 +1,4 @@
-import { ParamDecl } from '../../../types';
+import type { ParamDecl } from '../../../types';
 import { extractParamsFromPathDecl } from './replaceParams';
 
 export function extractRouteParamsFromPath(

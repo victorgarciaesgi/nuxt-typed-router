@@ -1,6 +1,6 @@
 import { assertType, test } from 'vitest';
 import type { RouteLocationMatched } from 'vue-router';
-import { TypedRouteFromName } from '@typed-router';
+import type { TypedRouteFromName } from '@typed-router';
 
 // Given
 const route = useRoute();

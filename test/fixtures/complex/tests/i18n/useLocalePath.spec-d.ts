@@ -1,5 +1,5 @@
 import { assertType, expectTypeOf, vi } from 'vitest';
-import { GlobalComponents } from 'vue';
+import type { GlobalComponents } from 'vue';
 import type { HistoryState, LocationQuery, LocationQueryRaw } from 'vue-router';
 import { navigateTo, useLocalePath, useRouter } from '@typed-router';
 

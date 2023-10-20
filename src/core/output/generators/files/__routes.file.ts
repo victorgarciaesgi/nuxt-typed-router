@@ -1,4 +1,4 @@
-import { GeneratorOutput } from '../../../../types';
+import type { GeneratorOutput } from '../../../../types';
 import {
   createRoutesNamedLocationsExport,
   createRoutesNamedLocationsResolvedExport,

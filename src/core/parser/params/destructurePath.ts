@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import { RoutePathsDecl } from '../../../../src/types';
+import type { RoutePathsDecl } from '../../../../src/types';
 
 const ExtractRegex = /(^(\/)?([^:/]+)?(:(\w+)(\((.*)\)[*+]?)?(\?)?)*([^:/]+)?)+/g;
 export type DestructuredPath = {

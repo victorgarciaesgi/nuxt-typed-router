@@ -1,6 +1,6 @@
 import { useNuxtApp } from '#app';
 import { assertType } from 'vitest';
-import { TypedRouter } from '@typed-router';
+import type { TypedRouter } from '@typed-router';
 
 // Given
 const { $typedRouter } = useNuxtApp();

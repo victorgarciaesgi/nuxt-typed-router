@@ -1,21 +1,20 @@
-import chalk from 'chalk';
 import logSymbols from 'log-symbols';
-import { GeneratorOutput } from '../../../types';
+import type { GeneratorOutput } from '../../../types';
 import { moduleOptionStore } from '../../config';
 import { processPathAndWriteFile } from '../../fs';
 import {
-  createIndexFile,
-  createNavigateToFile,
-  createTypedRouterFile,
-  createRoutesTypesFile,
-  createUseTypedRouterFile,
-  createTypeUtilsRuntimeFile,
-  createUseTypedRouteFile,
-  createTypedRouterDefinitionFile,
-  createi18nRouterFile,
-  createPathsFiles,
   createDefinePageMetaFile,
   createHelpersFile,
+  createIndexFile,
+  createNavigateToFile,
+  createPathsFiles,
+  createRoutesTypesFile,
+  createTypeUtilsRuntimeFile,
+  createTypedRouterDefinitionFile,
+  createTypedRouterFile,
+  createUseTypedRouteFile,
+  createUseTypedRouterFile,
+  createi18nRouterFile,
 } from '../generators/files';
 
 import { watermarkTemplate } from '../static';

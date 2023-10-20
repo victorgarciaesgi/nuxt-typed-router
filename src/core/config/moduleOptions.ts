@@ -1,7 +1,7 @@
 import path from 'path';
 import { defu } from 'defu';
-import { NuxtI18nOptions } from '@nuxtjs/i18n';
-import { ModuleOptions, StrictOptions } from '../../types';
+import type { NuxtI18nOptions } from '@nuxtjs/i18n';
+import type { ModuleOptions, StrictOptions } from '../../types';
 interface CustomNuxtConfigOptions {
   autoImport?: boolean;
   rootDir?: string;

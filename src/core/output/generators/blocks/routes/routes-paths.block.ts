@@ -1,5 +1,5 @@
-import { DestructuredPath } from '../../../../../core/parser/params';
-import { RoutePathsDecl } from '../../../../../types';
+import type { DestructuredPath } from '../../../../../core/parser/params';
+import type { RoutePathsDecl } from '../../../../../types';
 import { customAlphabet } from 'nanoid/non-secure';
 import { returnIfTrue } from '../../../../../../src/utils';
 import { moduleOptionStore } from '../../../../../../src/core/config';

@@ -1,5 +1,5 @@
 import { assertType, vi } from 'vitest';
-import { TypedNuxtLink } from '../../.nuxt/typed-router/typed-router';
+import type { TypedNuxtLink } from '../../.nuxt/typed-router/typed-router';
 
 const NuxtLink: TypedNuxtLink = vi.fn() as any;
 

@@ -1,5 +1,5 @@
 import { returnIfTrue } from '../../../../../src/utils';
-import { GeneratorOutput } from '../../../../types';
+import type { GeneratorOutput } from '../../../../types';
 import { moduleOptionStore } from '../../../config';
 import { destructurePath } from '../../../parser/params';
 import {
