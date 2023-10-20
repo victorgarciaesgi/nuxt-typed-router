@@ -21,7 +21,6 @@ jobs:
       with:
         version: 6.0.2
     - run: pnpm i
-    - run: pnpm exec -r playwright install
     - run: pnpm run test
       env:
         CI: true
