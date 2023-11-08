@@ -1,6 +1,6 @@
 export function createUseTypedRouteFile(): string {
   return /* typescript */ `
-  import { useRoute as defaultRoute } from '#app';
+  import { useRoute as defaultRoute } from '#imports';
   import type { RoutesNamesList } from './__routes';
   import type {TypedRoute, TypedRouteFromName} from './__router'
 

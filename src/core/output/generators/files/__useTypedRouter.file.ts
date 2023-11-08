@@ -1,7 +1,7 @@
 export function createUseTypedRouterFile(): string {
   return /* typescript */ `
   
-  import { useRouter as defaultRouter } from '#app';
+  import { useRouter as defaultRouter } from '#imports';
   import type { TypedRouter } from './__router';
 
   /** 

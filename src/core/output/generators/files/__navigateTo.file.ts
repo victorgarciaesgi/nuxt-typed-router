@@ -5,7 +5,7 @@ export function createNavigateToFile() {
   const { router } = moduleOptionStore.getResolvedStrictOptions();
   const { pathCheck } = moduleOptionStore;
   return /* typescript */ `
-    import { navigateTo as defaultNavigateTo } from '#app';
+    import { navigateTo as defaultNavigateTo } from '#imports';
     import type { NavigateToOptions } from 'nuxt/dist/app/composables/router';
     import type { NavigationFailure } from 'vue-router';
     import type { TypedRouteLocationRawFromName, TypedRouteFromName, TypedRoute } from './__router';
