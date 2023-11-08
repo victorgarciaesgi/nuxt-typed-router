@@ -63,7 +63,7 @@ export function walkThoughRoutes({
     route.path.startsWith('/') || parent?.path === '/' ? route.path : `/${route.path}`
   }`;
 
-  if (parent?.path !== '/') {
+  if (parent?.path !== '/' || newPath !== parent?.path) {
     output.routesPaths.push({
       name: route.name,
       path: newPath,
