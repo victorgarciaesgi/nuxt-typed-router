@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { useNuxtApp } from '#app';
+import { useNuxtApp } from '#imports';
 import { useRoute, useRouter, navigateTo } from '@typed-router';
 
 const route = useRoute('user-foo-bar');

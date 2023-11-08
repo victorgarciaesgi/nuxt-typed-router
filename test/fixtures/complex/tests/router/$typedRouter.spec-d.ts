@@ -1,4 +1,4 @@
-import { useNuxtApp } from '#app';
+import { useNuxtApp } from '#imports';
 import { assertType } from 'vitest';
 import type { TypedRouter } from '@typed-router';
 

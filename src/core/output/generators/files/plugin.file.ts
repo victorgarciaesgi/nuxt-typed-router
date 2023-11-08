@@ -1,7 +1,7 @@
 export function createPluginFile(): string {
   return /* typescript */ `
   
-  import { defineNuxtPlugin, useRouter, useRoute } from '#app';
+  import { defineNuxtPlugin, useRouter, useRoute } from '#imports';
   import {TypedRouter, TypedRoute, routesNames} from '@typed-router';
 
   export default defineNuxtPlugin(() => {
