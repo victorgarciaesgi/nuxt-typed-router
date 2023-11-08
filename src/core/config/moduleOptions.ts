@@ -24,6 +24,7 @@ class ModuleOptionsStore {
   i18nOptions: NuxtI18nOptions | null = null;
   i18nLocales: string[] = [];
   experimentalIgnoreRoutes: string[] = [];
+  nuxtLinkLocaleExists: boolean = false;
 
   updateOptions(options: ModuleOptions & CustomNuxtConfigOptions) {
     if (options.plugin != null) this.plugin = options.plugin;

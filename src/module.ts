@@ -80,6 +80,12 @@ export default defineNuxtModule<ModuleOptions>({
       }
     });
 
+    nuxt.hook("components:extend", (components) => {
+      moduleOptionStore.nuxtLinkLocaleExists = !!components.find(
+        (c) => c.pascalName === "NuxtLinkLocale",
+      );
+    });
+
     if (nuxt.options.dev) {
       nuxt.hook('devtools:customTabs' as any, (tabs: any[]) => {
         tabs.push({
