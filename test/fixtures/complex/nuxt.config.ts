@@ -1,8 +1,7 @@
-import NuxtTypedRouter from '../../..';
 import TestModuleRoute from './src/modules/testAddRoute';
 
 export default defineNuxtConfig({
-  modules: [NuxtTypedRouter, TestModuleRoute, '@nuxtjs/i18n'],
+  modules: ['nuxt-typed-router', TestModuleRoute, '@nuxtjs/i18n'],
   nuxtTypedRouter: {
     plugin: true,
     experimentalIgnoreRoutes: ['[...404].vue'],

@@ -1,7 +1,5 @@
-import NuxtTypedRouter from '../../..';
-
 export default defineNuxtConfig({
-  modules: [NuxtTypedRouter],
+  modules: ['nuxt-typed-router'],
   vite: {
     resolve: {
       dedupe: ['vue-router'],
