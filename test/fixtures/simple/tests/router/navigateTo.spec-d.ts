@@ -1,6 +1,5 @@
-import { assertType } from 'vitest';
+import { assertType, test } from 'vitest';
 import type { LocationQuery } from 'vue-router';
-import test from 'node:test';
 
 // ! ------ Should Error ❌
 

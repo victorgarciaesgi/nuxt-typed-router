@@ -43,7 +43,8 @@ export function createNavigateToFile() {
       ) : Promise<void | NavigationFailure | TypedRouteFromName<RouteNameFromPath<T>>>`
     )}
   }
-    export const navigateTo: NavigateToFunction = defaultNavigateTo as any;
+  
+  export const navigateTo: NavigateToFunction = defaultNavigateTo as any;
 
   `;
 }

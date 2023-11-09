@@ -27,6 +27,7 @@ export function createLocaleRoutePathSchema(routePaths: RoutePathsDecl[]) {
 
 export function createValidatePathTypes(
   pathElements: DestructuredPath[][][],
+  routesList: string[],
   withLocale = false
 ): string {
   let pathConditions = pathElements.map(createTypeValidatePathCondition).filter((f) => {
@@ -61,7 +62,7 @@ export function createValidatePathTypes(
       }
       : never;
   
-  
+    // RouteNameFromPath, RouteNameFromLocalePath
     export type RouteNameFrom${returnIfTrue(
       withLocale,
       'Locale'
@@ -71,6 +72,7 @@ export function createValidatePathTypes(
          ${
            pathConditions.length
              ? `: ${pathConditions
+                 .filter((f) => routesList.includes(f.routeName))
                  .map((t) => `${t.typeName}<T> extends true ? "${t.routeName}"`)
                  .join(': ')} : never`
              : ': never'

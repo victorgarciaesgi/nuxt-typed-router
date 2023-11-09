@@ -12,6 +12,7 @@ import {
   createTypeUtilsRuntimeFile,
   createTypedRouterDefinitionFile,
   createTypedRouterFile,
+  createUseTypedLinkFile,
   createUseTypedRouteFile,
   createUseTypedRouterFile,
   createi18nRouterFile,
@@ -36,6 +37,10 @@ export async function saveGeneratedFiles({ outputData }: SaveGeneratedFiles): Pr
     {
       fileName: '__useTypedRoute.ts',
       content: createUseTypedRouteFile(),
+    },
+    {
+      fileName: '__useTypedLink.ts',
+      content: createUseTypedLinkFile(),
     },
     {
       fileName: '__paths.d.ts',
