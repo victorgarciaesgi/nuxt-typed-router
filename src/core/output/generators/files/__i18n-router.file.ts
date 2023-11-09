@@ -20,7 +20,7 @@ export function createi18nRouterFile() {
   ${returnIfTrue(
     nLLE,
     `import NuxtLink from "nuxt/dist/app/components/nuxt-link";
-  import type { NuxtLinkProps } from "#imports";`,
+  import type { NuxtLinkProps } from "#app";`,
   )}
 
   export type I18nLocales = ${
@@ -80,7 +80,8 @@ export function createi18nRouterFile() {
         pathCheck && !NuxtLink.strictToArgument,
         ` | (E extends true ? string : ${LocalePathType}<T>)`,
       )},
-    external?: E
+    external?: E,
+    locale?: I18nLocales
     }
 
 
