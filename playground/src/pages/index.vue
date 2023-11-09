@@ -7,15 +7,14 @@
 
     <nuxt-link to="/admin/:id?foo">Navigate Link</nuxt-link>
 
-    <nuxt-link :to="{ name: '' }">Navigate Link</nuxt-link>
-    <nuxt-link :to="localePath({ name: '' })">Navigate Link</nuxt-link>
+    <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
+    <nuxt-link :to="localePath({ name: 'user' })">Navigate Link</nuxt-link>
     <nuxt-layout></nuxt-layout>
   </div>
 </template>
 
 <script setup lang="ts">
-import { TypedRouteLocationRawFromName, helpers, TypedRouteLocation } from '@typed-router';
-import { Body } from '#components';
+import type { TypedRouteLocationRawFromName, helpers, TypedRouteLocation } from '@typed-router';
 // definePageMeta({
 //   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
 // });
@@ -57,6 +56,7 @@ function navigate() {
   const route = localePath(`/user/${u}/:slug/articles`);
   router.push('/');
   navigateTo('ednzelfjle', { external: true });
+  const route4 = navigateTo('/test/:foo');
   router.push({ path: '/' });
 
   router.push('/user/:id/:slug/articles#baz');

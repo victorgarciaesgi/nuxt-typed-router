@@ -14,6 +14,7 @@ export function createTypedRouterDefinitionFile(): string {
     import type {TypedRouter, TypedRoute, TypedRouteLocationRawFromName, TypedLocationAsRelativeRaw} from './__router';
     import { useRoute as _useRoute } from './__useTypedRoute';
     import { useRouter as _useRouter } from './__useTypedRouter';
+    import { useLink as _useLink } from './__useTypedLink';
     import { navigateTo as _navigateTo } from './__navigateTo';
     ${returnIfTrue(
       i18n,
@@ -32,6 +33,7 @@ export function createTypedRouterDefinitionFile(): string {
         /* typescript */ `
             const useRoute: typeof _useRoute;
             const useRouter: typeof _useRouter;
+            const useLink: typeof _useLink;
             const navigateTo: typeof _navigateTo;
             const definePageMeta: typeof _definePageMeta;
             

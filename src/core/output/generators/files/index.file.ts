@@ -28,6 +28,7 @@ export function createIndexFile(): string {
     } from './__routes';
     export { useRoute } from './__useTypedRoute';
     export { useRouter } from './__useTypedRouter';
+    export { useLink } from './__useTypedLink';
     export { navigateTo } from './__navigateTo';
     export { definePageMeta } from './__definePageMeta';
     export { helpers } from './__helpers';

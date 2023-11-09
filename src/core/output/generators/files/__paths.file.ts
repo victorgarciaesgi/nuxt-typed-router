@@ -8,7 +8,7 @@ import {
   createValidatePathTypes,
 } from '../blocks';
 
-export function createPathsFiles({ routesPaths }: GeneratorOutput) {
+export function createPathsFiles({ routesPaths, routesList }: GeneratorOutput) {
   const { i18n, i18nOptions } = moduleOptionStore;
   const hasPrefixStrategy = i18n && i18nOptions?.strategy !== 'no_prefix';
 
@@ -79,8 +79,8 @@ export function createPathsFiles({ routesPaths }: GeneratorOutput) {
     })
     .filter((f) => f.length);
 
-  const validatePathTypes = createValidatePathTypes(pathElements);
-  const validateLocalePathTypes = createValidatePathTypes(pathElements, true);
+  const validatePathTypes = createValidatePathTypes(pathElements, routesList);
+  const validateLocalePathTypes = createValidatePathTypes(pathElements, routesList, true);
 
   return /* typescript */ `
     
