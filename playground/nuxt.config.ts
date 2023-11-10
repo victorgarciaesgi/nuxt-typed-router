@@ -3,7 +3,7 @@ import NuxtTypedRouter from '..';
 
 export default defineNuxtConfig({
   extends: ['nuxt-seo-kit'],
-  modules: [NuxtTypedRouter, '@nuxtjs/i18n'],
+  modules: [ '@nuxtjs/i18n', NuxtTypedRouter],
   devtools: {
     enabled: true,
   },
