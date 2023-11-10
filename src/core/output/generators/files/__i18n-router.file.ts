@@ -81,7 +81,7 @@ export function createi18nRouterFile() {
         ` | (E extends true ? string : ${LocalePathType}<T>)`,
       )},
     external?: E,
-    locale?: I18nLocales
+    locale?: E extends true ? undefined : I18nLocales
     }
 
 
