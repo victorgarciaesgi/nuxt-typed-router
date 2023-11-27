@@ -42,7 +42,7 @@ export function createTypedRouterFile() {
     )}
     ${returnIfTrue(
       pathCheck && !strictOptions.NuxtLink.strictToArgument,
-      ` | (E extends true ? string : TypedPathParameter<T>)`
+      ` | (E extends true ? string : TypedPathParameter<P>)`
     )}
 
   /** 
@@ -134,9 +134,13 @@ export function createTypedRouterFile() {
      * @param currentLocation - Optional current location to resolve against
      */
     resolve<T extends RoutesNamesList, P extends string>(
-      to: NuxtRoute<T, P>,
+      to: TypedRouteLocationRawFromName<T, P>,
       currentLocation?: TypedRouteLocationRaw
     ): TypedRouteLocationFromName<T>;
+    ${returnIfTrue(
+      pathCheck && !strictOptions.router.strictToArgument,
+      `resolve<T extends string>(to: TypedPathParameter<T>, currentLocation?: TypedRouteLocationRaw): TypedRouteLocationFromName<RouteNameFromPath<T>>;`
+    )}
     /**
      * Programmatically navigate to a new URL by pushing an entry in the history
      * stack.

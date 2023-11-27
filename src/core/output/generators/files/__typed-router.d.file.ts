@@ -7,7 +7,7 @@ export function createTypedRouterDefinitionFile(): string {
 
   return /* typescript */ `
     
-    import type { NuxtLinkProps, PageMeta } from '#app';
+    import type { NuxtLinkProps, PageMeta } from 'nuxt/app';
     import NuxtLink from 'nuxt/dist/app/components/nuxt-link';
     import type { RouteLocationRaw, RouteLocationPathRaw } from 'vue-router';
     import type { RoutesNamedLocations, RoutesNamesListRecord, RoutesNamesList } from './__routes';
@@ -18,7 +18,8 @@ export function createTypedRouterDefinitionFile(): string {
     import { navigateTo as _navigateTo } from './__navigateTo';
     ${returnIfTrue(
       i18n,
-      `import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from './__i18n-router';`
+      `import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from './__i18n-router';
+      import type {TypedNuxtLinkLocale} from './__NuxtLinkLocale'`
     )}
 
     import {definePageMeta as _definePageMeta} from './__definePageMeta';
@@ -69,6 +70,7 @@ export function createTypedRouterDefinitionFile(): string {
     declare module 'vue' {
       interface GlobalComponents {
         NuxtLink: TypedNuxtLink;
+        ${returnIfTrue(i18n, ` NuxtLinkLocale: TypedNuxtLinkLocale;`)}
       }
     }
 

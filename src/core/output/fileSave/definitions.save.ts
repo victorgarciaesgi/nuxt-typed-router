@@ -7,6 +7,7 @@ import {
   createHelpersFile,
   createIndexFile,
   createNavigateToFile,
+  createNuxtLinkLocaleDefinitionFile,
   createPathsFiles,
   createRoutesTypesFile,
   createTypeUtilsRuntimeFile,
@@ -84,6 +85,10 @@ export async function saveGeneratedFiles({ outputData }: SaveGeneratedFiles): Pr
     filesMap.push({
       fileName: '__i18n-router.ts',
       content: createi18nRouterFile(),
+    });
+    filesMap.push({
+      fileName: '__NuxtLinkLocale.ts',
+      content: createNuxtLinkLocaleDefinitionFile(),
     });
   }
 

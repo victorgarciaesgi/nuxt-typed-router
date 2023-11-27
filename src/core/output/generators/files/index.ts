@@ -12,3 +12,4 @@ export * from './__i18n-router.file';
 export * from './__paths.file';
 export * from './__definePageMeta.file';
 export * from './__helpers.file';
+export * from './__NuxtLinkLocale.file';

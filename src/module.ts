@@ -1,6 +1,6 @@
 import { defineNuxtModule, createResolver, addTemplate } from '@nuxt/kit';
 import type { Nuxt } from '@nuxt/schema';
-import type { NuxtI18nOptions } from '@nuxtjs/i18n';
+import type { NuxtI18nOptions } from '@nuxtjs/i18n/dist/module';
 import { createTypedRouter } from './core';
 import { moduleOptionStore } from './core/config';
 import type { ModuleOptions } from './types';

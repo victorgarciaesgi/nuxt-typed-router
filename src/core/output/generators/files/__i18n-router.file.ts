@@ -2,7 +2,7 @@ import { returnIfTrue } from '../../../../utils';
 import { moduleOptionStore } from '../../../config';
 
 export function createi18nRouterFile() {
-  const { router } = moduleOptionStore.getResolvedStrictOptions();
+  const { router, NuxtLink } = moduleOptionStore.getResolvedStrictOptions();
   const { i18nOptions, pathCheck, i18nLocales } = moduleOptionStore;
 
   const LocalePathType =
@@ -21,6 +21,16 @@ export function createi18nRouterFile() {
   export type I18nLocales = ${
     i18nLocales?.length ? i18nLocales.map((loc) => `"${loc}"`).join('|') : 'string'
   };
+
+
+  export type NuxtLocaleRoute<T extends RoutesNamesList, P extends string, E extends boolean = false> = 
+    | TypedRouteLocationRawFromName<T, P>
+    ${returnIfTrue(!pathCheck && !NuxtLink.strictToArgument, ` | string`)}
+    ${returnIfTrue(pathCheck && NuxtLink.strictToArgument, ` | (E extends true ? string : never)`)}
+    ${returnIfTrue(
+      pathCheck && !NuxtLink.strictToArgument,
+      ` | (E extends true ? string : ${LocalePathType}<P>)`
+    )}
 
   export interface TypedToLocalePath {
     <T extends RoutesNamesList, P extends string>(
