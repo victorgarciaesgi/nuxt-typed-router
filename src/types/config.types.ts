@@ -25,7 +25,7 @@ export interface ModuleOptions {
    * Remove Nuxt definitions to avoid conflicts
    * @default true
    */
-  experimentalRemoveNuxtDefs?: boolean;
+  removeNuxtDefs?: boolean;
   /**
    * ⚠️ Experimental
    *

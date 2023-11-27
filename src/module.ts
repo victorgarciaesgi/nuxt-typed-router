@@ -17,7 +17,7 @@ export default defineNuxtModule<ModuleOptions>({
     plugin: false,
     strict: false,
     pathCheck: true,
-    experimentalRemoveNuxtDefs: true,
+    removeNuxtDefs: true,
     experimentalIgnoreRoutes: [],
   },
   setup(moduleOptions, nuxt: Nuxt) {
@@ -63,7 +63,7 @@ export default defineNuxtModule<ModuleOptions>({
           experimentalRfc436: true,
         };
       }
-      if (moduleOptions.experimentalRemoveNuxtDefs) {
+      if (moduleOptions.removeNuxtDefs) {
         removeNuxtDefinitions({
           autoImport: nuxt.options.imports.autoImport ?? true,
           buildDir: nuxt.options.buildDir,
@@ -72,7 +72,7 @@ export default defineNuxtModule<ModuleOptions>({
     });
 
     nuxt.hook('build:done', () => {
-      if (moduleOptions.experimentalRemoveNuxtDefs) {
+      if (moduleOptions.removeNuxtDefs) {
         removeNuxtDefinitions({
           autoImport: nuxt.options.imports.autoImport ?? true,
           buildDir: nuxt.options.buildDir,
