@@ -17,6 +17,7 @@ export function createIndexFile(): string {
       TypedRouteLocationRaw,
       TypedRouteLocationRawFromName,
       TypedRouter,
+      NuxtRoute
     } from './__router';
     export { routesNames } from './__routes';
     export type {

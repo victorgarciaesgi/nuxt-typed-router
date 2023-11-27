@@ -10,11 +10,14 @@
     <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
     <nuxt-link :to="localePath({ name: 'user' })">Navigate Link</nuxt-link>
     <nuxt-layout></nuxt-layout>
+
+    <TestLink to="/efze" ext></TestLink>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { TypedRouteLocationRawFromName, helpers, TypedRouteLocation } from '@typed-router';
+import TestLink from '~/components/TestLink.vue';
 // definePageMeta({
 //   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
 // });

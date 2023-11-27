@@ -32,6 +32,19 @@ export function createTypedRouterFile() {
 
   // - Routes location for navigation types (ex: router.push or navigateTo)
 
+
+  export type NuxtRoute<T extends RoutesNamesList, P extends string, E extends boolean = false> = 
+    | TypedRouteLocationRawFromName<T, P>
+    ${returnIfTrue(!pathCheck && !strictOptions.NuxtLink.strictToArgument, ` | string`)}
+    ${returnIfTrue(
+      pathCheck && strictOptions.NuxtLink.strictToArgument,
+      ` | (E extends true ? string : never)`
+    )}
+    ${returnIfTrue(
+      pathCheck && !strictOptions.NuxtLink.strictToArgument,
+      ` | (E extends true ? string : TypedPathParameter<T>)`
+    )}
+
   /** 
    * RouteLocationRaw with discrimanated name and params properties 
    * {@link RouteLocationRaw}
@@ -121,35 +134,23 @@ export function createTypedRouterFile() {
      * @param currentLocation - Optional current location to resolve against
      */
     resolve<T extends RoutesNamesList, P extends string>(
-      to: TypedRouteLocationRawFromName<T, P>,
+      to: NuxtRoute<T, P>,
       currentLocation?: TypedRouteLocationRaw
     ): TypedRouteLocationFromName<T>;
-    ${returnIfTrue(
-      pathCheck && !strictOptions.router.strictToArgument,
-      `resolve<T extends string>(to: TypedPathParameter<T>, currentLocation?: TypedRouteLocationRaw): TypedRouteLocationFromName<RouteNameFromPath<T>>;`
-    )}
     /**
      * Programmatically navigate to a new URL by pushing an entry in the history
      * stack.
      *
      * @param to - Route location to navigate to
      */
-    push<T extends RoutesNamesList, P extends string>(to: TypedRouteLocationRawFromName<T, P>): Promise<NavigationFailure | void | undefined>;
-    ${returnIfTrue(
-      pathCheck && !strictOptions.router.strictToArgument,
-      `push<T extends string>(to: TypedPathParameter<T>): Promise<NavigationFailure | void | undefined>;`
-    )}
+    push<T extends RoutesNamesList, P extends string>(to: NuxtRoute<T, P>): Promise<NavigationFailure | void | undefined>;
     /**
      * Programmatically navigate to a new URL by replacing the current entry in
      * the history stack.
      *
      * @param to - Route location to navigate to
      */
-    replace<T extends RoutesNamesList, P extends string>(to: TypedRouteLocationRawFromName<T, P>): Promise<NavigationFailure | void | undefined>;
-    ${returnIfTrue(
-      pathCheck && !strictOptions.router.strictToArgument,
-      `replace<T extends string>(to: TypedPathParameter<T>): Promise<NavigationFailure | void | undefined>;`
-    )}
+    replace<T extends RoutesNamesList, P extends string>(to: NuxtRoute<T, P>): Promise<NavigationFailure | void | undefined>;
   }
 
   
