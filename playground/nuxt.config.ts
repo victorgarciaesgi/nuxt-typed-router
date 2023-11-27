@@ -1,9 +1,7 @@
-import { createResolver, defineNuxtModule, extendPages } from '@nuxt/kit';
-import NuxtTypedRouter from '..';
-
 export default defineNuxtConfig({
   extends: ['nuxt-seo-kit'],
-  modules: [NuxtTypedRouter, '@nuxtjs/i18n'],
+  /* @ts-ignore */
+  modules: ['nuxt-typed-router', '@nuxtjs/i18n'],
   devtools: {
     enabled: true,
   },
@@ -31,10 +29,5 @@ export default defineNuxtConfig({
         iso: 'zh-CN',
       },
     ],
-    vueI18n: {
-      legacy: false,
-      fallbackLocale: 'de',
-      locale: 'de',
-    },
   },
 });

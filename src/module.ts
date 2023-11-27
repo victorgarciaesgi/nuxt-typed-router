@@ -1,6 +1,6 @@
 import { defineNuxtModule, createResolver, addTemplate } from '@nuxt/kit';
 import type { Nuxt } from '@nuxt/schema';
-import type { NuxtI18nOptions } from '@nuxtjs/i18n';
+import type { NuxtI18nOptions } from '@nuxtjs/i18n/dist/module';
 import { createTypedRouter } from './core';
 import { moduleOptionStore } from './core/config';
 import type { ModuleOptions } from './types';
@@ -17,8 +17,8 @@ export default defineNuxtModule<ModuleOptions>({
     plugin: false,
     strict: false,
     pathCheck: true,
-    experimentalRemoveNuxtDefs: true,
-    experimentalIgnoreRoutes: [],
+    removeNuxtDefs: true,
+    ignoreRoutes: [],
   },
   setup(moduleOptions, nuxt: Nuxt) {
     const { resolve } = createResolver(import.meta.url);
@@ -63,7 +63,7 @@ export default defineNuxtModule<ModuleOptions>({
           experimentalRfc436: true,
         };
       }
-      if (moduleOptions.experimentalRemoveNuxtDefs) {
+      if (moduleOptions.removeNuxtDefs) {
         removeNuxtDefinitions({
           autoImport: nuxt.options.imports.autoImport ?? true,
           buildDir: nuxt.options.buildDir,
@@ -72,7 +72,7 @@ export default defineNuxtModule<ModuleOptions>({
     });
 
     nuxt.hook('build:done', () => {
-      if (moduleOptions.experimentalRemoveNuxtDefs) {
+      if (moduleOptions.removeNuxtDefs) {
         removeNuxtDefinitions({
           autoImport: nuxt.options.imports.autoImport ?? true,
           buildDir: nuxt.options.buildDir,

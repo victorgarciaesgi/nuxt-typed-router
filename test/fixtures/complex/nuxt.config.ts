@@ -4,24 +4,12 @@ export default defineNuxtConfig({
   modules: ['nuxt-typed-router', TestModuleRoute, '@nuxtjs/i18n'],
   nuxtTypedRouter: {
     plugin: true,
-    experimentalIgnoreRoutes: ['[...404].vue'],
+    ignoreRoutes: ['[...404].vue'],
   },
   i18n: {
     locales: ['en', 'fr'],
     defaultLocale: 'en',
     strategy: 'prefix',
-    vueI18n: {
-      legacy: false,
-      locale: 'en',
-      messages: {
-        en: {
-          welcome: 'Welcome',
-        },
-        fr: {
-          welcome: 'Bienvenue',
-        },
-      },
-    },
   },
   imports: {
     autoImport: false,

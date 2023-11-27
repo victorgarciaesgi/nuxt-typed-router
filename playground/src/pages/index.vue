@@ -5,16 +5,20 @@
     <!-- Should error -->
     <nuxt-link to="/foo">Navigate Link</nuxt-link>
 
-    <nuxt-link to="/admin/:id?foo">Navigate Link</nuxt-link>
+    <nuxt-link to="/admin/888?foo">Navigate Link</nuxt-link>
 
     <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
     <nuxt-link :to="localePath({ name: 'user' })">Navigate Link</nuxt-link>
     <nuxt-layout></nuxt-layout>
+
+    <TestLink to="/efze" ext></TestLink>
+    <NuxtLinkLocale to="/" />
   </div>
 </template>
 
 <script setup lang="ts">
 import type { TypedRouteLocationRawFromName, helpers, TypedRouteLocation } from '@typed-router';
+import TestLink from '~/components/TestLink.vue';
 // definePageMeta({
 //   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
 // });
@@ -51,7 +55,7 @@ function navigate() {
 
   const route2 = localePath(`/user/${t}/:slug/articles`); // Should error
   navigateTo('/foo'); // Should error
-  router.push('/baguette'); // Should error
+  router.push('/admin/888'); // Should error
 
   const route = localePath(`/user/${u}/:slug/articles`);
   router.push('/');

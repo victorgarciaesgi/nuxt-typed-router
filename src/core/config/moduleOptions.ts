@@ -1,6 +1,6 @@
 import path from 'path';
 import { defu } from 'defu';
-import type { NuxtI18nOptions } from '@nuxtjs/i18n';
+import type { NuxtI18nOptions } from '@nuxtjs/i18n/dist/module';
 import type { ModuleOptions, StrictOptions } from '../../types';
 interface CustomNuxtConfigOptions {
   autoImport?: boolean;
@@ -23,7 +23,7 @@ class ModuleOptionsStore {
   i18n: boolean = false;
   i18nOptions: NuxtI18nOptions | null = null;
   i18nLocales: string[] = [];
-  experimentalIgnoreRoutes: string[] = [];
+  ignoreRoutes: string[] = [];
 
   updateOptions(options: ModuleOptions & CustomNuxtConfigOptions) {
     if (options.plugin != null) this.plugin = options.plugin;
@@ -51,13 +51,13 @@ class ModuleOptionsStore {
     if (options.pathCheck != null) {
       this.pathCheck = options.pathCheck;
     }
-    if (options.experimentalIgnoreRoutes) {
-      this.experimentalIgnoreRoutes = options.experimentalIgnoreRoutes;
+    if (options.ignoreRoutes) {
+      this.ignoreRoutes = options.ignoreRoutes;
     }
   }
 
   get resolvedIgnoredRoutes(): string[] {
-    return this.experimentalIgnoreRoutes.map((file) => path.join(this.pagesDir, file));
+    return this.ignoreRoutes.map((file) => path.join(this.pagesDir, file));
   }
 
   getResolvedStrictOptions(): Required<StrictOptions> {

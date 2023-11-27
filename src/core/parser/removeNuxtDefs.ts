@@ -21,7 +21,7 @@ export async function removeNuxtDefinitions({
       encoding: 'utf8',
     });
     const replacedNuxtLink = componentDefinitions.replace(
-      /'NuxtLink': typeof import\(".*"\)\['default'\]/gm,
+      /'NuxtLink': typeof import\(".*"\)\['default'\]|'NuxtLinkLocale': typeof import\(".*"\)\['default'\]/gm,
       ''
     );
 

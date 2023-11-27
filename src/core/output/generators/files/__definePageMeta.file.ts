@@ -8,7 +8,7 @@ export function createDefinePageMetaFile(): string {
   return /* typescript */ `
   
   import { definePageMeta as defaultDefinePageMeta } from '#imports';
-  import type {PageMeta, NuxtError} from '#app'
+  import type {PageMeta, NuxtError} from 'nuxt/app'
   import type {TypedRouteFromName, TypedRoute, TypedRouteLocationRawFromName, TypedRouteLocationRaw} from './__router';
   import type {RoutesNamesList} from './__routes';
   ${returnIfTrue(pathCheck, `import type {TypedPathParameter} from './__paths';`)}

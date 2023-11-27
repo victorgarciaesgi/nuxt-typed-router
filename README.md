@@ -60,8 +60,6 @@ Demo repo 🧪 : [nuxt-typed-router-demo](https://github.com/victorgarciaesgi/nu
 # Compatibility:
 
 - Nuxt 3
-- Nuxt 2 (via [`nuxt2` branch](https://github.com/victorgarciaesgi/nuxt-typed-router/tree/nuxt2))
-
 
 
 # Quick start
@@ -76,16 +74,6 @@ npm install -D nuxt-typed-router
 pnpm install -D nuxt-typed-router
 ```
 
-### Nuxt 2 legacy (not maintained)
-
-Nuxt 2 version is no longer maintained, but still available in [`nuxt2` branch](https://github.com/victorgarciaesgi/nuxt-typed-router/tree/nuxt2)
-It only has route name autocomplete functionnality
-
-```bash
-yarn add -D nuxt-typed-router@legacy
-# or
-npm install -D nuxt-typed-router@legacy
-```
 
 # Configuration
 Register the module in the `nuxt.config.ts`, done!
