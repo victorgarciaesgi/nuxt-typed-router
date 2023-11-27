@@ -32,7 +32,7 @@ export interface ModuleOptions {
    * Exclude certain routes from being included into the generated types
    * Ex: 404 routes or catchAll routes
    */
-  experimentalIgnoreRoutes?: string[];
+  ignoreRoutes?: string[];
 }
 
 export interface StrictOptions {
