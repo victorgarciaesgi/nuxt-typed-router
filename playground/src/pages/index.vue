@@ -11,7 +11,7 @@
     <nuxt-link :to="localePath({ name: 'user' })">Navigate Link</nuxt-link>
     <nuxt-layout></nuxt-layout>
 
-    <TestLink to="/efze" ext></TestLink>
+    <TestLink to="/efze" external></TestLink>
     <NuxtLinkLocale to="/" />
   </div>
 </template>
@@ -54,8 +54,8 @@ function navigate() {
   const t = '///';
 
   const route2 = localePath(`/user/${t}/:slug/articles`); // Should error
-  navigateTo('/foo'); // Should error
-  router.push('/admin/888'); // Should error
+  navigateTo('/admin/foo'); // Should error
+  router.push('/admin'); // Should error
 
   const route = localePath(`/user/${u}/:slug/articles`);
   router.push('/');

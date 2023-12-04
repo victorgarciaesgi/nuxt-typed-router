@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid';
+import { nanoid } from 'nanoid/non-secure';
 import type { RoutePathsDecl } from '../../../../src/types';
 
 const ExtractRegex = /(^(\/)?([^:/]+)?(:(\w+)(\((.*)\)[*+]?)?(\?)?)*([^:/]+)?)+/g;
