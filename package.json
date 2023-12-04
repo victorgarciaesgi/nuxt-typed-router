@@ -1,6 +1,6 @@
 {
   "name": "nuxt-typed-router",
-  "version": "3.4.0",
+  "version": "3.5.0-beta.0",
   "description": "Provide autocompletion for routes paths, names and params in Nuxt apps",
   "type": "module",
   "main": "./dist/module.cjs",
@@ -60,7 +60,7 @@
     "url": "https://github.com/victorgarciaesgi/nuxt-typed-router/issues"
   },
   "peerDependencies": {
-    "prettier": "^2.8.5 || 3.x"
+    "prettier": "^2.5.x || 3.x"
   },
   "dependencies": {
     "@nuxt/kit": "3.8.2",

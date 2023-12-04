@@ -127,13 +127,13 @@ export function createTypeValidatePathCondition(
           const isLast = index === elements.flat().length - 1;
 
           if (elem.type === 'name' && isLast) {
-            const id = pascalCase(elem.content);
+            const id = `T${pascalCase(elem.content)}`;
             params.set(elem.id, id);
             return `${elem.content}\${infer ${id}}`;
           } else if (elem.type === 'name') {
             return elem.content;
           } else if (elem.type === 'param' || elem.type === 'optionalParam') {
-            const id = pascalCase(elem.content);
+            const id = `T${pascalCase(elem.content)}`;
             params.set(elem.id, id);
             return `\${infer ${id}}`;
           } else if (elem.type === 'catchAll') {
