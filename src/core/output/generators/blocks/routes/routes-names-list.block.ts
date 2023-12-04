@@ -3,5 +3,7 @@ export function createRoutesNamesListExport(routesList: string[]): string {
   /**
    * Exhaustive list of all the available route names in the app
    * */
-  export type RoutesNamesList = ${routesList.map((m) => `'${m}'`).join('|\n')}`;
+  export type RoutesNamesList = ${
+    routesList.length ? routesList.map((m) => `'${m}'`).join('|\n') : '""'
+  }`;
 }

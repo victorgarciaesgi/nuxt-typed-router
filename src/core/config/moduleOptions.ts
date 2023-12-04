@@ -2,6 +2,7 @@ import path from 'path';
 import { defu } from 'defu';
 import type { NuxtI18nOptions } from '@nuxtjs/i18n/dist/module';
 import type { ModuleOptions, StrictOptions } from '../../types';
+import logSymbols from 'log-symbols';
 interface CustomNuxtConfigOptions {
   autoImport?: boolean;
   rootDir?: string;
@@ -9,7 +10,7 @@ interface CustomNuxtConfigOptions {
   srcDir?: string;
   i18n?: boolean;
   i18nOptions?: NuxtI18nOptions | null;
-  isDocumentDriven: boolean;
+  isDocumentDriven?: boolean;
 }
 
 class ModuleOptionsStore {
@@ -39,6 +40,15 @@ class ModuleOptionsStore {
       this.i18nOptions = defu(options.i18nOptions, {
         strategy: 'prefix_except_default',
       } satisfies Partial<NuxtI18nOptions>);
+      if (
+        this.i18nOptions.strategy === 'prefix_except_default' &&
+        !options.i18nOptions.defaultLocale
+      ) {
+        console.error(
+          logSymbols.error,
+          "You have not set 'i18n.defaultLocale', it's required when using 'prefix_except_default' mode (default one)"
+        );
+      }
       if (options.i18nOptions.locales) {
         this.i18nLocales = options.i18nOptions.locales.map((l) => {
           if (typeof l === 'string') {
