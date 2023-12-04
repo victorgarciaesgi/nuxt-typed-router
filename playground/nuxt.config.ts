@@ -1,15 +1,17 @@
 export default defineNuxtConfig({
   extends: ['nuxt-seo-kit'],
-  /* @ts-ignore */
-  modules: ['nuxt-typed-router', '@nuxtjs/i18n'],
+  modules: ['nuxt-typed-router', '@nuxtjs/i18n', '@nuxt/content'],
   devtools: {
     enabled: true,
   },
   nuxtTypedRouter: {
     plugin: true,
     pathCheck: true,
-    experimentalRemoveNuxtDefs: true,
-    experimentalIgnoreRoutes: ['[...404].vue'],
+    removeNuxtDefs: true,
+    ignoreRoutes: ['[...404].vue'],
+  },
+  content: {
+    documentDriven: false,
   },
   srcDir: './src',
   i18n: {

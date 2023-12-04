@@ -9,6 +9,7 @@ interface CustomNuxtConfigOptions {
   srcDir?: string;
   i18n?: boolean;
   i18nOptions?: NuxtI18nOptions | null;
+  isDocumentDriven: boolean;
 }
 
 class ModuleOptionsStore {
@@ -53,6 +54,10 @@ class ModuleOptionsStore {
     }
     if (options.ignoreRoutes) {
       this.ignoreRoutes = options.ignoreRoutes;
+    }
+
+    if (options.isDocumentDriven) {
+      this.ignoreRoutes.push('[...slug].vue');
     }
   }
 
