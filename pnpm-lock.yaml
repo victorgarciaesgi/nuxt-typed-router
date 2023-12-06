@@ -75,6 +75,9 @@ importers:
       '@nuxtjs/web-vitals':
         specifier: 0.2.6
         version: 0.2.6(rollup@3.29.4)
+      '@playwright/test':
+        specifier: 1.40.1
+        version: 1.40.1
       '@types/lodash-es':
         specifier: 4.17.12
         version: 4.17.12
@@ -2649,6 +2652,14 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@playwright/test@1.40.1:
+    resolution: {integrity: sha512-EaaawMTOeEItCRvfmkI9v6rBkF1svM8wjl/YPRrg2N2Wmp+4qJYkWtJsbew1szfKKDm6fPLy4YAanBhIlf9dWw==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dependencies:
+      playwright: 1.40.1
+    dev: true
 
   /@polka/url@1.0.0-next.24:
     resolution: {integrity: sha512-2LuNTFBIO0m7kKIQvvPHN6UE63VjpmL9rnEEaOOaiSPbZK+zUOYIzBAWcED+3XYzhYsd/0mD57VdxAEqqV52CQ==}
