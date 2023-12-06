@@ -1,6 +1,7 @@
 import type { NuxtPage } from '@nuxt/schema';
 import { moduleOptionStore } from '../config';
 import type { RoutePathsDecl } from '../../types';
+import logSymbols from 'log-symbols';
 
 const specialCharacterRegxp = /([^a-zA-Z0-9_])/gm;
 
@@ -41,7 +42,8 @@ export function modifyRoutePrefixDefaultIfI18n(route: NuxtPage) {
     } else if (i18nOptions?.strategy === 'prefix_except_default') {
       let defaultLocale = i18nLocales.find((f) => f === i18nOptions.defaultLocale)
         ? i18nOptions.defaultLocale?.replace(specialCharacterRegxp, '\\$&')
-        : '';
+        : undefined;
+
       const routeDefaultNameRegXp = new RegExp(`^([a-zA-Z0-9-]+)${separator}${defaultLocale}`, 'g');
       const match = routeDefaultNameRegXp.exec(route.name);
       if (match) {

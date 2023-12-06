@@ -10,7 +10,9 @@ export function createRoutesNamedLocationsResolvedExport(routesParams: RoutePara
   {
     name: RoutesNamesList;
     params: unknown;
-  } & (
+  } ${
+    routesParams.length
+      ? `& (
     ${routesParams
       .map(
         ({ name, params }) =>
@@ -28,6 +30,8 @@ export function createRoutesNamedLocationsResolvedExport(routesParams: RoutePara
           }}`
       )
       .join('|\n')}
-      )
+      )`
+      : ''
+  } 
   `;
 }

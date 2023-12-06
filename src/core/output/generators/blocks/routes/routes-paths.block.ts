@@ -1,10 +1,12 @@
 import type { DestructuredPath } from '../../../../../core/parser/params';
 import type { RoutePathsDecl } from '../../../../../types';
-import { customAlphabet } from 'nanoid/non-secure';
 import { returnIfTrue } from '../../../../../../src/utils';
 import { moduleOptionStore } from '../../../../../../src/core/config';
+import { camelCase, capitalize, startCase } from 'lodash-es';
 
-const nanoid = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10);
+function pascalCase(str?: string) {
+  return startCase(camelCase(str)).replace(/ /g, '');
+}
 
 export function createRoutePathSchema(routePaths: RoutePathsDecl[]) {
   const { i18nOptions } = moduleOptionStore;
@@ -30,12 +32,14 @@ export function createValidatePathTypes(
   routesList: string[],
   withLocale = false
 ): string {
-  let pathConditions = pathElements.map(createTypeValidatePathCondition).filter((f) => {
-    if (withLocale) {
-      return !f.isLocale;
-    }
-    return true;
-  });
+  let pathConditions = pathElements
+    .map((m) => createTypeValidatePathCondition(m, withLocale))
+    .filter((f) => {
+      if (withLocale) {
+        return !f.isLocale;
+      }
+      return true;
+    });
 
   const conditionsList = pathConditions.map((m) => m.condition);
 
@@ -82,8 +86,11 @@ export function createValidatePathTypes(
         `;
 }
 
-export function createTypedRouteFromPathType(pathElements: DestructuredPath[][][]): string {
-  let pathConditions = pathElements.map(createTypeValidatePathCondition);
+export function createTypedRouteFromPathType(
+  pathElements: DestructuredPath[][][],
+  withLocale?: boolean
+): string {
+  let pathConditions = pathElements.map((m) => createTypeValidatePathCondition(m, withLocale));
 
   return `
     export type ValidatePath<T extends string> = T extends string 
@@ -102,8 +109,12 @@ export function createTypedRouteFromPathType(pathElements: DestructuredPath[][][
   `;
 }
 
-export function createTypeValidatePathCondition(elements: DestructuredPath[][]) {
-  const typeName = `Validate${nanoid(7)}`;
+export function createTypeValidatePathCondition(
+  elements: DestructuredPath[][],
+  withLocale?: boolean
+) {
+  const seedName = pascalCase(elements[0][0].fullPath);
+  const typeName = `Validate${returnIfTrue(withLocale, 'Locale')}${seedName}`;
   const params = new Map();
   const routeName = elements.flat()[0]?.routeName ?? 'index';
   const hasOnlyNames = elements.flat().every((elem) => elem.type === 'name');
@@ -116,13 +127,13 @@ export function createTypeValidatePathCondition(elements: DestructuredPath[][]) 
           const isLast = index === elements.flat().length - 1;
 
           if (elem.type === 'name' && isLast) {
-            const id = nanoid(6);
+            const id = `T${pascalCase(elem.content)}`;
             params.set(elem.id, id);
             return `${elem.content}\${infer ${id}}`;
           } else if (elem.type === 'name') {
             return elem.content;
           } else if (elem.type === 'param' || elem.type === 'optionalParam') {
-            const id = nanoid(6);
+            const id = `T${pascalCase(elem.content)}`;
             params.set(elem.id, id);
             return `\${infer ${id}}`;
           } else if (elem.type === 'catchAll') {

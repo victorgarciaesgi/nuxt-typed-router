@@ -43,10 +43,22 @@ export default defineNuxtModule<ModuleOptions>({
       }
     });
 
+    const isDocumentDriven =
+      !!nuxt.options.modules.find((mod) => {
+        if (Array.isArray(mod)) {
+          return mod[0] === '@nuxt/content';
+        } else {
+          return mod === '@nuxt/content';
+        }
+      }) &&
+      'content' in nuxt.options &&
+      'documentDriven' in (nuxt.options.content as any);
+
     moduleOptionStore.updateOptions({
       ...moduleOptions,
       i18n: hasi18nModuleRegistered,
       i18nOptions,
+      isDocumentDriven,
     });
 
     nuxt.options.alias = {

@@ -7,12 +7,14 @@ export function createRoutesNamedLocationsExport(routesParams: RouteParamsDecl[]
    * It's used for programmatic navigation like router.push or <NuxtLink/>
    * */
   export type RoutesNamedLocations = 
-    ${routesParams
-      .map(
-        ({ name, params }) =>
-          `{name: "${name}" ${
-            params.length
-              ? `, params${params.some((s) => s.required) ? '' : '?'}: {
+    ${
+      routesParams.length
+        ? routesParams
+            .map(
+              ({ name, params }) =>
+                `{name: "${name}" ${
+                  params.length
+                    ? `, params${params.some((s) => s.required) ? '' : '?'}: {
           ${params
             .map(
               ({ key, required, catchAll }) =>
@@ -20,9 +22,11 @@ export function createRoutesNamedLocationsExport(routesParams: RouteParamsDecl[]
             )
             .join(',\n')}
         }`
-              : ''
-          }}`
-      )
-      .join('|\n')}
+                    : ''
+                }}`
+            )
+            .join('|\n')
+        : "''"
+    }
   `;
 }

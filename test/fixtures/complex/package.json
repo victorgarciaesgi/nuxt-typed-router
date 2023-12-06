@@ -11,6 +11,7 @@
   "devDependencies": {
     "@nuxtjs/i18n": "8.0.0-rc.5",
     "nuxt": "3.8.2",
+    "vue": "3.3.10",
     "nuxt-typed-router": "workspace:*"
   }
 }
