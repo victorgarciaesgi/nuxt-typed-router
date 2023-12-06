@@ -8,7 +8,7 @@ export function createUseTypedLinkFile(): string {
   return /* typescript */ `
   
   import { useLink as defaultLink } from '#imports';
-  import type {MaybeRef} from 'vue';
+  import type {MaybeRef, Ref} from 'vue';
   import type { NavigateToOptions } from 'nuxt/dist/app/composables/router';
   import type { NavigationFailure } from 'vue-router';
   import type { TypedRouteLocationRawFromName, TypedRouteFromName, TypedRoute } from './__router';
@@ -31,20 +31,29 @@ export function createUseTypedLinkFile(): string {
 
 
   interface UseLinkFunction {
-    <T extends RoutesNamesList, P extends string>(
-     props: { 
-      to: MaybeRef<TypedRouteLocationRawFromName<T, P>>,
-      replace?: MaybeRef<boolean>
-    }
-    ) : LinkedRoute<T>
+    <T extends RoutesNamesList, P extends string>(props: {
+      to: TypedRouteLocationRawFromName<T, P>;
+      replace?: MaybeRef<boolean>;
+    }): LinkedRoute<T>;
+    <T extends RoutesNamesList, P extends string>(props: {
+      to: Ref<TypedRouteLocationRawFromName<T, P>>;
+      replace?: MaybeRef<boolean>;
+    }): LinkedRoute<T>;
+    
     ${returnIfTrue(
       pathCheck && !strictOptions.router.strictToArgument,
-      `<T extends string>(
+      `<P extends string>(
        props: {
-        to: MaybeRef<TypedPathParameter<T>>,
+        to: TypedPathParameter<P>,
         replace?: MaybeRef<boolean>
        }
-      ) : LinkedRoute<RouteNameFromPath<T>>`
+      ) : LinkedRoute<RouteNameFromPath<P>>
+      <P extends string>(props: {
+        to: Ref<TypedPathParameter<P>>;
+        replace?: MaybeRef<boolean>;
+      }): LinkedRoute<RouteNameFromPath<P>>;
+      
+      `
     )}
   }
 

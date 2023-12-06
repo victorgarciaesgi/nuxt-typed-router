@@ -25,7 +25,7 @@ import TestLink from '~/components/TestLink.vue';
 
 definePageMeta({
   name: 'foo-bar',
-  redirect: { name: 'admin-id', params: { id: 1 } },
+  redirect: { name: 'admin-444', params: { '444': 1 } },
 });
 
 const router = useRouter();
@@ -50,11 +50,13 @@ function navigate() {
 
   router.push(localePath('/admin/888'));
 
+  const link = useLink({ to: '/admin/37673' });
+
   const u = 'krzfzlkj' as string;
   const t = '///';
 
   const route2 = localePath(`/user/${t}/:slug/articles`); // Should error
-  navigateTo('/admin/foo'); // Should error
+  navigateTo('/foo'); // Should error
   router.push('/admin'); // Should error
 
   const route = localePath(`/user/${u}/:slug/articles`);
