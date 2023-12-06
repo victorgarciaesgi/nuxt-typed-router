@@ -1,6 +1,6 @@
 {
   "name": "nuxt-typed-router",
-  "version": "3.5.0-beta.3",
+  "version": "3.5.0",
   "description": "Provide autocompletion for routes paths, names and params in Nuxt apps",
   "type": "module",
   "main": "./dist/module.cjs",
