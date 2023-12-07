@@ -1,5 +1,5 @@
 packages:
   - test/fixtures/simple
   - test/fixtures/complex
-  - test/fixtures/withOptions
+  - test/fixtures/sample-project
   - docs

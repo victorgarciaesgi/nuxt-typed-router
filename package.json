@@ -16,21 +16,20 @@
   ],
   "scripts": {
     "build": "nuxt-module-build build",
-    "prepack": "pnpm build",
+    "prepack": "pnpm run typecheck && pnpm build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "prepare:playground": "nuxi prepare playground",
-    "dev:prepare": "nuxt-module-build build --stub && nuxi prepare playground && pnpm run test:prepare-fixtures",
+    "dev:prepare": "nuxt-module-build build --stub && nuxi prepare playground",
     "build:test": "cross-env NUXT_BUILD_TYPE=stub pnpm run build && pnpm run dev:build",
     "lint": "eslint --ext .ts --ext .vue .",
     "docs:dev": "cd docs && pnpm run dev",
     "docs:build": "cd docs && nuxt generate",
     "typecheck": "tsc --noEmit",
     "release": "bumpp && npm publish && git push --follow-tags",
-    "release:test": "standard-version",
-    "test:prepare-fixtures": "nuxi prepare test/fixtures/simple && nuxi prepare test/fixtures/withOptions && nuxi prepare test/fixtures/complex",
+    "test:prepare-fixtures": "nuxi prepare test/fixtures/sample-project",
     "test:fixtures": "vitest run --dir test",
-    "test:types": "pnpm run typecheck && pnpm run test:vue",
+    "test:types": "pnpm run typecheck",
     "test:vue": "vue-tsc -p test/fixtures/simple/tsconfig.json --noEmit && vue-tsc -p test/fixtures/complex/tsconfig.json --noEmit",
     "test": "pnpm run dev:prepare && pnpm run test:types && pnpm run test:fixtures"
   },
@@ -100,7 +99,8 @@
     "playwright": "1.40.1",
     "@playwright/test": "1.40.1",
     "tsd": "0.29.0",
-    "typescript": "5.3.2",
+    "typescript": "5.2.2",
+    "tslib": "2.6.2",
     "vitest": "0.34.6",
     "vue": "3.3.10",
     "vue-eslint-parser": "9.3.2",
@@ -113,6 +113,6 @@
     "@intlify/vue-router-bridge": "1.1.0",
     "@intlify/vue-i18n-bridge": "1.1.0",
     "vue-i18n-routing": "1.2.0",
-    "standard-version": "9.5.0"
+    "globby": "14.0.0"
   }
 }
