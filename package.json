@@ -1,9 +1,9 @@
 {
   "name": "nuxt-typed-router",
-  "version": "3.5.1",
-  "description": "Provide autocompletion for routes paths, names and params in Nuxt apps",
+  "version": "4.0.0",
+  "description": "Provide a type safe router to Nuxt",
   "type": "module",
-  "main": "./dist/module.cjs",
+  "main": "./dist/module.mjs",
   "types": "./dist/types.d.ts",
   "exports": {
     ".": {
@@ -15,23 +15,24 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build build",
+    "build": "nuxt-module-build build",
+    "prepack": "pnpm build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "prepare:playground": "nuxi prepare playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxi prepare playground && pnpm run test:prepare-fixtures",
-    "build:test": "cross-env NUXT_BUILD_TYPE=stub pnpm run prepack && pnpm run dev:build",
+    "build:test": "cross-env NUXT_BUILD_TYPE=stub pnpm run build && pnpm run dev:build",
+    "lint": "eslint --ext .ts --ext .vue .",
+    "docs:dev": "cd docs && pnpm run dev",
+    "docs:build": "cd docs && nuxt generate",
+    "typecheck": "tsc --noEmit",
+    "release": "bumpp && npm publish && git push --follow-tags",
+    "release:test": "standard-version",
     "test:prepare-fixtures": "nuxi prepare test/fixtures/simple && nuxi prepare test/fixtures/withOptions && nuxi prepare test/fixtures/complex",
     "test:fixtures": "vitest run --dir test",
     "test:types": "pnpm run typecheck && pnpm run test:vue",
     "test:vue": "vue-tsc -p test/fixtures/simple/tsconfig.json --noEmit && vue-tsc -p test/fixtures/complex/tsconfig.json --noEmit",
-    "test": "pnpm run dev:prepare && pnpm run test:types && pnpm run test:fixtures",
-    "lint": "eslint --ext .ts --ext .vue .",
-    "docs:dev": "cd docs && pnpm run dev",
-    "docs:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "docs:build": "npm run docs:prepare && cd docs && nuxi generate",
-    "typecheck": "tsc --noEmit",
-    "release": "bumpp && npm publish && git push --follow-tags"
+    "test": "pnpm run dev:prepare && pnpm run test:types && pnpm run test:fixtures"
   },
   "publishConfig": {
     "access": "public"
@@ -111,6 +112,7 @@
     "@intlify/core-base": "9.8.0",
     "@intlify/vue-router-bridge": "1.1.0",
     "@intlify/vue-i18n-bridge": "1.1.0",
-    "vue-i18n-routing": "1.2.0"
+    "vue-i18n-routing": "1.2.0",
+    "standard-version": "9.5.0"
   }
 }
