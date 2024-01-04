@@ -1,13 +1,12 @@
 <template>
   <div>
     <button @click="navigate"> Navigate button </button>
-    <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
+    <nuxt-link :to="localePath({ name: 'admin-444', params: { 444: 1 } })">Navigate Link</nuxt-link>
     <!-- Should error -->
     <nuxt-link to="/foo">Navigate Link</nuxt-link>
 
-    <nuxt-link to="/admin/888?foo">Navigate Link</nuxt-link>
+    <nuxt-link :to="localePath('/admin/888', 'en')">Navigate </nuxt-link>
 
-    <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
     <nuxt-link :to="localePath({ name: 'user' })">Navigate Link</nuxt-link>
     <nuxt-layout></nuxt-layout>
 
@@ -32,7 +31,6 @@ import TestLink from '~/components/TestLink.vue';
 const p: NuxtRoute = { name: 'admin-444', params: { '444': 1 }, hash: '1' };
 
 definePageMeta({
-  name: 'foo-bar',
   redirect: { name: 'admin-444', params: { '444': 1 } },
 });
 
@@ -40,6 +38,8 @@ const router = useRouter();
 
 const localePath = useLocalePath();
 const localeRoute = useLocaleRoute();
+
+console.log(localePath('/admin/888', 'en'));
 
 // const route = localeRoute({ name: 'index___en', query: { foo: '1' } });
 // if (route) {

@@ -16,6 +16,7 @@ export default defineNuxtConfig({
   srcDir: './src',
   i18n: {
     defaultLocale: 'de',
+    strategy: 'prefix',
     // dynamicRouteParams: true,
     locales: [
       {

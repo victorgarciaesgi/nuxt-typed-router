@@ -1,9 +1,10 @@
 <template>
   <div>
     <button id="useRouter" @click="navigate"> Navigate button </button>
-    <nuxt-link id="nuxtLink" :to="{ name: 'user-id-slug', params: { id: 'foo', slug: 'bar' } }"
+    <nuxt-link id="nuxtLink" :to="{ name: 'admin-id', params: { id: 'foo' } }"
       >Navigate link</nuxt-link
     >
+    <NuxtLink to="/user/foo/bar/">Foo</NuxtLink>
     <nuxt-link to="http://vicflix.dev" external></nuxt-link>
     <button id="navigateTo" @click="testNavigateTo"> NavigateTo button </button>
   </div>

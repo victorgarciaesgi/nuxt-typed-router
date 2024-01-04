@@ -2,9 +2,12 @@ import type { NuxtPage } from '@nuxt/schema';
 import type { GeneratorOutput, RouteParamsDecl, RoutePathsDecl } from '../../types';
 import { isItemLast } from '../../utils';
 import { walkThoughRoutes } from './walkRoutes';
+import { moduleOptionStore } from '../config';
+import { modifyPrefixForLocaleRouteName } from './i18n.modifiers';
 
 export function constructRouteMap(routesConfig: NuxtPage[]): GeneratorOutput {
   try {
+    const { i18nOptions } = moduleOptionStore;
     let routesObjectTemplate = '{';
     let routesDeclTemplate = '{';
     let routesList: string[] = [];
@@ -23,6 +26,27 @@ export function constructRouteMap(routesConfig: NuxtPage[]): GeneratorOutput {
       output,
       routesConfig,
     });
+
+    if (i18nOptions?.strategy === 'prefix') {
+      output.routesList = [
+        ...new Set(
+          output.routesList.map((m) => modifyPrefixForLocaleRouteName(m)).filter((f) => !!f)
+        ),
+      ];
+      output.routesParams = [
+        ...new Set(
+          output.routesParams
+            .map((m) => {
+              return {
+                ...m,
+                name: modifyPrefixForLocaleRouteName(m.name),
+              };
+            })
+            .filter((f) => !!f)
+        ),
+      ];
+      console.log(output.routesList);
+    }
 
     return output;
   } catch (e) {

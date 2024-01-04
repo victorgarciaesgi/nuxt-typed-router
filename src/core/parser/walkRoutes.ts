@@ -53,7 +53,7 @@ export function walkThoughRoutes({
   isLocale,
 }: WalkThoughRoutesParams) {
   const route = modifyRoutePrefixDefaultIfI18n(_route);
-  const isLocaleRoute = isLocale || is18Sibling(output.routesPaths, route);
+  const isLocaleRoute = isLocale || is18Sibling(route.path);
 
   if (route.file && moduleOptionStore.resolvedIgnoredRoutes.includes(route.file)) {
     return;

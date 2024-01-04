@@ -20,12 +20,13 @@ export async function formatOutputWithPrettier(template: string): Promise<string
       prettierFoundOptions = defaultPrettierOptions;
     }
 
-    const formatedTemplate = prettier.format(template, {
-      ...prettierFoundOptions,
-      parser: 'typescript',
-    });
+    // const formatedTemplate = prettier.format(template, {
+    //   ...prettierFoundOptions,
+    //   parser: 'typescript',
+    // });
 
-    return formatedTemplate;
+    // return formatedTemplate;
+    return template;
   } catch (e) {
     console.error(logSymbols.error, chalk.red('Error while formatting the output'), '\n' + e);
     return Promise.reject(e);
