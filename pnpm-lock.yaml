@@ -32,6 +32,9 @@ importers:
       pathe:
         specifier: 1.1.1
         version: 1.1.1
+      prettier:
+        specifier: 3.1.0
+        version: 3.1.0
     devDependencies:
       '@intlify/core-base':
         specifier: 9.8.0
@@ -120,9 +123,6 @@ importers:
       playwright:
         specifier: 1.40.1
         version: 1.40.1
-      prettier:
-        specifier: 3.1.0
-        version: 3.1.0
       tsd:
         specifier: 0.29.0
         version: 0.29.0
@@ -10245,7 +10245,7 @@ packages:
     resolution: {integrity: sha512-TQLvXjq5IAibjh8EpBIkNKxO749UEWABoiIZehEPiY4GNpVdhaFKqSTu+QrlU6D2dPAfubRmtJTi4K4YkQ5eXw==}
     engines: {node: '>=14'}
     hasBin: true
-    dev: true
+    dev: false
 
   /pretty-bytes@6.1.1:
     resolution: {integrity: sha512-mQUvGU6aUFQ+rNvTIAcZuWGRT9a6f6Yrg9bHs4ImKF+HZCEK+plBvnAZYSIQztknZF2qnzNtr6F8s0+IuptdlQ==}
