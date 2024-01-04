@@ -69,12 +69,7 @@ export default defineNuxtModule<ModuleOptions>({
     // Force register of type declaration
     nuxt.hook('prepare:types', (options) => {
       options.tsConfig.include?.unshift('./typed-router/typed-router.d.ts');
-      if (moduleOptions.pathCheck) {
-        (options.tsConfig as any).vueCompilerOptions = {
-          jsxTemplates: true,
-          experimentalRfc436: true,
-        };
-      }
+
       if (moduleOptions.removeNuxtDefs) {
         removeNuxtDefinitions({
           autoImport: nuxt.options.imports.autoImport ?? true,
@@ -84,6 +79,15 @@ export default defineNuxtModule<ModuleOptions>({
     });
 
     nuxt.hook('build:done', () => {
+      if (moduleOptions.removeNuxtDefs) {
+        removeNuxtDefinitions({
+          autoImport: nuxt.options.imports.autoImport ?? true,
+          buildDir: nuxt.options.buildDir,
+        });
+      }
+    });
+
+    nuxt.hook('imports:extend', () => {
       if (moduleOptions.removeNuxtDefs) {
         removeNuxtDefinitions({
           autoImport: nuxt.options.imports.autoImport ?? true,

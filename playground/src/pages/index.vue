@@ -17,11 +17,19 @@
 </template>
 
 <script setup lang="ts">
-import type { TypedRouteLocationRawFromName, helpers, TypedRouteLocation } from '@typed-router';
+import type {
+  TypedLocalePathParameter,
+  helpers,
+  TypedRouteLocation,
+  TypedPathParameter,
+  NuxtRoute,
+} from '@typed-router';
 import TestLink from '~/components/TestLink.vue';
 // definePageMeta({
 //   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
 // });
+
+const p: NuxtRoute = { name: 'admin-444', params: { '444': 1 }, hash: '1' };
 
 definePageMeta({
   name: 'foo-bar',
@@ -60,7 +68,7 @@ function navigate() {
   router.push('/admin'); // Should error
 
   const route = localePath(`/user/${u}/:slug/articles`);
-  router.push('/');
+  router.push('/admin/:fj');
   navigateTo('ednzelfjle', { external: true });
   const route4 = navigateTo('/test/:foo');
   router.push({ path: '/' });

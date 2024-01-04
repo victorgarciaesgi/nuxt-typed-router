@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     globals: true,
     testTimeout: 10000,
-    threads: false,
+    passWithNoTests: true,
   },
   resolve: {
     alias: {

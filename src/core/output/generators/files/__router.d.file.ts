@@ -33,7 +33,7 @@ export function createTypedRouterFile() {
   // - Routes location for navigation types (ex: router.push or navigateTo)
 
 
-  export type NuxtRoute<T extends RoutesNamesList, P extends string, E extends boolean = false> = 
+  export type NuxtRoute<T extends RoutesNamesList = never, P extends string = never, E extends boolean = false> = 
     | TypedRouteLocationRawFromName<T, P>
     ${returnIfTrue(!pathCheck && !strictOptions.NuxtLink.strictToArgument, ` | string`)}
     ${returnIfTrue(
@@ -63,8 +63,8 @@ export function createTypedRouterFile() {
   /**
    * Alternative version of {@link TypedRouteLocationRaw} but with a name generic
    */
-  export type TypedRouteLocationRawFromName<T extends RoutesNamesList, P extends string = string> =
-  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
+  export type TypedRouteLocationRawFromName<T extends RoutesNamesList, P extends string = string, E extends boolean = false> =
+  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations)
   | Omit<RouteLocationPathRaw, 'path'>
   ${returnIfTrue(
     pathCheck && !strictOptions.router.strictRouteLocation,
@@ -73,7 +73,7 @@ export function createTypedRouterFile() {
   ${returnIfTrue(!pathCheck && !strictOptions.router.strictToArgument, ` | string`)}
   ${returnIfTrue(
     pathCheck && strictOptions.router.strictToArgument,
-    `| (E extends true ? string : void)`
+    `| (E extends true ? string : never)`
   )}
 
 

@@ -2,16 +2,19 @@
   "private": true,
   "name": "sample-project",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "typecheck": "nuxi typecheck"
   },
   "devDependencies": {
     "@nuxtjs/i18n": "8.0.0-rc.5",
     "nuxt": "3.8.2",
-    "vue": "3.3.10",
-    "nuxt-typed-router": "workspace:*"
+    "nuxt-typed-router": "workspace:*",
+    "vue": "3.3.13",
+    "vue-tsc": "1.8.25"
   }
 }

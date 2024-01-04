@@ -24,7 +24,7 @@ export function createi18nRouterFile() {
   };
 
 
-  export type NuxtLocaleRoute<T extends RoutesNamesList, P extends string, E extends boolean = false> = 
+  export type NuxtLocaleRoute<T extends RoutesNamesList = never, P extends string = never, E extends boolean = false> = 
     | TypedRouteLocationRawFromName<T, P>
     ${returnIfTrue(!pathCheck && !NuxtLink.strictToArgument, ` | string`)}
     ${returnIfTrue(pathCheck && NuxtLink.strictToArgument, ` | (E extends true ? string : never)`)}

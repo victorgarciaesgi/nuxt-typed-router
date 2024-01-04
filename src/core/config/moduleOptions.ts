@@ -3,6 +3,8 @@ import { defu } from 'defu';
 import type { NuxtI18nOptions } from '@nuxtjs/i18n/dist/module';
 import type { ModuleOptions, StrictOptions } from '../../types';
 import logSymbols from 'log-symbols';
+import { isDynamicPattern, globbySync } from 'globby';
+
 interface CustomNuxtConfigOptions {
   autoImport?: boolean;
   rootDir?: string;
@@ -69,11 +71,24 @@ class ModuleOptionsStore {
     if (options.isDocumentDriven) {
       this.ignoreRoutes.push('[...slug].vue');
     }
+
+    const catchAllRegex = /\[...*].*/;
+    const relativeRoot = path.relative(process.cwd(), this.pagesDir);
+    const dynamicGlobs = this.ignoreRoutes
+      .filter((f) => isDynamicPattern(f) && !catchAllRegex.test(f))
+      .map((file) => path.join(relativeRoot, file));
+    const normalGlobs = this.ignoreRoutes.filter(
+      (f) => !(isDynamicPattern(f) && !catchAllRegex.test(f))
+    );
+    const resolvedGlobs = globbySync(dynamicGlobs, { expandDirectories: true });
+
+    this.resolvedIgnoredRoutes = [
+      ...normalGlobs.map((m) => path.join(this.pagesDir, m)),
+      ...resolvedGlobs.map((m) => path.join(process.cwd(), m)),
+    ];
   }
 
-  get resolvedIgnoredRoutes(): string[] {
-    return this.ignoreRoutes.map((file) => path.join(this.pagesDir, file));
-  }
+  public resolvedIgnoredRoutes: string[] = [];
 
   getResolvedStrictOptions(): Required<StrictOptions> {
     let resolved: Required<StrictOptions>;

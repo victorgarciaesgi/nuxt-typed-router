@@ -134,10 +134,10 @@ export function createPathsFiles({ routesPaths, routesList }: GeneratorOutput) {
   ${returnIfTrue(hasPrefixStrategy, validateLocalePathTypes)}
 
 
-  export type TypedPathParameter<T extends string> = ValidatePath<T> | RoutePathSchema;
+  export type TypedPathParameter<T extends string = never> = ValidatePath<T> | RoutePathSchema;
   ${returnIfTrue(
     hasPrefixStrategy,
-    `export type TypedLocalePathParameter<T extends string> = ValidateLocalePath<T> | LocaleRoutePathSchema;`
+    `export type TypedLocalePathParameter<T extends string = never> = ValidateLocalePath<T> | LocaleRoutePathSchema;`
   )}
 
   `;

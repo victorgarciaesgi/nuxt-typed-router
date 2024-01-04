@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     plugin: true,
     pathCheck: true,
     removeNuxtDefs: true,
-    ignoreRoutes: ['[...404].vue'],
+    ignoreRoutes: ['[...404].vue', 'ignoreFolder/**/*'],
   },
   content: {
     documentDriven: false,
