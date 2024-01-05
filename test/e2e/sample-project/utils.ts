@@ -1,7 +1,5 @@
 import { timeout } from '$$/utils';
-import { NuxtConfig } from '@nuxt/schema';
-import { getBrowser, setup, url, useTestContext } from '@nuxt/test-utils';
-import { fileURLToPath } from 'node:url';
+import { getBrowser, url, useTestContext } from '@nuxt/test-utils';
 import { expect } from 'vitest';
 import { $ } from 'zx';
 

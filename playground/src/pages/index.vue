@@ -28,8 +28,6 @@ import TestLink from '~/components/TestLink.vue';
 //   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
 // });
 
-const p: NuxtRoute = { name: 'admin-444', params: { '444': 1 }, hash: '1' };
-
 definePageMeta({
   redirect: { name: 'admin-444', params: { '444': 1 } },
 });

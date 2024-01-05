@@ -6,6 +6,8 @@ const configName = process.env.NUXT_ROUTER_CONFIG_NAME;
 
 let additionalConfig: NuxtConfig | undefined;
 
+console.log({ configName });
+
 if (configName) {
   const config = require(`../../samples-config/${configName}.ts`);
   const files = globbySync(`test/fixtures/sample-project/tests/[${configName}]`);
