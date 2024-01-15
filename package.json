@@ -31,7 +31,7 @@
     "test:types-fixtures": "nuxi typecheck test/fixtures/sample-project",
     "test:fixtures": "vitest run --dir test ",
     "test:types": "pnpm run typecheck",
-    "test": "pnpm run test:prepare-fixtures && pnpm run test:types && pnpm run test:fixtures",
+    "test": "pnpm run dev:prepare && pnpm run test:prepare-fixtures && pnpm run test:types && pnpm run test:fixtures",
     "test:debug": "NUXT_ROUTER_CONFIG_NAME=$CONFIG pnpm run test:types-fixtures"
   },
   "publishConfig": {
