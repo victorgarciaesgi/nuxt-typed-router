@@ -10,10 +10,12 @@
     "preview": "nuxt preview",
     "typecheck": "nuxi typecheck"
   },
+  "dependencies": {
+    "nuxt-typed-router": "workspace:*"
+  },
   "devDependencies": {
     "@nuxtjs/i18n": "8.0.0",
     "nuxt": "3.9.0",
-    "nuxt-typed-router": "workspace:*",
     "vue": "3.4.5",
     "vue-tsc": "1.8.27"
   }

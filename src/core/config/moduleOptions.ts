@@ -36,7 +36,9 @@ class ModuleOptionsStore {
     if (options.rootDir != null) this.rootDir = options.rootDir;
     if (options.srcDir != null) this.srcDir = options.srcDir;
     if (options.buildDir != null) this.buildDir = options.buildDir;
+
     this.pagesDir = path.join(this.srcDir, 'pages');
+
     if (options.i18n != null) this.i18n = options.i18n;
     if (options.i18nOptions != null) {
       this.i18nOptions = defu(options.i18nOptions, {
@@ -72,11 +74,14 @@ class ModuleOptionsStore {
       this.ignoreRoutes.push('[...slug].vue');
     }
 
+    // Ignore route related
     const catchAllRegex = /\[...*].*/;
     const relativeRoot = path.relative(process.cwd(), this.pagesDir);
+
     const dynamicGlobs = this.ignoreRoutes
       .filter((f) => isDynamicPattern(f) && !catchAllRegex.test(f))
       .map((file) => path.join(relativeRoot, file));
+
     const normalGlobs = this.ignoreRoutes.filter(
       (f) => !(isDynamicPattern(f) && !catchAllRegex.test(f))
     );

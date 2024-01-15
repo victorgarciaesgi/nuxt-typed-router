@@ -170,6 +170,10 @@ importers:
         version: 3.9.0(@types/node@20.10.6)(eslint@8.56.0)(rollup@3.29.4)(typescript@5.3.3)(vite@5.0.10)(vue-tsc@1.8.27)
 
   test/fixtures/sample-project:
+    dependencies:
+      nuxt-typed-router:
+        specifier: workspace:*
+        version: link:../../..
     devDependencies:
       '@nuxtjs/i18n':
         specifier: 8.0.0
@@ -177,9 +181,6 @@ importers:
       nuxt:
         specifier: 3.9.0
         version: 3.9.0(@types/node@20.10.6)(eslint@8.56.0)(rollup@3.29.4)(typescript@5.3.3)(vite@5.0.10)(vue-tsc@1.8.27)
-      nuxt-typed-router:
-        specifier: workspace:*
-        version: link:../../..
       vue:
         specifier: 3.4.5
         version: 3.4.5(typescript@5.3.3)
