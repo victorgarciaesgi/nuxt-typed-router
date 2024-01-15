@@ -1,27 +1,29 @@
-import { timeout } from '$$/utils';
-import { getBrowser, url, useTestContext } from '@nuxt/test-utils';
+import { getConfigFromName } from '$$/utils';
+import { getBrowser, setup, url, useTestContext, $fetch } from '@nuxt/test-utils';
+import { fileURLToPath } from 'url';
 import { expect } from 'vitest';
-import { $ } from 'zx';
 
-export async function setupNuxtTestWithConfig(configName: string) {
-  try {
-    // await $`NUXT_ROUTER_CONFIG_NAME=${configName} pnpm run test:prepare-fixtures`;
-    // await timeout(500);
-    await $`NUXT_ROUTER_CONFIG_NAME=${configName} pnpm run test:types-fixtures`;
-    await timeout(100);
-  } catch (e) {
-    return Promise.reject(`Typecheck failed for config: [${configName}]: ${e}`);
-  }
-  // it('should render base buttons', async () => {
-  //   const link = `/[${configName}]`;
-  //   const html = await $fetch(link);
+export async function setupNuxtE2ETestForConfig(configName: string, basePath = '') {
+  const testConfig = await import(`../samples-config/${configName}.ts`);
+  await setup({
+    rootDir: fileURLToPath(new URL('../fixtures/sample-project', import.meta.url)),
+    nuxtConfig: getConfigFromName(configName, testConfig),
+  });
 
-  //   expect(html).toContain('Navigate button');
-  //   expect(html).toContain('Navigate link');
-  //   expect(html).toContain('NavigateTo button');
+  it(
+    `should render base buttons for config [${configName}]`,
+    async () => {
+      const link = `/tests/${basePath}[${configName}]`;
+      const html = await $fetch(link);
 
-  //   await expectNoClientErrors(link);
-  // });
+      expect(html).toContain('Navigate button');
+      expect(html).toContain('Navigate link');
+      expect(html).toContain('NavigateTo button');
+
+      await expectNoClientErrors(link);
+    },
+    { sequential: true }
+  );
 }
 
 // Taken from nuxt/framework repo

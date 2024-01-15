@@ -1,0 +1,1 @@
+Each file will be isolated type wise, so the e2e tests will navigate to the corresponding route

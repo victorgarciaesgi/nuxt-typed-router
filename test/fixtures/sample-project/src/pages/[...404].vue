@@ -1,3 +1,3 @@
 <template>
-  <span>Foo</span>
+  <span>404</span>
 </template>

@@ -29,7 +29,7 @@
     "release": "bumpp && npm publish && git push --follow-tags",
     "test:prepare-fixtures": "nuxi prepare test/fixtures/sample-project",
     "test:types-fixtures": "nuxi typecheck test/fixtures/sample-project",
-    "test:fixtures": "vitest run --dir test",
+    "test:fixtures": "vitest run --dir test ",
     "test:types": "pnpm run typecheck",
     "test": "pnpm run test:prepare-fixtures && pnpm run test:types && pnpm run test:fixtures",
     "test:debug": "NUXT_ROUTER_CONFIG_NAME=$CONFIG pnpm run test:types-fixtures"
