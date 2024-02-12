@@ -1,11 +1,11 @@
 import type { NuxtPage } from '@nuxt/schema';
 import type { GeneratorOutput, RouteParamsDecl, RoutePathsDecl } from '../../types';
 import { isItemLast } from '../../utils';
-import { walkThoughRoutes } from './walkRoutes';
-import { moduleOptionStore } from '../config';
-import { modifyPrefixForLocaleRouteName } from './i18n.modifiers';
+import { walkThoughRoutes } from './extractor/walkRoutes';
+import { moduleOptionStore } from '$$/core/stores';
+import { modifyPrefixForLocaleRouteName } from './i18n/i18n.modifiers';
 
-export function constructRouteMap(routesConfig: NuxtPage[]): GeneratorOutput {
+export function buildRoutesSchemas(routesConfig: NuxtPage[]): GeneratorOutput {
   try {
     const { i18nOptions } = moduleOptionStore;
     let routesObjectTemplate = '{';
@@ -45,7 +45,6 @@ export function constructRouteMap(routesConfig: NuxtPage[]): GeneratorOutput {
             .filter((f) => !!f)
         ),
       ];
-      console.log(output.routesList);
     }
 
     return output;

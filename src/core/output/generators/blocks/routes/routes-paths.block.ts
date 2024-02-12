@@ -1,7 +1,7 @@
-import type { DestructuredPath } from '../../../../../core/parser/params';
+import type { DestructuredPath } from '../../../../parser/pathControl';
 import type { RoutePathsDecl } from '../../../../../types';
 import { returnIfTrue } from '../../../../../../src/utils';
-import { moduleOptionStore } from '../../../../../../src/core/config';
+import { moduleOptionStore } from '$$/core/stores';
 import { camelCase, capitalize, startCase } from 'lodash-es';
 
 function pascalCase(str?: string) {

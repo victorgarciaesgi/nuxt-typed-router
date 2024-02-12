@@ -1,5 +1,5 @@
 import type { NuxtPage } from '@nuxt/schema';
-import { moduleOptionStore } from '../config';
+import { moduleOptionStore } from '$$/core/stores';
 
 const specialCharacterRegxp = /([^a-zA-Z0-9_])/gm;
 

@@ -2,18 +2,19 @@ import { extendPages } from '@nuxt/kit';
 import type { Nuxt, NuxtPage } from '@nuxt/schema/dist/index';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
-import { moduleOptionStore } from './config';
+import { moduleOptionStore } from '$$/core/stores';
 import { handleAddPlugin, saveGeneratedFiles } from './output';
-import { constructRouteMap } from './parser';
+import { buildRoutesSchemas } from './parser';
 
-type CreateTypedRouterArgs = {
+// Cache to avoid over-logging
+let hasLoggedNoPages = false;
+let hasRoutesDefined = false;
+
+interface CreateTypedRouterArgs {
   nuxt: Nuxt;
   routesConfig?: NuxtPage[];
   isHookCall?: boolean;
-};
-
-let hasLoggedNoPages = false;
-let hasRoutesDefined = false;
+}
 
 export async function createTypedRouter({
   nuxt,
@@ -48,12 +49,13 @@ export async function createTypedRouter({
     extendPages(async (routes: NuxtPage[]) => {
       // console.log(JSON.stringify(routes));
       hasRoutesDefined = true;
-      const outputData = constructRouteMap(routes);
+      const outputData = buildRoutesSchemas(routes);
 
       await saveGeneratedFiles({
         outputData,
       });
     });
+
     setTimeout(() => {
       if (!hasRoutesDefined && !hasLoggedNoPages) {
         hasLoggedNoPages = true;

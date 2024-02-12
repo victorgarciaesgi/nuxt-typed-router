@@ -7,7 +7,6 @@ All notable changes to this project will be documented in this file. See [standa
 New features
 
 - `ignoreRoutes` option now support Globs pattern
-- Simplification of `NuxtRoute` type, removing the need for generics
 
 Fixs
 

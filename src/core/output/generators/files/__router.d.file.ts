@@ -1,5 +1,5 @@
 import { returnIfFalse, returnIfTrue } from '../../../../utils';
-import { moduleOptionStore } from '../../../config';
+import { moduleOptionStore } from '$$/core/stores';
 
 export function createTypedRouterFile() {
   const strictOptions = moduleOptionStore.getResolvedStrictOptions();

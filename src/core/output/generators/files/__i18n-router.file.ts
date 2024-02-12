@@ -1,5 +1,5 @@
 import { returnIfTrue } from '../../../../utils';
-import { moduleOptionStore } from '../../../config';
+import { moduleOptionStore } from '$$/core/stores';
 
 export function createi18nRouterFile() {
   const { router, NuxtLink } = moduleOptionStore.getResolvedStrictOptions();

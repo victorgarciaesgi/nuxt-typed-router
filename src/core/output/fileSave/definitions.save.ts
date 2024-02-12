@@ -1,6 +1,6 @@
 import logSymbols from 'log-symbols';
 import type { GeneratorOutput } from '../../../types';
-import { moduleOptionStore } from '../../config';
+import { moduleOptionStore } from '$$/core/stores';
 import { processPathAndWriteFile } from '../../fs';
 import {
   createDefinePageMetaFile,

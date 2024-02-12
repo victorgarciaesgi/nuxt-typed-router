@@ -1,22 +1,11 @@
 import type { NuxtPage } from '@nuxt/schema';
 import { camelCase } from 'lodash-es';
-import type { GeneratorOutput, ParamDecl } from '../../types';
-import { isItemLast } from '../../utils';
-import { moduleOptionStore } from '../config';
+import type { GeneratorOutput, ParamDecl } from '../../../types';
+import { isItemLast } from '../../../utils';
+import { moduleOptionStore } from '$$/core/stores';
 import { extractUnMatchingSiblings } from './extractChunks';
-import { is18Sibling, modifyRoutePrefixDefaultIfI18n } from './i18n.modifiers';
-import { extractRouteParamsFromPath } from './params';
-
-type WalkThoughRoutesParams = {
-  route: NuxtPage;
-  level: number;
-  siblings?: NuxtPage[];
-  parent?: NuxtPage;
-  previousParams?: ParamDecl[];
-  output: GeneratorOutput;
-  isLast: boolean;
-  isLocale: boolean;
-};
+import { is18Sibling, modifyRoutePrefixDefaultIfI18n } from '../i18n/i18n.modifiers';
+import { extractRouteParamsFromPath } from '../pathControl';
 
 function createKeyedName(route: NuxtPage, parent?: NuxtPage): string {
   const splittedPaths = route.path.split('/');
@@ -39,6 +28,17 @@ function createNameKeyFromFullName(route: NuxtPage, level: number, parentName?: 
   const keyName = route.path === '' ? 'index' : camelCase(splitted.join('-')) || 'index';
 
   return keyName;
+}
+
+interface WalkThoughRoutesParams {
+  route: NuxtPage;
+  level: number;
+  siblings?: NuxtPage[];
+  parent?: NuxtPage;
+  previousParams?: ParamDecl[];
+  output: GeneratorOutput;
+  isLast: boolean;
+  isLocale: boolean;
 }
 
 /** Mutates the output object with generated routes */

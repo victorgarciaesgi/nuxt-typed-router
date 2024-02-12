@@ -1,1 +1,1 @@
-export * from './base';
+export { buildRoutesSchemas } from './buildRoutesSchemas';

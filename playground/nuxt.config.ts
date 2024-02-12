@@ -1,3 +1,5 @@
+import { fileURLToPath } from 'url';
+
 export default defineNuxtConfig({
   extends: ['nuxt-seo-kit'],
   modules: ['nuxt-typed-router', '@nuxtjs/i18n', '@nuxt/content'],
@@ -31,5 +33,8 @@ export default defineNuxtConfig({
         iso: 'zh-CN',
       },
     ],
+  },
+  alias: {
+    $$: fileURLToPath(new URL('../src', import.meta.url)),
   },
 });

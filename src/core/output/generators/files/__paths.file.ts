@@ -1,8 +1,8 @@
 import { returnIfTrue } from '../../../../../src/utils';
 import type { GeneratorOutput } from '../../../../types';
-import { moduleOptionStore } from '../../../config';
-import { modifyPrefixForLocaleRouteName } from '../../../parser/i18n.modifiers';
-import { destructurePath } from '../../../parser/params';
+import { moduleOptionStore } from '$$/core/stores';
+import { modifyPrefixForLocaleRouteName } from '../../../parser/i18n/i18n.modifiers';
+import { destructurePath } from '../../../parser/pathControl';
 import {
   createLocaleRoutePathSchema,
   createRoutePathSchema,

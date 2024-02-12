@@ -1,10 +1,10 @@
-import { defineNuxtModule, createResolver, addTemplate } from '@nuxt/kit';
+import { defineNuxtModule, createResolver } from '@nuxt/kit';
 import type { Nuxt } from '@nuxt/schema';
 import type { NuxtI18nOptions } from '@nuxtjs/i18n/dist/module';
-import { createTypedRouter } from './core';
-import { moduleOptionStore } from './core/config';
+import { createTypedRouter } from './core/createTypedRouter';
+import { moduleOptionStore } from '$$/core/stores';
 import type { ModuleOptions } from './types';
-import { removeNuxtDefinitions } from './core/parser/removeNuxtDefs';
+import { removeNuxtDefinitions } from './core/output/removeNuxtDefs';
 export type { ModuleOptions } from './types';
 
 export default defineNuxtModule<ModuleOptions>({
