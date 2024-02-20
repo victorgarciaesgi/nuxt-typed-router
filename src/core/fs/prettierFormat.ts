@@ -19,6 +19,7 @@ export async function formatOutputWithPrettier(template: string): Promise<string
     if (!prettierFoundOptions) {
       prettierFoundOptions = defaultPrettierOptions;
     }
+    // const formatedTemplate = template;
 
     const formatedTemplate = prettier.format(template, {
       ...prettierFoundOptions,

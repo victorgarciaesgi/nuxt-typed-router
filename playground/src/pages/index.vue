@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import type { TypedRouteLocationRawFromName, helpers, TypedRouteLocation } from '@typed-router';
 import TestLink from '~/components/TestLink.vue';
+import { useLocalePath } from '#imports';
 // definePageMeta({
 //   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
 // });

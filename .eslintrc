@@ -19,7 +19,7 @@
     "vue/multi-word-component-names": "off",
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/no-unused-vars": ["off"],
-    "@typescript-eslint/consistent-type-import": "on",
+    "@typescript-eslint/consistent-type-imports": "warn",
     "import/named": "off"
   }
 }

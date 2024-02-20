@@ -1,6 +1,6 @@
 import path from 'path';
 import { defu } from 'defu';
-import type { NuxtI18nOptions } from '@nuxtjs/i18n/dist/module';
+import type { NuxtI18nOptions } from '@nuxtjs/i18n';
 import type { ModuleOptions, StrictOptions } from '../../types';
 import logSymbols from 'log-symbols';
 interface CustomNuxtConfigOptions {

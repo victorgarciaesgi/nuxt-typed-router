@@ -9,7 +9,6 @@ export default defineNuxtConfig({
   i18n: {
     locales: ['en', 'fr'],
     defaultLocale: 'en',
-    strategy: 'prefix',
   },
   imports: {
     autoImport: false,

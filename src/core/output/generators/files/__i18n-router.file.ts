@@ -10,8 +10,7 @@ export function createi18nRouterFile() {
 
   return /* typescript */ `
   import type { RouteLocationRaw } from 'vue-router';
-  import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from 'vue-i18n-routing';
-  import type {I18nCommonRoutingOptionsWithComposable} from 'vue-i18n-routing';
+  import { useLocalePath as _useLocalePath, useLocaleRoute as _useLocaleRoute} from '#imports';
   import type {TypedRouteLocationRawFromName, TypedLocationAsRelativeRaw, TypedRouteFromName} from './__router';
   import type {RoutesNamesList} from './__routes';
   ${returnIfTrue(
@@ -49,8 +48,8 @@ export function createi18nRouterFile() {
     )}
   }
 
-  export function useLocalePath(options?: I18nCommonRoutingOptionsWithComposable): TypedToLocalePath {
-     return _useLocalePath(options) as any;
+  export function useLocalePath(): TypedToLocalePath {
+     return _useLocalePath() as any;
   }
   
   export interface TypedLocaleRoute {
@@ -62,8 +61,8 @@ export function createi18nRouterFile() {
   }
 
 
-  export function useLocaleRoute(options?: I18nCommonRoutingOptionsWithComposable): TypedLocaleRoute {
-    return _useLocaleRoute(options) as any;
+  export function useLocaleRoute(): TypedLocaleRoute {
+    return _useLocaleRoute() as any;
   }
 
   `;

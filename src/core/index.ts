@@ -1,5 +1,5 @@
 import { extendPages } from '@nuxt/kit';
-import type { Nuxt, NuxtPage } from '@nuxt/schema/dist/index';
+import type { Nuxt, NuxtPage } from '@nuxt/schema';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
 import { moduleOptionStore } from './config';

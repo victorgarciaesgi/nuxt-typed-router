@@ -9,21 +9,16 @@ function pascalCase(str?: string) {
 }
 
 export function createRoutePathSchema(routePaths: RoutePathsDecl[]) {
-  const { i18nOptions } = moduleOptionStore;
+  const paths = routePaths.filter((f) => !!f.path);
   return `export type RoutePathSchema = 
-    ${routePaths
-      .filter((f) => !!f.path)
-      .map((route) => `"${route.path}"`)
-      .join('|')}
+    ${paths.length ? paths.map((route) => `"${route.path}"`).join('|') : 'any'}
   `;
 }
 
 export function createLocaleRoutePathSchema(routePaths: RoutePathsDecl[]) {
+  const paths = routePaths.filter((f) => !!f.path && !f.isLocale);
   return `export type LocaleRoutePathSchema = 
-    ${routePaths
-      .filter((f) => !!f.path && !f.isLocale)
-      .map((route) => `"${route.path}"`)
-      .join('|')}
+    ${paths.length ? paths.map((route) => `"${route.path}"`).join('|') : 'any'}
   `;
 }
 
@@ -75,10 +70,14 @@ export function createValidatePathTypes(
         ? "index"
          ${
            pathConditions.length
-             ? `: ${pathConditions
-                 .filter((f) => routesList.includes(f.routeName))
-                 .map((t) => `${t.typeName}<T> extends true ? "${t.routeName}"`)
-                 .join(': ')} : never`
+             ? `: ${
+                 pathConditions.filter((f) => routesList.includes(f.routeName)).length
+                   ? pathConditions
+                       .filter((f) => routesList.includes(f.routeName))
+                       .map((t) => `${t.typeName}<T> extends true ? "${t.routeName}"`)
+                       .join(': ')
+                   : 'any'
+               } : never`
              : ': never'
          } 
        : never; 
