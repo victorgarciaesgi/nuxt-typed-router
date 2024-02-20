@@ -1,5 +1,5 @@
-import { returnIfTrue } from '../../../../utils';
 import { moduleOptionStore } from '$$/core/stores';
+import { returnIfTrue } from '../../../../utils';
 
 export function createIndexFile(): string {
   const { i18n, i18nOptions, pathCheck } = moduleOptionStore;

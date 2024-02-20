@@ -2,9 +2,9 @@ import { extendPages } from '@nuxt/kit';
 import type { Nuxt, NuxtPage } from '@nuxt/schema/dist/index';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
-import { moduleOptionStore } from '$$/core/stores';
 import { handleAddPlugin, saveGeneratedFiles } from './output';
 import { buildRoutesSchemas } from './parser';
+import { moduleOptionStore } from './stores';
 
 // Cache to avoid over-logging
 let hasLoggedNoPages = false;
