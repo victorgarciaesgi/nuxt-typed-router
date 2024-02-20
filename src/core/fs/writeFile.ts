@@ -4,7 +4,7 @@ import { resolve, dirname } from 'pathe';
 import logSymbols from 'log-symbols';
 import chalk from 'chalk';
 import { mkdirp } from 'mkdirp';
-import { moduleOptionStore } from '../config';
+import { moduleOptionStore } from '$$/core/stores';
 import { formatOutputWithPrettier } from './prettierFormat';
 
 export const __dirname = dirname(fileURLToPath(import.meta.url));

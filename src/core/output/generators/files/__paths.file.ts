@@ -1,7 +1,8 @@
 import { returnIfTrue } from '../../../../../src/utils';
 import type { GeneratorOutput } from '../../../../types';
-import { moduleOptionStore } from '../../../config';
-import { destructurePath } from '../../../parser/params';
+import { moduleOptionStore } from '$$/core/stores';
+import { modifyPrefixForLocaleRouteName } from '../../../parser/i18n/i18n.modifiers';
+import { destructurePath } from '../../../parser/pathControl';
 import {
   createLocaleRoutePathSchema,
   createRoutePathSchema,
@@ -9,7 +10,7 @@ import {
 } from '../blocks';
 
 export function createPathsFiles({ routesPaths, routesList }: GeneratorOutput) {
-  const { i18n, i18nOptions } = moduleOptionStore;
+  const { i18n, i18nOptions, i18nLocales } = moduleOptionStore;
   const hasPrefixStrategy = i18n && i18nOptions?.strategy !== 'no_prefix';
 
   const filteredRoutesPaths = routesPaths
@@ -69,7 +70,26 @@ export function createPathsFiles({ routesPaths, routesList }: GeneratorOutput) {
       return order;
     });
 
-  const pathElements = filteredRoutesPaths
+  const localeFilteredRoutePaths =
+    i18nOptions?.strategy === 'prefix'
+      ? [
+          ...filteredRoutesPaths,
+          ...filteredRoutesPaths
+            .filter((f) => f.path?.match(new RegExp(`^/?(${i18nLocales[0]})(/.*)?$`, 'g')))
+            .map((m) => {
+              return {
+                ...m,
+                name: modifyPrefixForLocaleRouteName(m.name),
+                path: m.path.replace(new RegExp(`^/?(${i18nLocales[0]}/?)`, 'g'), (_, p1) =>
+                  _.replace(p1, '')
+                ),
+                isLocale: false,
+              };
+            }),
+        ]
+      : filteredRoutesPaths;
+
+  const pathElements = localeFilteredRoutePaths
     .filter((f) => f.path && f.path !== '/')
     .map((route) => {
       return route.path
@@ -84,9 +104,10 @@ export function createPathsFiles({ routesPaths, routesList }: GeneratorOutput) {
 
   return /* typescript */ `
     
-  ${createRoutePathSchema(filteredRoutesPaths)};
+  ${createRoutePathSchema(localeFilteredRoutePaths)};
 
-  ${returnIfTrue(hasPrefixStrategy, createLocaleRoutePathSchema(filteredRoutesPaths))}
+
+  ${returnIfTrue(hasPrefixStrategy, createLocaleRoutePathSchema(localeFilteredRoutePaths))}
 
   type ValidStringPath<T> = T extends \`\${string} \${string}\` ? false : T extends '' ? false : true;
 
@@ -134,10 +155,10 @@ export function createPathsFiles({ routesPaths, routesList }: GeneratorOutput) {
   ${returnIfTrue(hasPrefixStrategy, validateLocalePathTypes)}
 
 
-  export type TypedPathParameter<T extends string> = ValidatePath<T> | RoutePathSchema;
+  export type TypedPathParameter<T extends string = never> = ValidatePath<T> | RoutePathSchema;
   ${returnIfTrue(
     hasPrefixStrategy,
-    `export type TypedLocalePathParameter<T extends string> = ValidateLocalePath<T> | LocaleRoutePathSchema;`
+    `export type TypedLocalePathParameter<T extends string = never> = ValidateLocalePath<T> | LocaleRoutePathSchema;`
   )}
 
   `;

@@ -1,4 +1,4 @@
-import { moduleOptionStore } from '../../../config';
+import { moduleOptionStore } from '$$/core/stores';
 
 export function createNuxtLinkLocaleDefinitionFile(): string {
   const strictOptions = moduleOptionStore.getResolvedStrictOptions();

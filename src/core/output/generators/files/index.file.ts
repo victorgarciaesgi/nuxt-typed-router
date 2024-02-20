@@ -1,5 +1,5 @@
+import { moduleOptionStore } from '$$/core/stores';
 import { returnIfTrue } from '../../../../utils';
-import { moduleOptionStore } from '../../../config';
 
 export function createIndexFile(): string {
   const { i18n, i18nOptions, pathCheck } = moduleOptionStore;
@@ -44,7 +44,7 @@ export function createIndexFile(): string {
     ${returnIfTrue(
       i18n,
       `export {useLocalePath, useLocaleRoute} from './__i18n-router';
-      export type {TypedToLocalePath, TypedLocaleRoute, I18nLocales} from './__i18n-router';`
+      export type {TypedToLocalePath, TypedLocaleRoute, I18nLocales, NuxtLocaleRoute} from './__i18n-router';`
     )}
 
     

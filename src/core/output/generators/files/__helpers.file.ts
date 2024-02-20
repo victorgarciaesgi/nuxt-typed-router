@@ -1,5 +1,5 @@
 import { returnIfFalse, returnIfTrue } from '../../../../utils';
-import { moduleOptionStore } from '../../../config';
+import { moduleOptionStore } from '$$/core/stores';
 
 export function createHelpersFile() {
   const { pathCheck } = moduleOptionStore;

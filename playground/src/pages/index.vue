@@ -1,13 +1,12 @@
 <template>
   <div>
     <button @click="navigate"> Navigate button </button>
-    <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
+    <nuxt-link :to="localePath({ name: 'admin-444', params: { 444: 1 } })">Navigate Link</nuxt-link>
     <!-- Should error -->
     <nuxt-link to="/foo">Navigate Link</nuxt-link>
 
-    <nuxt-link to="/admin/888?foo">Navigate Link</nuxt-link>
+    <nuxt-link :to="localePath('/admin/888', 'en')">Navigate </nuxt-link>
 
-    <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
     <nuxt-link :to="localePath({ name: 'user' })">Navigate Link</nuxt-link>
     <nuxt-layout></nuxt-layout>
 
@@ -17,14 +16,19 @@
 </template>
 
 <script setup lang="ts">
-import type { TypedRouteLocationRawFromName, helpers, TypedRouteLocation } from '@typed-router';
+import type {
+  TypedLocalePathParameter,
+  helpers,
+  TypedRouteLocation,
+  TypedPathParameter,
+  NuxtRoute,
+} from '@typed-router';
 import TestLink from '~/components/TestLink.vue';
 // definePageMeta({
 //   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
 // });
 
 definePageMeta({
-  name: 'foo-bar',
   redirect: { name: 'admin-444', params: { '444': 1 } },
 });
 
@@ -32,6 +36,8 @@ const router = useRouter();
 
 const localePath = useLocalePath();
 const localeRoute = useLocaleRoute();
+
+console.log(localePath('/admin/888', 'en'));
 
 // const route = localeRoute({ name: 'index___en', query: { foo: '1' } });
 // if (route) {
@@ -60,7 +66,7 @@ function navigate() {
   router.push('/admin'); // Should error
 
   const route = localePath(`/user/${u}/:slug/articles`);
-  router.push('/');
+  router.push('/admin/:fj');
   navigateTo('ednzelfjle', { external: true });
   const route4 = navigateTo('/test/:foo');
   router.push({ path: '/' });

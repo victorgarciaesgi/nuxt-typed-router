@@ -31,6 +31,12 @@ export interface ModuleOptions {
    *
    * Exclude certain routes from being included into the generated types
    * Ex: 404 routes or catchAll routes
+   *
+   * Supports globs
+   *
+   * ```
+   * ignoreRoutes: ["[...404].vue", 'admin/**\/*.vue']
+   * ```
    */
   ignoreRoutes?: string[];
 }
