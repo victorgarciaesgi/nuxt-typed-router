@@ -63,11 +63,7 @@ Demo repo 🧪 : [nuxt-typed-router-demo](https://github.com/victorgarciaesgi/nu
 ### For Nuxt 3
 
 ```bash
-yarn add -D nuxt-typed-router
-# or
-npm install -D nuxt-typed-router
-# or
-pnpm install -D nuxt-typed-router
+npx nuxi@latest module add typed-router
 ```
 
 
