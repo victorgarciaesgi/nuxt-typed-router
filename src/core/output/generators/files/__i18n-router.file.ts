@@ -37,7 +37,7 @@ export function createi18nRouterFile() {
       to: TypedRouteLocationRawFromName<T, P>,
       locale?: I18nLocales | undefined
     ) : [T] extends [never] ? string : Required<
-    (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
+    (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params' | 'path'> & TypedLocationAsRelativeRaw<T>)
     >
     ${returnIfTrue(
       pathCheck && !router.strictToArgument,

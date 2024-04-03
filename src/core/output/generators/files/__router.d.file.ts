@@ -50,7 +50,7 @@ export function createTypedRouterFile() {
    * {@link RouteLocationRaw}
    * */
   export type TypedRouteLocationRaw<T extends string = string> =
-  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & RoutesNamedLocations)
+  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params' | 'path'> & RoutesNamedLocations)
   | Omit<RouteLocationPathRaw, 'path'>
   ${returnIfTrue(
     pathCheck && !strictOptions.router.strictRouteLocation,
@@ -64,7 +64,7 @@ export function createTypedRouterFile() {
    * Alternative version of {@link TypedRouteLocationRaw} but with a name generic
    */
   export type TypedRouteLocationRawFromName<T extends RoutesNamesList, P extends string = string> =
-  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>)
+  | (Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params' | 'path'> & TypedLocationAsRelativeRaw<T>)
   | Omit<RouteLocationPathRaw, 'path'>
   ${returnIfTrue(
     pathCheck && !strictOptions.router.strictRouteLocation,

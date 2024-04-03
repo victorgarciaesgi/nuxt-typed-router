@@ -1,5 +1,4 @@
-import { assertType } from 'vitest';
-import test from 'node:test';
+import { assertType, test } from 'vitest';
 import type { TypedRouter } from '@typed-router';
 
 // Given

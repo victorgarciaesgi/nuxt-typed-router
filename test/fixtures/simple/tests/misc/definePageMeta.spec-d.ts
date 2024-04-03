@@ -1,4 +1,4 @@
-import { assertType, expectTypeOf } from 'vitest';
+import { assertType } from 'vitest';
 import { definePageMeta } from '@typed-router';
 
 // Given
@@ -51,6 +51,7 @@ definePageMeta({ redirect: { name: 'test-module' } });
 // * --- Path navigation
 // @ts-expect-error
 definePageMeta({ redirect: '/fooooooooooo' });
+
 // @ts-expect-error
 definePageMeta({ redirect: { path: '/foo' } });
 

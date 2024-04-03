@@ -22,7 +22,7 @@ export const helpers = {
   ): [T] extends [never]
     ? string
     : Required<
-        Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params'> & TypedLocationAsRelativeRaw<T>
+        Omit<Exclude<RouteLocationRaw, string>, 'name' | 'params' | 'path'> & TypedLocationAsRelativeRaw<T>
       > {
     return to as any;
   },
