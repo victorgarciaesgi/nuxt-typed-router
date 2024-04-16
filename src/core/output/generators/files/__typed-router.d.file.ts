@@ -66,7 +66,21 @@ export function createTypedRouterDefinitionFile(): string {
     > & {
       $props: TypedNuxtLinkProps<T, P, E>;
     };
-    
+
+    declare module '@vue/runtime-core' {
+      interface GlobalComponents {
+        NuxtLink: TypedNuxtLink;
+        ${returnIfTrue(i18n, ` NuxtLinkLocale: TypedNuxtLinkLocale;`)}
+      }
+    }
+
+    declare module '@vue/runtime-dom' {
+      interface GlobalComponents {
+        NuxtLink: TypedNuxtLink;
+        ${returnIfTrue(i18n, ` NuxtLinkLocale: TypedNuxtLinkLocale;`)}
+      }
+    }
+
     declare module 'vue' {
       interface GlobalComponents {
         NuxtLink: TypedNuxtLink;
