@@ -10,8 +10,8 @@
   },
   "devDependencies": {
     "@nuxtjs/i18n": "8.3.0",
-    "nuxt": "3.11.1",
+    "nuxt": "3.11.2",
     "nuxt-typed-router": "workspace:*",
-    "vue": "3.4.21"
+    "vue": "3.4.23"
   }
 }
