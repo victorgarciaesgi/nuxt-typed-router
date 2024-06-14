@@ -11,7 +11,7 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-typed-router',
     configKey: 'nuxtTypedRouter',
-    compatibility: { nuxt: '^3.0.0', bridge: false },
+    compatibility: { nuxt: '>=3.0.0', bridge: false },
   },
   defaults: {
     plugin: false,
