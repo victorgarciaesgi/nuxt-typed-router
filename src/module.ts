@@ -70,10 +70,9 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hook('prepare:types', (options) => {
       options.tsConfig.include?.unshift('./typed-router/typed-router.d.ts');
       if (moduleOptions.pathCheck) {
-        (options.tsConfig as any).vueCompilerOptions = {
-          jsxTemplates: true,
-          experimentalRfc436: true,
-        };
+        (options.tsConfig as any).vueCompilerOptions = (options.tsConfig as any).vueCompilerOptions || {};
+        options.tsConfig.vueCompilerOptions.jsxTemplates = true;
+        options.tsConfig.vueCompilerOptions.experimentalRfc436 = true;
       }
       if (moduleOptions.removeNuxtDefs) {
         removeNuxtDefinitions({
