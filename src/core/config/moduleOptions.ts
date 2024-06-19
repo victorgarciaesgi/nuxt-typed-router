@@ -26,6 +26,7 @@ class ModuleOptionsStore {
   i18nOptions: NuxtI18nOptions | null = null;
   i18nLocales: string[] = [];
   ignoreRoutes: string[] = [];
+  ignoreI18nModifiers: boolean = false;
 
   updateOptions(options: ModuleOptions & CustomNuxtConfigOptions) {
     if (options.plugin != null) this.plugin = options.plugin;
@@ -64,6 +65,9 @@ class ModuleOptionsStore {
     }
     if (options.ignoreRoutes) {
       this.ignoreRoutes = options.ignoreRoutes;
+    }
+    if (options.ignoreI18nModifier) {
+      this.ignoreI18nModifiers = options.ignoreI18nModifier;
     }
 
     if (options.isDocumentDriven) {

@@ -19,8 +19,8 @@ export function is18Sibling(source: RoutePathsDecl[], route: NuxtPage) {
 }
 
 export function modifyRoutePrefixDefaultIfI18n(route: NuxtPage) {
-  const { i18n, i18nOptions, i18nLocales } = moduleOptionStore;
-  if (i18n && i18nOptions && route.name) {
+  const { i18n, i18nOptions, i18nLocales, ignoreI18nModifiers } = moduleOptionStore;
+  if (i18n && i18nOptions && route.name && !ignoreI18nModifiers) {
     const separator = i18nOptions?.routesNameSeparator ?? '___';
     const i18LocalesRecognizer = i18nLocales
       ?.map((m) => m.replace(specialCharacterRegxp, '\\$&'))
