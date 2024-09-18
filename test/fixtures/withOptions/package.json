@@ -9,7 +9,7 @@
     "preview": "nuxt preview"
   },
   "devDependencies": {
-    "nuxt": "3.12.1",
+    "nuxt": "3.13.2",
     "nuxt-typed-router": "workspace:*"
   }
 }

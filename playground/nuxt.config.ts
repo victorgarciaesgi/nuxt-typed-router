@@ -1,6 +1,8 @@
+import TestModuleRoute from './src/modules/test-module';
+
 export default defineNuxtConfig({
   extends: ['nuxt-seo-kit'],
-  modules: ['nuxt-typed-router', '@nuxtjs/i18n', '@nuxt/content'],
+  modules: ['nuxt-typed-router', '@nuxtjs/i18n', TestModuleRoute, '@nuxt/content'],
   devtools: {
     enabled: true,
   },
@@ -12,6 +14,14 @@ export default defineNuxtConfig({
   },
   content: {
     documentDriven: false,
+  },
+  hooks: {
+    'pages:extend': (pages) => {
+      pages.push({
+        name: 'foo',
+        path: '/foo',
+      });
+    },
   },
   srcDir: './src',
   i18n: {
