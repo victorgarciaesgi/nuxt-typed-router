@@ -34,6 +34,8 @@ const router = useRouter();
 const localePath = useLocalePath();
 const localeRoute = useLocaleRoute();
 
+const { params } = useRoute();
+
 // const route = localeRoute({ name: 'index___en', query: { foo: '1' } });
 // if (route) {
 //   navigateTo(route.fullPath);

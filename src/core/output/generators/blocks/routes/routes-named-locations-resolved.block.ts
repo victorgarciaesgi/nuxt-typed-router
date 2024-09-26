@@ -9,7 +9,7 @@ export function createRoutesNamedLocationsResolvedExport(routesParams: RoutePara
   export type RoutesNamedLocationsResolved = 
   {
     name: RoutesNamesList;
-    params: unknown;
+    params: RoutesParamsRecord[keyof RoutesParamsRecord];
   } ${
     routesParams.length
       ? `& (

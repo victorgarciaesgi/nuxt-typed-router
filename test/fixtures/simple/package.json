@@ -11,6 +11,6 @@
   "devDependencies": {
     "nuxt": "^3.13.2",
     "nuxt-typed-router": "workspace:*",
-    "vue": "3.5.6"
+    "vue": "3.5.8"
   }
 }
