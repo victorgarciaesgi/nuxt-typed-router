@@ -33,6 +33,11 @@ export interface ModuleOptions {
    * Ex: 404 routes or catchAll routes
    */
   ignoreRoutes?: string[];
+  /**
+   * Ignores i18n modifiers when generating typed routes
+   * @default false
+   */
+  ignoreI18nModifier?: boolean;
 }
 
 export interface StrictOptions {
