@@ -59,7 +59,7 @@ function navigate() {
   const t = '///';
 
   const route2 = localePath(`/user/${t}/:slug/articles`); // Should error
-  navigateTo('/foo'); // Should error
+  navigateTo('/foo');
   router.push('/admin'); // Should error
 
   const route = localePath(`/user/${u}/:slug/articles`);

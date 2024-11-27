@@ -37,37 +37,39 @@
 
 
 
-# Documentation
+## Documentation
 
 [![Documentation](https://github.com/victorgarciaesgi/nuxt-typed-router/blob/master/.github/images/redirectDoc.svg?raw=true)](https://nuxt-typed-router.vercel.app/)
 
-# Play with it
+## Play with it
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/github-7e4xvw?file=store/testRouter.ts)
 
 Demo repo 🧪 : [nuxt-typed-router-demo](https://github.com/victorgarciaesgi/nuxt-typed-router-demo)
 
-## Cool video about it from LearnVue!
+
+## Used by
+
+<a href='https://malt.fr'><img width="200" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Logo_Malt.svg/1200px-Logo_Malt.svg.png" alt="Malt logo"/></a>
+
+
+## Cool video about it from LearnVue
 
 [![Watch the video](https://img.youtube.com/vi/jiYoAiFb71Y/default.jpg)](https://www.youtube.com/watch?v=jiYoAiFb71Y&t)
 
 
-<br/>
-
-# Compatibility:
+## Compatibility:
 
 - Nuxt 3
 
 
-# Quick start
-
-### For Nuxt 3
+## Install
 
 ```bash
 npx nuxi@latest module add typed-router
 ```
 
 
-# Configuration
+## Configuration
 Register the module in the `nuxt.config.ts`, done!
 
 ```ts
