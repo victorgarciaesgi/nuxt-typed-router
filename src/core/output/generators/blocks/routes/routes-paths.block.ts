@@ -75,9 +75,9 @@ export function createValidatePathTypes(
                    ? pathConditions
                        .filter((f) => routesList.includes(f.routeName))
                        .map((t) => `${t.typeName}<T> extends true ? "${t.routeName}"`)
-                       .join(': ')
+                       .join(': ') + ": never"
                    : 'any'
-               } : never`
+      }`
              : ': never'
          } 
        : never; 
