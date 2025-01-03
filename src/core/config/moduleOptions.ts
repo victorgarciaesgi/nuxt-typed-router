@@ -17,6 +17,7 @@ class ModuleOptionsStore {
   plugin: boolean = false;
   strict: boolean | StrictOptions = false;
   pathCheck: boolean = true;
+  disablePrettier: boolean = false;
   autoImport: boolean = false;
   rootDir: string = '';
   buildDir: string = '';

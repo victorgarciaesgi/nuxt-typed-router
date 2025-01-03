@@ -17,6 +17,7 @@ export default defineNuxtModule<ModuleOptions>({
     plugin: false,
     strict: false,
     pathCheck: true,
+    disablePrettier: false,
     removeNuxtDefs: true,
     ignoreRoutes: [],
   },

@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   nuxtTypedRouter: {
     plugin: true,
     pathCheck: true,
+    disablePrettier: false,
     removeNuxtDefs: true,
     ignoreRoutes: ['[...404].vue'],
   },
