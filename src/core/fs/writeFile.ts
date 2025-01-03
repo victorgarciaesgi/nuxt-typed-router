@@ -21,12 +21,12 @@ export async function processPathAndWriteFile({
   outDir,
 }: ProcessPathAndWriteFileArgs): Promise<void> {
   try {
-    const { rootDir } = moduleOptionStore;
+    const { rootDir, disablePrettier } = moduleOptionStore;
 
     const finalOutDir = outDir ?? `.nuxt/typed-router`;
     const processedOutDir = resolve(rootDir, finalOutDir);
     const outputFile = resolve(process.cwd(), `${processedOutDir}/${fileName}`);
-    const formatedContent = await formatOutputWithPrettier(content);
+    const formatedContent = disablePrettier ? content : await formatOutputWithPrettier(content);
 
     if (fs.existsSync(outputFile)) {
       await writeFile(outputFile, formatedContent);
