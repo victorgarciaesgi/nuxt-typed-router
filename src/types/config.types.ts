@@ -33,6 +33,11 @@ export interface ModuleOptions {
    * Ex: 404 routes or catchAll routes
    */
   ignoreRoutes?: string[];
+  /**
+   * Disable prettier formatter
+   * @default false
+   */
+  disablePrettier?: boolean;
 }
 
 export interface StrictOptions {
