@@ -14,10 +14,10 @@
     "@intlify/shared": "~10.0.4",
     "@intlify/vue-i18n-bridge": "1.1.0",
     "@intlify/vue-router-bridge": "1.1.0",
-    "@nuxtjs/i18n": "9.1.0",
-    "nuxt": "3.14.1592",
+    "@nuxtjs/i18n": "9.1.1",
+    "nuxt": "3.15.1",
     "nuxt-typed-router": "workspace:*",
     "vue": "3.5.13",
-    "vue-i18n": "~10.0.4"
+    "vue-i18n": "~11.0.1"
   }
 }
