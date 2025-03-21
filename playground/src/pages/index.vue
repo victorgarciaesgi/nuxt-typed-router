@@ -8,7 +8,9 @@
     <nuxt-link to="/admin/888?foo">Navigate Link</nuxt-link>
 
     <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
-    <nuxt-link :to="localePath({ name: 'user' })">Navigate Link</nuxt-link>
+    <nuxt-link :to="localePath({ name: 'user' })">
+      <template #default="{}"></template>
+    </nuxt-link>
     <nuxt-layout></nuxt-layout>
 
     <TestLink to="/efze" external></TestLink>
