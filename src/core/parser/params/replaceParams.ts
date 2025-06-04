@@ -9,7 +9,7 @@ export function extractParamsFromPathDecl(path: string): ExtractedParam[] {
     matches = routeParamExtractRegxp.exec(path);
     if (matches) {
       const [_, mtch, key, catchAll, optional] = matches;
-      if (mtch) {
+      if (mtch && key) {
         const _param = {
           name: key,
           optional: !!optional,

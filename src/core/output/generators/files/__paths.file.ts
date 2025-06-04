@@ -34,11 +34,12 @@ export function createPathsFiles({ routesPaths, routesList }: GeneratorOutput) {
       let hasParam: number;
       let indexOfParam: number;
       do {
-        alphabetOrder = pathCountA[index]?.localeCompare(pathCountB[index]);
+        alphabetOrder = pathCountA[index]?.localeCompare(pathCountB[index] ?? '') ?? 0;
         hasElement = (pathCountA[index] != null ? 1 : 0) - (pathCountB[index] != null ? 1 : 0);
         hasParam =
           (pathCountA[index]?.includes(':') ? 1 : 0) - (pathCountB[index]?.includes(':') ? 1 : 0);
-        indexOfParam = pathCountB[index]?.indexOf(':') - pathCountA[index]?.indexOf(':');
+        indexOfParam =
+          (pathCountB[index]?.indexOf(':') ?? 0) - (pathCountA[index]?.indexOf(':') ?? 0);
 
         if (alphabetOrder !== 0 && index === 0) {
           order = alphabetOrder;

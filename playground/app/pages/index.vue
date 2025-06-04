@@ -1,13 +1,14 @@
 <template>
   <div>
     <button @click="navigate"> Navigate button </button>
-    <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
     <!-- Should error -->
+    <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
     <nuxt-link to="/foo">Navigate Link</nuxt-link>
 
     <nuxt-link to="/admin/888?foo">Navigate Link</nuxt-link>
 
-    <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
+    <!-- Should error -->
+    <nuxt-link :to="{ name: '', params: { id: 1 } }">Navigate Link</nuxt-link>
     <nuxt-link :to="localePath({ name: 'user' })">
       <template #default="{}"></template>
     </nuxt-link>

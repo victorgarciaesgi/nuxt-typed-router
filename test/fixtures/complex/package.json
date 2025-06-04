@@ -9,15 +9,15 @@
     "preview": "nuxt preview"
   },
   "devDependencies": {
-    "@intlify/core-base": "~10.0.4",
-    "@intlify/message-compiler": "~10.0.4",
-    "@intlify/shared": "~10.0.4",
+    "@intlify/core-base": "~11.1.5",
+    "@intlify/message-compiler": "~11.1.5",
+    "@intlify/shared": "~11.1.5",
     "@intlify/vue-i18n-bridge": "1.1.0",
     "@intlify/vue-router-bridge": "1.1.0",
-    "@nuxtjs/i18n": "9.3.3",
-    "nuxt": "3.16.1",
+    "@nuxtjs/i18n": "9.5.5",
+    "nuxt": "3.17.5",
     "nuxt-typed-router": "workspace:*",
-    "vue": "3.5.13",
-    "vue-i18n": "~11.1.2"
+    "vue": "3.5.16",
+    "vue-i18n": "~11.1.5"
   }
 }

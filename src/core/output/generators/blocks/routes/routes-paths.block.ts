@@ -112,7 +112,7 @@ export function createTypeValidatePathCondition(
   elements: DestructuredPath[][],
   withLocale?: boolean
 ) {
-  const seedName = pascalCase(elements[0][0].fullPath);
+  const seedName = pascalCase(elements?.[0]?.[0]?.fullPath);
   const typeName = `Validate${returnIfTrue(withLocale, 'Locale')}${seedName}`;
   const params = new Map();
   const routeName = elements.flat()[0]?.routeName ?? 'index';

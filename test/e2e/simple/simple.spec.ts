@@ -10,6 +10,7 @@ describe('Simple config behaviour', async () => {
   await setup({
     rootDir: fileURLToPath(new URL('../../fixtures/simple', import.meta.url)),
     setupTimeout: 120000,
+    dev: true,
   });
 
   it('should display the root page without error', async () => {
