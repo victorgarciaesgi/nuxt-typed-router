@@ -60,6 +60,7 @@ Demo repo 🧪 : [nuxt-typed-router-demo](https://github.com/victorgarciaesgi/nu
 ## Compatibility:
 
 - Nuxt 3
+- Nuxt 4
 
 
 ## Install
