@@ -35,7 +35,7 @@
     "docs:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "docs:build": "npm run docs:prepare && cd docs && pnpm run generate",
     "typecheck": "tsc --noEmit",
-    "release": "bumpp && npm publish && git push --follow-tags"
+    "release": "bumpp && pnpm publish && git push --follow-tags"
   },
   "publishConfig": {
     "access": "public"
