@@ -9,8 +9,8 @@
     "preview": "nuxt preview"
   },
   "devDependencies": {
-    "nuxt": "3.17.5",
+    "nuxt": "4.3.1",
     "nuxt-typed-router": "workspace:*",
-    "vue": "3.5.16"
+    "vue": "3.5.28"
   }
 }

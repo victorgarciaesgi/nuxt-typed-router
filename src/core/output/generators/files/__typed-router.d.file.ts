@@ -7,16 +7,15 @@ export function createTypedRouterDefinitionFile(): string {
 
   return /* typescript */ `
     
-    import type { NuxtLinkProps, PageMeta, NuxtApp } from 'nuxt/app';
-    import NuxtLink from 'nuxt/dist/app/components/nuxt-link';
-    import type { RouteLocationRaw, RouteLocationPathRaw, RouteLocation, RouterLinkProps, UseLinkReturn } from 'vue-router';
-    import type { RoutesNamedLocations, RoutesNamesListRecord, RoutesNamesList } from './__routes';
-    import type {TypedRouter, TypedRoute, TypedRouteLocationRawFromName, TypedLocationAsRelativeRaw, NuxtRoute} from './__router';
+    import type { NuxtApp, NuxtLinkProps } from 'nuxt/app';
+    import type { RouteLocation, UseLinkReturn } from 'vue-router';
+    import type { RoutesNamesListRecord, RoutesNamesList } from './__routes';
+    import type {TypedRouter, TypedRoute, NuxtRoute} from './__router';
     import { useRoute as _useRoute } from './__useTypedRoute';
     import { useRouter as _useRouter } from './__useTypedRouter';
     import { useLink as _useLink } from './__useTypedLink';
     import { navigateTo as _navigateTo } from './__navigateTo';
-    import type { DefineSetupFnComponent, SlotsType, UnwrapRef, VNode } from 'vue';
+    import type { AllowedComponentProps, AnchorHTMLAttributes, DefineSetupFnComponent, SlotsType, UnwrapRef, VNode, VNodeProps } from 'vue';
 
     ${returnIfTrue(
       i18n,
@@ -53,13 +52,13 @@ export function createTypedRouterDefinitionFile(): string {
     
     type TypedNuxtLinkProps<
       T extends RoutesNamesList,
-      P extends string,
-      E extends boolean = false, 
-      CustomProp extends boolean = false> = Omit<NuxtLinkProps<CustomProp>, 'to' | 'external'> &
-      {
-        to: NuxtRoute<T, P, E>,
-        external?: E
-      }
+      const P extends string,
+      TExternal extends boolean,
+      CustomProp extends boolean = false,
+    > = Omit<NuxtLinkProps<CustomProp>, 'to' | 'external'> & {
+      external?: TExternal;
+      to: NuxtRoute<T, P, TExternal>;
+    };
     
     type NuxtLinkDefaultSlotProps<CustomProp extends boolean = false> = CustomProp extends true ? {
       href: string;
@@ -81,7 +80,20 @@ export function createTypedRouterDefinitionFile(): string {
     
         
           
-    export type TypedNuxtLink = (new <T extends RoutesNamesList, P extends string, E extends boolean = false, CustomProp extends boolean = false>(props: TypedNuxtLinkProps<T, P, E, CustomProp>) => InstanceType<DefineSetupFnComponent<TypedNuxtLinkProps<T, P, E, CustomProp>, [], SlotsType<NuxtLinkSlots<CustomProp>>>>) & Record<string, any>
+  export type TypedNuxtLink = new <
+    const T extends RoutesNamesList,
+    const P extends string,
+    CustomProp extends boolean,
+    TExternal extends boolean = false,
+  >(
+    props: TypedNuxtLinkProps<T, P, TExternal, CustomProp>
+  ) => InstanceType<
+    DefineSetupFnComponent<
+      TypedNuxtLinkProps<T, P, NoInfer<TExternal>, CustomProp>,
+      [],
+      SlotsType<NuxtLinkSlots<CustomProp>>
+    >
+  >;
 
     declare module 'vue' {
       interface GlobalComponents {
@@ -98,7 +110,7 @@ export function createTypedRouterDefinitionFile(): string {
             $typedRoute: TypedRoute,
             $routesNames: RoutesNamesListRecord
           }
-          declare module '#app' {
+          declare module 'nuxt/app' {
             interface NuxtApp extends CustomPluginProperties {}
           }
           declare module 'vue' {

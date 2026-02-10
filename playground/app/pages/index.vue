@@ -2,17 +2,17 @@
   <div>
     <button @click="navigate"> Navigate button </button>
     <!-- Should error -->
-    <nuxt-link :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</nuxt-link>
-    <nuxt-link to="/foo">Navigate Link</nuxt-link>
+    <NuxtLink :to="{ name: 'admin-id', params: { id: 1 } }">Navigate Link</NuxtLink>
+    <NuxtLink to="/foo">Navigate Link</NuxtLink>
+    <NuxtLink :to="{ name: 'admin-profil', params: { id: 1 } }">Navigate Link</NuxtLink>
 
-    <nuxt-link to="/admin/888?foo">Navigate Link</nuxt-link>
+    <NuxtLink to="/efezffezfz">Navigate Link</NuxtLink>
 
     <!-- Should error -->
-    <nuxt-link :to="{ name: '', params: { id: 1 } }">Navigate Link</nuxt-link>
-    <nuxt-link :to="localePath({ name: 'user' })">
+    <NuxtLink :to="{ name: '', params: { id: 1 } }">Navigate Link</NuxtLink>
+    <NuxtLink :to="localePath({ name: 'user' })">
       <template #default="{}"></template>
-    </nuxt-link>
-    <nuxt-layout></nuxt-layout>
+    </NuxtLink>
 
     <TestLink to="/efze" external></TestLink>
     <NuxtLinkLocale to="/" />

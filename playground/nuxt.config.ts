@@ -15,9 +15,6 @@ export default defineNuxtConfig({
     removeNuxtDefs: true,
     ignoreRoutes: ['[...404].vue'],
   },
-  content: {
-    documentDriven: false,
-  },
   hooks: {
     'pages:extend': (pages) => {
       pages.push({

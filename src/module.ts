@@ -11,7 +11,7 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-typed-router',
     configKey: 'nuxtTypedRouter',
-    compatibility: { nuxt: '>=3.0.0', bridge: false },
+    compatibility: { nuxt: '>=3.0.0 || >= 4.0.0' },
   },
   defaults: {
     plugin: false,
@@ -24,7 +24,6 @@ export default defineNuxtModule<ModuleOptions>({
   setup(moduleOptions, nuxt: Nuxt) {
     const { resolve } = createResolver(import.meta.url);
 
-    const rootDir = nuxt.options.rootDir;
     let i18nOptions: NuxtI18nOptions | null = null;
 
     const hasi18nModuleRegistered = nuxt.options.modules.some((mod) => {
@@ -64,7 +63,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.alias = {
       ...nuxt.options.alias,
-      '@typed-router': resolve(`${rootDir}/.nuxt/typed-router`),
+      '@typed-router': resolve(`${nuxt.options.buildDir}/typed-router`),
     };
 
     // Force register of type declaration

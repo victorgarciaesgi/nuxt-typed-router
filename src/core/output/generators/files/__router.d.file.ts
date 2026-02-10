@@ -33,16 +33,19 @@ export function createTypedRouterFile() {
   // - Routes location for navigation types (ex: router.push or navigateTo)
 
 
-  export type NuxtRoute<T extends RoutesNamesList, P extends string, E extends boolean = false> = 
+  export type NuxtRoute<
+      const T extends RoutesNamesList,
+      const P extends string,
+      TExternal extends boolean> = 
     | TypedRouteLocationRawFromName<T, P>
     ${returnIfTrue(!pathCheck && !strictOptions.NuxtLink.strictToArgument, ` | string`)}
     ${returnIfTrue(
       pathCheck && strictOptions.NuxtLink.strictToArgument,
-      ` | (E extends true ? string : never)`
+      ` | (TExternal extends true ? string : never)`
     )}
     ${returnIfTrue(
       pathCheck && !strictOptions.NuxtLink.strictToArgument,
-      ` | (E extends true ? string : TypedPathParameter<P>)`
+      ` | (TExternal extends true ? string : TypedPathParameter<P>)`
     )}
 
   /** 

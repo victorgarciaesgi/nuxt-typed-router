@@ -15,9 +15,9 @@
     "@intlify/vue-i18n-bridge": "1.1.0",
     "@intlify/vue-router-bridge": "1.1.0",
     "@nuxtjs/i18n": "9.5.5",
-    "nuxt": "3.17.5",
+    "nuxt": "4.3.1",
     "nuxt-typed-router": "workspace:*",
-    "vue": "3.5.16",
+    "vue": "3.5.28",
     "vue-i18n": "~11.1.5"
   }
 }
