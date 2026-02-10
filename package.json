@@ -1,6 +1,6 @@
 {
   "name": "nuxt-typed-router",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "Provide autocompletion for routes paths, names and params in Nuxt apps",
   "type": "module",
   "main": "./dist/module.mjs",
@@ -33,7 +33,7 @@
     "lint": "eslint --ext .ts --ext .vue .",
     "docs:dev": "cd docs && pnpm run dev",
     "docs:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "docs:build": "npm run docs:prepare && cd docs && nuxi generate",
+    "docs:build": "npm run docs:prepare && cd docs && pnpm run generate",
     "typecheck": "tsc --noEmit",
     "release": "bumpp && npm publish && git push --follow-tags"
   },
@@ -68,7 +68,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
-    "better-sqlite3": "^12.6.2",
+    "better-sqlite3": "catalog:",
     "chalk": "5.6.2",
     "defu": "6.1.4",
     "lodash-es": "4.17.23",
