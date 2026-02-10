@@ -3,3 +3,46 @@ packages:
   - test/fixtures/complex
   - test/fixtures/withOptions
   - docs
+
+minimumReleaseAge: 1440 # 24 hours
+
+catalog:
+  # Node
+  '@types/node': 25.2.3
+
+  # Vue
+  vue: 3.5.28
+  vue-router: 5.0.2
+  vue-tsc: 3.2.4
+  vue-eslint-parser: 10.2.0
+  '@vue/test-utils': 2.4.6
+
+  # Nuxt
+  nuxt: 4.3.1
+  '@nuxt/kit': 4.3.1
+  '@nuxt/schema': 4.3.1
+  '@nuxt/content': 3.11.2
+  '@nuxt/devtools': 3.1.1
+  '@nuxt/module-builder': 1.0.2
+  '@nuxt/test-utils': 4.0.0
+
+  # TypeScript
+  typescript: 5.9.3
+
+  # Testing
+  vitest: 3.2.1
+  playwright: 1.52.0
+  '@playwright/test': 1.52.0
+
+  # i18n (complex fixture)
+  '@intlify/core-base': 11.2.8
+  '@intlify/message-compiler': 11.2.8
+  '@intlify/shared': 11.2.8
+  '@intlify/vue-i18n-bridge': 1.1.0
+  '@intlify/vue-router-bridge': 1.1.0
+  '@nuxtjs/i18n': 10.2.3
+  vue-i18n: 11.2.8
+
+  # Other shared
+  prettier: 3.8.1
+  '@types/lodash-es': 4.17.12
