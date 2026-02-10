@@ -1,15 +1,15 @@
 {
-  "name": "docus-starter",
-  "version": "0.1.0",
+  "name": "nuxt-typed-router-docs",
   "private": true,
   "scripts": {
-    "dev": "nuxi dev",
-    "build": "nuxi build",
-    "generate": "nuxi generate",
-    "preview": "nuxi preview"
+    "dev": "nuxt dev --extends docus",
+    "build": "nuxt build --extends docus",
+    "generate": "nuxt generate --extends docus",
+    "preview": "nuxt preview --extends docus"
   },
-  "devDependencies": {
-    "@nuxt-themes/docus": "1.15.1",
+  "dependencies": {
+    "docus": "latest",
+    "better-sqlite3": "catalog:",
     "nuxt": "catalog:"
   }
 }

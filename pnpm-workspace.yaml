@@ -5,6 +5,11 @@ packages:
   - docs
 
 minimumReleaseAge: 1440 # 24 hours
+minimumReleaseAgeExclude:
+  - '@types/node'
+
+onlyBuiltDependencies:
+  - better-sqlite3
 
 catalog:
   # Node
@@ -42,6 +47,9 @@ catalog:
   '@intlify/vue-router-bridge': 1.1.0
   '@nuxtjs/i18n': 10.2.3
   vue-i18n: 11.2.8
+
+  # Docs
+  better-sqlite3: ^12.6.2
 
   # Other shared
   prettier: 3.8.1
