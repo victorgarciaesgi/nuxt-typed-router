@@ -36,7 +36,7 @@ export function createTypedRouterFile() {
   export type NuxtRoute<
       const T extends RoutesNamesList,
       const P extends string,
-      TExternal extends boolean> = 
+      TExternal extends boolean = false> = 
     | TypedRouteLocationRawFromName<T, P>
     ${returnIfTrue(!pathCheck && !strictOptions.NuxtLink.strictToArgument, ` | string`)}
     ${returnIfTrue(
