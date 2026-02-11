@@ -46,6 +46,7 @@ async function writeFile(path: string, content: string): Promise<void> {
   try {
     await fs.writeFileSync(path, content);
   } catch (e) {
+    /* oxlint-disable-next-line no-console */
     console.log(logSymbols.error, chalk.red(`Error while saving file at ${path}`, e));
     return Promise.reject(e);
   }

@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-import { setPageLayout } from '#imports';
+  import { setPageLayout } from '#imports';
 </script>

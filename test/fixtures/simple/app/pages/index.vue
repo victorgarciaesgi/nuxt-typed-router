@@ -9,16 +9,16 @@
 </template>
 
 <script setup lang="ts">
-// const route = useRoute('user-foo-bar');
-const router = useRouter();
+  // const route = useRoute('user-foo-bar');
+  const router = useRouter();
 
-router.push({ path: '/' });
+  router.push({ path: '/' });
 
-function navigate() {
-  router.push({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } });
-}
+  function navigate() {
+    router.push({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } });
+  }
 
-function testNavigateTo() {
-  navigateTo({ name: 'user-id-slug', params: { id: '1', slug: 'foo' } });
-}
+  function testNavigateTo() {
+    navigateTo({ name: 'user-id-slug', params: { id: '1', slug: 'foo' } });
+  }
 </script>

@@ -13,25 +13,24 @@
 </template>
 
 <script setup lang="ts">
-import { useNuxtApp } from '#imports';
-import { useRoute, useRouter, navigateTo, useLocalePath } from '@typed-router';
+  import { useNuxtApp } from '#imports';
+  import { useRoute, useRouter, navigateTo, useLocalePath } from '@typed-router';
 
-const route = useRoute('user-foo-bar');
-const localPath = useLocalePath();
-const router = useRouter();
-const { $typedRouter, $typedRoute } = useNuxtApp();
+  const route = useRoute('user-foo-bar');
+  const localPath = useLocalePath();
+  const router = useRouter();
+  const { $typedRouter, $typedRoute } = useNuxtApp();
 
-function navigate() {
-  router.push(localPath({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } }));
-  /** @ts-expect-error */
-  console.log(route.params.id);
-}
+  function navigate() {
+    router.push(localPath({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } }));
+    // console.log(route.params.id);
+  }
 
-function testNavigateTo() {
-  navigateTo(localPath({ name: 'user-id-slug', params: { id: '1', slug: 'foo' } }));
-}
+  function testNavigateTo() {
+    navigateTo(localPath({ name: 'user-id-slug', params: { id: '1', slug: 'foo' } }));
+  }
 
-function testNavigatePlugin() {
-  $typedRouter.push(localPath({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } }));
-}
+  function testNavigatePlugin() {
+    $typedRouter.push(localPath({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } }));
+  }
 </script>

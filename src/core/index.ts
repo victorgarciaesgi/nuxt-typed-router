@@ -57,6 +57,7 @@ export async function createTypedRouter({
     setTimeout(() => {
       if (!hasRoutesDefined && !hasLoggedNoPages) {
         hasLoggedNoPages = true;
+        /* oxlint-disable-next-line no-console */
         console.log(
           logSymbols.warning,
           chalk.yellow(

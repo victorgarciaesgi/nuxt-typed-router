@@ -75,9 +75,9 @@ export function createValidatePathTypes(
                    ? pathConditions
                        .filter((f) => routesList.includes(f.routeName))
                        .map((t) => `${t.typeName}<T> extends true ? "${t.routeName}"`)
-                       .join(': ') + ": never"
+                       .join(': ') + ': never'
                    : 'any'
-      }`
+               }`
              : ': never'
          } 
        : never; 
@@ -100,7 +100,7 @@ export function createTypedRouteFromPathType(
             ? pathConditions.map((t) => `${t.typeName}<T> extends true ? T`).join(': ')
             : 'never'
         } 
-      : \ ${
+      :  ${
         pathConditions.length
           ? `Error: \${${pathConditions.map((t) => `${t.typeName}<T>`).join('|')}}\``
           : 'never'

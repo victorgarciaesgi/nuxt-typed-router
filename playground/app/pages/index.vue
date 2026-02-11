@@ -20,60 +20,60 @@
 </template>
 
 <script setup lang="ts">
-import type { TypedRouteLocationRawFromName, helpers, TypedRouteLocation } from '@typed-router';
-import TestLink from '~/components/TestLink.vue';
-import { useLocalePath } from '#imports';
-// definePageMeta({
-//   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
-// });
+  import type { TypedRouteLocationRawFromName, helpers, TypedRouteLocation } from '@typed-router';
+  import TestLink from '~/components/TestLink.vue';
+  import { useLocalePath } from '#imports';
+  // definePageMeta({
+  //   redirect: (route) => helpers.route({ name: 'admin-id', params: { id: 1 } }),
+  // });
 
-definePageMeta({
-  name: 'foo-bar',
-  redirect: { name: 'admin-444', params: { '444': 1 } },
-});
+  definePageMeta({
+    name: 'foo-bar',
+    redirect: { name: 'admin-444', params: { '444': 1 } },
+  });
 
-const router = useRouter();
+  const router = useRouter();
 
-const localePath = useLocalePath();
-const localeRoute = useLocaleRoute();
+  const localePath = useLocalePath();
+  const localeRoute = useLocaleRoute();
 
-const { params } = useRoute();
+  const { params } = useRoute();
 
-// const route = localeRoute({ name: 'index___en', query: { foo: '1' } });
-// if (route) {
-//   navigateTo(route.fullPath);
-// }
+  // const route = localeRoute({ name: 'index___en', query: { foo: '1' } });
+  // if (route) {
+  //   navigateTo(route.fullPath);
+  // }
 
-// router.push({ path: '/login' });
+  // router.push({ path: '/login' });
 
-function navigate() {
-  const testAssert = '/foo' as TypedRouteLocation;
-  const testAssert2 = { name: 'foo' } as TypedRouteLocation;
-  router.push(testAssert);
-  navigateTo(testAssert2);
-  router.push({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } });
-  router.push('/user?foo');
+  function navigate() {
+    const testAssert = '/foo' as TypedRouteLocation;
+    const testAssert2 = { name: 'foo' } as TypedRouteLocation;
+    router.push(testAssert);
+    navigateTo(testAssert2);
+    router.push({ name: 'user-id-slug', params: { slug: 'bar', id: 1 } });
+    router.push('/user?foo');
 
-  router.push(localePath('/admin/888'));
+    router.push(localePath('/admin/888'));
 
-  const link = useLink({ to: '/admin/37673' });
+    const link = useLink({ to: '/admin/37673' });
 
-  const u = 'krzfzlkj' as string;
-  const t = '///';
+    const u = 'krzfzlkj' as string;
+    const t = '///';
 
-  const route2 = localePath(`/user/${t}/:slug/articles`); // Should error
-  navigateTo('/foo');
-  router.push('/admin'); // Should error
+    const route2 = localePath(`/user/${t}/:slug/articles`); // Should error
+    navigateTo('/foo');
+    router.push('/admin'); // Should error
 
-  const route = localePath(`/user/${u}/:slug/articles`);
-  router.push('/');
-  navigateTo('ednzelfjle', { external: true });
-  const route4 = navigateTo('/test/:foo');
-  router.push({ path: '/' });
+    const route = localePath(`/user/${u}/:slug/articles`);
+    router.push('/');
+    navigateTo('ednzelfjle', { external: true });
+    const route4 = navigateTo('/test/:foo');
+    router.push({ path: '/' });
 
-  router.push('/user/:id/:slug/articles#baz');
-  router.push('/admin/888'); // ✅
+    router.push('/user/:id/:slug/articles#baz');
+    router.push('/admin/888'); // ✅
 
-  router.push('/');
-}
+    router.push('/');
+  }
 </script>

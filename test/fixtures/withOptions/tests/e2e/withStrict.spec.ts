@@ -1,4 +1,4 @@
-test('empty')
+test('empty');
 // import { setup } from '@nuxt/test-utils';
 // import { fileURLToPath } from 'node:url';
 // import { assertType } from 'vitest';
@@ -34,4 +34,3 @@ test('empty')
 //   // @ts-expect-error
 //   assertType(new NuxtLink({ path: '/goooo' }));
 // });
-

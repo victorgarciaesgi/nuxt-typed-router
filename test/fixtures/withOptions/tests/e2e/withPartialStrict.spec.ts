@@ -1,4 +1,4 @@
-test('empty')
+test('empty');
 
 // import { fileURLToPath } from 'node:url';
 // import { setup } from '@nuxt/test-utils';

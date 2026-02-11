@@ -104,6 +104,7 @@ export async function saveGeneratedFiles({ outputData }: SaveGeneratedFiles): Pr
   );
   if (previousGeneratedRoutes !== outputData.routesList.join(',')) {
     previousGeneratedRoutes = outputData.routesList.join(',');
+    /* oxlint-disable-next-line no-console */
     console.log(logSymbols.success, `Router autocompletions generated 🚦`);
     if (!firstRun) {
       firstRun = true;
