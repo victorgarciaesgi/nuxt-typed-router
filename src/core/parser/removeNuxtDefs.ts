@@ -28,7 +28,7 @@ export async function removeNuxtDefinitions({
     processPathAndWriteFile({
       content: replacedNuxtLink,
       fileName: 'components.d.ts',
-      outDir: '.nuxt',
+      outDir: buildDir,
     });
   }
 
@@ -57,7 +57,7 @@ export async function removeNuxtDefinitions({
       processPathAndWriteFile({
         content: globalDefinitions,
         fileName: 'types/imports.d.ts',
-        outDir: '.nuxt',
+        outDir: buildDir,
       });
     }
   }
