@@ -5,7 +5,7 @@ seo:
 navigation: false
 ---
 
-::u-page-hero
+::u-page-hero{class="hero-gradient"}
 #title
 Nuxt Typed Router
 
@@ -43,6 +43,7 @@ What you can do
 #features
   :::u-page-feature
   ---
+  color: blue
   icon: i-simple-icons-typescript
   to: /usage/how-to-use
   ---
@@ -55,6 +56,7 @@ What you can do
 
   :::u-page-feature
   ---
+  color: blue
   icon: i-lucide-zap
   to: /guide
   ---
@@ -67,6 +69,7 @@ What you can do
 
   :::u-page-feature
   ---
+  color: blue
   icon: i-lucide-globe
   to: /usage/i18n
   ---
@@ -79,6 +82,7 @@ What you can do
 
   :::u-page-feature
   ---
+  color: blue
   icon: i-lucide-eye
   to: /guide/configuration
   ---

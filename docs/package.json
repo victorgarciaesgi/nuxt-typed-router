@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-typed-router-docs",
+  "name": "nuxt-typed-router",
   "private": true,
   "scripts": {
     "dev": "nuxt dev --extends docus",

@@ -1,0 +1,5 @@
+.hero-gradient {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59, 130, 246, 0.15), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(96, 165, 250, 0.1), transparent),
+    radial-gradient(ellipse 60% 40% at 20% 50%, rgba(37, 99, 235, 0.1), transparent);
+}
