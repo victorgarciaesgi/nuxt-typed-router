@@ -1,4 +1,3 @@
-
 export default defineAppConfig({
   seo: {
     title: 'Nuxt Typed Router',

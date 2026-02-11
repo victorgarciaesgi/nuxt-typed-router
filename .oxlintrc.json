@@ -35,7 +35,17 @@
         "@typescript-eslint/no-explicit-any": "off",
         "no-unused-vars": "warn"
       },
-      "plugins": ["import", "promise", "typescript", "eslint", "vue", "unicorn", "vitest", "oxc", "jsdoc"]
+      "plugins": [
+        "import",
+        "promise",
+        "typescript",
+        "eslint",
+        "vue",
+        "unicorn",
+        "vitest",
+        "oxc",
+        "jsdoc"
+      ]
     }
   ]
 }

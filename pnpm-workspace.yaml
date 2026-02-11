@@ -4,7 +4,6 @@ packages:
   - test/fixtures/withOptions
   - docs
 
-
 onlyBuiltDependencies:
   - better-sqlite3
 
