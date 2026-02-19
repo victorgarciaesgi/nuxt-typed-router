@@ -2,12 +2,6 @@ import TestModuleRoute from './app/modules/test-module';
 
 export default defineNuxtConfig({
   modules: ['nuxt-typed-router', '@nuxtjs/i18n', TestModuleRoute, '@nuxt/content'],
-  future: {
-    compatibilityVersion: 4,
-  },
-  devtools: {
-    enabled: true,
-  },
   nuxtTypedRouter: {
     plugin: true,
     pathCheck: true,

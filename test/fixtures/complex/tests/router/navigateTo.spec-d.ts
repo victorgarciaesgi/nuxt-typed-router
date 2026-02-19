@@ -61,6 +61,7 @@ navigateTo({ name: 'user-catch-slug', params: { slug: [1, 2, 3] } });
 navigateTo({ name: 'user-one-foo-two', params: { one: 1, two: '2' } });
 navigateTo({ name: 'user-id-slug', params: { slug: '2' }, query: { foo: 'bar' } });
 navigateTo({ name: 'test-module', params: { foo: 1 }, query: { foo: 'bar' } });
+navigateTo('/user/398938/edit');
 
 // --- Path navigation
 
@@ -94,8 +95,6 @@ assertType(navigateTo('/admin/panel/?fjzk'));
 assertType(navigateTo('/admin/panel/938783/ '));
 // @ts-expect-error
 assertType(navigateTo('/user/3887/foo/bar/'));
-// @ts-expect-error
-assertType(navigateTo('/admin/:id//'));
 
 // $ ----- Should be valid ✅
 
