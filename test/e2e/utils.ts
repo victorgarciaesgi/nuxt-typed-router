@@ -1,5 +1,11 @@
 import { getBrowser, url, useTestContext } from '@nuxt/test-utils';
 
+/** Prevent inherited NITRO_SSL_* vars from forcing HTTPS in e2e servers */
+export const e2eServerEnv = {
+  NITRO_SSL_CERT: '',
+  NITRO_SSL_KEY: '',
+};
+
 // Taken from nuxt/framework repo
 export async function renderPage(path = '/') {
   const ctx = useTestContext();

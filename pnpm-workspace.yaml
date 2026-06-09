@@ -13,24 +13,24 @@ catalog:
 
   # Vue
   vue: 3.5.28
-  vue-router: 5.0.2
+  vue-router: 5.1.0
   vue-tsc: 3.2.4
   '@vue/test-utils': 2.4.6
 
   # Nuxt
-  nuxt: 4.3.1
-  '@nuxt/kit': 4.3.1
-  '@nuxt/schema': 4.3.1
+  nuxt: 4.4.7
+  '@nuxt/kit': 4.4.7
+  '@nuxt/schema': 4.4.7
   '@nuxt/content': 3.11.2
   '@nuxt/devtools': 3.1.1
   '@nuxt/module-builder': 1.0.2
-  '@nuxt/test-utils': 4.0.0
+  '@nuxt/test-utils': 4.0.3
 
   # TypeScript
   typescript: 5.9.3
 
   # Testing
-  vitest: 3.2.4
+  vitest: 4.1.8
   playwright: 1.58.2
   '@playwright/test': 1.58.2
 

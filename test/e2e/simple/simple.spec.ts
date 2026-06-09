@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import { describe, it, expect, assertType, expectTypeOf } from 'vitest';
 import { setup, $fetch, createPage } from '@nuxt/test-utils/e2e';
-import { expectNoClientErrors } from '../utils';
+import { e2eServerEnv, expectNoClientErrors } from '../utils';
 import { timeout } from '$$/utils';
 
 const TIME = 2000;
@@ -10,7 +10,7 @@ describe('Simple config behaviour', async () => {
   await setup({
     rootDir: fileURLToPath(new URL('../../fixtures/simple', import.meta.url)),
     setupTimeout: 120000,
-    dev: true,
+    env: e2eServerEnv,
   });
 
   it('should display the root page without error', async () => {
