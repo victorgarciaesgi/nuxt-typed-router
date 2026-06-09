@@ -1,6 +1,6 @@
 {
   "name": "nuxt-typed-router",
-  "version": "4.0.7",
+  "version": "4.0.8",
   "description": "Provide autocompletion for routes paths, names and params in Nuxt apps",
   "type": "module",
   "main": "./dist/module.mjs",
@@ -30,7 +30,7 @@
     "test:types": "pnpm run typecheck && pnpm run test:vue",
     "test:vue": "vue-tsc -p test/fixtures/simple/tsconfig.json --noEmit && vue-tsc -p test/fixtures/complex/tsconfig.json --noEmit",
     "test": "pnpm run dev:prepare && pnpm run test:types && pnpm run test:fixtures && pnpm run test:build",
-    "test:build": "nuxi build tests/fixtures/simple",
+    "test:build": "nuxi build test/fixtures/simple",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "format:check": "oxfmt --check",
