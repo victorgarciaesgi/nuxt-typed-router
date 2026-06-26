@@ -33,6 +33,7 @@ class ModuleOptionsStore {
     if (options.plugin != null) this.plugin = options.plugin;
     if (options.strict != null) this.strict = options.strict;
     if (options.autoImport != null) this.autoImport = options.autoImport;
+    if (options.disablePrettier != null) this.disablePrettier = options.disablePrettier;
     if (options.rootDir != null) this.rootDir = options.rootDir;
     if (options.srcDir != null) this.srcDir = options.srcDir;
     if (options.buildDir != null) this.buildDir = options.buildDir;
