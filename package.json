@@ -79,7 +79,7 @@
     "lodash-es": "4.17.23",
     "log-symbols": "7.0.1",
     "mkdirp": "3.0.1",
-    "nanoid": "5.1.6",
+    "nanoid": "5.1.16",
     "pathe": "2.0.3",
     "prettier": "catalog:"
   },
