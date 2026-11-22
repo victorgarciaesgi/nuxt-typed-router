@@ -48,7 +48,13 @@ export async function removeNuxtDefinitions({
         'useLocaleRoute',
         'definePageMeta',
         'navigateTo',
-      ].map((m) => new RegExp(`const ${m}: typeof import\\('.*'\\)\\['${m}'\\]`, 'gm'));
+      ].map(
+        (m) =>
+          new RegExp(
+            `const ${m}: typeof import\\('.*'\\)(?:\\['${m}'\\]|\\.${m})`,
+            'gm'
+          )
+      );
 
       importsToRemove.forEach((imp) => {
         globalDefinitions = globalDefinitions.replace(imp, '');
