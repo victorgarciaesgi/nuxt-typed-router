@@ -19,6 +19,7 @@
     "pnpm": ">=10.14.0"
   },
   "scripts": {
+    "prepublishOnly": "node scripts/check-publish.mjs",
     "prepack": "nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
