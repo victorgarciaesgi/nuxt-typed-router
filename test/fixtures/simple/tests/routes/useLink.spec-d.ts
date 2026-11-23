@@ -104,6 +104,8 @@ assertType(useLink({ to: '/admin/foo/profile/' }));
 assertType(useLink({ to: `/admin/${id}/settings` }));
 assertType(useLink({ to: '/admin/panel/' }));
 assertType(useLink({ to: '/admin/panel/938783/' }));
+assertType(useLink({ to: '/admin/panel' }));
+assertType(useLink({ to: '/files/report.json' }));
 assertType(useLink({ to: '/user/38873-' }));
 assertType(useLink({ to: '/user/38673/bar/#hash' }));
 assertType(useLink({ to: '/user/ç9737/foo/articles?baz=foo' }));

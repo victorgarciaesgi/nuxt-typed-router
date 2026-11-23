@@ -104,6 +104,8 @@ assertType(navigateTo('/admin/foo/profile/'));
 assertType(navigateTo(`/admin/${id}/settings`));
 assertType(navigateTo('/admin/panel/'));
 assertType(navigateTo('/admin/panel/938783/'));
+assertType(navigateTo('/admin/panel'));
+assertType(navigateTo('/files/report.json'));
 assertType(navigateTo('/user/38873-'));
 assertType(navigateTo('/user/38673/bar/#hash'));
 assertType(navigateTo('/user/ç9737/foo/articles?baz=foo'));

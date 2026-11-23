@@ -108,6 +108,8 @@ assertType(new NuxtLink({ to: '/admin/foo/profile/' }));
 assertType(new NuxtLink({ to: `/admin/${id}/settings` }));
 assertType(new NuxtLink({ to: '/admin/panel/' }));
 assertType(new NuxtLink({ to: '/admin/panel/938783/' }));
+assertType(new NuxtLink({ to: '/admin/panel' }));
+assertType(new NuxtLink({ to: '/files/report.json' }));
 assertType(new NuxtLink({ to: '/user/38873-' }));
 assertType(new NuxtLink({ to: '/user/38673/bar/#hash' }));
 assertType(new NuxtLink({ to: '/user/ç9737/foo/articles?baz=foo' }));

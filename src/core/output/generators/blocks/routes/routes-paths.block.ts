@@ -108,22 +108,35 @@ export function createTypedRouteFromPathType(
   `;
 }
 
-export function createTypeValidatePathCondition(
-  elements: DestructuredPath[][],
-  withLocale?: boolean
-) {
-  const seedName = pascalCase(elements?.[0]?.[0]?.fullPath);
-  const typeName = `Validate${returnIfTrue(withLocale, 'Locale')}${seedName}`;
-  const params = new Map();
-  const routeName = elements.flat()[0]?.routeName ?? 'index';
-  const hasOnlyNames = elements.flat().every((elem) => elem.type === 'name');
-  const isLocale = elements.flat()[0]?.isLocale ?? false;
+/**
+ * A segment made only of an optional param (ex: `[[slug]].vue` -> `/:slug?`) can be omitted entirely,
+ * so `/posts/:slug?` must also match `/posts`.
+ */
+function isOptionalSegment(segment: DestructuredPath[]) {
+  return segment.length === 1 && segment[0]?.type === 'optionalParam';
+}
 
-  const condition = `type ${typeName}<T> = T extends \`/${elements
-    .map((elementArray, index) => {
-      return elementArray
+/** Returns every combination of the path with its optional segments present or omitted, fullest first */
+function createOptionalSegmentsVariants(elements: DestructuredPath[][]): DestructuredPath[][][] {
+  return elements.reduce<DestructuredPath[][][]>(
+    (variants, segment) =>
+      variants.flatMap((variant) =>
+        isOptionalSegment(segment) ? [[...variant, segment], variant] : [[...variant, segment]]
+      ),
+    [[]]
+  );
+}
+
+function createPathVariantCondition(elements: DestructuredPath[][]) {
+  const params = new Map<string, string>();
+  const flatElements = elements.flat();
+  const lastElement = flatElements[flatElements.length - 1];
+
+  const template = elements
+    .map((segment) =>
+      segment
         .map((elem) => {
-          const isLast = index === elements.flat().length - 1;
+          const isLast = elem === lastElement;
 
           if (elem.type === 'name' && isLast) {
             const id = `T${pascalCase(elem.content)}`;
@@ -139,41 +152,57 @@ export function createTypeValidatePathCondition(
             return `\${string}`;
           }
         })
-        .join('');
-    })
-    .join('/')}\`
-    ? ${elements
-      .flat()
-      .map((elem, index) => {
-        let output = '';
-        const isLast = index === elements.flat().length - 1;
-        const isName = elem.type === 'name';
-        const isOptional = elem.type === 'optionalParam';
-        const isParam = elem.type === 'param';
-        const isCatchAll = elem.type === 'catchAll';
+        .join('')
+    )
+    .join('/');
 
-        if (isName && isLast) {
-          output = `ValidEndOfPath<${params.get(elem.id)}> extends false ? "End of path '${
-            elem.fullPath
-          }' is invalid" : true :`;
-        } else if (isParam && isLast) {
-          output = `ValidParam<${params.get(elem.id)}> extends false ? "Parameter {${
-            elem.content
-          }} of path '${elem.fullPath}' is invalid" : true :`;
-        } else if (isParam) {
-          output = `ValidStringPath<${params.get(elem.id)}> extends false ? "Parameter {${
-            elem.content
-          }} of path '${elem.fullPath}' is required" : `;
-        } else if (isOptional && isLast) {
-          output = `ValidParam<${params.get(elem.id)}, false> extends false ? "Parameter {${
-            elem.content
-          }} of path '${elem.fullPath}' is invalid" : true :`;
-        } else if (isLast) {
-          output += 'true :';
-        }
-        return output;
-      })
-      .join('')} false ;`;
+  const checks = flatElements
+    .map((elem) => {
+      const isLast = elem === lastElement;
+      const isName = elem.type === 'name';
+      const isOptional = elem.type === 'optionalParam';
+      const isParam = elem.type === 'param';
+
+      if (isName && isLast) {
+        return `ValidEndOfPath<${params.get(elem.id)}> extends false ? "End of path '${
+          elem.fullPath
+        }' is invalid" : true :`;
+      } else if (isParam && isLast) {
+        return `ValidParam<${params.get(elem.id)}> extends false ? "Parameter {${
+          elem.content
+        }} of path '${elem.fullPath}' is invalid" : true :`;
+      } else if (isParam) {
+        return `ValidStringPath<${params.get(elem.id)}> extends false ? "Parameter {${
+          elem.content
+        }} of path '${elem.fullPath}' is required" : `;
+      } else if (isOptional && isLast) {
+        return `ValidParam<${params.get(elem.id)}, false> extends false ? "Parameter {${
+          elem.content
+        }} of path '${elem.fullPath}' is invalid" : true :`;
+      } else if (isLast) {
+        return 'true :';
+      }
+      return '';
+    })
+    .join('');
+
+  return `T extends \`/${template}\` ? ${checks}`;
+}
+
+export function createTypeValidatePathCondition(
+  elements: DestructuredPath[][],
+  withLocale?: boolean
+) {
+  const seedName = pascalCase(elements?.[0]?.[0]?.fullPath);
+  const typeName = `Validate${returnIfTrue(withLocale, 'Locale')}${seedName}`;
+  const routeName = elements.flat()[0]?.routeName ?? 'index';
+  const isLocale = elements.flat()[0]?.isLocale ?? false;
+
+  const variants = createOptionalSegmentsVariants(elements).filter((variant) => variant.length);
+
+  const condition = `type ${typeName}<T> = ${variants
+    .map((variant) => createPathVariantCondition(variant))
+    .join(' ')} false ;`;
 
   return {
     typeName,

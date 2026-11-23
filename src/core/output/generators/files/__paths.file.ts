@@ -8,6 +8,17 @@ import {
   createValidatePathTypes,
 } from '../blocks';
 
+/**
+ * Specificity of a path segment, matching vue-router ranking:
+ * static segments first, then segments with params, then catch-alls
+ */
+function segmentRank(segment?: string): number {
+  if (segment == null) return 0;
+  if (/:\w+\(.*\)[*+]?/.test(segment)) return 2;
+  if (segment.includes(':')) return 1;
+  return 0;
+}
+
 export function createPathsFiles({ routesPaths, routesList }: GeneratorOutput) {
   const { i18n, i18nOptions } = moduleOptionStore;
   const hasPrefixStrategy = i18n && i18nOptions?.strategy !== 'no_prefix';
@@ -36,12 +47,15 @@ export function createPathsFiles({ routesPaths, routesList }: GeneratorOutput) {
       do {
         alphabetOrder = pathCountA[index]?.localeCompare(pathCountB[index] ?? '') ?? 0;
         hasElement = (pathCountA[index] != null ? 1 : 0) - (pathCountB[index] != null ? 1 : 0);
-        hasParam =
-          (pathCountA[index]?.includes(':') ? 1 : 0) - (pathCountB[index]?.includes(':') ? 1 : 0);
+        hasParam = segmentRank(pathCountA[index]) - segmentRank(pathCountB[index]);
         indexOfParam =
           (pathCountB[index]?.indexOf(':') ?? 0) - (pathCountA[index]?.indexOf(':') ?? 0);
 
-        if (alphabetOrder !== 0 && index === 0) {
+        if (hasParam !== 0 && index === 0) {
+          order = hasParam;
+          reason = 'Param-0';
+          break;
+        } else if (alphabetOrder !== 0 && index === 0) {
           order = alphabetOrder;
           reason = 'Alphabet-0';
           break;
