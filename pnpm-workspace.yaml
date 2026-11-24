@@ -12,19 +12,19 @@ catalog:
   '@types/node': 25.2.3
 
   # Vue
-  vue: 3.5.28
-  vue-router: 5.1.0
-  vue-tsc: 3.2.4
+  vue: 3.5.45
+  vue-router: 5.5.1
+  vue-tsc: 3.3.14
   '@vue/test-utils': 2.4.6
 
   # Nuxt
-  nuxt: 4.4.7
-  '@nuxt/kit': 4.4.7
-  '@nuxt/schema': 4.4.7
-  '@nuxt/content': 3.11.2
-  '@nuxt/devtools': 3.1.1
-  '@nuxt/module-builder': 1.0.2
-  '@nuxt/test-utils': 4.0.3
+  nuxt: 4.6.4
+  '@nuxt/kit': ^4.6.4
+  '@nuxt/schema': 4.6.4
+  '@nuxt/content': 3.16.2
+  '@nuxt/devtools': 4.2.0
+  '@nuxt/module-builder': 1.0.4
+  '@nuxt/test-utils': 4.4.0
 
   # TypeScript
   typescript: 5.9.3
@@ -35,17 +35,17 @@ catalog:
   '@playwright/test': 1.58.2
 
   # i18n (complex fixture)
-  '@intlify/core-base': 11.2.8
-  '@intlify/message-compiler': 11.2.8
-  '@intlify/shared': 11.2.8
+  '@intlify/core-base': 11.4.20
+  '@intlify/message-compiler': 11.4.20
+  '@intlify/shared': 11.4.20
   '@intlify/vue-i18n-bridge': 1.1.0
   '@intlify/vue-router-bridge': 1.1.0
-  '@nuxtjs/i18n': 10.2.3
-  vue-i18n: 11.2.8
+  '@nuxtjs/i18n': 10.6.0
+  vue-i18n: 11.4.20
 
   # Docs
   better-sqlite3: ^12.6.2
 
   # Other shared
-  prettier: 3.8.1
+  prettier: ^3.8.1
   '@types/lodash-es': 4.17.12

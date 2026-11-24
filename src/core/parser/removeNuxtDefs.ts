@@ -8,6 +8,37 @@ type RemoveNuxtDefinitionsOptions = {
   autoImport: boolean;
 };
 
+const NUXT_GLOBALS_TO_REMOVE = [
+  'useRouter',
+  'useRoute',
+  'useLocalePath',
+  'useLocaleRoute',
+  'definePageMeta',
+  'navigateTo',
+];
+
+/**
+ * Removes Nuxt's untyped global declarations from `.nuxt/types/imports.d.ts`
+ * so they don't clash with the typed ones declared by nuxt-typed-router.
+ *
+ * Handles both unimport output formats:
+ * - `const useRouter: typeof import('...')['useRouter']` (unimport < 5.5)
+ * - `const useRouter: typeof import('...').useRouter` (unimport >= 5.5, Nuxt >= 4.5)
+ */
+export function removeNuxtGlobalImports(content: string): string {
+  return NUXT_GLOBALS_TO_REMOVE.reduce(
+    (output, name) =>
+      output.replace(
+        new RegExp(
+          `const ${name}: typeof import\\('[^']*'\\)(?:\\['${name}'\\]|\\.${name}\\b)`,
+          'gm'
+        ),
+        ''
+      ),
+    content
+  );
+}
+
 export async function removeNuxtDefinitions({
   buildDir,
   autoImport,
@@ -37,31 +68,12 @@ export async function removeNuxtDefinitions({
   if (autoImport) {
     const importsFilePath = resolve(buildDir, 'types/imports.d.ts');
     if (existsSync(importsFilePath)) {
-      let globalDefinitions = await readFile(importsFilePath, {
+      const globalDefinitions = await readFile(importsFilePath, {
         encoding: 'utf8',
       });
 
-      const importsToRemove = [
-        'useRouter',
-        'useRoute',
-        'useLocalePath',
-        'useLocaleRoute',
-        'definePageMeta',
-        'navigateTo',
-      ].map(
-        (m) =>
-          new RegExp(
-            `const ${m}: typeof import\\('.*'\\)(?:\\['${m}'\\]|\\.${m})`,
-            'gm'
-          )
-      );
-
-      importsToRemove.forEach((imp) => {
-        globalDefinitions = globalDefinitions.replace(imp, '');
-      });
-
       processPathAndWriteFile({
-        content: globalDefinitions,
+        content: removeNuxtGlobalImports(globalDefinitions),
         fileName: 'types/imports.d.ts',
         outDir: buildDir,
       });
