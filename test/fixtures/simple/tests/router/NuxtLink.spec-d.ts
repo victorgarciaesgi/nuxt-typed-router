@@ -117,6 +117,27 @@ assertType(new NuxtLink({ to: '/user/catch/1/2' }));
 assertType(new NuxtLink({ to: '/user/test-' }));
 assertType(new NuxtLink({ to: '/user' }));
 
+// - With href (alias of `to`, used by libraries like @nuxtjs/mdc #158)
+
+// ! ------ Should Error ❌
+
+// @ts-expect-error
+assertType(new NuxtLink({ href: '/fooooooooooo' }));
+// @ts-expect-error
+assertType(new NuxtLink({ href: '/admin/foo/bar' }));
+// @ts-expect-error
+assertType(new NuxtLink({ to: '/admin', href: '/admin' }));
+// @ts-expect-error
+assertType(new NuxtLink({}));
+
+// $ ----- Should be valid ✅
+
+const dynamicHref: string = '/anything';
+assertType(new NuxtLink({ href: '/admin/panel' }));
+assertType(new NuxtLink({ href: `/admin/${id}/settings` }));
+assertType(new NuxtLink({ href: dynamicHref }));
+assertType(new NuxtLink({ href: 'http://google.com', external: true }));
+
 // - With External prop
 
 // $ ----- Should be valid ✅

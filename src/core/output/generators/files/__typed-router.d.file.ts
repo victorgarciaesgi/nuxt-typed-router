@@ -55,10 +55,13 @@ export function createTypedRouterDefinitionFile(): string {
       const P extends string,
       TExternal extends boolean,
       CustomProp extends boolean = false,
-    > = Omit<NuxtLinkProps<CustomProp>, 'to' | 'external'> & {
+    > = Omit<NuxtLinkProps<CustomProp>, 'to' | 'href' | 'external'> & {
       external?: TExternal;
-      to: NuxtRoute<T, P, TExternal>;
-    };
+    } & (
+      | { to: NuxtRoute<T, P, TExternal>; href?: never }
+      // \`href\` is an alias of \`to\` in NuxtLink (used by libraries like @nuxtjs/mdc)
+      | { href: NuxtRoute<T, P, TExternal>; to?: never }
+    );
     
     type NuxtLinkDefaultSlotProps<CustomProp extends boolean = false> = CustomProp extends true ? {
       href: string;

@@ -20,6 +20,7 @@ describe('removeNuxtGlobalImports', () => {
     const output = removeNuxtGlobalImports(`declare global {
   const definePageMeta: typeof import('${path}').definePageMeta;
   const navigateTo: typeof import('${path}').navigateTo;
+  const useLink: typeof import('${path}').useLink;
   const useLocalePath: typeof import('${path}').useLocalePath;
   const useLocaleRoute: typeof import('${path}').useLocaleRoute;
   const useRoute: typeof import('${path}').useRoute;
@@ -28,7 +29,7 @@ describe('removeNuxtGlobalImports', () => {
 }`);
 
     expect(output).not.toMatch(
-      /const (definePageMeta|navigateTo|useLocalePath|useLocaleRoute|useRoute|useRouter):/
+      /const (definePageMeta|navigateTo|useLink|useLocalePath|useLocaleRoute|useRoute|useRouter):/
     );
     expect(output).toContain(`const useState: typeof import('${path}').useState;`);
   });

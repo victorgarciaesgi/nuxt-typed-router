@@ -11,6 +11,7 @@ type RemoveNuxtDefinitionsOptions = {
 const NUXT_GLOBALS_TO_REMOVE = [
   'useRouter',
   'useRoute',
+  'useLink',
   'useLocalePath',
   'useLocaleRoute',
   'definePageMeta',

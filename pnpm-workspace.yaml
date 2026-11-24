@@ -31,8 +31,8 @@ catalog:
 
   # Testing
   vitest: 4.1.8
-  playwright: 1.58.2
-  '@playwright/test': 1.58.2
+  playwright: 1.65.1
+  '@playwright/test': 1.65.1
 
   # i18n (complex fixture)
   '@intlify/core-base': 11.4.20
